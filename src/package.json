@@ -1,6 +1,6 @@
 {
   "name": "nswag-react-query",
-  "version": "13.9.6",
+  "version": "13.9.7",
   "description": "NSwag templates to generate react-query hooks",
   "author": "Artur Drobinskiy",
   "license": "MIT",
@@ -15,9 +15,13 @@
     "react",
     "typescript"
   ],
+  "scripts": {
+    "prepublish": "copyfiles -u 1 ../README.md ./"
+  },
   "bin": "cli.js",
   "devDependencies": {
-    "child_process": "^1.0.2"
+    "child_process": "^1.0.2",
+    "copyfiles": "^2.4.1"
   },
   "peerDependencies": {
     "nswag": "13.x",
@@ -26,7 +30,6 @@
   },
   "files": [
     "templates/**/*",
-    "cli.js",
-    "../README.md"
+    "cli.js"
   ]
 }
