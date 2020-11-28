@@ -1,6 +1,6 @@
 {
   "name": "nswag-react-query",
-  "version": "13.9.4",
+  "version": "13.9.5",
   "description": "NSwag templates to generate react-query hooks",
   "author": "Artur Drobinskiy",
   "license": "MIT",
@@ -24,10 +24,8 @@
     "react-query": "3.x",
     "typescript": "3.x || 4.x"
   },
-
   "files": [
     "templates/**/*",
     "cli.js"
   ]
-
 }
