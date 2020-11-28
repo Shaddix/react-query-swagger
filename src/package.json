@@ -4,6 +4,7 @@
   "description": "NSwag templates to generate react-query hooks",
   "author": "Artur Drobinskiy",
   "license": "MIT",
+  "homepage": "https://github.com/shaddix/nswag-react-query#readme",
   "repository": {
     "type": "git",
     "url": "git://github.com/shaddix/nswag-react-query.git"
@@ -23,9 +24,7 @@
     "react-query": "3.x",
     "typescript": "3.x || 4.x"
   },
-  "author": "Artur Drobinskiy",
-  "license": "MIT",
-  "homepage": "https://github.com/shaddix/nswag-react-query#readme",
+
   "files": [
     "templates/**/*",
     "cli.js"
