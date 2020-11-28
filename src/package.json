@@ -22,5 +22,13 @@
     "nswag": "13.x",
     "react-query": "3.x",
     "typescript": "3.x || 4.x"
-  }
+  },
+  "author": "Artur Drobinskiy",
+  "license": "MIT",
+  "homepage": "https://github.com/shaddix/nswag-react-query#readme",
+  "files": [
+    "templates/**/*",
+    "cli.js"
+  ]
+
 }
