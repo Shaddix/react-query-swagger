@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectPlainTextFileTypeManager">
+    <file url="file://$PROJECT_DIR$/src/templates/AxiosClient.liquid" />
+    <file url="file://$PROJECT_DIR$/src/templates/default/AngularClient.liquid" />
+    <file url="file://$PROJECT_DIR$/src/templates/default/AngularJSClient.liquid" />
+    <file url="file://$PROJECT_DIR$/src/templates/default/AxiosClient.liquid" />
+    <file url="file://$PROJECT_DIR$/src/templates/default/FetchClient.liquid" />
+    <file url="file://$PROJECT_DIR$/src/templates/default/File.liquid" />
+    <file url="file://$PROJECT_DIR$/src/templates/default/JQueryCallbacksClient.liquid" />
+    <file url="file://$PROJECT_DIR$/src/templates/default/JQueryPromisesClient.liquid" />
+    <file url="file://$PROJECT_DIR$/src/templates/FetchClient.liquid" />
+    <file url="file://$PROJECT_DIR$/src/templates/File.liquid" />
+    <file url="file://$PROJECT_DIR$/src/templates/ReactQuery.liquid" />
+    <file url="file://$PROJECT_DIR$/src/templates/ReactQueryFile.liquid" />
+  </component>
+</project>

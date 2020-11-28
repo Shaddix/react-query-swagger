@@ -1,0 +1,39 @@
+
+{%- if HasOperations -%}
+{%- assign QueryClassName = Class | append: "Query" -%}
+{%- if ExportTypes -%}export {% endif %}class {{ QueryClassName }} {%- if HasBaseClass -%}extends {{ BaseClass }} {%- endif -%} {
+    static get Client() {
+        return createClient({{ Class }});
+    }
+{%- for operation in Operations -%}
+{%- if operation.HttpMethodUpper == 'Get' -%}
+{% assign ResultType = operation.ResultType %}
+    static {{ operation.ActualOperationName }}DefaultOptions?: UseQueryOptions<{{ ResultType }}, unknown, {{ ResultType }}> = undefined;
+    static {{ operation.ActualOperationName }}QueryId = ({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}{%- if parameter.IsLast == false %}, {%- endif %}{%- endfor -%}) =>
+        [
+            '{{ Class }}',
+            '{{ operation.ActualOperationName }}',
+{%- for parameter in operation.Parameters -%}
+            {{ parameter.VariableName }},
+{%- endfor -%}
+        ];
+    private static {{ operation.ActualOperationName }}({% if operation.Parameters.size > 0 %}context: QueryFunctionContext{% endif %}) {
+        return {{ QueryClassName }}.Client.{{ operation.ActualOperationName }}(
+      {%- for parameter in operation.Parameters -%}
+    {%- assign ParameterType = parameter.Type -%}
+                context.queryKey[{{ forloop.index | plus: 1  }}] as {{ ParameterType }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}
+        {%- endfor -%}
+            );
+    }
+    {% template Client.Method.Documentation %}
+    static {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Query({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}, {%- endfor %} options?: UseQueryOptions<{{ ResultType }}, unknown, {{ ResultType }}>): UseQueryResult<{{ ResultType }}, unknown> {
+        return useQuery(
+                {{ QueryClassName }}.{{ operation.ActualOperationName }}QueryId({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}),
+                {{ QueryClassName }}.{{ operation.ActualOperationName }},
+                options ?? {{ QueryClassName }}.{{ operation.ActualOperationName }}DefaultOptions,
+            );
+    }
+  {% endif -%}
+  {% endfor -%}
+}
+{% endif -%}

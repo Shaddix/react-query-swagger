@@ -1,0 +1,30 @@
+
+import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions } from 'react-query';
+
+type ClientFactoryFunction = <T>(type: (new (...params: any[]) => T)) => T;
+let _clientFactoryFunction: ClientFactoryFunction = <T>(type: (new (...params: any[]) => T)) => {
+  const params = _defaultConstructorParametersProvider?.() ?? [];
+  return new type(...params);
+};
+/*
+  You could override default factory function by setting it from your own code
+*/
+export function setClientFactory(value: ClientFactoryFunction) {
+  _clientFactoryFunction = value;
+}
+
+/*
+  Parameters that are passed
+  Only used by default ClientFactoryFunction (ignored if custom factory is set).
+*/
+let _defaultConstructorParametersProvider: () => any[] = () => [];
+export function setDefaultConstructorParametersProvider(value: () => any[]) {
+  _defaultConstructorParametersProvider = value;
+}
+
+/*
+  Function that will be called from `useQuery...` methods to get a client of certain type
+*/
+function createClient<T>(type: (new () => T)) {
+  return _clientFactoryFunction(type);
+}

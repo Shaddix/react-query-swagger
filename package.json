@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "workspaces": [
+    "examples/*",
+    "src"
+  ],
+  "nohoist": [],
+  "scripts": {
+    "publish": "yarn workspace nswag-react-query publish",
+    "start": "yarn workspace pet-client start",
+    "generate-api-client-axios": "yarn workspace pet-client generate-axios",
+    "generate-api-client-fetch": "yarn workspace pet-client generate-fetch"
+  }
+}
