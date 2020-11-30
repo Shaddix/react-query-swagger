@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { AxiosQuery } from './api/factory';
+import { AxiosQuery } from './api';
 import axios from 'axios';
 
 const queryClient = new QueryClient();

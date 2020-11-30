@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { AxiosQuery } from './api/factory';
+import { AxiosQuery } from './api';
 import { Status } from './api/axios-client';
 
 function App() {
