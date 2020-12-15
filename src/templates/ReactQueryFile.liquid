@@ -1,6 +1,18 @@
 
 import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions } from 'react-query';
 
+function removeUndefinedFromArrayTail(arr: any[]): any[] {
+    let lastDefinedValueIndex = arr.length - 1;
+    while (lastDefinedValueIndex >= 0) {
+        if (arr[lastDefinedValueIndex] === undefined) {
+            lastDefinedValueIndex--;
+        } else {
+            break;
+        }
+    }
+    return lastDefinedValueIndex === arr.length - 1 ? arr : arr.slice(0, lastDefinedValueIndex);
+}
+
 type ClientFactoryFunction = <T>(type: (new (...params: any[]) => T)) => T;
 let _clientFactoryFunction: ClientFactoryFunction = <T>(type: (new (...params: any[]) => T)) => {
   const params = _defaultConstructorParametersProvider?.() ?? [];

@@ -10,13 +10,13 @@
 {% assign ResultType = operation.ResultType %}
     static {{ operation.ActualOperationName }}DefaultOptions?: UseQueryOptions<{{ ResultType }}, unknown, {{ ResultType }}> = undefined;
     static {{ operation.ActualOperationName }}QueryId = ({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}{%- if parameter.IsLast == false %}, {%- endif %}{%- endfor -%}) =>
-        [
+        removeUndefinedFromArrayTail([
             '{{ Class }}',
             '{{ operation.ActualOperationName }}',
 {%- for parameter in operation.Parameters -%}
             {{ parameter.VariableName }},
 {%- endfor -%}
-        ];
+        ]);
     private static {{ operation.ActualOperationName }}({% if operation.Parameters.size > 0 %}context: QueryFunctionContext{% endif %}) {
         return {{ QueryClassName }}.Client.{{ operation.ActualOperationName }}(
       {%- for parameter in operation.Parameters -%}

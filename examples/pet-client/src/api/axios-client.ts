@@ -1442,11 +1442,8 @@ export class ClientQuery {
     unknown,
     Pet[]
   > = undefined;
-  static findPetsByStatusQueryId = (status: Status[]) => [
-    'Client',
-    'findPetsByStatus',
-    status,
-  ];
+  static findPetsByStatusQueryId = (status: Status[]) =>
+    removeUndefinedFromArrayTail(['Client', 'findPetsByStatus', status]);
   private static findPetsByStatus(context: QueryFunctionContext) {
     return ClientQuery.Client.findPetsByStatus(context.queryKey[2] as Status[]);
   }
@@ -1471,11 +1468,8 @@ export class ClientQuery {
     unknown,
     Pet[]
   > = undefined;
-  static findPetsByTagsQueryId = (tags: string[]) => [
-    'Client',
-    'findPetsByTags',
-    tags,
-  ];
+  static findPetsByTagsQueryId = (tags: string[]) =>
+    removeUndefinedFromArrayTail(['Client', 'findPetsByTags', tags]);
   private static findPetsByTags(context: QueryFunctionContext) {
     return ClientQuery.Client.findPetsByTags(context.queryKey[2] as string[]);
   }
@@ -1501,7 +1495,8 @@ export class ClientQuery {
     unknown,
     Pet
   > = undefined;
-  static getPetByIdQueryId = (petId: number) => ['Client', 'getPetById', petId];
+  static getPetByIdQueryId = (petId: number) =>
+    removeUndefinedFromArrayTail(['Client', 'getPetById', petId]);
   private static getPetById(context: QueryFunctionContext) {
     return ClientQuery.Client.getPetById(context.queryKey[2] as number);
   }
@@ -1526,11 +1521,8 @@ export class ClientQuery {
     unknown,
     Order
   > = undefined;
-  static getOrderByIdQueryId = (orderId: number) => [
-    'Client',
-    'getOrderById',
-    orderId,
-  ];
+  static getOrderByIdQueryId = (orderId: number) =>
+    removeUndefinedFromArrayTail(['Client', 'getOrderById', orderId]);
   private static getOrderById(context: QueryFunctionContext) {
     return ClientQuery.Client.getOrderById(context.queryKey[2] as number);
   }
@@ -1555,7 +1547,8 @@ export class ClientQuery {
     unknown,
     { [key: string]: number }
   > = undefined;
-  static getInventoryQueryId = () => ['Client', 'getInventory'];
+  static getInventoryQueryId = () =>
+    removeUndefinedFromArrayTail(['Client', 'getInventory']);
   private static getInventory() {
     return ClientQuery.Client.getInventory();
   }
@@ -1582,11 +1575,8 @@ export class ClientQuery {
     unknown,
     User
   > = undefined;
-  static getUserByNameQueryId = (username: string) => [
-    'Client',
-    'getUserByName',
-    username,
-  ];
+  static getUserByNameQueryId = (username: string) =>
+    removeUndefinedFromArrayTail(['Client', 'getUserByName', username]);
   private static getUserByName(context: QueryFunctionContext) {
     return ClientQuery.Client.getUserByName(context.queryKey[2] as string);
   }
@@ -1611,12 +1601,8 @@ export class ClientQuery {
     unknown,
     string
   > = undefined;
-  static loginUserQueryId = (username: string, password: string) => [
-    'Client',
-    'loginUser',
-    username,
-    password,
-  ];
+  static loginUserQueryId = (username: string, password: string) =>
+    removeUndefinedFromArrayTail(['Client', 'loginUser', username, password]);
   private static loginUser(context: QueryFunctionContext) {
     return ClientQuery.Client.loginUser(
       context.queryKey[2] as string,
@@ -1646,7 +1632,8 @@ export class ClientQuery {
     unknown,
     void
   > = undefined;
-  static logoutUserQueryId = () => ['Client', 'logoutUser'];
+  static logoutUserQueryId = () =>
+    removeUndefinedFromArrayTail(['Client', 'logoutUser']);
   private static logoutUser() {
     return ClientQuery.Client.logoutUser();
   }
@@ -2066,6 +2053,20 @@ import {
   QueryFunctionContext,
   UseQueryOptions,
 } from 'react-query';
+
+function removeUndefinedFromArrayTail(arr: any[]): any[] {
+  let lastDefinedValueIndex = arr.length - 1;
+  while (lastDefinedValueIndex >= 0) {
+    if (arr[lastDefinedValueIndex] === undefined) {
+      lastDefinedValueIndex--;
+    } else {
+      break;
+    }
+  }
+  return lastDefinedValueIndex === arr.length - 1
+    ? arr
+    : arr.slice(0, lastDefinedValueIndex);
+}
 
 type ClientFactoryFunction = <T>(type: new (...params: any[]) => T) => T;
 let _clientFactoryFunction: ClientFactoryFunction = <T>(
