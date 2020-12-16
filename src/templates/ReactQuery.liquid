@@ -8,7 +8,9 @@
 {%- for operation in Operations -%}
 {%- if operation.HttpMethodUpper == 'Get' -%}
 {% assign ResultType = operation.ResultType %}
-    static {{ operation.ActualOperationName }}DefaultOptions?: UseQueryOptions<{{ ResultType }}, unknown, {{ ResultType }}> = undefined;
+    static {{ operation.ActualOperationName }}DefaultOptions?: UseQueryOptions<{{ ResultType }}, unknown, {{ ResultType }}> = {
+        queryFn: {{ QueryClassName }}.{{ operation.ActualOperationName }},
+    };
     static {{ operation.ActualOperationName }}QueryId = ({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}{%- if parameter.IsLast == false %}, {%- endif %}{%- endfor -%}) =>
         removeUndefinedFromArrayTail([
             '{{ Class }}',
@@ -29,8 +31,10 @@
     static {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Query({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}, {%- endfor %} options?: UseQueryOptions<{{ ResultType }}, unknown, {{ ResultType }}>): UseQueryResult<{{ ResultType }}, unknown> {
         return useQuery(
                 {{ QueryClassName }}.{{ operation.ActualOperationName }}QueryId({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}),
-                {{ QueryClassName }}.{{ operation.ActualOperationName }},
-                options ?? {{ QueryClassName }}.{{ operation.ActualOperationName }}DefaultOptions,
+                options ? {
+                    ...{{ QueryClassName }}.{{ operation.ActualOperationName }}DefaultOptions,
+                    ...options,
+                } : {{ QueryClassName }}.{{ operation.ActualOperationName }}DefaultOptions,
             );
     }
   {% endif -%}

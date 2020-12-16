@@ -1441,7 +1441,9 @@ export class ClientQuery {
     Pet[],
     unknown,
     Pet[]
-  > = undefined;
+  > = {
+    queryFn: ClientQuery.findPetsByStatus,
+  };
   static findPetsByStatusQueryId = (status: Status[]) =>
     removeUndefinedFromArrayTail(['Client', 'findPetsByStatus', status]);
   private static findPetsByStatus(context: QueryFunctionContext) {
@@ -1458,8 +1460,12 @@ export class ClientQuery {
   ): UseQueryResult<Pet[], unknown> {
     return useQuery(
       ClientQuery.findPetsByStatusQueryId(status),
-      ClientQuery.findPetsByStatus,
-      options ?? ClientQuery.findPetsByStatusDefaultOptions,
+      options
+        ? {
+            ...ClientQuery.findPetsByStatusDefaultOptions,
+            ...options,
+          }
+        : ClientQuery.findPetsByStatusDefaultOptions,
     );
   }
 
@@ -1467,7 +1473,9 @@ export class ClientQuery {
     Pet[],
     unknown,
     Pet[]
-  > = undefined;
+  > = {
+    queryFn: ClientQuery.findPetsByTags,
+  };
   static findPetsByTagsQueryId = (tags: string[]) =>
     removeUndefinedFromArrayTail(['Client', 'findPetsByTags', tags]);
   private static findPetsByTags(context: QueryFunctionContext) {
@@ -1485,16 +1493,18 @@ export class ClientQuery {
   ): UseQueryResult<Pet[], unknown> {
     return useQuery(
       ClientQuery.findPetsByTagsQueryId(tags),
-      ClientQuery.findPetsByTags,
-      options ?? ClientQuery.findPetsByTagsDefaultOptions,
+      options
+        ? {
+            ...ClientQuery.findPetsByTagsDefaultOptions,
+            ...options,
+          }
+        : ClientQuery.findPetsByTagsDefaultOptions,
     );
   }
 
-  static getPetByIdDefaultOptions?: UseQueryOptions<
-    Pet,
-    unknown,
-    Pet
-  > = undefined;
+  static getPetByIdDefaultOptions?: UseQueryOptions<Pet, unknown, Pet> = {
+    queryFn: ClientQuery.getPetById,
+  };
   static getPetByIdQueryId = (petId: number) =>
     removeUndefinedFromArrayTail(['Client', 'getPetById', petId]);
   private static getPetById(context: QueryFunctionContext) {
@@ -1511,16 +1521,18 @@ export class ClientQuery {
   ): UseQueryResult<Pet, unknown> {
     return useQuery(
       ClientQuery.getPetByIdQueryId(petId),
-      ClientQuery.getPetById,
-      options ?? ClientQuery.getPetByIdDefaultOptions,
+      options
+        ? {
+            ...ClientQuery.getPetByIdDefaultOptions,
+            ...options,
+          }
+        : ClientQuery.getPetByIdDefaultOptions,
     );
   }
 
-  static getOrderByIdDefaultOptions?: UseQueryOptions<
-    Order,
-    unknown,
-    Order
-  > = undefined;
+  static getOrderByIdDefaultOptions?: UseQueryOptions<Order, unknown, Order> = {
+    queryFn: ClientQuery.getOrderById,
+  };
   static getOrderByIdQueryId = (orderId: number) =>
     removeUndefinedFromArrayTail(['Client', 'getOrderById', orderId]);
   private static getOrderById(context: QueryFunctionContext) {
@@ -1537,8 +1549,12 @@ export class ClientQuery {
   ): UseQueryResult<Order, unknown> {
     return useQuery(
       ClientQuery.getOrderByIdQueryId(orderId),
-      ClientQuery.getOrderById,
-      options ?? ClientQuery.getOrderByIdDefaultOptions,
+      options
+        ? {
+            ...ClientQuery.getOrderByIdDefaultOptions,
+            ...options,
+          }
+        : ClientQuery.getOrderByIdDefaultOptions,
     );
   }
 
@@ -1546,7 +1562,9 @@ export class ClientQuery {
     { [key: string]: number },
     unknown,
     { [key: string]: number }
-  > = undefined;
+  > = {
+    queryFn: ClientQuery.getInventory,
+  };
   static getInventoryQueryId = () =>
     removeUndefinedFromArrayTail(['Client', 'getInventory']);
   private static getInventory() {
@@ -1565,16 +1583,18 @@ export class ClientQuery {
   ): UseQueryResult<{ [key: string]: number }, unknown> {
     return useQuery(
       ClientQuery.getInventoryQueryId(),
-      ClientQuery.getInventory,
-      options ?? ClientQuery.getInventoryDefaultOptions,
+      options
+        ? {
+            ...ClientQuery.getInventoryDefaultOptions,
+            ...options,
+          }
+        : ClientQuery.getInventoryDefaultOptions,
     );
   }
 
-  static getUserByNameDefaultOptions?: UseQueryOptions<
-    User,
-    unknown,
-    User
-  > = undefined;
+  static getUserByNameDefaultOptions?: UseQueryOptions<User, unknown, User> = {
+    queryFn: ClientQuery.getUserByName,
+  };
   static getUserByNameQueryId = (username: string) =>
     removeUndefinedFromArrayTail(['Client', 'getUserByName', username]);
   private static getUserByName(context: QueryFunctionContext) {
@@ -1591,16 +1611,18 @@ export class ClientQuery {
   ): UseQueryResult<User, unknown> {
     return useQuery(
       ClientQuery.getUserByNameQueryId(username),
-      ClientQuery.getUserByName,
-      options ?? ClientQuery.getUserByNameDefaultOptions,
+      options
+        ? {
+            ...ClientQuery.getUserByNameDefaultOptions,
+            ...options,
+          }
+        : ClientQuery.getUserByNameDefaultOptions,
     );
   }
 
-  static loginUserDefaultOptions?: UseQueryOptions<
-    string,
-    unknown,
-    string
-  > = undefined;
+  static loginUserDefaultOptions?: UseQueryOptions<string, unknown, string> = {
+    queryFn: ClientQuery.loginUser,
+  };
   static loginUserQueryId = (username: string, password: string) =>
     removeUndefinedFromArrayTail(['Client', 'loginUser', username, password]);
   private static loginUser(context: QueryFunctionContext) {
@@ -1622,16 +1644,18 @@ export class ClientQuery {
   ): UseQueryResult<string, unknown> {
     return useQuery(
       ClientQuery.loginUserQueryId(username, password),
-      ClientQuery.loginUser,
-      options ?? ClientQuery.loginUserDefaultOptions,
+      options
+        ? {
+            ...ClientQuery.loginUserDefaultOptions,
+            ...options,
+          }
+        : ClientQuery.loginUserDefaultOptions,
     );
   }
 
-  static logoutUserDefaultOptions?: UseQueryOptions<
-    void,
-    unknown,
-    void
-  > = undefined;
+  static logoutUserDefaultOptions?: UseQueryOptions<void, unknown, void> = {
+    queryFn: ClientQuery.logoutUser,
+  };
   static logoutUserQueryId = () =>
     removeUndefinedFromArrayTail(['Client', 'logoutUser']);
   private static logoutUser() {
@@ -1646,8 +1670,12 @@ export class ClientQuery {
   ): UseQueryResult<void, unknown> {
     return useQuery(
       ClientQuery.logoutUserQueryId(),
-      ClientQuery.logoutUser,
-      options ?? ClientQuery.logoutUserDefaultOptions,
+      options
+        ? {
+            ...ClientQuery.logoutUserDefaultOptions,
+            ...options,
+          }
+        : ClientQuery.logoutUserDefaultOptions,
     );
   }
 }
