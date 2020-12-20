@@ -1814,7 +1814,7 @@ function removeUndefinedFromArrayTail(arr: any[]): any[] {
   }
   return lastDefinedValueIndex === arr.length - 1
     ? arr
-    : arr.slice(0, lastDefinedValueIndex);
+    : arr.slice(0, lastDefinedValueIndex + 1);
 }
 
 type ClientFactoryFunction = <T>(type: new (...params: any[]) => T) => T;

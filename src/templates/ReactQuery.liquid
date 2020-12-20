@@ -26,7 +26,7 @@
             );
     }
     {% template Client.Method.Documentation %}
-    static {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Query({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}, {%- endfor %} options?: UseQueryOptions<{{ ResultType }}, unknown, {{ ResultType }}>): UseQueryResult<{{ ResultType }}, unknown> {
+    static {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Query({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}, {% endfor %} options?: UseQueryOptions<{{ ResultType }}, unknown, {{ ResultType }}>): UseQueryResult<{{ ResultType }}, unknown> {
         return useQuery({
             queryKey: {{ QueryClassName }}.{{ operation.ActualOperationName }}QueryId({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}),
             queryFn: {{ QueryClassName }}.{{ operation.ActualOperationName }},
