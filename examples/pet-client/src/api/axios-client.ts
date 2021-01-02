@@ -1452,15 +1452,19 @@ export class ClientQuery {
    * @param status Status values that need to be considered for filter
    * @return successful operation
    */
-  static useFindPetsByStatusQuery(
+  static useFindPetsByStatusQuery<TSelectData = Pet[], TError = unknown>(
     status: Status[],
-    options?: UseQueryOptions<Pet[], unknown, Pet[]>,
-  ): UseQueryResult<Pet[], unknown> {
-    return useQuery({
+    options?: UseQueryOptions<Pet[], TError, TSelectData>,
+  ): UseQueryResult<TSelectData, TError> {
+    return useQuery<Pet[], TError, TSelectData>({
       queryKey: ClientQuery.findPetsByStatusQueryId(status),
       queryFn: ClientQuery.findPetsByStatus,
-      ...ClientQuery.findPetsByStatusDefaultOptions,
-      ...(options ?? {}),
+      ...((ClientQuery.findPetsByStatusDefaultOptions as unknown) as UseQueryOptions<
+        Pet[],
+        TError,
+        TSelectData
+      >),
+      ...options,
     });
   }
 
@@ -1480,15 +1484,19 @@ export class ClientQuery {
    * @return successful operation
    * @deprecated
    */
-  static useFindPetsByTagsQuery(
+  static useFindPetsByTagsQuery<TSelectData = Pet[], TError = unknown>(
     tags: string[],
-    options?: UseQueryOptions<Pet[], unknown, Pet[]>,
-  ): UseQueryResult<Pet[], unknown> {
-    return useQuery({
+    options?: UseQueryOptions<Pet[], TError, TSelectData>,
+  ): UseQueryResult<TSelectData, TError> {
+    return useQuery<Pet[], TError, TSelectData>({
       queryKey: ClientQuery.findPetsByTagsQueryId(tags),
       queryFn: ClientQuery.findPetsByTags,
-      ...ClientQuery.findPetsByTagsDefaultOptions,
-      ...(options ?? {}),
+      ...((ClientQuery.findPetsByTagsDefaultOptions as unknown) as UseQueryOptions<
+        Pet[],
+        TError,
+        TSelectData
+      >),
+      ...options,
     });
   }
 
@@ -1503,15 +1511,19 @@ export class ClientQuery {
    * @param petId ID of pet to return
    * @return successful operation
    */
-  static useGetPetByIdQuery(
+  static useGetPetByIdQuery<TSelectData = Pet, TError = unknown>(
     petId: number,
-    options?: UseQueryOptions<Pet, unknown, Pet>,
-  ): UseQueryResult<Pet, unknown> {
-    return useQuery({
+    options?: UseQueryOptions<Pet, TError, TSelectData>,
+  ): UseQueryResult<TSelectData, TError> {
+    return useQuery<Pet, TError, TSelectData>({
       queryKey: ClientQuery.getPetByIdQueryId(petId),
       queryFn: ClientQuery.getPetById,
-      ...ClientQuery.getPetByIdDefaultOptions,
-      ...(options ?? {}),
+      ...((ClientQuery.getPetByIdDefaultOptions as unknown) as UseQueryOptions<
+        Pet,
+        TError,
+        TSelectData
+      >),
+      ...options,
     });
   }
 
@@ -1530,15 +1542,19 @@ export class ClientQuery {
    * @param orderId ID of pet that needs to be fetched
    * @return successful operation
    */
-  static useGetOrderByIdQuery(
+  static useGetOrderByIdQuery<TSelectData = Order, TError = unknown>(
     orderId: number,
-    options?: UseQueryOptions<Order, unknown, Order>,
-  ): UseQueryResult<Order, unknown> {
-    return useQuery({
+    options?: UseQueryOptions<Order, TError, TSelectData>,
+  ): UseQueryResult<TSelectData, TError> {
+    return useQuery<Order, TError, TSelectData>({
       queryKey: ClientQuery.getOrderByIdQueryId(orderId),
       queryFn: ClientQuery.getOrderById,
-      ...ClientQuery.getOrderByIdDefaultOptions,
-      ...(options ?? {}),
+      ...((ClientQuery.getOrderByIdDefaultOptions as unknown) as UseQueryOptions<
+        Order,
+        TError,
+        TSelectData
+      >),
+      ...options,
     });
   }
 
@@ -1556,18 +1572,21 @@ export class ClientQuery {
    * Returns pet inventories by status
    * @return successful operation
    */
-  static useGetInventoryQuery(
-    options?: UseQueryOptions<
-      { [key: string]: number },
-      unknown,
-      { [key: string]: number }
-    >,
-  ): UseQueryResult<{ [key: string]: number }, unknown> {
-    return useQuery({
+  static useGetInventoryQuery<
+    TSelectData = { [key: string]: number },
+    TError = unknown
+  >(
+    options?: UseQueryOptions<{ [key: string]: number }, TError, TSelectData>,
+  ): UseQueryResult<TSelectData, TError> {
+    return useQuery<{ [key: string]: number }, TError, TSelectData>({
       queryKey: ClientQuery.getInventoryQueryId(),
       queryFn: ClientQuery.getInventory,
-      ...ClientQuery.getInventoryDefaultOptions,
-      ...(options ?? {}),
+      ...((ClientQuery.getInventoryDefaultOptions as unknown) as UseQueryOptions<
+        { [key: string]: number },
+        TError,
+        TSelectData
+      >),
+      ...options,
     });
   }
 
@@ -1586,15 +1605,19 @@ export class ClientQuery {
    * @param username The name that needs to be fetched. Use user1 for testing.
    * @return successful operation
    */
-  static useGetUserByNameQuery(
+  static useGetUserByNameQuery<TSelectData = User, TError = unknown>(
     username: string,
-    options?: UseQueryOptions<User, unknown, User>,
-  ): UseQueryResult<User, unknown> {
-    return useQuery({
+    options?: UseQueryOptions<User, TError, TSelectData>,
+  ): UseQueryResult<TSelectData, TError> {
+    return useQuery<User, TError, TSelectData>({
       queryKey: ClientQuery.getUserByNameQueryId(username),
       queryFn: ClientQuery.getUserByName,
-      ...ClientQuery.getUserByNameDefaultOptions,
-      ...(options ?? {}),
+      ...((ClientQuery.getUserByNameDefaultOptions as unknown) as UseQueryOptions<
+        User,
+        TError,
+        TSelectData
+      >),
+      ...options,
     });
   }
 
@@ -1617,16 +1640,20 @@ export class ClientQuery {
    * @param password The password for login in clear text
    * @return successful operation
    */
-  static useLoginUserQuery(
+  static useLoginUserQuery<TSelectData = string, TError = unknown>(
     username: string,
     password: string,
-    options?: UseQueryOptions<string, unknown, string>,
-  ): UseQueryResult<string, unknown> {
-    return useQuery({
+    options?: UseQueryOptions<string, TError, TSelectData>,
+  ): UseQueryResult<TSelectData, TError> {
+    return useQuery<string, TError, TSelectData>({
       queryKey: ClientQuery.loginUserQueryId(username, password),
       queryFn: ClientQuery.loginUser,
-      ...ClientQuery.loginUserDefaultOptions,
-      ...(options ?? {}),
+      ...((ClientQuery.loginUserDefaultOptions as unknown) as UseQueryOptions<
+        string,
+        TError,
+        TSelectData
+      >),
+      ...options,
     });
   }
 
@@ -1640,14 +1667,18 @@ export class ClientQuery {
    * Logs out current logged in user session
    * @return successful operation
    */
-  static useLogoutUserQuery(
-    options?: UseQueryOptions<void, unknown, void>,
-  ): UseQueryResult<void, unknown> {
-    return useQuery({
+  static useLogoutUserQuery<TSelectData = void, TError = unknown>(
+    options?: UseQueryOptions<void, TError, TSelectData>,
+  ): UseQueryResult<TSelectData, TError> {
+    return useQuery<void, TError, TSelectData>({
       queryKey: ClientQuery.logoutUserQueryId(),
       queryFn: ClientQuery.logoutUser,
-      ...ClientQuery.logoutUserDefaultOptions,
-      ...(options ?? {}),
+      ...((ClientQuery.logoutUserDefaultOptions as unknown) as UseQueryOptions<
+        void,
+        TError,
+        TSelectData
+      >),
+      ...options,
     });
   }
 }

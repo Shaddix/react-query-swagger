@@ -26,9 +26,9 @@
       <option name="checkSyntaxErrors" value="true" />
       <option name="description" />
       <option name="exitCodeBehavior" value="ERROR" />
-      <option name="fileExtension" value="tsx" />
+      <option name="fileExtension" value="js" />
       <option name="immediateSync" value="false" />
-      <option name="name" value="PrettierTSX" />
+      <option name="name" value="PrettierJS" />
       <option name="output" value="$FilePathRelativeToProjectRoot$" />
       <option name="outputFilters">
         <array />
@@ -46,9 +46,9 @@
       <option name="checkSyntaxErrors" value="true" />
       <option name="description" />
       <option name="exitCodeBehavior" value="ERROR" />
-      <option name="fileExtension" value="js" />
+      <option name="fileExtension" value="tsx" />
       <option name="immediateSync" value="false" />
-      <option name="name" value="PrettierJS" />
+      <option name="name" value="PrettierTSX" />
       <option name="output" value="$FilePathRelativeToProjectRoot$" />
       <option name="outputFilters">
         <array />
