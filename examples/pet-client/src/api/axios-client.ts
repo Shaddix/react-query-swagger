@@ -1432,7 +1432,7 @@ export class Client {
     }
   }
 }
-export class ClientQuery {
+export class Query {
   static get Client() {
     return createClient(Client);
   }
@@ -1445,7 +1445,7 @@ export class ClientQuery {
   static findPetsByStatusQueryId = (status: Status[]) =>
     removeUndefinedFromArrayTail(['Client', 'findPetsByStatus', status]);
   private static findPetsByStatus(context: QueryFunctionContext) {
-    return ClientQuery.Client.findPetsByStatus(context.queryKey[2] as Status[]);
+    return Query.Client.findPetsByStatus(context.queryKey[2] as Status[]);
   }
   /**
    * Finds Pets by status
@@ -1457,9 +1457,9 @@ export class ClientQuery {
     options?: UseQueryOptions<Pet[], TError, TSelectData>,
   ): UseQueryResult<TSelectData, TError> {
     return useQuery<Pet[], TError, TSelectData>({
-      queryKey: ClientQuery.findPetsByStatusQueryId(status),
-      queryFn: ClientQuery.findPetsByStatus,
-      ...((ClientQuery.findPetsByStatusDefaultOptions as unknown) as UseQueryOptions<
+      queryKey: Query.findPetsByStatusQueryId(status),
+      queryFn: Query.findPetsByStatus,
+      ...((Query.findPetsByStatusDefaultOptions as unknown) as UseQueryOptions<
         Pet[],
         TError,
         TSelectData
@@ -1476,7 +1476,7 @@ export class ClientQuery {
   static findPetsByTagsQueryId = (tags: string[]) =>
     removeUndefinedFromArrayTail(['Client', 'findPetsByTags', tags]);
   private static findPetsByTags(context: QueryFunctionContext) {
-    return ClientQuery.Client.findPetsByTags(context.queryKey[2] as string[]);
+    return Query.Client.findPetsByTags(context.queryKey[2] as string[]);
   }
   /**
    * Finds Pets by tags
@@ -1489,9 +1489,9 @@ export class ClientQuery {
     options?: UseQueryOptions<Pet[], TError, TSelectData>,
   ): UseQueryResult<TSelectData, TError> {
     return useQuery<Pet[], TError, TSelectData>({
-      queryKey: ClientQuery.findPetsByTagsQueryId(tags),
-      queryFn: ClientQuery.findPetsByTags,
-      ...((ClientQuery.findPetsByTagsDefaultOptions as unknown) as UseQueryOptions<
+      queryKey: Query.findPetsByTagsQueryId(tags),
+      queryFn: Query.findPetsByTags,
+      ...((Query.findPetsByTagsDefaultOptions as unknown) as UseQueryOptions<
         Pet[],
         TError,
         TSelectData
@@ -1504,7 +1504,7 @@ export class ClientQuery {
   static getPetByIdQueryId = (petId: number) =>
     removeUndefinedFromArrayTail(['Client', 'getPetById', petId]);
   private static getPetById(context: QueryFunctionContext) {
-    return ClientQuery.Client.getPetById(context.queryKey[2] as number);
+    return Query.Client.getPetById(context.queryKey[2] as number);
   }
   /**
    * Find pet by ID
@@ -1516,9 +1516,9 @@ export class ClientQuery {
     options?: UseQueryOptions<Pet, TError, TSelectData>,
   ): UseQueryResult<TSelectData, TError> {
     return useQuery<Pet, TError, TSelectData>({
-      queryKey: ClientQuery.getPetByIdQueryId(petId),
-      queryFn: ClientQuery.getPetById,
-      ...((ClientQuery.getPetByIdDefaultOptions as unknown) as UseQueryOptions<
+      queryKey: Query.getPetByIdQueryId(petId),
+      queryFn: Query.getPetById,
+      ...((Query.getPetByIdDefaultOptions as unknown) as UseQueryOptions<
         Pet,
         TError,
         TSelectData
@@ -1535,7 +1535,7 @@ export class ClientQuery {
   static getOrderByIdQueryId = (orderId: number) =>
     removeUndefinedFromArrayTail(['Client', 'getOrderById', orderId]);
   private static getOrderById(context: QueryFunctionContext) {
-    return ClientQuery.Client.getOrderById(context.queryKey[2] as number);
+    return Query.Client.getOrderById(context.queryKey[2] as number);
   }
   /**
    * Find purchase order by ID
@@ -1547,9 +1547,9 @@ export class ClientQuery {
     options?: UseQueryOptions<Order, TError, TSelectData>,
   ): UseQueryResult<TSelectData, TError> {
     return useQuery<Order, TError, TSelectData>({
-      queryKey: ClientQuery.getOrderByIdQueryId(orderId),
-      queryFn: ClientQuery.getOrderById,
-      ...((ClientQuery.getOrderByIdDefaultOptions as unknown) as UseQueryOptions<
+      queryKey: Query.getOrderByIdQueryId(orderId),
+      queryFn: Query.getOrderById,
+      ...((Query.getOrderByIdDefaultOptions as unknown) as UseQueryOptions<
         Order,
         TError,
         TSelectData
@@ -1566,7 +1566,7 @@ export class ClientQuery {
   static getInventoryQueryId = () =>
     removeUndefinedFromArrayTail(['Client', 'getInventory']);
   private static getInventory() {
-    return ClientQuery.Client.getInventory();
+    return Query.Client.getInventory();
   }
   /**
    * Returns pet inventories by status
@@ -1579,9 +1579,9 @@ export class ClientQuery {
     options?: UseQueryOptions<{ [key: string]: number }, TError, TSelectData>,
   ): UseQueryResult<TSelectData, TError> {
     return useQuery<{ [key: string]: number }, TError, TSelectData>({
-      queryKey: ClientQuery.getInventoryQueryId(),
-      queryFn: ClientQuery.getInventory,
-      ...((ClientQuery.getInventoryDefaultOptions as unknown) as UseQueryOptions<
+      queryKey: Query.getInventoryQueryId(),
+      queryFn: Query.getInventory,
+      ...((Query.getInventoryDefaultOptions as unknown) as UseQueryOptions<
         { [key: string]: number },
         TError,
         TSelectData
@@ -1598,7 +1598,7 @@ export class ClientQuery {
   static getUserByNameQueryId = (username: string) =>
     removeUndefinedFromArrayTail(['Client', 'getUserByName', username]);
   private static getUserByName(context: QueryFunctionContext) {
-    return ClientQuery.Client.getUserByName(context.queryKey[2] as string);
+    return Query.Client.getUserByName(context.queryKey[2] as string);
   }
   /**
    * Get user by user name
@@ -1610,9 +1610,9 @@ export class ClientQuery {
     options?: UseQueryOptions<User, TError, TSelectData>,
   ): UseQueryResult<TSelectData, TError> {
     return useQuery<User, TError, TSelectData>({
-      queryKey: ClientQuery.getUserByNameQueryId(username),
-      queryFn: ClientQuery.getUserByName,
-      ...((ClientQuery.getUserByNameDefaultOptions as unknown) as UseQueryOptions<
+      queryKey: Query.getUserByNameQueryId(username),
+      queryFn: Query.getUserByName,
+      ...((Query.getUserByNameDefaultOptions as unknown) as UseQueryOptions<
         User,
         TError,
         TSelectData
@@ -1629,7 +1629,7 @@ export class ClientQuery {
   static loginUserQueryId = (username: string, password: string) =>
     removeUndefinedFromArrayTail(['Client', 'loginUser', username, password]);
   private static loginUser(context: QueryFunctionContext) {
-    return ClientQuery.Client.loginUser(
+    return Query.Client.loginUser(
       context.queryKey[2] as string,
       context.queryKey[3] as string,
     );
@@ -1646,9 +1646,9 @@ export class ClientQuery {
     options?: UseQueryOptions<string, TError, TSelectData>,
   ): UseQueryResult<TSelectData, TError> {
     return useQuery<string, TError, TSelectData>({
-      queryKey: ClientQuery.loginUserQueryId(username, password),
-      queryFn: ClientQuery.loginUser,
-      ...((ClientQuery.loginUserDefaultOptions as unknown) as UseQueryOptions<
+      queryKey: Query.loginUserQueryId(username, password),
+      queryFn: Query.loginUser,
+      ...((Query.loginUserDefaultOptions as unknown) as UseQueryOptions<
         string,
         TError,
         TSelectData
@@ -1661,7 +1661,7 @@ export class ClientQuery {
   static logoutUserQueryId = () =>
     removeUndefinedFromArrayTail(['Client', 'logoutUser']);
   private static logoutUser() {
-    return ClientQuery.Client.logoutUser();
+    return Query.Client.logoutUser();
   }
   /**
    * Logs out current logged in user session
@@ -1671,9 +1671,9 @@ export class ClientQuery {
     options?: UseQueryOptions<void, TError, TSelectData>,
   ): UseQueryResult<TSelectData, TError> {
     return useQuery<void, TError, TSelectData>({
-      queryKey: ClientQuery.logoutUserQueryId(),
-      queryFn: ClientQuery.logoutUser,
-      ...((ClientQuery.logoutUserDefaultOptions as unknown) as UseQueryOptions<
+      queryKey: Query.logoutUserQueryId(),
+      queryFn: Query.logoutUser,
+      ...((Query.logoutUserDefaultOptions as unknown) as UseQueryOptions<
         void,
         TError,
         TSelectData

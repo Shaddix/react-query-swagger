@@ -1,6 +1,6 @@
 
 {%- if HasOperations -%}
-{%- assign QueryClassName = Class | append: "Query" -%}
+{%- assign QueryClassName = Class | prepend: 'Qqqqqq' | slice: 0, Class.size | append: "Query" | slice: 6, 1000 -%}
 {%- if ExportTypes -%}export {% endif %}class {{ QueryClassName }} {%- if HasBaseClass -%}extends {{ BaseClass }} {%- endif -%} {
     static get Client() {
         return createClient({{ Class }});
