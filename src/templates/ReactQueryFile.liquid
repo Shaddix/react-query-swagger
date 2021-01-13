@@ -1,5 +1,5 @@
 
-import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions } from 'react-query';
+import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient } from 'react-query';
 
 function removeUndefinedFromArrayTail(arr: any[]): any[] {
     let lastDefinedValueIndex = arr.length - 1;

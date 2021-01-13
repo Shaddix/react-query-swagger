@@ -12,7 +12,7 @@ AxiosQuery.setDefaultConstructorParametersProvider(() => [
   'https://petstore.swagger.io/v2',
   axios,
 ]);
-AxiosQuery.ClientQuery.findPetsByStatusDefaultOptions = {
+AxiosQuery.Query.findPetsByStatusDefaultOptions = {
   cacheTime: 10000,
 };
 ReactDOM.render(

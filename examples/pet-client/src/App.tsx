@@ -4,7 +4,7 @@ import { AxiosQuery } from './api';
 import { Status } from './api/axios-client';
 
 function App() {
-  const petsQuery = AxiosQuery.ClientQuery.useFindPetsByStatusQuery([
+  const petsQuery = AxiosQuery.Query.useFindPetsByStatusQuery([
     Status.Available,
     Status.Pending,
     Status.Sold,

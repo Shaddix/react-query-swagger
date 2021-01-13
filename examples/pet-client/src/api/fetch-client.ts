@@ -1220,6 +1220,18 @@ export class Query {
       ...options,
     });
   }
+  /**
+   * Finds Pets by status
+   * @param status Status values that need to be considered for filter
+   * @return successful operation
+   */
+  static setFindPetsByStatusData<TData = Pet[]>(
+    queryClient: QueryClient,
+    status: Status[],
+    updater: (data: TData | undefined) => TData,
+  ) {
+    queryClient.setQueryData(Query.findPetsByStatusQueryId(status), updater);
+  }
 
   static findPetsByTagsDefaultOptions?: UseQueryOptions<
     Pet[],
@@ -1252,6 +1264,19 @@ export class Query {
       ...options,
     });
   }
+  /**
+   * Finds Pets by tags
+   * @param tags Tags to filter by
+   * @return successful operation
+   * @deprecated
+   */
+  static setFindPetsByTagsData<TData = Pet[]>(
+    queryClient: QueryClient,
+    tags: string[],
+    updater: (data: TData | undefined) => TData,
+  ) {
+    queryClient.setQueryData(Query.findPetsByTagsQueryId(tags), updater);
+  }
 
   static getPetByIdDefaultOptions?: UseQueryOptions<Pet, unknown, Pet> = {};
   static getPetByIdQueryId = (petId: number) =>
@@ -1278,6 +1303,18 @@ export class Query {
       >),
       ...options,
     });
+  }
+  /**
+   * Find pet by ID
+   * @param petId ID of pet to return
+   * @return successful operation
+   */
+  static setGetPetByIdData<TData = Pet>(
+    queryClient: QueryClient,
+    petId: number,
+    updater: (data: TData | undefined) => TData,
+  ) {
+    queryClient.setQueryData(Query.getPetByIdQueryId(petId), updater);
   }
 
   static getOrderByIdDefaultOptions?: UseQueryOptions<
@@ -1309,6 +1346,18 @@ export class Query {
       >),
       ...options,
     });
+  }
+  /**
+   * Find purchase order by ID
+   * @param orderId ID of pet that needs to be fetched
+   * @return successful operation
+   */
+  static setGetOrderByIdData<TData = Order>(
+    queryClient: QueryClient,
+    orderId: number,
+    updater: (data: TData | undefined) => TData,
+  ) {
+    queryClient.setQueryData(Query.getOrderByIdQueryId(orderId), updater);
   }
 
   static getInventoryDefaultOptions?: UseQueryOptions<
@@ -1342,6 +1391,16 @@ export class Query {
       ...options,
     });
   }
+  /**
+   * Returns pet inventories by status
+   * @return successful operation
+   */
+  static setGetInventoryData<TData = { [key: string]: number }>(
+    queryClient: QueryClient,
+    updater: (data: TData | undefined) => TData,
+  ) {
+    queryClient.setQueryData(Query.getInventoryQueryId(), updater);
+  }
 
   static getUserByNameDefaultOptions?: UseQueryOptions<
     User,
@@ -1372,6 +1431,18 @@ export class Query {
       >),
       ...options,
     });
+  }
+  /**
+   * Get user by user name
+   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @return successful operation
+   */
+  static setGetUserByNameData<TData = User>(
+    queryClient: QueryClient,
+    username: string,
+    updater: (data: TData | undefined) => TData,
+  ) {
+    queryClient.setQueryData(Query.getUserByNameQueryId(username), updater);
   }
 
   static loginUserDefaultOptions?: UseQueryOptions<
@@ -1409,6 +1480,23 @@ export class Query {
       ...options,
     });
   }
+  /**
+   * Logs user into the system
+   * @param username The user name for login
+   * @param password The password for login in clear text
+   * @return successful operation
+   */
+  static setLoginUserData<TData = string>(
+    queryClient: QueryClient,
+    username: string,
+    password: string,
+    updater: (data: TData | undefined) => TData,
+  ) {
+    queryClient.setQueryData(
+      Query.loginUserQueryId(username, password),
+      updater,
+    );
+  }
 
   static logoutUserDefaultOptions?: UseQueryOptions<void, unknown, void> = {};
   static logoutUserQueryId = () =>
@@ -1433,6 +1521,16 @@ export class Query {
       >),
       ...options,
     });
+  }
+  /**
+   * Logs out current logged in user session
+   * @return successful operation
+   */
+  static setLogoutUserData<TData = void>(
+    queryClient: QueryClient,
+    updater: (data: TData | undefined) => TData,
+  ) {
+    queryClient.setQueryData(Query.logoutUserQueryId(), updater);
   }
 }
 
@@ -1832,6 +1930,7 @@ import {
   UseQueryResult,
   QueryFunctionContext,
   UseQueryOptions,
+  QueryClient,
 } from 'react-query';
 
 function removeUndefinedFromArrayTail(arr: any[]): any[] {

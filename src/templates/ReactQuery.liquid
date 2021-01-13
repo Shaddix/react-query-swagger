@@ -34,6 +34,12 @@
             ...options,
         });
     }
+    {% template Client.Method.Documentation %}
+    static {{ operation.MethodAccessModifier }}set{{ operation.ActualOperationName | capitalize }}Data<TData = {{ ResultType }}>(queryClient: QueryClient, {% for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}, {% endfor %}updater: (data: TData | undefined) => TData) {
+        queryClient.setQueryData({{ QueryClassName }}.{{ operation.ActualOperationName }}QueryId({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}),
+            updater
+        );
+    }
   {% endif -%}
   {% endfor -%}
 }
