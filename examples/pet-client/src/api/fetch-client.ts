@@ -1227,8 +1227,8 @@ export class Query {
    */
   static setFindPetsByStatusData<TData = Pet[]>(
     queryClient: QueryClient,
-    status: Status[],
     updater: (data: TData | undefined) => TData,
+    status: Status[],
   ) {
     queryClient.setQueryData(Query.findPetsByStatusQueryId(status), updater);
   }
@@ -1272,8 +1272,8 @@ export class Query {
    */
   static setFindPetsByTagsData<TData = Pet[]>(
     queryClient: QueryClient,
-    tags: string[],
     updater: (data: TData | undefined) => TData,
+    tags: string[],
   ) {
     queryClient.setQueryData(Query.findPetsByTagsQueryId(tags), updater);
   }
@@ -1311,8 +1311,8 @@ export class Query {
    */
   static setGetPetByIdData<TData = Pet>(
     queryClient: QueryClient,
-    petId: number,
     updater: (data: TData | undefined) => TData,
+    petId: number,
   ) {
     queryClient.setQueryData(Query.getPetByIdQueryId(petId), updater);
   }
@@ -1354,8 +1354,8 @@ export class Query {
    */
   static setGetOrderByIdData<TData = Order>(
     queryClient: QueryClient,
-    orderId: number,
     updater: (data: TData | undefined) => TData,
+    orderId: number,
   ) {
     queryClient.setQueryData(Query.getOrderByIdQueryId(orderId), updater);
   }
@@ -1439,8 +1439,8 @@ export class Query {
    */
   static setGetUserByNameData<TData = User>(
     queryClient: QueryClient,
-    username: string,
     updater: (data: TData | undefined) => TData,
+    username: string,
   ) {
     queryClient.setQueryData(Query.getUserByNameQueryId(username), updater);
   }
@@ -1488,9 +1488,9 @@ export class Query {
    */
   static setLoginUserData<TData = string>(
     queryClient: QueryClient,
+    updater: (data: TData | undefined) => TData,
     username: string,
     password: string,
-    updater: (data: TData | undefined) => TData,
   ) {
     queryClient.setQueryData(
       Query.loginUserQueryId(username, password),

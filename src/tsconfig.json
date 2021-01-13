@@ -22,7 +22,5 @@
     "noEmit": true,
     "jsx": "react"
   },
-  "include": [
-    ""
-  ]
+
 }
