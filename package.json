@@ -6,7 +6,7 @@
   ],
   "nohoist": [],
   "scripts": {
-    "publish": "yarn workspace react-query-swagger publish",
+    "do-publish": "yarn workspace react-query-swagger publish",
     "start": "yarn workspace pet-client start",
     "typecheck": "yarn workspace react-query-swagger tsc && yarn workspace pet-client tsc",
     "generate-api-client-axios": "yarn workspace pet-client generate-axios",
