@@ -1,19 +1,21 @@
 {
-  "name": "nswag-react-query",
-  "version": "13.9.16",
-  "description": "NSwag templates to generate react-query hooks",
+  "name": "react-query-swagger",
+  "version": "13.10.8",
+  "description": "Generates react-query hooks for your API based on Swagger/OpenAPI definition",
   "author": "Artur Drobinskiy",
   "license": "MIT",
-  "homepage": "https://github.com/shaddix/nswag-react-query#readme",
+  "homepage": "https://github.com/shaddix/react-query-swagger#readme",
   "repository": {
     "type": "git",
-    "url": "git://github.com/shaddix/nswag-react-query.git"
+    "url": "git://github.com/shaddix/react-query-swagger.git"
   },
   "keywords": [
     "react-query",
+    "swagger",
+    "openapi",
+    "typescript",
     "nswag",
-    "react",
-    "typescript"
+    "react"
   ],
   "scripts": {
     "prepublish": "copyfiles -u 1 ../README.md ./"
@@ -21,10 +23,10 @@
   "bin": "cli.js",
   "devDependencies": {
     "child_process": "^1.0.2",
-    "copyfiles": "^2.4.1"
+    "copyfiles": "^2.4.1",
+    "nswag": "^13.10.8"
   },
   "peerDependencies": {
-    "nswag": "13.x",
     "react-query": "3.x",
     "typescript": "3.x || 4.x"
   },
