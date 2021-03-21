@@ -32,7 +32,7 @@ export function setClientFactory(value: ClientFactoryFunction) {
 /*
   Returns current Client factory function
 */
-export function getClientFactory(value: ClientFactoryFunction) {
+export function getClientFactory() {
   return _clientFactoryFunction;
 }
 
@@ -44,27 +44,46 @@ function createClient<T>(type: (new () => T)) {
 }
 
 let _baseUrl = '';
+/*
+  Returns the base URL for http requests
+*/
 export function getBaseUrl(): string {
   return _baseUrl;
 }
+
+/*
+  Sets the base URL for http requests
+*/
 export function setBaseUrl(baseUrl: string) {
   _baseUrl = baseUrl;
 }
 
 {%         if Framework.IsAxios -%}
 let _axiosFactory: () => AxiosInstance | undefined = () => undefined;
+/*
+  Returns currently used factory for Axios instances
+*/
 export function getAxiosFactory() {
   return _axiosFactory;
 }
+/*
+  Sets the factory for Axios instances
+*/
 export function setAxiosFactory(factory: () => AxiosInstance) {
   _axiosFactory = factory;
 }
 {%         endif -%}
 {%         if Framework.IsFetchOrAurelia -%}
 let _fetchFactory = () => <any>window;
+/*
+  Returns currently used factory for fetch
+*/
 export function getFetchFactory(): () => { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }  {
   return _fetchFactory;
 }
+/*
+  Sets currently used factory for fetch
+*/
 export function setFetchFactory(factory: () => { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
   _fetchFactory = factory;
 }

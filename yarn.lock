@@ -9114,6 +9114,11 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
+react-query-swagger@13.10.8:
+  version "13.10.8"
+  resolved "https://registry.yarnpkg.com/react-query-swagger/-/react-query-swagger-13.10.8.tgz#ae1d57c097b5055e1587d26c27ff3b91f9da5428"
+  integrity sha512-ifH9qGrjk/lvl3klWTfBq1we2bXveRMLTrduydW2GA/LKDmexHufSUBHKsZFH7FsiU+uGSxLBDOa2yYB2A4jTw==
+
 react-query@^3.13.0:
   version "3.13.0"
   resolved "https://registry.yarnpkg.com/react-query/-/react-query-3.13.0.tgz#b42561392a8fcf3252336222332c4c94fae2e33e"
