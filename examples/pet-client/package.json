@@ -15,7 +15,7 @@
     "axios": "^0.21.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "react-query-swagger": "link://../../../src",
+    "react-query-swagger": "file:../../src",
     "prettier": "^2.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
