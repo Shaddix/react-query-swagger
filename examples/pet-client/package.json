@@ -15,7 +15,7 @@
     "axios": "^0.21.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "react-query-swagger": "13.10.8",
+    "react-query-swagger": "link://../../../src",
     "prettier": "^2.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -25,8 +25,8 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "generate-axios": "react-query-swagger /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/axios-client.ts /template:Axios /serviceHost:. /generateConstructorInterface:true /markOptionalProperties:true /generateOptionalParameters:true /nullValue:undefined",
-    "generate-fetch": "react-query-swagger /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/fetch-client.ts /template:Fetch /serviceHost:. /generateConstructorInterface:true /markOptionalProperties:true /generateOptionalParameters:true /nullValue:undefined",
+    "generate-axios": "react-query-swagger /runtime:Net50 /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/axios-client.ts /template:Axios /serviceHost:. /generateConstructorInterface:true /markOptionalProperties:true /generateOptionalParameters:true /nullValue:undefined",
+    "generate-fetch": "react-query-swagger /runtime:Net50 /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/fetch-client.ts /template:Fetch /serviceHost:. /generateConstructorInterface:true /markOptionalProperties:true /generateOptionalParameters:true /nullValue:undefined",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

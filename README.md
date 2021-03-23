@@ -3,7 +3,7 @@ This projects autogenerates [react-query](https://react-query.tanstack.com) hook
 So, given that you have a [petstore-like API definition](https://petstore.swagger.io/), you could autogenerate a list of [react-query hooks](https://github.com/Shaddix/nswag-react-query/blob/master/examples/pet-client/src/api/axios-client.ts#L1151), to call GET methods from the API (queries). Mutations (POST/PUT/PATCH/DELETE methods) are not yet supported.
 
 
-****This library requires, [dotnet runtime](https://dotnet.microsoft.com/download/dotnet/2.1) (2.+) installed on your machine! If you have .NET Core 3+ or 5+ you'll need to add a switch (e.g.  /runtime:Net50) to all commands.****
+****This library requires, [dotnet runtime](https://dotnet.microsoft.com/download/dotnet/2.1) (2.1) installed on your machine! If you have .NET Core 3+ or 5+ you'll need to add a switch (e.g. /runtime:Net50) to all commands.****
 
 ## How to add
 Install the package into your project using yarn/npm (as a dev-dependency). You'll also need to add react-query (which you probably already have if you are interested in this library).
