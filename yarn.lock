@@ -7595,10 +7595,10 @@ npm-run-path@^4.0.0:
   dependencies:
     path-key "^3.0.0"
 
-nswag@^13.10.8:
-  version "13.10.8"
-  resolved "https://registry.yarnpkg.com/nswag/-/nswag-13.10.8.tgz#1f2917370e1a46937022480f3353600a2f5208d2"
-  integrity sha512-h6RydMuvRIDMUREgMh/cE/tngLhWZHf1nGGvF31g/y8ONPa3P/TasW7+uu5ATnU/CTbFqFsPDJQtzcVfPzLaMA==
+nswag@^13.11.1:
+  version "13.11.1"
+  resolved "https://registry.yarnpkg.com/nswag/-/nswag-13.11.1.tgz#2a8865d45ab8187c6d2dd6b18da833e78a72ac77"
+  integrity sha512-HyXoDRJdCMJQGZdWMdVxgSAE9FINWxrbL/1ReHtuV0H0L+Fq0PRuldu7xrznNLDln+/ivhHW9dZtxqGl2kcyIg==
 
 nth-check@^1.0.2, nth-check@~1.0.1:
   version "1.0.2"
@@ -9114,13 +9114,13 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
-"react-query-swagger@file:src":
-  version "13.10.11"
+"react-query-swagger@link:src":
+  version "13.10.12"
 
-react-query@^3.13.0:
-  version "3.13.0"
-  resolved "https://registry.yarnpkg.com/react-query/-/react-query-3.13.0.tgz#b42561392a8fcf3252336222332c4c94fae2e33e"
-  integrity sha512-CzBvgjMh8jNJMSPhXCE92DBIFbE31j8PA2k7ipR1F8DlcNAEsZwLsUzh1cTtzpDaS2+r6sntgmM6qKnCD6E5zQ==
+react-query@^3.16.0:
+  version "3.16.0"
+  resolved "https://registry.yarnpkg.com/react-query/-/react-query-3.16.0.tgz#8de1556aabb3d200d0f8eeb74ce2b0b3dd0a0a51"
+  integrity sha512-YOvI8mO9WG+r4XsyJinjlDMiV5IewUWUcTv2J7z6bIP3KOFvgT6k6HM8vQouz4hPnme7Ktq9j5e7LarUqgJXFQ==
   dependencies:
     "@babel/runtime" "^7.5.5"
     broadcast-channel "^3.4.1"

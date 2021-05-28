@@ -12,6 +12,21 @@ function removeUndefinedFromArrayTail(arr: any[]): any[] {
     return lastDefinedValueIndex === arr.length - 1 ? arr : arr.slice(0, lastDefinedValueIndex + 1);
 }
 
+
+/*
+  Determines if first parameter of useSomethingQuery is an object with query parameters, or it's a regular parameter
+  Returns true if parameter is Object
+  Returns false if parameter is number/string/boolean/Date or Array
+*/
+function isParameterObject(param: unknown) {
+    if (param === null || param === undefined) return false;
+    if (param instanceof Array) return false;
+    const isObject = typeof param === 'object';
+    if (!isObject) return false;
+    if (param instanceof Date) return false;
+    return true;
+}
+
 type ClientFactoryFunction = <T>(type: (new (...params: any[]) => T)) => T;
 let _clientFactoryFunction: ClientFactoryFunction = <T>(type: (new (...params: any[]) => T)) => {
 {%         if Framework.IsAxios -%}

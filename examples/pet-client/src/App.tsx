@@ -4,21 +4,43 @@ import { AxiosQuery } from './api';
 import { Status } from './api/axios-client';
 
 function App() {
-  const petsQuery = AxiosQuery.Query.useFindPetsByStatusQuery([
-    Status.Available,
-    Status.Pending,
-    Status.Sold,
-  ]);
+  const pets1Query = AxiosQuery.Query.useFindPetsByStatusQuery({
+    status: [Status.Pending, Status.Sold],
+  });
+  const pets2Query = AxiosQuery.Query.useFindPetsByStatusQuery({
+    status: [Status.Pending, Status.Sold, Status.Available],
+  });
   return (
     <div className="App">
-      <h1>Pets</h1>
-      {petsQuery.isLoading && 'Loading...'}
-      {petsQuery.isError && petsQuery.error}
-      <ol>
-        {petsQuery.data?.map((pet, index) => (
-          <li key={index}>{pet.name}</li>
-        ))}
-      </ol>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'stretch',
+          width: '100%',
+        }}
+      >
+        <div style={{ flex: 1 }}>
+          <h1>Pets</h1>
+          {pets1Query.isLoading && 'Loading...'}
+          {pets1Query.isError && pets1Query.error}
+          <ol>
+            {pets1Query.data?.map((pet, index) => (
+              <li key={index}>{pet.name}</li>
+            ))}
+          </ol>
+        </div>
+        <div style={{ flex: 1 }}>
+          <h1>Pets</h1>
+          {pets2Query.isLoading && 'Loading...'}
+          {pets2Query.isError && pets2Query.error}
+          <ol>
+            {pets2Query.data?.map((pet, index) => (
+              <li key={index}>{pet.name}</li>
+            ))}
+          </ol>
+        </div>
+      </div>
     </div>
   );
 }

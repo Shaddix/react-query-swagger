@@ -24,7 +24,7 @@
   "devDependencies": {
     "child_process": "^1.0.2",
     "copyfiles": "^2.4.1",
-    "nswag": "^13.10.8"
+    "nswag": "^13.11.1"
   },
   "peerDependencies": {
     "react-query": "3.x",

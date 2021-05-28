@@ -1,6 +1,23 @@
 
 {%- if HasOperations -%}
 {%- assign QueryClassName = Class | prepend: 'Qqqqqq' | slice: 0, Class.size | append: "Query" | slice: 6, 1000 -%}
+
+{%- for operation in Operations -%}
+{%- if operation.HttpMethodUpper == 'Get' -%}
+{%- if operation.Parameters.size > 0 -%}
+
+{%- assign firstLetter = operation.ActualOperationName | slice: 0, 1 | upcase -%}
+{%- assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: QueryClassName | append: 'Parameters' -%}
+type {{ parameterClassName }} = {
+    {%- for parameter in operation.Parameters -%}
+      {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }};
+    {%- endfor -%}
+};
+
+{%- endif -%}
+{%- endif -%}
+{%- endfor -%}
+
 {%- if ExportTypes -%}export {% endif %}class {{ QueryClassName }} {%- if HasBaseClass -%}extends {{ BaseClass }} {%- endif -%} {
     static get Client() {
         return createClient({{ Class }});
@@ -8,8 +25,9 @@
 {%- for operation in Operations -%}
 {%- if operation.HttpMethodUpper == 'Get' -%}
 {% assign ResultType = operation.ResultType %}
+
     static {{ operation.ActualOperationName }}DefaultOptions?: UseQueryOptions<{{ ResultType }}, unknown, {{ ResultType }}> = {};
-    static {{ operation.ActualOperationName }}QueryId = ({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {%- endif %}{%- endfor -%}) =>
+    static {{ operation.ActualOperationName }}QueryKey = ({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {%- endif %}{%- endfor -%}) =>
         removeUndefinedFromArrayTail([
             '{{ Class }}',
             '{{ operation.ActualOperationName }}',
@@ -25,18 +43,43 @@
         {%- endfor -%}
             );
     }
+
+    {%- assign firstLetter = operation.ActualOperationName | slice: 0, 1 | upcase -%}
+    {%- assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: QueryClassName | append: 'Parameters' -%}
+    {%- if operation.Parameters.size > 0 -%}
+    static {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Query<TSelectData = {{ ResultType }}, TError = unknown>(dto: {{ parameterClassName }}, options?: UseQueryOptions<{{ ResultType }}, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+    {%- endif -%}
     {% template Client.Method.Documentation %}
-    static {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Query<TSelectData = {{ ResultType }}, TError = unknown>({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}, {% endfor %}options?: UseQueryOptions<{{ ResultType }}, TError, TSelectData>): UseQueryResult<TSelectData, TError> {
+    static {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Query<TSelectData = {{ ResultType }}, TError = unknown>({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}, {% endfor %}options?: UseQueryOptions<{{ ResultType }}, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+    static use{{ operation.ActualOperationName | capitalize }}Query<TSelectData = {{ ResultType }}, TError = unknown>(...params: unknown[]): UseQueryResult<TSelectData, TError> {
+
+        let options: UseQueryOptions<{{ ResultType }}, TError, TSelectData> | undefined = undefined;
+        {% for parameter in operation.Parameters %}let {{ parameter.VariableName }}: any = undefined;
+        {% endfor %}
+    {%- if operation.Parameters.size > 0 -%}
+        if (params.length > 0) {
+            if (isParameterObject(params[0])) {
+                ({ {% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %} } = params[0] as {{ parameterClassName  }});
+                options = params[1] as any;
+            } else {
+                [{% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}] = params;
+            }
+        }
+    {% else %}
+        options = params[0] as any;
+    {% endif %}
+
+
         return useQuery<{{ ResultType }}, TError, TSelectData>({
-            queryKey: {{ QueryClassName }}.{{ operation.ActualOperationName }}QueryId({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}),
+    ...{{ QueryClassName }}.{{ operation.ActualOperationName }}DefaultOptions as unknown as UseQueryOptions<{{ ResultType }}, TError, TSelectData>,
+            queryKey: {{ QueryClassName }}.{{ operation.ActualOperationName }}QueryKey({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}),
             queryFn: {{ QueryClassName }}.{{ operation.ActualOperationName }},
-            ...{{ QueryClassName }}.{{ operation.ActualOperationName }}DefaultOptions as unknown as UseQueryOptions<{{ ResultType }}, TError, TSelectData>,
             ...options,
         });
     }
     {% template Client.Method.Documentation %}
     static {{ operation.MethodAccessModifier }}set{{ operation.ActualOperationName | capitalize }}Data<TData = {{ ResultType }}>(queryClient: QueryClient, updater: (data: TData | undefined) => TData, {% for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}) {
-        queryClient.setQueryData({{ QueryClassName }}.{{ operation.ActualOperationName }}QueryId({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}),
+        queryClient.setQueryData({{ QueryClassName }}.{{ operation.ActualOperationName }}QueryKey({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}),
             updater
         );
     }
