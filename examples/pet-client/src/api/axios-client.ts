@@ -1493,7 +1493,7 @@ export class Query {
     options?: UseQueryOptions<Pet[], TError, TSelectData>,
   ): UseQueryResult<TSelectData, TError>;
   static useFindPetsByStatusQuery<TSelectData = Pet[], TError = unknown>(
-    ...params: unknown[]
+    ...params: any[]
   ): UseQueryResult<TSelectData, TError> {
     let options:
       | UseQueryOptions<Pet[], TError, TSelectData>
@@ -1503,9 +1503,9 @@ export class Query {
     if (params.length > 0) {
       if (isParameterObject(params[0])) {
         ({ status } = params[0] as FindPetsByStatusQueryParameters);
-        options = params[1] as any;
+        options = params[1];
       } else {
-        [status] = params;
+        [status, options] = params;
       }
     }
 
@@ -1559,7 +1559,7 @@ export class Query {
     options?: UseQueryOptions<Pet[], TError, TSelectData>,
   ): UseQueryResult<TSelectData, TError>;
   static useFindPetsByTagsQuery<TSelectData = Pet[], TError = unknown>(
-    ...params: unknown[]
+    ...params: any[]
   ): UseQueryResult<TSelectData, TError> {
     let options:
       | UseQueryOptions<Pet[], TError, TSelectData>
@@ -1569,9 +1569,9 @@ export class Query {
     if (params.length > 0) {
       if (isParameterObject(params[0])) {
         ({ tags } = params[0] as FindPetsByTagsQueryParameters);
-        options = params[1] as any;
+        options = params[1];
       } else {
-        [tags] = params;
+        [tags, options] = params;
       }
     }
 
@@ -1621,7 +1621,7 @@ export class Query {
     options?: UseQueryOptions<Pet, TError, TSelectData>,
   ): UseQueryResult<TSelectData, TError>;
   static useGetPetByIdQuery<TSelectData = Pet, TError = unknown>(
-    ...params: unknown[]
+    ...params: any[]
   ): UseQueryResult<TSelectData, TError> {
     let options:
       | UseQueryOptions<Pet, TError, TSelectData>
@@ -1631,9 +1631,9 @@ export class Query {
     if (params.length > 0) {
       if (isParameterObject(params[0])) {
         ({ petId } = params[0] as GetPetByIdQueryParameters);
-        options = params[1] as any;
+        options = params[1];
       } else {
-        [petId] = params;
+        [petId, options] = params;
       }
     }
 
@@ -1685,7 +1685,7 @@ export class Query {
   static useGetInventoryQuery<
     TSelectData = { [key: string]: number },
     TError = unknown
-  >(...params: unknown[]): UseQueryResult<TSelectData, TError> {
+  >(...params: any[]): UseQueryResult<TSelectData, TError> {
     let options:
       | UseQueryOptions<{ [key: string]: number }, TError, TSelectData>
       | undefined = undefined;
@@ -1739,7 +1739,7 @@ export class Query {
     options?: UseQueryOptions<Order, TError, TSelectData>,
   ): UseQueryResult<TSelectData, TError>;
   static useGetOrderByIdQuery<TSelectData = Order, TError = unknown>(
-    ...params: unknown[]
+    ...params: any[]
   ): UseQueryResult<TSelectData, TError> {
     let options:
       | UseQueryOptions<Order, TError, TSelectData>
@@ -1749,9 +1749,9 @@ export class Query {
     if (params.length > 0) {
       if (isParameterObject(params[0])) {
         ({ orderId } = params[0] as GetOrderByIdQueryParameters);
-        options = params[1] as any;
+        options = params[1];
       } else {
-        [orderId] = params;
+        [orderId, options] = params;
       }
     }
 
@@ -1804,7 +1804,7 @@ export class Query {
     options?: UseQueryOptions<User, TError, TSelectData>,
   ): UseQueryResult<TSelectData, TError>;
   static useGetUserByNameQuery<TSelectData = User, TError = unknown>(
-    ...params: unknown[]
+    ...params: any[]
   ): UseQueryResult<TSelectData, TError> {
     let options:
       | UseQueryOptions<User, TError, TSelectData>
@@ -1814,9 +1814,9 @@ export class Query {
     if (params.length > 0) {
       if (isParameterObject(params[0])) {
         ({ username } = params[0] as GetUserByNameQueryParameters);
-        options = params[1] as any;
+        options = params[1];
       } else {
-        [username] = params;
+        [username, options] = params;
       }
     }
 
@@ -1874,7 +1874,7 @@ export class Query {
     options?: UseQueryOptions<string, TError, TSelectData>,
   ): UseQueryResult<TSelectData, TError>;
   static useLoginUserQuery<TSelectData = string, TError = unknown>(
-    ...params: unknown[]
+    ...params: any[]
   ): UseQueryResult<TSelectData, TError> {
     let options:
       | UseQueryOptions<string, TError, TSelectData>
@@ -1885,9 +1885,9 @@ export class Query {
     if (params.length > 0) {
       if (isParameterObject(params[0])) {
         ({ username, password } = params[0] as LoginUserQueryParameters);
-        options = params[1] as any;
+        options = params[1];
       } else {
-        [username, password] = params;
+        [username, password, options] = params;
       }
     }
 
@@ -1935,7 +1935,7 @@ export class Query {
     options?: UseQueryOptions<void, TError, TSelectData>,
   ): UseQueryResult<TSelectData, TError>;
   static useLogoutUserQuery<TSelectData = void, TError = unknown>(
-    ...params: unknown[]
+    ...params: any[]
   ): UseQueryResult<TSelectData, TError> {
     let options:
       | UseQueryOptions<void, TError, TSelectData>

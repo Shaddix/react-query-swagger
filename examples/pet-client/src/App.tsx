@@ -10,6 +10,10 @@ function App() {
   const pets2Query = AxiosQuery.Query.useFindPetsByStatusQuery({
     status: [Status.Pending, Status.Sold, Status.Available],
   });
+  const pets3Query = AxiosQuery.Query.useFindPetsByStatusQuery(
+    [Status.Pending, Status.Available],
+    { enabled: false },
+  );
   return (
     <div className="App">
       <div
@@ -36,6 +40,17 @@ function App() {
           {pets2Query.isError && pets2Query.error}
           <ol>
             {pets2Query.data?.map((pet, index) => (
+              <li key={index}>{pet.name}</li>
+            ))}
+          </ol>
+        </div>
+        <div style={{ flex: 1 }}>
+          <h1>Pets</h1>
+          {pets3Query.isLoading && 'Loading...'}
+          {pets3Query.isError && pets2Query.error}
+          {pets3Query.isIdle && 'idle'}
+          <ol>
+            {pets3Query.data?.map((pet, index) => (
               <li key={index}>{pet.name}</li>
             ))}
           </ol>

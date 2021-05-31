@@ -51,7 +51,7 @@ type {{ parameterClassName }} = {
     {%- endif -%}
     {% template Client.Method.Documentation %}
     static {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Query<TSelectData = {{ ResultType }}, TError = unknown>({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}, {% endfor %}options?: UseQueryOptions<{{ ResultType }}, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
-    static use{{ operation.ActualOperationName | capitalize }}Query<TSelectData = {{ ResultType }}, TError = unknown>(...params: unknown[]): UseQueryResult<TSelectData, TError> {
+    static use{{ operation.ActualOperationName | capitalize }}Query<TSelectData = {{ ResultType }}, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
 
         let options: UseQueryOptions<{{ ResultType }}, TError, TSelectData> | undefined = undefined;
         {% for parameter in operation.Parameters %}let {{ parameter.VariableName }}: any = undefined;
@@ -60,9 +60,9 @@ type {{ parameterClassName }} = {
         if (params.length > 0) {
             if (isParameterObject(params[0])) {
                 ({ {% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %} } = params[0] as {{ parameterClassName  }});
-                options = params[1] as any;
+                options = params[1];
             } else {
-                [{% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}] = params;
+                [{% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %} options] = params;
             }
         }
     {% else %}
