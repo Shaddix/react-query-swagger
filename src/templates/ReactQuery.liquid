@@ -71,9 +71,9 @@ type {{ parameterClassName }} = {
 
 
         return useQuery<{{ ResultType }}, TError, TSelectData>({
-    ...{{ QueryClassName }}.{{ operation.ActualOperationName }}DefaultOptions as unknown as UseQueryOptions<{{ ResultType }}, TError, TSelectData>,
-            queryKey: {{ QueryClassName }}.{{ operation.ActualOperationName }}QueryKey({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}),
             queryFn: {{ QueryClassName }}.{{ operation.ActualOperationName }},
+            queryKey: {{ QueryClassName }}.{{ operation.ActualOperationName }}QueryKey({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}),
+            ...{{ QueryClassName }}.{{ operation.ActualOperationName }}DefaultOptions as unknown as UseQueryOptions<{{ ResultType }}, TError, TSelectData>,
             ...options,
         });
     }

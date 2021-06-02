@@ -1510,13 +1510,13 @@ export class Query {
     }
 
     return useQuery<Pet[], TError, TSelectData>({
+      queryFn: Query.findPetsByStatus,
+      queryKey: Query.findPetsByStatusQueryKey(status),
       ...((Query.findPetsByStatusDefaultOptions as unknown) as UseQueryOptions<
         Pet[],
         TError,
         TSelectData
       >),
-      queryKey: Query.findPetsByStatusQueryKey(status),
-      queryFn: Query.findPetsByStatus,
       ...options,
     });
   }
@@ -1576,13 +1576,13 @@ export class Query {
     }
 
     return useQuery<Pet[], TError, TSelectData>({
+      queryFn: Query.findPetsByTags,
+      queryKey: Query.findPetsByTagsQueryKey(tags),
       ...((Query.findPetsByTagsDefaultOptions as unknown) as UseQueryOptions<
         Pet[],
         TError,
         TSelectData
       >),
-      queryKey: Query.findPetsByTagsQueryKey(tags),
-      queryFn: Query.findPetsByTags,
       ...options,
     });
   }
@@ -1638,13 +1638,13 @@ export class Query {
     }
 
     return useQuery<Pet, TError, TSelectData>({
+      queryFn: Query.getPetById,
+      queryKey: Query.getPetByIdQueryKey(petId),
       ...((Query.getPetByIdDefaultOptions as unknown) as UseQueryOptions<
         Pet,
         TError,
         TSelectData
       >),
-      queryKey: Query.getPetByIdQueryKey(petId),
-      queryFn: Query.getPetById,
       ...options,
     });
   }
@@ -1693,13 +1693,13 @@ export class Query {
     options = params[0] as any;
 
     return useQuery<{ [key: string]: number }, TError, TSelectData>({
+      queryFn: Query.getInventory,
+      queryKey: Query.getInventoryQueryKey(),
       ...((Query.getInventoryDefaultOptions as unknown) as UseQueryOptions<
         { [key: string]: number },
         TError,
         TSelectData
       >),
-      queryKey: Query.getInventoryQueryKey(),
-      queryFn: Query.getInventory,
       ...options,
     });
   }
@@ -1756,13 +1756,13 @@ export class Query {
     }
 
     return useQuery<Order, TError, TSelectData>({
+      queryFn: Query.getOrderById,
+      queryKey: Query.getOrderByIdQueryKey(orderId),
       ...((Query.getOrderByIdDefaultOptions as unknown) as UseQueryOptions<
         Order,
         TError,
         TSelectData
       >),
-      queryKey: Query.getOrderByIdQueryKey(orderId),
-      queryFn: Query.getOrderById,
       ...options,
     });
   }
@@ -1821,13 +1821,13 @@ export class Query {
     }
 
     return useQuery<User, TError, TSelectData>({
+      queryFn: Query.getUserByName,
+      queryKey: Query.getUserByNameQueryKey(username),
       ...((Query.getUserByNameDefaultOptions as unknown) as UseQueryOptions<
         User,
         TError,
         TSelectData
       >),
-      queryKey: Query.getUserByNameQueryKey(username),
-      queryFn: Query.getUserByName,
       ...options,
     });
   }
@@ -1892,13 +1892,13 @@ export class Query {
     }
 
     return useQuery<string, TError, TSelectData>({
+      queryFn: Query.loginUser,
+      queryKey: Query.loginUserQueryKey(username, password),
       ...((Query.loginUserDefaultOptions as unknown) as UseQueryOptions<
         string,
         TError,
         TSelectData
       >),
-      queryKey: Query.loginUserQueryKey(username, password),
-      queryFn: Query.loginUser,
       ...options,
     });
   }
@@ -1944,13 +1944,13 @@ export class Query {
     options = params[0] as any;
 
     return useQuery<void, TError, TSelectData>({
+      queryFn: Query.logoutUser,
+      queryKey: Query.logoutUserQueryKey(),
       ...((Query.logoutUserDefaultOptions as unknown) as UseQueryOptions<
         void,
         TError,
         TSelectData
       >),
-      queryKey: Query.logoutUserQueryKey(),
-      queryFn: Query.logoutUser,
       ...options,
     });
   }
