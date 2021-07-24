@@ -1464,8 +1464,29 @@ type LoginUserQueryParameters = {
 };
 
 export class Query {
+  private baseUrl: string = '/v2';
+
   static get Client() {
     return createClient(Client);
+  }
+
+  static get Url() {
+    return new Query();
+  }
+
+  findPetsByStatus(status: Status[]): string {
+    let url_ = this.baseUrl + '/pet/findByStatus?';
+    if (status === undefined || status === null)
+      throw new Error(
+        "The parameter 'status' must be defined and cannot be null.",
+      );
+    else
+      status &&
+        status.forEach((item) => {
+          url_ += 'status=' + encodeURIComponent('' + item) + '&';
+        });
+    url_ = url_.replace(/[?&]$/, '');
+    return url_;
   }
 
   static findPetsByStatusDefaultOptions?: UseQueryOptions<
@@ -1531,6 +1552,21 @@ export class Query {
     status: Status[],
   ) {
     queryClient.setQueryData(Query.findPetsByStatusQueryKey(status), updater);
+  }
+
+  findPetsByTags(tags: string[]): string {
+    let url_ = this.baseUrl + '/pet/findByTags?';
+    if (tags === undefined || tags === null)
+      throw new Error(
+        "The parameter 'tags' must be defined and cannot be null.",
+      );
+    else
+      tags &&
+        tags.forEach((item) => {
+          url_ += 'tags=' + encodeURIComponent('' + item) + '&';
+        });
+    url_ = url_.replace(/[?&]$/, '');
+    return url_;
   }
 
   static findPetsByTagsDefaultOptions?: UseQueryOptions<
@@ -1600,6 +1636,15 @@ export class Query {
     queryClient.setQueryData(Query.findPetsByTagsQueryKey(tags), updater);
   }
 
+  getPetById(petId: number): string {
+    let url_ = this.baseUrl + '/pet/{petId}';
+    if (petId === undefined || petId === null)
+      throw new Error("The parameter 'petId' must be defined.");
+    url_ = url_.replace('{petId}', encodeURIComponent('' + petId));
+    url_ = url_.replace(/[?&]$/, '');
+    return url_;
+  }
+
   static getPetByIdDefaultOptions?: UseQueryOptions<Pet, unknown, Pet> = {};
   static getPetByIdQueryKey = (petId: number) =>
     removeUndefinedFromArrayTail(['Client', 'getPetById', petId]);
@@ -1661,6 +1706,12 @@ export class Query {
     queryClient.setQueryData(Query.getPetByIdQueryKey(petId), updater);
   }
 
+  getInventory(): string {
+    let url_ = this.baseUrl + '/store/inventory';
+    url_ = url_.replace(/[?&]$/, '');
+    return url_;
+  }
+
   static getInventoryDefaultOptions?: UseQueryOptions<
     { [key: string]: number },
     unknown,
@@ -1712,6 +1763,15 @@ export class Query {
     updater: (data: TData | undefined) => TData,
   ) {
     queryClient.setQueryData(Query.getInventoryQueryKey(), updater);
+  }
+
+  getOrderById(orderId: number): string {
+    let url_ = this.baseUrl + '/store/order/{orderId}';
+    if (orderId === undefined || orderId === null)
+      throw new Error("The parameter 'orderId' must be defined.");
+    url_ = url_.replace('{orderId}', encodeURIComponent('' + orderId));
+    url_ = url_.replace(/[?&]$/, '');
+    return url_;
   }
 
   static getOrderByIdDefaultOptions?: UseQueryOptions<
@@ -1779,6 +1839,15 @@ export class Query {
     queryClient.setQueryData(Query.getOrderByIdQueryKey(orderId), updater);
   }
 
+  getUserByName(username: string): string {
+    let url_ = this.baseUrl + '/user/{username}';
+    if (username === undefined || username === null)
+      throw new Error("The parameter 'username' must be defined.");
+    url_ = url_.replace('{username}', encodeURIComponent('' + username));
+    url_ = url_.replace(/[?&]$/, '');
+    return url_;
+  }
+
   static getUserByNameDefaultOptions?: UseQueryOptions<
     User,
     unknown,
@@ -1842,6 +1911,22 @@ export class Query {
     username: string,
   ) {
     queryClient.setQueryData(Query.getUserByNameQueryKey(username), updater);
+  }
+
+  loginUser(username: string, password: string): string {
+    let url_ = this.baseUrl + '/user/login?';
+    if (username === undefined || username === null)
+      throw new Error(
+        "The parameter 'username' must be defined and cannot be null.",
+      );
+    else url_ += 'username=' + encodeURIComponent('' + username) + '&';
+    if (password === undefined || password === null)
+      throw new Error(
+        "The parameter 'password' must be defined and cannot be null.",
+      );
+    else url_ += 'password=' + encodeURIComponent('' + password) + '&';
+    url_ = url_.replace(/[?&]$/, '');
+    return url_;
   }
 
   static loginUserDefaultOptions?: UseQueryOptions<
@@ -1918,6 +2003,12 @@ export class Query {
       Query.loginUserQueryKey(username, password),
       updater,
     );
+  }
+
+  logoutUser(): string {
+    let url_ = this.baseUrl + '/user/logout';
+    url_ = url_.replace(/[?&]$/, '');
+    return url_;
   }
 
   static logoutUserDefaultOptions?: UseQueryOptions<void, unknown, void> = {};

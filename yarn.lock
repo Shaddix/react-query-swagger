@@ -9115,7 +9115,7 @@ react-is@^17.0.1:
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
 "react-query-swagger@link:src":
-  version "13.10.12"
+  version "13.11.3"
 
 react-query@^3.16.0:
   version "3.16.0"
