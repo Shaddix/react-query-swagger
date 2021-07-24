@@ -20,7 +20,9 @@ type {{ parameterClassName }} = {
 
 {%- if ExportTypes -%}export {% endif %}class {{ QueryClassName }} {%- if HasBaseClass -%}extends {{ BaseClass }} {%- endif -%} {
 
-    private baseUrl: string = '{{ BaseUrl }}';
+    get baseUrl() {
+      return getBaseUrl() ?? '' + '{{ BaseUrl }}';
+    }
 
     static get Client() {
         return createClient({{ Class }});

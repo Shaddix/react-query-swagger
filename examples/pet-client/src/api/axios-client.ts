@@ -1464,7 +1464,9 @@ type LoginUserQueryParameters = {
 };
 
 export class Query {
-  private baseUrl: string = '/v2';
+  get baseUrl() {
+    return getBaseUrl() ?? '' + '/v2';
+  }
 
   static get Client() {
     return createClient(Client);
