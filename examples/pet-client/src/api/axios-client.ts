@@ -1548,12 +1548,25 @@ export class Query {
    * @param status Status values that need to be considered for filter
    * @return successful operation
    */
-  static setFindPetsByStatusData<TData = Pet[]>(
+  static setFindPetsByStatusData(
     queryClient: QueryClient,
-    updater: (data: TData | undefined) => TData,
+    updater: (data: Pet[] | undefined) => Pet[],
     status: Status[],
   ) {
     queryClient.setQueryData(Query.findPetsByStatusQueryKey(status), updater);
+  }
+
+  /**
+   * Finds Pets by status
+   * @param status Status values that need to be considered for filter
+   * @return successful operation
+   */
+  static setFindPetsByStatusDataByQueryId(
+    queryClient: QueryClient,
+    queryKey: string,
+    updater: (data: Pet[] | undefined) => Pet[],
+  ) {
+    queryClient.setQueryData(queryKey, updater);
   }
 
   findPetsByTags(tags: string[]): string {
@@ -1630,12 +1643,26 @@ export class Query {
    * @return successful operation
    * @deprecated
    */
-  static setFindPetsByTagsData<TData = Pet[]>(
+  static setFindPetsByTagsData(
     queryClient: QueryClient,
-    updater: (data: TData | undefined) => TData,
+    updater: (data: Pet[] | undefined) => Pet[],
     tags: string[],
   ) {
     queryClient.setQueryData(Query.findPetsByTagsQueryKey(tags), updater);
+  }
+
+  /**
+   * Finds Pets by tags
+   * @param tags Tags to filter by
+   * @return successful operation
+   * @deprecated
+   */
+  static setFindPetsByTagsDataByQueryId(
+    queryClient: QueryClient,
+    queryKey: string,
+    updater: (data: Pet[] | undefined) => Pet[],
+  ) {
+    queryClient.setQueryData(queryKey, updater);
   }
 
   getPetById(petId: number): string {
@@ -1700,12 +1727,25 @@ export class Query {
    * @param petId ID of pet to return
    * @return successful operation
    */
-  static setGetPetByIdData<TData = Pet>(
+  static setGetPetByIdData(
     queryClient: QueryClient,
-    updater: (data: TData | undefined) => TData,
+    updater: (data: Pet | undefined) => Pet,
     petId: number,
   ) {
     queryClient.setQueryData(Query.getPetByIdQueryKey(petId), updater);
+  }
+
+  /**
+   * Find pet by ID
+   * @param petId ID of pet to return
+   * @return successful operation
+   */
+  static setGetPetByIdDataByQueryId(
+    queryClient: QueryClient,
+    queryKey: string,
+    updater: (data: Pet | undefined) => Pet,
+  ) {
+    queryClient.setQueryData(queryKey, updater);
   }
 
   getInventory(): string {
@@ -1760,11 +1800,27 @@ export class Query {
    * Returns pet inventories by status
    * @return successful operation
    */
-  static setGetInventoryData<TData = { [key: string]: number }>(
+  static setGetInventoryData(
     queryClient: QueryClient,
-    updater: (data: TData | undefined) => TData,
+    updater: (
+      data: { [key: string]: number } | undefined,
+    ) => { [key: string]: number },
   ) {
     queryClient.setQueryData(Query.getInventoryQueryKey(), updater);
+  }
+
+  /**
+   * Returns pet inventories by status
+   * @return successful operation
+   */
+  static setGetInventoryDataByQueryId(
+    queryClient: QueryClient,
+    queryKey: string,
+    updater: (
+      data: { [key: string]: number } | undefined,
+    ) => { [key: string]: number },
+  ) {
+    queryClient.setQueryData(queryKey, updater);
   }
 
   getOrderById(orderId: number): string {
@@ -1833,12 +1889,25 @@ export class Query {
    * @param orderId ID of pet that needs to be fetched
    * @return successful operation
    */
-  static setGetOrderByIdData<TData = Order>(
+  static setGetOrderByIdData(
     queryClient: QueryClient,
-    updater: (data: TData | undefined) => TData,
+    updater: (data: Order | undefined) => Order,
     orderId: number,
   ) {
     queryClient.setQueryData(Query.getOrderByIdQueryKey(orderId), updater);
+  }
+
+  /**
+   * Find purchase order by ID
+   * @param orderId ID of pet that needs to be fetched
+   * @return successful operation
+   */
+  static setGetOrderByIdDataByQueryId(
+    queryClient: QueryClient,
+    queryKey: string,
+    updater: (data: Order | undefined) => Order,
+  ) {
+    queryClient.setQueryData(queryKey, updater);
   }
 
   getUserByName(username: string): string {
@@ -1907,12 +1976,25 @@ export class Query {
    * @param username The name that needs to be fetched. Use user1 for testing.
    * @return successful operation
    */
-  static setGetUserByNameData<TData = User>(
+  static setGetUserByNameData(
     queryClient: QueryClient,
-    updater: (data: TData | undefined) => TData,
+    updater: (data: User | undefined) => User,
     username: string,
   ) {
     queryClient.setQueryData(Query.getUserByNameQueryKey(username), updater);
+  }
+
+  /**
+   * Get user by user name
+   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @return successful operation
+   */
+  static setGetUserByNameDataByQueryId(
+    queryClient: QueryClient,
+    queryKey: string,
+    updater: (data: User | undefined) => User,
+  ) {
+    queryClient.setQueryData(queryKey, updater);
   }
 
   loginUser(username: string, password: string): string {
@@ -1995,9 +2077,9 @@ export class Query {
    * @param password The password for login in clear text
    * @return successful operation
    */
-  static setLoginUserData<TData = string>(
+  static setLoginUserData(
     queryClient: QueryClient,
-    updater: (data: TData | undefined) => TData,
+    updater: (data: string | undefined) => string,
     username: string,
     password: string,
   ) {
@@ -2005,6 +2087,20 @@ export class Query {
       Query.loginUserQueryKey(username, password),
       updater,
     );
+  }
+
+  /**
+   * Logs user into the system
+   * @param username The user name for login
+   * @param password The password for login in clear text
+   * @return successful operation
+   */
+  static setLoginUserDataByQueryId(
+    queryClient: QueryClient,
+    queryKey: string,
+    updater: (data: string | undefined) => string,
+  ) {
+    queryClient.setQueryData(queryKey, updater);
   }
 
   logoutUser(): string {
@@ -2051,11 +2147,23 @@ export class Query {
    * Logs out current logged in user session
    * @return successful operation
    */
-  static setLogoutUserData<TData = void>(
+  static setLogoutUserData(
     queryClient: QueryClient,
-    updater: (data: TData | undefined) => TData,
+    updater: (data: void | undefined) => void,
   ) {
     queryClient.setQueryData(Query.logoutUserQueryKey(), updater);
+  }
+
+  /**
+   * Logs out current logged in user session
+   * @return successful operation
+   */
+  static setLogoutUserDataByQueryId(
+    queryClient: QueryClient,
+    queryKey: string,
+    updater: (data: void | undefined) => void,
+  ) {
+    queryClient.setQueryData(queryKey, updater);
   }
 }
 

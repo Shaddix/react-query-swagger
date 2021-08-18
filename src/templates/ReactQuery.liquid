@@ -92,10 +92,15 @@ type {{ parameterClassName }} = {
         });
     }
     {% template Client.Method.Documentation %}
-    static {{ operation.MethodAccessModifier }}set{{ operation.ActualOperationName | capitalize }}Data<TData = {{ ResultType }}>(queryClient: QueryClient, updater: (data: TData | undefined) => TData, {% for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}) {
+    static {{ operation.MethodAccessModifier }}set{{ operation.ActualOperationName | capitalize }}Data(queryClient: QueryClient, updater: (data: {{ ResultType }} | undefined) => {{ ResultType }}, {% for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}) {
         queryClient.setQueryData({{ QueryClassName }}.{{ operation.ActualOperationName }}QueryKey({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}),
             updater
         );
+    }
+
+    {% template Client.Method.Documentation %}
+    static {{ operation.MethodAccessModifier }}set{{ operation.ActualOperationName | capitalize }}DataByQueryId(queryClient: QueryClient, queryKey: string, updater: (data: {{ ResultType }} | undefined) => {{ ResultType }}) {
+        queryClient.setQueryData(queryKey, updater);
     }
   {% endif -%}
   {% endfor -%}
