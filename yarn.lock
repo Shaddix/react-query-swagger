@@ -3160,7 +3160,7 @@ check-types@^11.1.1:
   resolved "https://registry.yarnpkg.com/check-types/-/check-types-11.1.2.tgz#86a7c12bf5539f6324eb0e70ca8896c0e38f3e2f"
   integrity sha512-tzWzvgePgLORb9/3a0YenggReLKAIb2owL03H2Xdoe5pKcUyWRSEQ8xfCar8t2SIAuEDwtmx2da1YB52YuHQMQ==
 
-child_process@^1.0.2:
+child_process@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/child_process/-/child_process-1.0.2.tgz#b1f7e7fc73d25e7fd1d455adc94e143830182b5a"
   integrity sha1-sffn/HPSXn/R1FWtyU4UODAYK1o=
@@ -3514,7 +3514,7 @@ copy-descriptor@^0.1.0:
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
-copyfiles@^2.4.1:
+copyfiles@2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/copyfiles/-/copyfiles-2.4.1.tgz#d2dcff60aaad1015f09d0b66e7f0f1c5cd3c5da5"
   integrity sha512-fereAvAvxDrQDOXybk3Qu3dPbOoKoysFMWtkY3mv5BsL8//OSZVL5DCLYqgRfY5cWirgRzlC+WSrxp6Bo3eNZg==
@@ -7595,6 +7595,11 @@ npm-run-path@^4.0.0:
   dependencies:
     path-key "^3.0.0"
 
+nswag@13.13.2:
+  version "13.13.2"
+  resolved "https://registry.yarnpkg.com/nswag/-/nswag-13.13.2.tgz#2a192514433aa8dd1bba149eef699d4271a796e1"
+  integrity sha512-L3Jraa8Ml7KKSBAcjvdo+suDT2HxgpQ0S3uaK29P3b40n3GPY/c0VrfjsQqDPfb0zjKri0F4xby6/6meUNwPMw==
+
 nswag@^13.11.1:
   version "13.11.1"
   resolved "https://registry.yarnpkg.com/nswag/-/nswag-13.11.1.tgz#2a8865d45ab8187c6d2dd6b18da833e78a72ac77"
@@ -9115,7 +9120,7 @@ react-is@^17.0.1:
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
 "react-query-swagger@link:src":
-  version "13.11.3"
+  version "13.11.6"
 
 react-query@^3.16.0:
   version "3.16.0"

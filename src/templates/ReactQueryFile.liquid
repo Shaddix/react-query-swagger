@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient } from 'react-query';
 
-function removeUndefinedFromArrayTail(arr: any[]): any[] {
+function removeUndefinedFromArrayTail<T>(arr: T[]): T[] {
     let lastDefinedValueIndex = arr.length - 1;
     while (lastDefinedValueIndex >= 0) {
         if (arr[lastDefinedValueIndex] === undefined) {
