@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 'use strict';
-const { execSync } = require('child_process');
+const { exec } = require('child_process');
 
 const args = process.argv.splice(2).join(' ');
 const pathToTemplates = process.mainModule.filename
@@ -11,7 +11,6 @@ const isYarn = process.env.npm_execpath.includes('yarn');
 const toExecute = `${
   isYarn ? 'yarn' : 'npm run'
 } nswag openapi2tsclient /templateDirectory:${pathToTemplates} ${args}`;
-const result = execSync(toExecute);
-if (result.error) {
-  console.error(result.error);
-}
+exec(toExecute, function (e, stdout, stderr) {
+  console.log(stdout);
+});

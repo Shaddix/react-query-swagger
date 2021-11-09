@@ -7595,15 +7595,10 @@ npm-run-path@^4.0.0:
   dependencies:
     path-key "^3.0.0"
 
-nswag@13.13.2:
+nswag@13.13.2, nswag@^13.13.2:
   version "13.13.2"
   resolved "https://registry.yarnpkg.com/nswag/-/nswag-13.13.2.tgz#2a192514433aa8dd1bba149eef699d4271a796e1"
   integrity sha512-L3Jraa8Ml7KKSBAcjvdo+suDT2HxgpQ0S3uaK29P3b40n3GPY/c0VrfjsQqDPfb0zjKri0F4xby6/6meUNwPMw==
-
-nswag@^13.11.1:
-  version "13.11.1"
-  resolved "https://registry.yarnpkg.com/nswag/-/nswag-13.11.1.tgz#2a8865d45ab8187c6d2dd6b18da833e78a72ac77"
-  integrity sha512-HyXoDRJdCMJQGZdWMdVxgSAE9FINWxrbL/1ReHtuV0H0L+Fq0PRuldu7xrznNLDln+/ivhHW9dZtxqGl2kcyIg==
 
 nth-check@^1.0.2, nth-check@~1.0.1:
   version "1.0.2"
@@ -9120,7 +9115,7 @@ react-is@^17.0.1:
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
 "react-query-swagger@link:src":
-  version "13.11.6"
+  version "13.11.7"
 
 react-query@^3.16.0:
   version "3.16.0"
