@@ -1,6 +1,6 @@
 {
   "name": "react-query-swagger",
-  "version": "13.14.7",
+  "version": "13.15.5",
   "description": "Generates react-query hooks for your API based on Swagger/OpenAPI definition",
   "author": "Artur Drobinskiy",
   "license": "MIT",
@@ -26,7 +26,7 @@
     "copyfiles": "2.4.1"
   },
   "dependencies": {
-    "nswag": "^13.14.7"
+    "nswag": "^13.15.5"
   },
   "peerDependencies": {
     "react-query": "3.x",

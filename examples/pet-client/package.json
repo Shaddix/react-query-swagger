@@ -26,6 +26,7 @@
   },
   "scripts": {
     "generate-axios": "react-query-swagger /runtime:Net50 /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/axios-client.ts /template:Axios /serviceHost:. /generateConstructorInterface:true /markOptionalProperties:true /generateOptionalParameters:true /nullValue:undefined",
+    "generate-axios2": "nswag openapi2tsclient /runtime:Net50 /templateDirectory:d:\\Work\\react-query-swagger\\src\\templates\\  /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/axios-client.ts /template:Axios /serviceHost:. /generateConstructorInterface:true /markOptionalProperties:true /generateOptionalParameters:true /nullValue:undefined",
     "generate-fetch": "react-query-swagger /runtime:Net50 /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/fetch-client.ts /template:Fetch /serviceHost:. /generateConstructorInterface:true /markOptionalProperties:true /generateOptionalParameters:true /nullValue:undefined",
     "start": "react-scripts start",
     "build": "react-scripts build",
