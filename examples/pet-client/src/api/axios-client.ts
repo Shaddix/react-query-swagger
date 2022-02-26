@@ -930,118 +930,6 @@ export class Client {
   }
 
   /**
-   * Creates list of users with given input array
-   * @param body List of user object
-   * @return successful operation
-   */
-  createUsersWithArrayInput(
-    body: User[],
-    cancelToken?: CancelToken | undefined,
-  ): Promise<void> {
-    let url_ = this.baseUrl + '/user/createWithArray';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_ = <AxiosRequestConfig>{
-      data: content_,
-      method: 'POST',
-      url: url_,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cancelToken,
-    };
-
-    return this.instance
-      .request(options_)
-      .catch((_error: any) => {
-        if (isAxiosError(_error) && _error.response) {
-          return _error.response;
-        } else {
-          throw _error;
-        }
-      })
-      .then((_response: AxiosResponse) => {
-        return this.processCreateUsersWithArrayInput(_response);
-      });
-  }
-
-  protected processCreateUsersWithArrayInput(
-    response: AxiosResponse,
-  ): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && typeof response.headers === 'object') {
-      for (let k in response.headers) {
-        if (response.headers.hasOwnProperty(k)) {
-          _headers[k] = response.headers[k];
-        }
-      }
-    }
-    {
-      const _responseText = response.data;
-      return Promise.resolve<void>(<any>null);
-    }
-  }
-
-  /**
-   * Creates list of users with given input array
-   * @param body List of user object
-   * @return successful operation
-   */
-  createUsersWithListInput(
-    body: User[],
-    cancelToken?: CancelToken | undefined,
-  ): Promise<void> {
-    let url_ = this.baseUrl + '/user/createWithList';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_ = <AxiosRequestConfig>{
-      data: content_,
-      method: 'POST',
-      url: url_,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cancelToken,
-    };
-
-    return this.instance
-      .request(options_)
-      .catch((_error: any) => {
-        if (isAxiosError(_error) && _error.response) {
-          return _error.response;
-        } else {
-          throw _error;
-        }
-      })
-      .then((_response: AxiosResponse) => {
-        return this.processCreateUsersWithListInput(_response);
-      });
-  }
-
-  protected processCreateUsersWithListInput(
-    response: AxiosResponse,
-  ): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && typeof response.headers === 'object') {
-      for (let k in response.headers) {
-        if (response.headers.hasOwnProperty(k)) {
-          _headers[k] = response.headers[k];
-        }
-      }
-    }
-    {
-      const _responseText = response.data;
-      return Promise.resolve<void>(<any>null);
-    }
-  }
-
-  /**
    * Get user by user name
    * @param username The name that needs to be fetched. Use user1 for testing.
    * @return successful operation
@@ -1375,6 +1263,118 @@ export class Client {
   }
 
   protected processLogoutUser(response: AxiosResponse): Promise<void> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && typeof response.headers === 'object') {
+      for (let k in response.headers) {
+        if (response.headers.hasOwnProperty(k)) {
+          _headers[k] = response.headers[k];
+        }
+      }
+    }
+    {
+      const _responseText = response.data;
+      return Promise.resolve<void>(<any>null);
+    }
+  }
+
+  /**
+   * Creates list of users with given input array
+   * @param body List of user object
+   * @return successful operation
+   */
+  createUsersWithArrayInput(
+    body: User[],
+    cancelToken?: CancelToken | undefined,
+  ): Promise<void> {
+    let url_ = this.baseUrl + '/user/createWithArray';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_ = <AxiosRequestConfig>{
+      data: content_,
+      method: 'POST',
+      url: url_,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      cancelToken,
+    };
+
+    return this.instance
+      .request(options_)
+      .catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+          return _error.response;
+        } else {
+          throw _error;
+        }
+      })
+      .then((_response: AxiosResponse) => {
+        return this.processCreateUsersWithArrayInput(_response);
+      });
+  }
+
+  protected processCreateUsersWithArrayInput(
+    response: AxiosResponse,
+  ): Promise<void> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && typeof response.headers === 'object') {
+      for (let k in response.headers) {
+        if (response.headers.hasOwnProperty(k)) {
+          _headers[k] = response.headers[k];
+        }
+      }
+    }
+    {
+      const _responseText = response.data;
+      return Promise.resolve<void>(<any>null);
+    }
+  }
+
+  /**
+   * Creates list of users with given input array
+   * @param body List of user object
+   * @return successful operation
+   */
+  createUsersWithListInput(
+    body: User[],
+    cancelToken?: CancelToken | undefined,
+  ): Promise<void> {
+    let url_ = this.baseUrl + '/user/createWithList';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_ = <AxiosRequestConfig>{
+      data: content_,
+      method: 'POST',
+      url: url_,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      cancelToken,
+    };
+
+    return this.instance
+      .request(options_)
+      .catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+          return _error.response;
+        } else {
+          throw _error;
+        }
+      })
+      .then((_response: AxiosResponse) => {
+        return this.processCreateUsersWithListInput(_response);
+      });
+  }
+
+  protected processCreateUsersWithListInput(
+    response: AxiosResponse,
+  ): Promise<void> {
     const status = response.status;
     let _headers: any = {};
     if (response.headers && typeof response.headers === 'object') {
