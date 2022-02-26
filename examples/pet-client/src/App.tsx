@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { AxiosQuery } from './api';
 import { Status } from './api/axios-client';
@@ -14,6 +14,27 @@ function App() {
     [Status.Pending, Status.Available],
     { enabled: false },
   );
+  useEffect(() => {
+    console.log(
+      AxiosQuery.Query.findPetsByStatusQueryKey([
+        Status.Pending,
+        Status.Available,
+      ]),
+    );
+    console.log(
+      'loginQueryKey1',
+      AxiosQuery.Query.loginUserQueryKey({ username: 'zxc', password: 'qwe' }),
+    );
+    console.log(
+      'loginQueryKey2',
+      AxiosQuery.Query.loginUserQueryKey('zxc', 'qwe'),
+    );
+    console.log(
+      'findPetsByTagsQueryKey',
+      AxiosQuery.Query.findPetsByTagsQueryKey(['zxc', 'qwe']),
+    );
+  }, []);
+
   return (
     <div className="App">
       <div

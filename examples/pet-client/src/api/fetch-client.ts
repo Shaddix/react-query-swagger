@@ -1243,8 +1243,21 @@ export class Query {
   }
 
   static getPetByIdDefaultOptions?: UseQueryOptions<Pet, unknown, Pet> = {};
-  static getPetByIdQueryKey = (petId: number) =>
-    removeUndefinedFromArrayTail(['Client', 'getPetById', petId]);
+  public static getPetByIdQueryKey(petId: number): QueryKey;
+  public static getPetByIdQueryKey(...params: any[]): QueryKey {
+    if (params.length === 1 && isParameterObject(params[0])) {
+      const { petId } = params[0] as GetPetByIdQueryParameters;
+
+      return removeUndefinedFromArrayTail([
+        'Client',
+        'getPetById',
+        petId as any,
+      ]);
+    } else {
+      return removeUndefinedFromArrayTail(['Client', 'getPetById', ...params]);
+    }
+  }
+
   private static getPetById(context: QueryFunctionContext) {
     return Query.Client.getPetById(context.queryKey[2] as number);
   }
@@ -1310,7 +1323,7 @@ export class Query {
    */
   static setGetPetByIdDataByQueryId(
     queryClient: QueryClient,
-    queryKey: string,
+    queryKey: QueryKey,
     updater: (data: Pet | undefined) => Pet,
   ) {
     queryClient.setQueryData(queryKey, updater);
@@ -1336,8 +1349,25 @@ export class Query {
     unknown,
     Pet[]
   > = {};
-  static findPetsByStatusQueryKey = (status: Status[]) =>
-    removeUndefinedFromArrayTail(['Client', 'findPetsByStatus', status]);
+  public static findPetsByStatusQueryKey(status: Status[]): QueryKey;
+  public static findPetsByStatusQueryKey(...params: any[]): QueryKey {
+    if (params.length === 1 && isParameterObject(params[0])) {
+      const { status } = params[0] as FindPetsByStatusQueryParameters;
+
+      return removeUndefinedFromArrayTail([
+        'Client',
+        'findPetsByStatus',
+        status as any,
+      ]);
+    } else {
+      return removeUndefinedFromArrayTail([
+        'Client',
+        'findPetsByStatus',
+        ...params,
+      ]);
+    }
+  }
+
   private static findPetsByStatus(context: QueryFunctionContext) {
     return Query.Client.findPetsByStatus(context.queryKey[2] as Status[]);
   }
@@ -1403,7 +1433,7 @@ export class Query {
    */
   static setFindPetsByStatusDataByQueryId(
     queryClient: QueryClient,
-    queryKey: string,
+    queryKey: QueryKey,
     updater: (data: Pet[] | undefined) => Pet[],
   ) {
     queryClient.setQueryData(queryKey, updater);
@@ -1429,8 +1459,25 @@ export class Query {
     unknown,
     Pet[]
   > = {};
-  static findPetsByTagsQueryKey = (tags: string[]) =>
-    removeUndefinedFromArrayTail(['Client', 'findPetsByTags', tags]);
+  public static findPetsByTagsQueryKey(tags: string[]): QueryKey;
+  public static findPetsByTagsQueryKey(...params: any[]): QueryKey {
+    if (params.length === 1 && isParameterObject(params[0])) {
+      const { tags } = params[0] as FindPetsByTagsQueryParameters;
+
+      return removeUndefinedFromArrayTail([
+        'Client',
+        'findPetsByTags',
+        tags as any,
+      ]);
+    } else {
+      return removeUndefinedFromArrayTail([
+        'Client',
+        'findPetsByTags',
+        ...params,
+      ]);
+    }
+  }
+
   private static findPetsByTags(context: QueryFunctionContext) {
     return Query.Client.findPetsByTags(context.queryKey[2] as string[]);
   }
@@ -1499,7 +1546,7 @@ export class Query {
    */
   static setFindPetsByTagsDataByQueryId(
     queryClient: QueryClient,
-    queryKey: string,
+    queryKey: QueryKey,
     updater: (data: Pet[] | undefined) => Pet[],
   ) {
     queryClient.setQueryData(queryKey, updater);
@@ -1519,8 +1566,25 @@ export class Query {
     unknown,
     Order
   > = {};
-  static getOrderByIdQueryKey = (orderId: number) =>
-    removeUndefinedFromArrayTail(['Client', 'getOrderById', orderId]);
+  public static getOrderByIdQueryKey(orderId: number): QueryKey;
+  public static getOrderByIdQueryKey(...params: any[]): QueryKey {
+    if (params.length === 1 && isParameterObject(params[0])) {
+      const { orderId } = params[0] as GetOrderByIdQueryParameters;
+
+      return removeUndefinedFromArrayTail([
+        'Client',
+        'getOrderById',
+        orderId as any,
+      ]);
+    } else {
+      return removeUndefinedFromArrayTail([
+        'Client',
+        'getOrderById',
+        ...params,
+      ]);
+    }
+  }
+
   private static getOrderById(context: QueryFunctionContext) {
     return Query.Client.getOrderById(context.queryKey[2] as number);
   }
@@ -1586,7 +1650,7 @@ export class Query {
    */
   static setGetOrderByIdDataByQueryId(
     queryClient: QueryClient,
-    queryKey: string,
+    queryKey: QueryKey,
     updater: (data: Order | undefined) => Order,
   ) {
     queryClient.setQueryData(queryKey, updater);
@@ -1603,8 +1667,11 @@ export class Query {
     unknown,
     { [key: string]: number }
   > = {};
-  static getInventoryQueryKey = () =>
-    removeUndefinedFromArrayTail(['Client', 'getInventory']);
+  public static getInventoryQueryKey(): QueryKey;
+  public static getInventoryQueryKey(...params: any[]): QueryKey {
+    return removeUndefinedFromArrayTail(['Client', 'getInventory']);
+  }
+
   private static getInventory() {
     return Query.Client.getInventory();
   }
@@ -1659,7 +1726,7 @@ export class Query {
    */
   static setGetInventoryDataByQueryId(
     queryClient: QueryClient,
-    queryKey: string,
+    queryKey: QueryKey,
     updater: (
       data: { [key: string]: number } | undefined,
     ) => { [key: string]: number },
@@ -1681,8 +1748,25 @@ export class Query {
     unknown,
     User
   > = {};
-  static getUserByNameQueryKey = (username: string) =>
-    removeUndefinedFromArrayTail(['Client', 'getUserByName', username]);
+  public static getUserByNameQueryKey(username: string): QueryKey;
+  public static getUserByNameQueryKey(...params: any[]): QueryKey {
+    if (params.length === 1 && isParameterObject(params[0])) {
+      const { username } = params[0] as GetUserByNameQueryParameters;
+
+      return removeUndefinedFromArrayTail([
+        'Client',
+        'getUserByName',
+        username as any,
+      ]);
+    } else {
+      return removeUndefinedFromArrayTail([
+        'Client',
+        'getUserByName',
+        ...params,
+      ]);
+    }
+  }
+
   private static getUserByName(context: QueryFunctionContext) {
     return Query.Client.getUserByName(context.queryKey[2] as string);
   }
@@ -1748,7 +1832,7 @@ export class Query {
    */
   static setGetUserByNameDataByQueryId(
     queryClient: QueryClient,
-    queryKey: string,
+    queryKey: QueryKey,
     updater: (data: User | undefined) => User,
   ) {
     queryClient.setQueryData(queryKey, updater);
@@ -1775,8 +1859,23 @@ export class Query {
     unknown,
     string
   > = {};
-  static loginUserQueryKey = (username: string, password: string) =>
-    removeUndefinedFromArrayTail(['Client', 'loginUser', username, password]);
+  public static loginUserQueryKey(dto: LoginUserQueryParameters): QueryKey;
+  public static loginUserQueryKey(username: string, password: string): QueryKey;
+  public static loginUserQueryKey(...params: any[]): QueryKey {
+    if (params.length === 1 && isParameterObject(params[0])) {
+      const { username, password } = params[0] as LoginUserQueryParameters;
+
+      return removeUndefinedFromArrayTail([
+        'Client',
+        'loginUser',
+        username as any,
+        password as any,
+      ]);
+    } else {
+      return removeUndefinedFromArrayTail(['Client', 'loginUser', ...params]);
+    }
+  }
+
   private static loginUser(context: QueryFunctionContext) {
     return Query.Client.loginUser(
       context.queryKey[2] as string,
@@ -1854,7 +1953,7 @@ export class Query {
    */
   static setLoginUserDataByQueryId(
     queryClient: QueryClient,
-    queryKey: string,
+    queryKey: QueryKey,
     updater: (data: string | undefined) => string,
   ) {
     queryClient.setQueryData(queryKey, updater);
@@ -1867,8 +1966,11 @@ export class Query {
   }
 
   static logoutUserDefaultOptions?: UseQueryOptions<void, unknown, void> = {};
-  static logoutUserQueryKey = () =>
-    removeUndefinedFromArrayTail(['Client', 'logoutUser']);
+  public static logoutUserQueryKey(): QueryKey;
+  public static logoutUserQueryKey(...params: any[]): QueryKey {
+    return removeUndefinedFromArrayTail(['Client', 'logoutUser']);
+  }
+
   private static logoutUser() {
     return Query.Client.logoutUser();
   }
@@ -1917,7 +2019,7 @@ export class Query {
    */
   static setLogoutUserDataByQueryId(
     queryClient: QueryClient,
-    queryKey: string,
+    queryKey: QueryKey,
     updater: (data: void | undefined) => void,
   ) {
     queryClient.setQueryData(queryKey, updater);
@@ -2321,6 +2423,7 @@ import {
   QueryFunctionContext,
   UseQueryOptions,
   QueryClient,
+  QueryKey,
 } from 'react-query';
 
 function removeUndefinedFromArrayTail<T>(arr: T[]): T[] {

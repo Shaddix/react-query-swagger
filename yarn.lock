@@ -9115,7 +9115,7 @@ react-is@^17.0.1:
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
 "react-query-swagger@link:src":
-  version "13.14.7"
+  version "13.15.5"
   dependencies:
     nswag "^13.15.5"
 
