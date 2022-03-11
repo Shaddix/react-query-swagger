@@ -53,7 +53,7 @@ type {{ parameterClassName }} = {
             '{{ Class }}',
             '{{ operation.ActualOperationName }}',
             ]);
-        {% else %}
+        {%- else -%}
         if (params.length === 1 && isParameterObject(params[0])) {
             const { {% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %} } = params[0] as {{ parameterClassName  }};
 
@@ -62,7 +62,7 @@ type {{ parameterClassName }} = {
                 '{{ operation.ActualOperationName }}',
                 {%- for parameter in operation.Parameters -%}
                 {{ parameter.VariableName }} as any,
-                {%- endfor -%}
+                {%- endfor %}
             ]);
         } else {
             return removeUndefinedFromArrayTail([
@@ -71,7 +71,7 @@ type {{ parameterClassName }} = {
                 ...params
             ]);
         }
-        {% endif %}
+        {%- endif -%}
     }
 
     private static {{ operation.ActualOperationName }}({% if operation.Parameters.size > 0 %}context: QueryFunctionContext{% endif %}) {
