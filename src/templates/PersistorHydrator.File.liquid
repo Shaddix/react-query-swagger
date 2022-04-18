@@ -1,10 +1,15 @@
 ﻿export function persistorDeserialize(cache: string): PersistedClient {
   const client: PersistedClient = JSON.parse(cache);
 
-  client.clientState.queries.forEach((query, i) => {
+  client.clientState.queries.forEach((query) => {
     const data: any = query.state.data;
 
-    query.state.data = constructDtoClass(query.queryKey, data);
+    if (Array.isArray(data)) {
+      query.state.data = data.map(elem => constructDtoClass(query.queryKey, elem));
+    } else {
+      query.state.data = constructDtoClass(query.queryKey, data);
+    }
+
   });
 
   return client;
