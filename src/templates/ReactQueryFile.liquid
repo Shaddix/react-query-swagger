@@ -1,4 +1,5 @@
 import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey } from 'react-query';
+import { PersistedClient } from 'react-query/persistQueryClient-experimental';
 
 function removeUndefinedFromArrayTail<T>(arr: T[]): T[] {
     let lastDefinedValueIndex = arr.length - 1;
@@ -103,3 +104,4 @@ export function setFetchFactory(factory: () => { fetch(url: RequestInfo, init?: 
   _fetchFactory = factory;
 }
 {%         endif -%}
+

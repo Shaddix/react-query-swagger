@@ -1,3 +1,8 @@
+const resultTypesByQueryKey: Record<
+  string,
+  () => { init(data: any): void }
+> = {};
+
 /* tslint:disable */
 /* eslint-disable */
 //----------------------
@@ -2271,6 +2276,11 @@ export class Query {
     queryClient.setQueryData(queryKey, updater);
   }
 }
+resultTypesByQueryKey['Client___findPetsByStatus'] = () => new Pet();
+resultTypesByQueryKey['Client___findPetsByTags'] = () => new Pet();
+resultTypesByQueryKey['Client___getPetById'] = () => new Pet();
+resultTypesByQueryKey['Client___getOrderById'] = () => new Order();
+resultTypesByQueryKey['Client___getUserByName'] = () => new User();
 
 export class ApiResponse implements IApiResponse {
   code?: number | undefined;
@@ -2675,6 +2685,7 @@ import {
   QueryClient,
   QueryKey,
 } from 'react-query';
+import { PersistedClient } from 'react-query/persistQueryClient-experimental';
 
 function removeUndefinedFromArrayTail<T>(arr: T[]): T[] {
   let lastDefinedValueIndex = arr.length - 1;
@@ -2764,4 +2775,43 @@ export function setAxiosFactory(factory: () => AxiosInstance) {
 function parseDateOnly(s: string) {
   const date = new Date(s);
   return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+}
+export function persistorDeserialize(cache: string): PersistedClient {
+  const client: PersistedClient = JSON.parse(cache);
+
+  client.clientState.queries.forEach((query, i) => {
+    const data: any = query.state.data;
+
+    query.state.data = constructDtoClass(query.queryKey, data);
+  });
+
+  return client;
+}
+
+function constructDtoClass(queryKey: QueryKey, data: any): unknown {
+  const resultTypeKey = getResultTypeClassKey(queryKey);
+  const constructorFunction = resultTypesByQueryKey[resultTypeKey];
+
+  if (!constructorFunction) {
+    return data;
+  }
+
+  const dto = constructorFunction();
+  dto.init(data);
+
+  return dto;
+}
+
+function getResultTypeClassKey(queryKey: QueryKey): string {
+  if (!Array.isArray(queryKey)) {
+    return queryKey as string;
+  }
+  if (queryKey.length >= 2) {
+    // We concatenate first and second elements, because they uniquely identify the query.
+    // All other QueryKey elements are query parameters
+    return `${queryKey[0]}___${queryKey[1]}`;
+  }
+
+  // We actually should never reach this point :)
+  return queryKey.join('___');
 }
