@@ -1,16 +1,14 @@
 ﻿{% for operation in Operations -%}
-{%- if operation.HttpMethodUpper == 'Get' -%}
-{%- if operation.HasResultType -%}
-{%- if operation.UnwrappedResultType != 'string' and operation.UnwrappedResultType != 'number' and operation.UnwrappedResultType != 'boolean' -%}
+{%- if operation.HttpMethodUpper == 'Get' and operation.HasResultType -%}
   {%- assign lastSymbol = operation.UnwrappedResultType | slice: -1 -%}
-  {%- if lastSymbol == ']' -%}
-    {%- assign typeWithoutBrackets = operation.UnwrappedResultType |  prepend: '  ' | slice: 0, operation.UnwrappedResultType.size | lstrip -%}
+  {%- if lastSymbol != '}' -%}
+    {%- assign typeWithoutBrackets = operation.UnwrappedResultType -%}
+    {%- if lastSymbol == ']' -%}
+      {%- assign typeWithoutBrackets = operation.UnwrappedResultType |  prepend: '  ' | slice: 0, operation.UnwrappedResultType.size | lstrip -%}
+    {%- endif -%}
+    {%- if typeWithoutBrackets != 'string' and operation.UnwrappedResultType != 'number' and operation.UnwrappedResultType != 'boolean' -%}
 resultTypesByQueryKey['{{ Class }}___{{ operation.ActualOperationName }}'] = () => new {{ typeWithoutBrackets }}();
-  {%- elsif lastSymbol == '}' -%}
-  {%- else -%}
-resultTypesByQueryKey['{{ Class }}___{{ operation.ActualOperationName }}'] = () => new {{ operation.UnwrappedResultType }}();
+    {%- endif -%}
   {%- endif -%}
-{%- endif -%}
-{% endif -%}
 {% endif -%}
 {% endfor -%}
