@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, useMemo } from 'react';
+import React, { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import './App.css';
 import { AxiosQuery } from './api';
 import { Status } from './api/axios-client';
@@ -38,6 +38,8 @@ function App() {
       AxiosQuery.Query.findPetsByTagsQueryKey(['zxc', 'qwe']),
     );
   }, []);
+
+  const [petList1Show, setPetList1Show] = useState(true);
 
   return (
     <div className="App">
@@ -82,9 +84,18 @@ function App() {
         </div>
       </div>
       <div>
-        <QueryMetaProvider metaFn={() => ({ qwe: 'bbb' })}>
-          <PetsList />
-        </QueryMetaProvider>
+        {petList1Show && (
+          <QueryMetaProvider metaFn={() => ({ qwe: 'bbb' })}>
+            <PetsList />
+          </QueryMetaProvider>
+        )}
+        <button
+          onClick={() => {
+            setPetList1Show((prevState) => !prevState);
+          }}
+        >
+          Toggle PetsList1
+        </button>
         <QueryMetaProvider meta={{ asd: 'zxc' }}>
           <PetsList />
         </QueryMetaProvider>
