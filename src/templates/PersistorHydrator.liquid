@@ -6,7 +6,7 @@
     {%- if lastSymbol == ']' -%}
       {%- assign typeWithoutBrackets = operation.UnwrappedResultType |  prepend: '  ' | slice: 0, operation.UnwrappedResultType.size | lstrip -%}
     {%- endif -%}
-    {%- if typeWithoutBrackets != 'string' and operation.UnwrappedResultType != 'number' and operation.UnwrappedResultType != 'boolean' -%}
+    {%- if typeWithoutBrackets != 'string' and typeWithoutBrackets != 'number' and typeWithoutBrackets != 'boolean' and typeWithoutBrackets != 'FileResponse' -%}
 resultTypesByQueryKey['{{ Class }}___{{ operation.ActualOperationName }}'] = () => new {{ typeWithoutBrackets }}();
     {%- endif -%}
   {%- endif -%}
