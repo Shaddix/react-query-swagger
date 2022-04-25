@@ -58,6 +58,26 @@ AxiosQuery.ClientQuery.findPetsByStatusDefaultOptions = {
   cacheTime: 10000
 }
 ```
+
+
+### QueryMetaProvider
+Injects `meta` option to all queries in children components. Might be useful if e.g. you want to refetch all queries in certain part of your app.
+
+First wrap your component in `QueryMetaProvider` and specify your meta tags (make sure they are constant):
+```
+<QueryMetaProvider meta={headerMeta}>
+    { /* Your app components (e.g. AppHeader */ }
+</QueryMetaProvider>
+
+const headerMeta = { region: 'header' }
+```
+
+You could refetch based on meta via the following call:
+```
+queryClient.refetchQueries({ predicate: (query) => ((query as any).observers as QueryObserver[]).find((observer) => observer.options.meta?.region === 'header') })
+```
+
+
 ## How does it work
 Under the cover it's just 2 template files for [NSwag](https://github.com/RicoSuter/NSwag) and a small script to easily use them.
 
