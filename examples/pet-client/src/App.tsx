@@ -1,9 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { PropsWithChildren, useEffect, useMemo } from 'react';
 import './App.css';
 import { AxiosQuery } from './api';
 import { Status } from './api/axios-client';
+import { PetsList } from './components/PetsList';
+import { QueryMetaProvider, QueryMetaContext } from 'react-query-swagger';
+import { QueryMeta, QueryObserver, useQueryClient } from 'react-query';
 
 function App() {
+  const queryClient = useQueryClient();
   const pets1Query = AxiosQuery.Query.useFindPetsByStatusQuery({
     status: [Status.Pending, Status.Sold],
   });
@@ -77,8 +81,48 @@ function App() {
           </ol>
         </div>
       </div>
+      <div>
+        <QueryMetaProvider metaFn={() => ({ qwe: 'bbb' })}>
+          <PetsList />
+        </QueryMetaProvider>
+        <QueryMetaProvider meta={{ asd: 'zxc' }}>
+          <PetsList />
+        </QueryMetaProvider>
+      </div>
+      <div>
+        <button
+          onClick={() => {
+            console.log(queryClient.getQueryCache());
+          }}
+        >
+          Print queries
+        </button>
+        <button
+          onClick={() => {
+            queryClient.refetchQueries({
+              active: true,
+              predicate: (query) => {
+                const observers = (query as any).observers as QueryObserver[];
+                console.log(
+                  'queryKey',
+                  query.queryKey,
+                  'observers meta',
+                  observers.map((x) => x.options.meta),
+                );
+                return !!observers.find((x) => x.options.meta?.asd === 'zxc');
+              },
+            });
+          }}
+        >
+          Refetch
+        </button>
+      </div>
     </div>
   );
 }
+
+const meta1 = { tag: 'zxc' };
+const meta2 = { metaFn: () => ({ zxc: 'qwe' }) };
+const meta3 = { metaFn: () => ({ qwe: 'asd' }) };
 
 export default App;

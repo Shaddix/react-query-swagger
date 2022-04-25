@@ -433,3 +433,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /src/README.md
+/src/dist/
