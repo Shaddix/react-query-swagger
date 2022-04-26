@@ -1,6 +1,6 @@
 {
   "name": "react-query-swagger",
-  "version": "13.18.5",
+  "version": "13.18.6",
   "description": "Generates react-query hooks for your API based on Swagger/OpenAPI definition",
   "author": "Artur Drobinskiy",
   "license": "MIT",
