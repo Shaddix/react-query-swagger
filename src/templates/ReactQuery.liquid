@@ -107,13 +107,7 @@ type {{ parameterClassName }} = {
     {% endif %}
 
         const metaContext = useContext(QueryMetaContext);
-        if (metaContext.metaFn) {
-          options = options ?? { };
-          options.meta = {
-             ...metaContext.metaFn(),
-             ...options.meta,
-          };
-        }
+        options = addMetaToOptions(options, metaContext);
 
         return useQuery<{{ ResultType }}, TError, TSelectData>({
             queryFn: {{ QueryClassName }}.{{ operation.ActualOperationName }},

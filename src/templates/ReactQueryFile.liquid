@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey } from 'react-query';
-import { QueryMetaContext } from 'react-query-swagger';
+import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
 import { useContext } from 'react';
 import { PersistedClient } from 'react-query/persistQueryClient-experimental';
 
@@ -106,3 +106,14 @@ export function setFetchFactory(factory: () => { fetch(url: RequestInfo, init?: 
   _fetchFactory = factory;
 }
 {%         endif -%}
+
+function addMetaToOptions<TResultType, TError, TSelectData>(options: UseQueryOptions<TResultType, TError, TSelectData> | undefined, metaContext: QueryMetaContextValue) {
+  if (metaContext.metaFn) {
+    options = options ?? { };
+    options.meta = {
+      ...metaContext.metaFn(),
+      ...options.meta,
+    };
+  }
+  return options;
+}

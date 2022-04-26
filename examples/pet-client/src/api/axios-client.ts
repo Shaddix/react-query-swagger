@@ -1554,13 +1554,7 @@ export class Query {
     }
 
     const metaContext = useContext(QueryMetaContext);
-    if (metaContext.metaFn) {
-      options = options ?? {};
-      options.meta = {
-        ...metaContext.metaFn(),
-        ...options.meta,
-      };
-    }
+    options = addMetaToOptions(options, metaContext);
 
     return useQuery<Pet[], TError, TSelectData>({
       queryFn: Query.findPetsByStatus,
@@ -1670,13 +1664,7 @@ export class Query {
     }
 
     const metaContext = useContext(QueryMetaContext);
-    if (metaContext.metaFn) {
-      options = options ?? {};
-      options.meta = {
-        ...metaContext.metaFn(),
-        ...options.meta,
-      };
-    }
+    options = addMetaToOptions(options, metaContext);
 
     return useQuery<Pet[], TError, TSelectData>({
       queryFn: Query.findPetsByTags,
@@ -1776,13 +1764,7 @@ export class Query {
     }
 
     const metaContext = useContext(QueryMetaContext);
-    if (metaContext.metaFn) {
-      options = options ?? {};
-      options.meta = {
-        ...metaContext.metaFn(),
-        ...options.meta,
-      };
-    }
+    options = addMetaToOptions(options, metaContext);
 
     return useQuery<Pet, TError, TSelectData>({
       queryFn: Query.getPetById,
@@ -1885,13 +1867,7 @@ export class Query {
     }
 
     const metaContext = useContext(QueryMetaContext);
-    if (metaContext.metaFn) {
-      options = options ?? {};
-      options.meta = {
-        ...metaContext.metaFn(),
-        ...options.meta,
-      };
-    }
+    options = addMetaToOptions(options, metaContext);
 
     return useQuery<Order, TError, TSelectData>({
       queryFn: Query.getOrderById,
@@ -1971,13 +1947,7 @@ export class Query {
     options = params[0] as any;
 
     const metaContext = useContext(QueryMetaContext);
-    if (metaContext.metaFn) {
-      options = options ?? {};
-      options.meta = {
-        ...metaContext.metaFn(),
-        ...options.meta,
-      };
-    }
+    options = addMetaToOptions(options, metaContext);
 
     return useQuery<{ [key: string]: number }, TError, TSelectData>({
       queryFn: Query.getInventory,
@@ -2081,13 +2051,7 @@ export class Query {
     }
 
     const metaContext = useContext(QueryMetaContext);
-    if (metaContext.metaFn) {
-      options = options ?? {};
-      options.meta = {
-        ...metaContext.metaFn(),
-        ...options.meta,
-      };
-    }
+    options = addMetaToOptions(options, metaContext);
 
     return useQuery<User, TError, TSelectData>({
       queryFn: Query.getUserByName,
@@ -2201,13 +2165,7 @@ export class Query {
     }
 
     const metaContext = useContext(QueryMetaContext);
-    if (metaContext.metaFn) {
-      options = options ?? {};
-      options.meta = {
-        ...metaContext.metaFn(),
-        ...options.meta,
-      };
-    }
+    options = addMetaToOptions(options, metaContext);
 
     return useQuery<string, TError, TSelectData>({
       queryFn: Query.loginUser,
@@ -2284,13 +2242,7 @@ export class Query {
     options = params[0] as any;
 
     const metaContext = useContext(QueryMetaContext);
-    if (metaContext.metaFn) {
-      options = options ?? {};
-      options.meta = {
-        ...metaContext.metaFn(),
-        ...options.meta,
-      };
-    }
+    options = addMetaToOptions(options, metaContext);
 
     return useQuery<void, TError, TSelectData>({
       queryFn: Query.logoutUser,
@@ -2735,7 +2687,7 @@ import {
   QueryClient,
   QueryKey,
 } from 'react-query';
-import { QueryMetaContext } from 'react-query-swagger';
+import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
 import { useContext } from 'react';
 import { PersistedClient } from 'react-query/persistQueryClient-experimental';
 
@@ -2822,6 +2774,20 @@ export function getAxiosFactory() {
 */
 export function setAxiosFactory(factory: () => AxiosInstance) {
   _axiosFactory = factory;
+}
+
+function addMetaToOptions<TResultType, TError, TSelectData>(
+  options: UseQueryOptions<TResultType, TError, TSelectData> | undefined,
+  metaContext: QueryMetaContextValue,
+) {
+  if (metaContext.metaFn) {
+    options = options ?? {};
+    options.meta = {
+      ...metaContext.metaFn(),
+      ...options.meta,
+    };
+  }
+  return options;
 }
 
 function parseDateOnly(s: string) {

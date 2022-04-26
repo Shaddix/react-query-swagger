@@ -18,9 +18,11 @@ type QueryScopeProps = PropsWithChildren<{
   resetParentMeta?: boolean;
 }>;
 
-export const QueryMetaContext = React.createContext<{
+export type QueryMetaContextValue = {
   metaFn?: () => QueryMeta;
-}>({});
+};
+
+export const QueryMetaContext = React.createContext<QueryMetaContextValue>({});
 
 /*
  * Provides Meta information for queries (i.e. `useQuery({ meta: META })`).
