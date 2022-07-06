@@ -2689,7 +2689,7 @@ import {
 } from 'react-query';
 import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
 import { useContext } from 'react';
-import { PersistedClient } from 'react-query/persistQueryClient-experimental';
+import { PersistedClient } from 'react-query/persistQueryClient';
 
 function removeUndefinedFromArrayTail<T>(arr: T[]): T[] {
   let lastDefinedValueIndex = arr.length - 1;
@@ -2828,7 +2828,7 @@ function constructDtoClass(queryKey: QueryKey, data: any): unknown {
 
 function getResultTypeClassKey(queryKey: QueryKey): string {
   if (!Array.isArray(queryKey)) {
-    return queryKey as string;
+    return queryKey as unknown as string;
   }
   if (queryKey.length >= 2) {
     // We concatenate first and second elements, because they uniquely identify the query.

@@ -75,7 +75,6 @@ function App() {
           <h1>Pets</h1>
           {pets3Query.isLoading && 'Loading...'}
           {pets3Query.isError && pets2Query.error}
-          {pets3Query.isIdle && 'idle'}
           <ol>
             {pets3Query.data?.map((pet, index) => (
               <li key={index}>{pet.name}</li>
@@ -111,7 +110,6 @@ function App() {
         <button
           onClick={() => {
             queryClient.refetchQueries({
-              active: true,
               predicate: (query) => {
                 const observers = (query as any).observers as QueryObserver[];
                 console.log(
