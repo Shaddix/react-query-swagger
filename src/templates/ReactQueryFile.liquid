@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey } from 'react-query';
 import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
 import { useContext } from 'react';
-import { PersistedClient } from 'react-query/persistQueryClient';
+import { PersistedClient } from 'react-query/persistQueryClient-experimental';
 
 function removeUndefinedFromArrayTail<T>(arr: T[]): T[] {
     let lastDefinedValueIndex = arr.length - 1;
