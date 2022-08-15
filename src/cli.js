@@ -10,7 +10,7 @@ const isYarn = process.env.npm_execpath.includes('yarn');
 
 const toExecute = `${
   isYarn ? 'yarn' : 'npx'
-} nswag openapi2tsclient /templateDirectory:${pathToTemplates} ${args}`;
+} nswag openapi2tsclient /templateDirectory:"${pathToTemplates}" ${args}`;
 exec(toExecute, function (e, stdout, stderr) {
   console.log(stdout);
 });
