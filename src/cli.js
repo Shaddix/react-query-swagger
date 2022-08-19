@@ -3,9 +3,13 @@
 const { exec } = require('child_process');
 
 const args = process.argv.splice(2).join(' ');
-const pathToTemplates = process.mainModule.filename
+const isV4 = args.includes('/tanstack');
+let pathToTemplates = process.mainModule.filename
   .replace('cli.js', 'templates')
   .replace('.bin/react-query-swagger', 'react-query-swagger/templates');
+if (!isV4) {
+  pathToTemplates = pathToTemplates.replace(/templates$/, 'templates_v3');
+}
 const isYarn = process.env.npm_execpath.includes('yarn');
 
 const toExecute = `${

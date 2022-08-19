@@ -3,21 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { AxiosQuery } from './api';
-import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
-import { persistQueryClient } from '@tanstack/react-query-persist-client';
-import { persistorDeserialize } from './api/axios-client';
 
 const queryClient = new QueryClient();
-const storagePersister = createSyncStoragePersister({
-  storage: window.localStorage,
-  deserialize: persistorDeserialize,
-});
-persistQueryClient({
-  queryClient,
-  persister: storagePersister,
-});
 AxiosQuery.setBaseUrl('https://petstore.swagger.io/v2');
 AxiosQuery.Query.findPetsByStatusDefaultOptions = {
   cacheTime: 10000,

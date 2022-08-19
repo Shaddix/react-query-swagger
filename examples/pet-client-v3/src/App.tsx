@@ -3,8 +3,8 @@ import './App.css';
 import { AxiosQuery } from './api';
 import { Status } from './api/axios-client';
 import { PetsList } from './components/PetsList';
-import { QueryMetaProvider } from 'react-query-swagger';
-import { QueryObserver, useQueryClient } from '@tanstack/react-query';
+import { QueryMetaProvider, QueryMetaContext } from 'react-query-swagger';
+import { QueryMeta, QueryObserver, useQueryClient } from 'react-query';
 
 function App() {
   const queryClient = useQueryClient();
@@ -52,7 +52,7 @@ function App() {
         }}
       >
         <div style={{ flex: 1 }}>
-          <h1>Pets1</h1>
+          <h1>Pets</h1>
           {pets1Query.isLoading && 'Loading...'}
           {pets1Query.isError && pets1Query.error}
           <ol>
@@ -62,7 +62,7 @@ function App() {
           </ol>
         </div>
         <div style={{ flex: 1 }}>
-          <h1>Pets2</h1>
+          <h1>Pets</h1>
           {pets2Query.isLoading && 'Loading...'}
           {pets2Query.isError && pets2Query.error}
           <ol>
@@ -72,7 +72,7 @@ function App() {
           </ol>
         </div>
         <div style={{ flex: 1 }}>
-          <h1>Pets3</h1>
+          <h1>Pets</h1>
           {pets3Query.isLoading && 'Loading...'}
           {pets3Query.isError && pets2Query.error}
           <ol>

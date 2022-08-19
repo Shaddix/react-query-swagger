@@ -2032,6 +2032,11 @@ export class Query {
     queryClient.setQueryData(queryKey, updater);
   }
 }
+resultTypesByQueryKey['Client___findPetsByStatus'] = () => new Pet();
+resultTypesByQueryKey['Client___findPetsByTags'] = () => new Pet();
+resultTypesByQueryKey['Client___getPetById'] = () => new Pet();
+resultTypesByQueryKey['Client___getOrderById'] = () => new Order();
+resultTypesByQueryKey['Client___getUserByName'] = () => new User();
 
 export class ApiResponse implements IApiResponse {
   code?: number | undefined;
@@ -2431,10 +2436,9 @@ import {
   UseQueryOptions,
   QueryClient,
   QueryKey,
-} from 'react-query';
+} from '@tanstack/react-query';
 import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
 import { useContext } from 'react';
-import { PersistedClient } from 'react-query/persistQueryClient-experimental';
 
 function removeUndefinedFromArrayTail<T>(arr: T[]): T[] {
   let lastDefinedValueIndex = arr.length - 1;
@@ -2545,6 +2549,7 @@ function parseDateOnly(s: string) {
   const date = new Date(s);
   return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
 }
+import type { PersistedClient } from '@tanstack/react-query-persist-client';
 export function persistorDeserialize(cache: string): PersistedClient {
   const client: PersistedClient = JSON.parse(cache);
 
