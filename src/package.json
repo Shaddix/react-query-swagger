@@ -1,6 +1,6 @@
 {
   "name": "react-query-swagger",
-  "version": "14.1.1",
+  "version": "14.1.2",
   "description": "Generates react-query hooks for your API based on Swagger/OpenAPI definition",
   "author": "Artur Drobinskiy",
   "license": "MIT",
@@ -27,17 +27,17 @@
   "devDependencies": {
     "child_process": "1.0.2",
     "copyfiles": "2.4.1",
-    "tsdx": "0.14.1",
-    "eslint": "8.22.0"
+    "eslint": "8.22.0",
+    "tsdx": "0.14.1"
   },
   "dependencies": {
-    "nswag": "^13.15.10",
-    "@tanstack/react-query-persist-client": "^4.2.0"
+    "@tanstack/react-query-persist-client": "^4.2.0",
+    "nswag": "^13.15.10"
   },
   "peerDependencies": {
+    "@tanstack/react-query": "> 4.0",
     "react": "17.x || 18.x",
     "react-query": ">= 3.33 < 4.0",
-    "@tanstack/react-query": "> 4.0",
     "typescript": "3.x || 4.x"
   },
   "files": [
