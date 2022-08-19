@@ -2550,12 +2550,27 @@ function parseDateOnly(s: string) {
   return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
 }
 import type { PersistedClient } from '@tanstack/react-query-persist-client';
-export function persistorDeserialize(cache: string): PersistedClient {
-  const client: PersistedClient = JSON.parse(cache);
+/*
+ * If you have Dates in QueryKeys (i.e. in request parameters), you need to deserialize them to Dates correctly
+ * (otherwise they are deserialized as strings by default, and your queries are broken).
+ */
+function deserializeDate(str: unknown) {
+  const date = new Date(str as string);
+  const isDate =
+    date instanceof Date && !isNaN(date as any) && date.toISOString() === str;
+  return isDate ? date : str;
+}
 
+export function deserializeDatesInQueryKeys(client: PersistedClient) {
   client.clientState.queries.forEach((query) => {
     const data: any = query.state.data;
+    query.queryKey = query.queryKey.map((x) => deserializeDate(x));
+  });
+}
 
+export function deserializeClassesInQueryData(client: PersistedClient) {
+  client.clientState.queries.forEach((query) => {
+    const data: any = query.state.data;
     if (Array.isArray(data)) {
       query.state.data = data.map((elem) =>
         constructDtoClass(query.queryKey, elem),
@@ -2564,6 +2579,15 @@ export function persistorDeserialize(cache: string): PersistedClient {
       query.state.data = constructDtoClass(query.queryKey, data);
     }
   });
+}
+/*
+ * Pass this function as `deserialize` option to createSyncStoragePersister/createAsyncStoragePersister
+ * to correctly deserialize your DTOs (including Dates)
+ */
+export function persistorDeserialize(cache: string): PersistedClient {
+  const client: PersistedClient = JSON.parse(cache);
+  deserializeClassesInQueryData(client);
+  deserializeDatesInQueryKeys(client);
 
   return client;
 }
