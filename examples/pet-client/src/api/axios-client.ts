@@ -1920,9 +1920,9 @@ resultTypesByQueryKey['Client___getOrderById'] = () => new Order();
 resultTypesByQueryKey['Client___getUserByName'] = () => new User();
 
 export class ApiResponse implements IApiResponse {
-    code?: number | undefined;
-    type?: string | undefined;
-    message?: string | undefined;
+    code?: number | null;
+    type?: string | null;
+    message?: string | null;
 
     constructor(data?: IApiResponse) {
         if (data) {
@@ -1958,14 +1958,14 @@ export class ApiResponse implements IApiResponse {
 }
 
 export interface IApiResponse {
-    code?: number | undefined;
-    type?: string | undefined;
-    message?: string | undefined;
+    code?: number | null;
+    type?: string | null;
+    message?: string | null;
 }
 
 export class Category implements ICategory {
-    id?: number | undefined;
-    name?: string | undefined;
+    id?: number | null;
+    name?: string | null;
 
     constructor(data?: ICategory) {
         if (data) {
@@ -1999,18 +1999,18 @@ export class Category implements ICategory {
 }
 
 export interface ICategory {
-    id?: number | undefined;
-    name?: string | undefined;
+    id?: number | null;
+    name?: string | null;
 }
 
 export class Pet implements IPet {
-    id?: number | undefined;
-    category?: Category | undefined;
+    id?: number | null;
+    category?: Category | null;
     name!: string;
     photoUrls!: string[];
-    tags?: Tag[] | undefined;
+    tags?: Tag[] | null;
     /** pet status in the store */
-    status?: PetStatus | undefined;
+    status?: PetStatus | null;
 
     constructor(data?: IPet) {
         if (data) {
@@ -2027,7 +2027,7 @@ export class Pet implements IPet {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.category = _data["category"] ? Category.fromJS(_data["category"]) : <any>undefined;
+            this.category = _data["category"] ? Category.fromJS(_data["category"]) : <any>null;
             this.name = _data["name"];
             if (Array.isArray(_data["photoUrls"])) {
                 this.photoUrls = [] as any;
@@ -2053,7 +2053,7 @@ export class Pet implements IPet {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["category"] = this.category ? this.category.toJSON() : <any>undefined;
+        data["category"] = this.category ? this.category.toJSON() : <any>null;
         data["name"] = this.name;
         if (Array.isArray(this.photoUrls)) {
             data["photoUrls"] = [];
@@ -2071,18 +2071,18 @@ export class Pet implements IPet {
 }
 
 export interface IPet {
-    id?: number | undefined;
-    category?: Category | undefined;
+    id?: number | null;
+    category?: Category | null;
     name: string;
     photoUrls: string[];
-    tags?: Tag[] | undefined;
+    tags?: Tag[] | null;
     /** pet status in the store */
-    status?: PetStatus | undefined;
+    status?: PetStatus | null;
 }
 
 export class Tag implements ITag {
-    id?: number | undefined;
-    name?: string | undefined;
+    id?: number | null;
+    name?: string | null;
 
     constructor(data?: ITag) {
         if (data) {
@@ -2116,18 +2116,18 @@ export class Tag implements ITag {
 }
 
 export interface ITag {
-    id?: number | undefined;
-    name?: string | undefined;
+    id?: number | null;
+    name?: string | null;
 }
 
 export class Order implements IOrder {
-    id?: number | undefined;
-    petId?: number | undefined;
-    quantity?: number | undefined;
-    shipDate?: Date | undefined;
+    id?: number | null;
+    petId?: number | null;
+    quantity?: number | null;
+    shipDate?: Date | null;
     /** Order Status */
-    status?: OrderStatus | undefined;
-    complete?: boolean | undefined;
+    status?: OrderStatus | null;
+    complete?: boolean | null;
 
     constructor(data?: IOrder) {
         if (data) {
@@ -2143,7 +2143,7 @@ export class Order implements IOrder {
             this.id = _data["id"];
             this.petId = _data["petId"];
             this.quantity = _data["quantity"];
-            this.shipDate = _data["shipDate"] ? new Date(_data["shipDate"].toString()) : <any>undefined;
+            this.shipDate = _data["shipDate"] ? new Date(_data["shipDate"].toString()) : <any>null;
             this.status = _data["status"];
             this.complete = _data["complete"];
         }
@@ -2161,7 +2161,7 @@ export class Order implements IOrder {
         data["id"] = this.id;
         data["petId"] = this.petId;
         data["quantity"] = this.quantity;
-        data["shipDate"] = this.shipDate ? this.shipDate.toISOString() : <any>undefined;
+        data["shipDate"] = this.shipDate && this.shipDate.toISOString();
         data["status"] = this.status;
         data["complete"] = this.complete;
         return data;
@@ -2169,25 +2169,25 @@ export class Order implements IOrder {
 }
 
 export interface IOrder {
-    id?: number | undefined;
-    petId?: number | undefined;
-    quantity?: number | undefined;
-    shipDate?: Date | undefined;
+    id?: number | null;
+    petId?: number | null;
+    quantity?: number | null;
+    shipDate?: Date | null;
     /** Order Status */
-    status?: OrderStatus | undefined;
-    complete?: boolean | undefined;
+    status?: OrderStatus | null;
+    complete?: boolean | null;
 }
 
 export class User implements IUser {
-    id?: number | undefined;
-    username?: string | undefined;
-    firstName?: string | undefined;
-    lastName?: string | undefined;
-    email?: string | undefined;
-    password?: string | undefined;
-    phone?: string | undefined;
+    id?: number | null;
+    username?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    email?: string | null;
+    password?: string | null;
+    phone?: string | null;
     /** User Status */
-    userStatus?: number | undefined;
+    userStatus?: number | null;
 
     constructor(data?: IUser) {
         if (data) {
@@ -2233,15 +2233,15 @@ export class User implements IUser {
 }
 
 export interface IUser {
-    id?: number | undefined;
-    username?: string | undefined;
-    firstName?: string | undefined;
-    lastName?: string | undefined;
-    email?: string | undefined;
-    password?: string | undefined;
-    phone?: string | undefined;
+    id?: number | null;
+    username?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    email?: string | null;
+    password?: string | null;
+    phone?: string | null;
     /** User Status */
-    userStatus?: number | undefined;
+    userStatus?: number | null;
 }
 
 export enum Status {

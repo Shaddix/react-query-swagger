@@ -4025,6 +4025,11 @@ commander@^8.3.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-8.3.0.tgz#4837ea1b2da67b9c616a67afbb0fafee567bca66"
   integrity sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==
 
+commander@^9.4.0:
+  version "9.4.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-9.4.0.tgz#bc4a40918fefe52e22450c111ecd6b7acce6f11c"
+  integrity sha512-sRPT+umqkz90UA8M1yqYfnHlZA7fF6nSphDtxeywPZ49ysjxDQybzk13CL+mXekDRG92skbcqCLVovuCusNmFw==
+
 common-path-prefix@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/common-path-prefix/-/common-path-prefix-3.0.0.tgz#7d007a7e07c58c4b4d5f433131a19141b29f11e0"
@@ -4410,6 +4415,11 @@ damerau-levenshtein@^1.0.7:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/damerau-levenshtein/-/damerau-levenshtein-1.0.8.tgz#b43d286ccbd36bc5b2f7ed41caf2d0aba1f8a6e7"
   integrity sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==
+
+dashargs@^4.1.5:
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/dashargs/-/dashargs-4.1.5.tgz#20d18778d79bd65bf0595084bb954f67a1e2ff14"
+  integrity sha512-4spSw6iJD+d1gP3n9h07XcVDCYs7mUcJkXHHooRIUBntmIArkBQknvkHUzCpxhCI284qZHKKAJw7OcEB6zDBVQ==
 
 dashdash@^1.12.0:
   version "1.14.1"
@@ -10156,10 +10166,12 @@ react-is@^17.0.1:
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
 "react-query-swagger@link:src":
-  version "14.1.1"
+  version "14.2.2"
   dependencies:
     "@tanstack/react-query-persist-client" "^4.2.0"
+    commander "^9.4.0"
     nswag "^13.15.10"
+    replace "~1.2.1"
 
 react-query@3.39.1:
   version "3.39.1"
@@ -10448,7 +10460,7 @@ replace@1.1.5:
     minimatch "3.0.4"
     yargs "^12.0.5"
 
-replace@1.2.1:
+replace@1.2.1, replace@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/replace/-/replace-1.2.1.tgz#e6e28db8dc7dcfa2a6c0b99c8922360570f1aead"
   integrity sha512-KZCBe/tPanwBlbjSMQby4l+zjSiFi3CLEP/6VLClnRYgJ46DZ5u9tmA6ceWeFS8coaUnU4ZdGNb/puUGMHNSRg==
