@@ -1,5 +1,4 @@
-const resultTypesByQueryKey: Record<string, () => { init(data: any): void }> =
-  {};
+const resultTypesByQueryKey: Record<string, () => { init(data: any): void }> = {};
 
 /* tslint:disable */
 /* eslint-disable */
@@ -11,2027 +10,1620 @@ const resultTypesByQueryKey: Record<string, () => { init(data: any): void }> =
 // ReSharper disable InconsistentNaming
 
 export class Client {
-  private http: {
-    fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
-  };
-  private baseUrl: string;
-  protected jsonParseReviver: ((key: string, value: any) => any) | undefined =
-    undefined;
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-  constructor(
-    baseUrl?: string,
-    http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> },
-  ) {
-    this.http = http ? http : <any>window;
-    this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : '/v2';
-  }
-
-  /**
-   * uploads an image
-   * @param petId ID of pet to update
-   * @param additionalMetadata (optional) Additional data to pass to server
-   * @param file (optional) file to upload
-   * @return successful operation
-   */
-  uploadFile(
-    petId: number,
-    additionalMetadata?: string | null | undefined,
-    file?: FileParameter | null | undefined,
-  ): Promise<ApiResponse> {
-    let url_ = this.baseUrl + '/pet/{petId}/uploadImage';
-    if (petId === undefined || petId === null)
-      throw new Error("The parameter 'petId' must be defined.");
-    url_ = url_.replace('{petId}', encodeURIComponent('' + petId));
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = new FormData();
-    if (additionalMetadata !== null && additionalMetadata !== undefined)
-      content_.append('additionalMetadata', additionalMetadata.toString());
-    if (file !== null && file !== undefined)
-      content_.append(
-        'file',
-        file.data,
-        file.fileName ? file.fileName : 'file',
-      );
-
-    let options_ = <RequestInit>{
-      body: content_,
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-      },
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processUploadFile(_response);
-    });
-  }
-
-  protected processUploadFile(response: Response): Promise<ApiResponse> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : <any>window;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "/v2";
     }
-    if (status === 200) {
-      return response.text().then((_responseText) => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ''
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = ApiResponse.fromJS(resultData200);
-        return result200;
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'An unexpected server error occurred.',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    }
-    return Promise.resolve<ApiResponse>(null as any);
-  }
 
-  /**
-   * Add a new pet to the store
-   * @param body Pet object that needs to be added to the store
-   */
-  addPet(body: Pet): Promise<void> {
-    let url_ = this.baseUrl + '/pet';
-    url_ = url_.replace(/[?&]$/, '');
+    /**
+     * uploads an image
+     * @param petId ID of pet to update
+     * @param additionalMetadata (optional) Additional data to pass to server
+     * @param file (optional) file to upload
+     * @return successful operation
+     */
+    uploadFile(petId: number, additionalMetadata?: string | null | undefined, file?: FileParameter | null | undefined): Promise<ApiResponse> {
+        let url_ = this.baseUrl + "/pet/{petId}/uploadImage";
+        if (petId === undefined || petId === null)
+            throw new Error("The parameter 'petId' must be defined.");
+        url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
+        url_ = url_.replace(/[?&]$/, "");
 
-    const content_ = JSON.stringify(body);
+        const content_ = new FormData();
+        if (additionalMetadata !== null && additionalMetadata !== undefined)
+            content_.append("additionalMetadata", additionalMetadata.toString());
+        if (file !== null && file !== undefined)
+            content_.append("file", file.data, file.fileName ? file.fileName : "file");
 
-    let options_ = <RequestInit>{
-      body: content_,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processAddPet(_response);
-    });
-  }
-
-  protected processAddPet(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
-    }
-    if (status === 405) {
-      return response.text().then((_responseText) => {
-        return throwException('Invalid input', status, _responseText, _headers);
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'An unexpected server error occurred.',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    }
-    return Promise.resolve<void>(null as any);
-  }
-
-  /**
-   * Update an existing pet
-   * @param body Pet object that needs to be added to the store
-   */
-  updatePet(body: Pet): Promise<void> {
-    let url_ = this.baseUrl + '/pet';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_ = <RequestInit>{
-      body: content_,
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processUpdatePet(_response);
-    });
-  }
-
-  protected processUpdatePet(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
-    }
-    if (status === 400) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'Invalid ID supplied',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    } else if (status === 404) {
-      return response.text().then((_responseText) => {
-        return throwException('Pet not found', status, _responseText, _headers);
-      });
-    } else if (status === 405) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'Validation exception',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'An unexpected server error occurred.',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    }
-    return Promise.resolve<void>(null as any);
-  }
-
-  /**
-   * Finds Pets by status
-   * @param status Status values that need to be considered for filter
-   * @return successful operation
-   */
-  findPetsByStatus(status: Status[]): Promise<Pet[]> {
-    let url_ = this.baseUrl + '/pet/findByStatus?';
-    if (status === undefined || status === null)
-      throw new Error(
-        "The parameter 'status' must be defined and cannot be null.",
-      );
-    else
-      status &&
-        status.forEach((item) => {
-          url_ += 'status=' + encodeURIComponent('' + item) + '&';
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUploadFile(_response);
         });
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_ = <RequestInit>{
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processFindPetsByStatus(_response);
-    });
-  }
-
-  protected processFindPetsByStatus(response: Response): Promise<Pet[]> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
     }
-    if (status === 200) {
-      return response.text().then((_responseText) => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ''
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        if (Array.isArray(resultData200)) {
-          result200 = [] as any;
-          for (let item of resultData200) result200!.push(Pet.fromJS(item));
-        } else {
-          result200 = <any>null;
+
+    protected processUploadFile(response: Response): Promise<ApiResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ApiResponse.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
         }
-        return result200;
-      });
-    } else if (status === 400) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'Invalid status value',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'An unexpected server error occurred.',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
+        return Promise.resolve<ApiResponse>(null as any);
     }
-    return Promise.resolve<Pet[]>(null as any);
-  }
 
-  /**
-   * Finds Pets by tags
-   * @param tags Tags to filter by
-   * @return successful operation
-   * @deprecated
-   */
-  findPetsByTags(tags: string[]): Promise<Pet[]> {
-    let url_ = this.baseUrl + '/pet/findByTags?';
-    if (tags === undefined || tags === null)
-      throw new Error(
-        "The parameter 'tags' must be defined and cannot be null.",
-      );
-    else
-      tags &&
-        tags.forEach((item) => {
-          url_ += 'tags=' + encodeURIComponent('' + item) + '&';
+    /**
+     * Add a new pet to the store
+     * @param body Pet object that needs to be added to the store
+     */
+    addPet(body: Pet): Promise<void> {
+        let url_ = this.baseUrl + "/pet";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processAddPet(_response);
         });
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_ = <RequestInit>{
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processFindPetsByTags(_response);
-    });
-  }
-
-  protected processFindPetsByTags(response: Response): Promise<Pet[]> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
     }
-    if (status === 200) {
-      return response.text().then((_responseText) => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ''
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        if (Array.isArray(resultData200)) {
-          result200 = [] as any;
-          for (let item of resultData200) result200!.push(Pet.fromJS(item));
-        } else {
-          result200 = <any>null;
+
+    protected processAddPet(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Invalid input", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
         }
-        return result200;
-      });
-    } else if (status === 400) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'Invalid tag value',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'An unexpected server error occurred.',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
+        return Promise.resolve<void>(null as any);
     }
-    return Promise.resolve<Pet[]>(null as any);
-  }
 
-  /**
-   * Find pet by ID
-   * @param petId ID of pet to return
-   * @return successful operation
-   */
-  getPetById(petId: number): Promise<Pet> {
-    let url_ = this.baseUrl + '/pet/{petId}';
-    if (petId === undefined || petId === null)
-      throw new Error("The parameter 'petId' must be defined.");
-    url_ = url_.replace('{petId}', encodeURIComponent('' + petId));
-    url_ = url_.replace(/[?&]$/, '');
+    /**
+     * Update an existing pet
+     * @param body Pet object that needs to be added to the store
+     */
+    updatePet(body: Pet): Promise<void> {
+        let url_ = this.baseUrl + "/pet";
+        url_ = url_.replace(/[?&]$/, "");
 
-    let options_ = <RequestInit>{
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-    };
+        const content_ = JSON.stringify(body);
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGetPetById(_response);
-    });
-  }
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
 
-  protected processGetPetById(response: Response): Promise<Pet> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUpdatePet(_response);
+        });
     }
-    if (status === 200) {
-      return response.text().then((_responseText) => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ''
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = Pet.fromJS(resultData200);
-        return result200;
-      });
-    } else if (status === 400) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'Invalid ID supplied',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    } else if (status === 404) {
-      return response.text().then((_responseText) => {
-        return throwException('Pet not found', status, _responseText, _headers);
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'An unexpected server error occurred.',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    }
-    return Promise.resolve<Pet>(null as any);
-  }
 
-  /**
-   * Updates a pet in the store with form data
-   * @param petId ID of pet that needs to be updated
-   * @param name (optional) Updated name of the pet
-   * @param status (optional) Updated status of the pet
-   */
-  updatePetWithForm(
-    petId: number,
-    name?: string | null | undefined,
-    status?: string | null | undefined,
-  ): Promise<void> {
-    let url_ = this.baseUrl + '/pet/{petId}';
-    if (petId === undefined || petId === null)
-      throw new Error("The parameter 'petId' must be defined.");
-    url_ = url_.replace('{petId}', encodeURIComponent('' + petId));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let content_ = '';
-    if (name !== undefined)
-      content_ +=
-        encodeURIComponent('name') + '=' + encodeURIComponent('' + name) + '&';
-    if (status !== undefined)
-      content_ +=
-        encodeURIComponent('status') +
-        '=' +
-        encodeURIComponent('' + status) +
-        '&';
-    content_ = content_.replace(/&$/, '');
-
-    let options_ = <RequestInit>{
-      body: content_,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processUpdatePetWithForm(_response);
-    });
-  }
-
-  protected processUpdatePetWithForm(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
-    }
-    if (status === 405) {
-      return response.text().then((_responseText) => {
-        return throwException('Invalid input', status, _responseText, _headers);
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'An unexpected server error occurred.',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    }
-    return Promise.resolve<void>(null as any);
-  }
-
-  /**
-   * Deletes a pet
-   * @param petId Pet id to delete
-   * @param api_key (optional)
-   */
-  deletePet(petId: number, api_key?: string | null | undefined): Promise<void> {
-    let url_ = this.baseUrl + '/pet/{petId}';
-    if (petId === undefined || petId === null)
-      throw new Error("The parameter 'petId' must be defined.");
-    url_ = url_.replace('{petId}', encodeURIComponent('' + petId));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_ = <RequestInit>{
-      method: 'DELETE',
-      headers: {
-        api_key: api_key !== undefined && api_key !== null ? '' + api_key : '',
-      },
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processDeletePet(_response);
-    });
-  }
-
-  protected processDeletePet(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
-    }
-    if (status === 400) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'Invalid ID supplied',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    } else if (status === 404) {
-      return response.text().then((_responseText) => {
-        return throwException('Pet not found', status, _responseText, _headers);
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'An unexpected server error occurred.',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    }
-    return Promise.resolve<void>(null as any);
-  }
-
-  /**
-   * Place an order for a pet
-   * @param body order placed for purchasing the pet
-   * @return successful operation
-   */
-  placeOrder(body: Order): Promise<Order> {
-    let url_ = this.baseUrl + '/store/order';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_ = <RequestInit>{
-      body: content_,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processPlaceOrder(_response);
-    });
-  }
-
-  protected processPlaceOrder(response: Response): Promise<Order> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
-    }
-    if (status === 200) {
-      return response.text().then((_responseText) => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ''
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = Order.fromJS(resultData200);
-        return result200;
-      });
-    } else if (status === 400) {
-      return response.text().then((_responseText) => {
-        return throwException('Invalid Order', status, _responseText, _headers);
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'An unexpected server error occurred.',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    }
-    return Promise.resolve<Order>(null as any);
-  }
-
-  /**
-   * Find purchase order by ID
-   * @param orderId ID of pet that needs to be fetched
-   * @return successful operation
-   */
-  getOrderById(orderId: number): Promise<Order> {
-    let url_ = this.baseUrl + '/store/order/{orderId}';
-    if (orderId === undefined || orderId === null)
-      throw new Error("The parameter 'orderId' must be defined.");
-    url_ = url_.replace('{orderId}', encodeURIComponent('' + orderId));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_ = <RequestInit>{
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGetOrderById(_response);
-    });
-  }
-
-  protected processGetOrderById(response: Response): Promise<Order> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
-    }
-    if (status === 200) {
-      return response.text().then((_responseText) => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ''
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = Order.fromJS(resultData200);
-        return result200;
-      });
-    } else if (status === 400) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'Invalid ID supplied',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    } else if (status === 404) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'Order not found',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'An unexpected server error occurred.',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    }
-    return Promise.resolve<Order>(null as any);
-  }
-
-  /**
-   * Delete purchase order by ID
-   * @param orderId ID of the order that needs to be deleted
-   */
-  deleteOrder(orderId: number): Promise<void> {
-    let url_ = this.baseUrl + '/store/order/{orderId}';
-    if (orderId === undefined || orderId === null)
-      throw new Error("The parameter 'orderId' must be defined.");
-    url_ = url_.replace('{orderId}', encodeURIComponent('' + orderId));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_ = <RequestInit>{
-      method: 'DELETE',
-      headers: {},
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processDeleteOrder(_response);
-    });
-  }
-
-  protected processDeleteOrder(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
-    }
-    if (status === 400) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'Invalid ID supplied',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    } else if (status === 404) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'Order not found',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'An unexpected server error occurred.',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    }
-    return Promise.resolve<void>(null as any);
-  }
-
-  /**
-   * Returns pet inventories by status
-   * @return successful operation
-   */
-  getInventory(): Promise<{ [key: string]: number }> {
-    let url_ = this.baseUrl + '/store/inventory';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_ = <RequestInit>{
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGetInventory(_response);
-    });
-  }
-
-  protected processGetInventory(
-    response: Response,
-  ): Promise<{ [key: string]: number }> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
-    }
-    if (status === 200) {
-      return response.text().then((_responseText) => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ''
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        if (resultData200) {
-          result200 = {} as any;
-          for (let key in resultData200) {
-            if (resultData200.hasOwnProperty(key))
-              (<any>result200)![key] =
-                resultData200[key] !== undefined
-                  ? resultData200[key]
-                  : <any>null;
-          }
-        } else {
-          result200 = <any>null;
+    protected processUpdatePet(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            return throwException("Invalid ID supplied", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            return throwException("Pet not found", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Validation exception", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
         }
-        return result200;
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'An unexpected server error occurred.',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
+        return Promise.resolve<void>(null as any);
     }
-    return Promise.resolve<{ [key: string]: number }>(null as any);
-  }
 
-  /**
-   * Creates list of users with given input array
-   * @param body List of user object
-   * @return successful operation
-   */
-  createUsersWithArrayInput(body: User[]): Promise<void> {
-    let url_ = this.baseUrl + '/user/createWithArray';
-    url_ = url_.replace(/[?&]$/, '');
+    /**
+     * Finds Pets by status
+     * @param status Status values that need to be considered for filter
+     * @return successful operation
+     */
+    findPetsByStatus(status: Status[]): Promise<Pet[]> {
+        let url_ = this.baseUrl + "/pet/findByStatus?";
+        if (status === undefined || status === null)
+            throw new Error("The parameter 'status' must be defined and cannot be null.");
+        else
+            status && status.forEach(item => { url_ += "status=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
 
-    const content_ = JSON.stringify(body);
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
 
-    let options_ = <RequestInit>{
-      body: content_,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processCreateUsersWithArrayInput(_response);
-    });
-  }
-
-  protected processCreateUsersWithArrayInput(
-    response: Response,
-  ): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processFindPetsByStatus(_response);
+        });
     }
-    {
-      return response.text().then((_responseText) => {
-        return;
-      });
+
+    protected processFindPetsByStatus(response: Response): Promise<Pet[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(Pet.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            return throwException("Invalid status value", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Pet[]>(null as any);
     }
-  }
 
-  /**
-   * Creates list of users with given input array
-   * @param body List of user object
-   * @return successful operation
-   */
-  createUsersWithListInput(body: User[]): Promise<void> {
-    let url_ = this.baseUrl + '/user/createWithList';
-    url_ = url_.replace(/[?&]$/, '');
+    /**
+     * Finds Pets by tags
+     * @param tags Tags to filter by
+     * @return successful operation
+     * @deprecated
+     */
+    findPetsByTags(tags: string[]): Promise<Pet[]> {
+        let url_ = this.baseUrl + "/pet/findByTags?";
+        if (tags === undefined || tags === null)
+            throw new Error("The parameter 'tags' must be defined and cannot be null.");
+        else
+            tags && tags.forEach(item => { url_ += "tags=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
 
-    const content_ = JSON.stringify(body);
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
 
-    let options_ = <RequestInit>{
-      body: content_,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processCreateUsersWithListInput(_response);
-    });
-  }
-
-  protected processCreateUsersWithListInput(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processFindPetsByTags(_response);
+        });
     }
-    {
-      return response.text().then((_responseText) => {
-        return;
-      });
+
+    protected processFindPetsByTags(response: Response): Promise<Pet[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(Pet.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            return throwException("Invalid tag value", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Pet[]>(null as any);
     }
-  }
 
-  /**
-   * Get user by user name
-   * @param username The name that needs to be fetched. Use user1 for testing.
-   * @return successful operation
-   */
-  getUserByName(username: string): Promise<User> {
-    let url_ = this.baseUrl + '/user/{username}';
-    if (username === undefined || username === null)
-      throw new Error("The parameter 'username' must be defined.");
-    url_ = url_.replace('{username}', encodeURIComponent('' + username));
-    url_ = url_.replace(/[?&]$/, '');
+    /**
+     * Find pet by ID
+     * @param petId ID of pet to return
+     * @return successful operation
+     */
+    getPetById(petId: number): Promise<Pet> {
+        let url_ = this.baseUrl + "/pet/{petId}";
+        if (petId === undefined || petId === null)
+            throw new Error("The parameter 'petId' must be defined.");
+        url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
+        url_ = url_.replace(/[?&]$/, "");
 
-    let options_ = <RequestInit>{
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-    };
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGetUserByName(_response);
-    });
-  }
-
-  protected processGetUserByName(response: Response): Promise<User> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetPetById(_response);
+        });
     }
-    if (status === 200) {
-      return response.text().then((_responseText) => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ''
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = User.fromJS(resultData200);
-        return result200;
-      });
-    } else if (status === 400) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'Invalid username supplied',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    } else if (status === 404) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'User not found',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'An unexpected server error occurred.',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
+
+    protected processGetPetById(response: Response): Promise<Pet> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Pet.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            return throwException("Invalid ID supplied", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            return throwException("Pet not found", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Pet>(null as any);
     }
-    return Promise.resolve<User>(null as any);
-  }
 
-  /**
-   * Updated user
-   * @param username name that need to be updated
-   * @param body Updated user object
-   */
-  updateUser(username: string, body: User): Promise<void> {
-    let url_ = this.baseUrl + '/user/{username}';
-    if (username === undefined || username === null)
-      throw new Error("The parameter 'username' must be defined.");
-    url_ = url_.replace('{username}', encodeURIComponent('' + username));
-    url_ = url_.replace(/[?&]$/, '');
+    /**
+     * Updates a pet in the store with form data
+     * @param petId ID of pet that needs to be updated
+     * @param name (optional) Updated name of the pet
+     * @param status (optional) Updated status of the pet
+     */
+    updatePetWithForm(petId: number, name?: string | null | undefined, status?: string | null | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/pet/{petId}";
+        if (petId === undefined || petId === null)
+            throw new Error("The parameter 'petId' must be defined.");
+        url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
+        url_ = url_.replace(/[?&]$/, "");
 
-    const content_ = JSON.stringify(body);
+        let content_ = "";
+        if (name !== undefined)
+            content_ += encodeURIComponent("name") + "=" + encodeURIComponent("" + name) + "&";
+        if (status !== undefined)
+            content_ += encodeURIComponent("status") + "=" + encodeURIComponent("" + status) + "&";
+        content_ = content_.replace(/&$/, "");
 
-    let options_ = <RequestInit>{
-      body: content_,
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            }
+        };
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processUpdateUser(_response);
-    });
-  }
-
-  protected processUpdateUser(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUpdatePetWithForm(_response);
+        });
     }
-    if (status === 400) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'Invalid user supplied',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    } else if (status === 404) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'User not found',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'An unexpected server error occurred.',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
+
+    protected processUpdatePetWithForm(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Invalid input", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(null as any);
     }
-    return Promise.resolve<void>(null as any);
-  }
 
-  /**
-   * Delete user
-   * @param username The name that needs to be deleted
-   */
-  deleteUser(username: string): Promise<void> {
-    let url_ = this.baseUrl + '/user/{username}';
-    if (username === undefined || username === null)
-      throw new Error("The parameter 'username' must be defined.");
-    url_ = url_.replace('{username}', encodeURIComponent('' + username));
-    url_ = url_.replace(/[?&]$/, '');
+    /**
+     * Deletes a pet
+     * @param petId Pet id to delete
+     * @param api_key (optional) 
+     */
+    deletePet(petId: number, api_key?: string | null | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/pet/{petId}";
+        if (petId === undefined || petId === null)
+            throw new Error("The parameter 'petId' must be defined.");
+        url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
+        url_ = url_.replace(/[?&]$/, "");
 
-    let options_ = <RequestInit>{
-      method: 'DELETE',
-      headers: {},
-    };
+        let options_ = <RequestInit>{
+            method: "DELETE",
+            headers: {
+                "api_key": api_key !== undefined && api_key !== null ? "" + api_key : "",
+            }
+        };
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processDeleteUser(_response);
-    });
-  }
-
-  protected processDeleteUser(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processDeletePet(_response);
+        });
     }
-    if (status === 400) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'Invalid username supplied',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    } else if (status === 404) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'User not found',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'An unexpected server error occurred.',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
+
+    protected processDeletePet(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            return throwException("Invalid ID supplied", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            return throwException("Pet not found", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(null as any);
     }
-    return Promise.resolve<void>(null as any);
-  }
 
-  /**
-   * Logs user into the system
-   * @param username The user name for login
-   * @param password The password for login in clear text
-   * @return successful operation
-   */
-  loginUser(username: string, password: string): Promise<string> {
-    let url_ = this.baseUrl + '/user/login?';
-    if (username === undefined || username === null)
-      throw new Error(
-        "The parameter 'username' must be defined and cannot be null.",
-      );
-    else url_ += 'username=' + encodeURIComponent('' + username) + '&';
-    if (password === undefined || password === null)
-      throw new Error(
-        "The parameter 'password' must be defined and cannot be null.",
-      );
-    else url_ += 'password=' + encodeURIComponent('' + password) + '&';
-    url_ = url_.replace(/[?&]$/, '');
+    /**
+     * Place an order for a pet
+     * @param body order placed for purchasing the pet
+     * @return successful operation
+     */
+    placeOrder(body: Order): Promise<Order> {
+        let url_ = this.baseUrl + "/store/order";
+        url_ = url_.replace(/[?&]$/, "");
 
-    let options_ = <RequestInit>{
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-    };
+        const content_ = JSON.stringify(body);
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processLoginUser(_response);
-    });
-  }
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
 
-  protected processLoginUser(response: Response): Promise<string> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processPlaceOrder(_response);
+        });
     }
-    if (status === 200) {
-      return response.text().then((_responseText) => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ''
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = resultData200 !== undefined ? resultData200 : <any>null;
 
-        return result200;
-      });
-    } else if (status === 400) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'Invalid username/password supplied',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          'An unexpected server error occurred.',
-          status,
-          _responseText,
-          _headers,
-        );
-      });
+    protected processPlaceOrder(response: Response): Promise<Order> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Order.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            return throwException("Invalid Order", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Order>(null as any);
     }
-    return Promise.resolve<string>(null as any);
-  }
 
-  /**
-   * Logs out current logged in user session
-   * @return successful operation
-   */
-  logoutUser(): Promise<void> {
-    let url_ = this.baseUrl + '/user/logout';
-    url_ = url_.replace(/[?&]$/, '');
+    /**
+     * Find purchase order by ID
+     * @param orderId ID of pet that needs to be fetched
+     * @return successful operation
+     */
+    getOrderById(orderId: number): Promise<Order> {
+        let url_ = this.baseUrl + "/store/order/{orderId}";
+        if (orderId === undefined || orderId === null)
+            throw new Error("The parameter 'orderId' must be defined.");
+        url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
+        url_ = url_.replace(/[?&]$/, "");
 
-    let options_ = <RequestInit>{
-      method: 'GET',
-      headers: {},
-    };
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processLogoutUser(_response);
-    });
-  }
-
-  protected processLogoutUser(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetOrderById(_response);
+        });
     }
-    {
-      return response.text().then((_responseText) => {
-        return;
-      });
+
+    protected processGetOrderById(response: Response): Promise<Order> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Order.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            return throwException("Invalid ID supplied", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            return throwException("Order not found", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Order>(null as any);
     }
-  }
 
-  /**
-   * Create user
-   * @param body Created user object
-   * @return successful operation
-   */
-  createUser(body: User): Promise<void> {
-    let url_ = this.baseUrl + '/user';
-    url_ = url_.replace(/[?&]$/, '');
+    /**
+     * Delete purchase order by ID
+     * @param orderId ID of the order that needs to be deleted
+     */
+    deleteOrder(orderId: number): Promise<void> {
+        let url_ = this.baseUrl + "/store/order/{orderId}";
+        if (orderId === undefined || orderId === null)
+            throw new Error("The parameter 'orderId' must be defined.");
+        url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
+        url_ = url_.replace(/[?&]$/, "");
 
-    const content_ = JSON.stringify(body);
+        let options_ = <RequestInit>{
+            method: "DELETE",
+            headers: {
+            }
+        };
 
-    let options_ = <RequestInit>{
-      body: content_,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processCreateUser(_response);
-    });
-  }
-
-  protected processCreateUser(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processDeleteOrder(_response);
+        });
     }
-    {
-      return response.text().then((_responseText) => {
-        return;
-      });
+
+    protected processDeleteOrder(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            return throwException("Invalid ID supplied", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            return throwException("Order not found", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(null as any);
     }
-  }
+
+    /**
+     * Returns pet inventories by status
+     * @return successful operation
+     */
+    getInventory(): Promise<{ [key: string]: number; }> {
+        let url_ = this.baseUrl + "/store/inventory";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetInventory(_response);
+        });
+    }
+
+    protected processGetInventory(response: Response): Promise<{ [key: string]: number; }> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200) {
+                result200 = {} as any;
+                for (let key in resultData200) {
+                    if (resultData200.hasOwnProperty(key))
+                        (<any>result200)![key] = resultData200[key] !== undefined ? resultData200[key] : <any>null;
+                }
+            }
+            else {
+                result200 = <any>null;
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<{ [key: string]: number; }>(null as any);
+    }
+
+    /**
+     * Creates list of users with given input array
+     * @param body List of user object
+     * @return successful operation
+     */
+    createUsersWithArrayInput(body: User[]): Promise<void> {
+        let url_ = this.baseUrl + "/user/createWithArray";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processCreateUsersWithArrayInput(_response);
+        });
+    }
+
+    protected processCreateUsersWithArrayInput(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        }
+    }
+
+    /**
+     * Creates list of users with given input array
+     * @param body List of user object
+     * @return successful operation
+     */
+    createUsersWithListInput(body: User[]): Promise<void> {
+        let url_ = this.baseUrl + "/user/createWithList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processCreateUsersWithListInput(_response);
+        });
+    }
+
+    protected processCreateUsersWithListInput(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        }
+    }
+
+    /**
+     * Get user by user name
+     * @param username The name that needs to be fetched. Use user1 for testing.
+     * @return successful operation
+     */
+    getUserByName(username: string): Promise<User> {
+        let url_ = this.baseUrl + "/user/{username}";
+        if (username === undefined || username === null)
+            throw new Error("The parameter 'username' must be defined.");
+        url_ = url_.replace("{username}", encodeURIComponent("" + username));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetUserByName(_response);
+        });
+    }
+
+    protected processGetUserByName(response: Response): Promise<User> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = User.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            return throwException("Invalid username supplied", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            return throwException("User not found", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<User>(null as any);
+    }
+
+    /**
+     * Updated user
+     * @param username name that need to be updated
+     * @param body Updated user object
+     */
+    updateUser(username: string, body: User): Promise<void> {
+        let url_ = this.baseUrl + "/user/{username}";
+        if (username === undefined || username === null)
+            throw new Error("The parameter 'username' must be defined.");
+        url_ = url_.replace("{username}", encodeURIComponent("" + username));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUpdateUser(_response);
+        });
+    }
+
+    protected processUpdateUser(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            return throwException("Invalid user supplied", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            return throwException("User not found", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * Delete user
+     * @param username The name that needs to be deleted
+     */
+    deleteUser(username: string): Promise<void> {
+        let url_ = this.baseUrl + "/user/{username}";
+        if (username === undefined || username === null)
+            throw new Error("The parameter 'username' must be defined.");
+        url_ = url_.replace("{username}", encodeURIComponent("" + username));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "DELETE",
+            headers: {
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processDeleteUser(_response);
+        });
+    }
+
+    protected processDeleteUser(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            return throwException("Invalid username supplied", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            return throwException("User not found", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * Logs user into the system
+     * @param username The user name for login
+     * @param password The password for login in clear text
+     * @return successful operation
+     */
+    loginUser(username: string, password: string): Promise<string> {
+        let url_ = this.baseUrl + "/user/login?";
+        if (username === undefined || username === null)
+            throw new Error("The parameter 'username' must be defined and cannot be null.");
+        else
+            url_ += "username=" + encodeURIComponent("" + username) + "&";
+        if (password === undefined || password === null)
+            throw new Error("The parameter 'password' must be defined and cannot be null.");
+        else
+            url_ += "password=" + encodeURIComponent("" + password) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processLoginUser(_response);
+        });
+    }
+
+    protected processLoginUser(response: Response): Promise<string> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            return throwException("Invalid username/password supplied", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<string>(null as any);
+    }
+
+    /**
+     * Logs out current logged in user session
+     * @return successful operation
+     */
+    logoutUser(): Promise<void> {
+        let url_ = this.baseUrl + "/user/logout";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processLogoutUser(_response);
+        });
+    }
+
+    protected processLogoutUser(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        }
+    }
+
+    /**
+     * Create user
+     * @param body Created user object
+     * @return successful operation
+     */
+    createUser(body: User): Promise<void> {
+        let url_ = this.baseUrl + "/user";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processCreateUser(_response);
+        });
+    }
+
+    protected processCreateUser(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        }
+    }
 }
 type FindPetsByStatusQueryParameters = {
-  status: Status[];
+      status: Status[];
 };
 
 type FindPetsByTagsQueryParameters = {
-  tags: string[];
+      tags: string[];
 };
 
 type GetPetByIdQueryParameters = {
-  petId: number;
+      petId: number;
 };
 
 type GetOrderByIdQueryParameters = {
-  orderId: number;
+      orderId: number;
 };
 
 type GetUserByNameQueryParameters = {
-  username: string;
+      username: string;
 };
 
 type LoginUserQueryParameters = {
-  username: string;
-  password: string;
+      username: string;
+      password: string;
 };
 
-export class Query {
-  get baseUrl() {
-    return getBaseUrl() ?? '' + '/v2';
-  }
+export class Query{
 
-  static get Client() {
-    return createClient(Client);
-  }
+    get baseUrl() {
+      return getBaseUrl() ?? '' + '/v2';
+    }
 
-  static get Url() {
-    return new Query();
-  }
+    static get Client() {
+        return createClient(Client);
+    }
 
-  findPetsByStatus(status: Status[]): string {
-    let url_ = this.baseUrl + '/pet/findByStatus?';
+    static get Url() {
+        return new Query();
+    }
+      
+
+    findPetsByStatus(status: Status[]): string {
+      let url_ = this.baseUrl + "/pet/findByStatus?";
     if (status === undefined || status === null)
-      throw new Error(
-        "The parameter 'status' must be defined and cannot be null.",
-      );
+        throw new Error("The parameter 'status' must be defined and cannot be null.");
     else
-      status &&
-        status.forEach((item) => {
-          url_ += 'status=' + encodeURIComponent('' + item) + '&';
+        status && status.forEach(item => { url_ += "status=" + encodeURIComponent("" + item) + "&"; });
+    url_ = url_.replace(/[?&]$/, "");
+      return url_;
+    }
+
+    static findPetsByStatusDefaultOptions?: UseQueryOptions<Pet[], unknown, Pet[]> = {};
+    public static findPetsByStatusQueryKey(status: Status[]): QueryKey;
+    public static findPetsByStatusQueryKey(...params: any[]): QueryKey {
+        if (params.length === 1 && isParameterObject(params[0])) {
+            const { status,  } = params[0] as FindPetsByStatusQueryParameters;
+
+            return removeUndefinedFromArrayTail([
+                'Client',
+                'findPetsByStatus',
+                status as any,
+
+            ]);
+        } else {
+            return removeUndefinedFromArrayTail([
+                'Client',
+                'findPetsByStatus',
+                ...params
+            ]);
+        }
+    }
+
+    private static findPetsByStatus(context: QueryFunctionContext) {
+        return Query.Client.findPetsByStatus(
+                context.queryKey[2] as Status[]
+            );
+    }
+
+    static useFindPetsByStatusQuery<TSelectData = Pet[], TError = unknown>(dto: FindPetsByStatusQueryParameters, options?: UseQueryOptions<Pet[], TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+    /**
+     * Finds Pets by status
+     * @param status Status values that need to be considered for filter
+     * @return successful operation
+     */
+    static useFindPetsByStatusQuery<TSelectData = Pet[], TError = unknown>(status: Status[], options?: UseQueryOptions<Pet[], TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+    static useFindPetsByStatusQuery<TSelectData = Pet[], TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+
+        let options: UseQueryOptions<Pet[], TError, TSelectData> | undefined = undefined;
+        let status: any = undefined;
+        
+        if (params.length > 0) {
+            if (isParameterObject(params[0])) {
+                ({ status,  } = params[0] as FindPetsByStatusQueryParameters);
+                options = params[1];
+            } else {
+                [status,  options] = params;
+            }
+        }
+    
+
+        const metaContext = useContext(QueryMetaContext);
+        options = addMetaToOptions(options, metaContext);
+
+        return useQuery<Pet[], TError, TSelectData>({
+            queryFn: Query.findPetsByStatus,
+            queryKey: Query.findPetsByStatusQueryKey(status),
+            ...Query.findPetsByStatusDefaultOptions as unknown as UseQueryOptions<Pet[], TError, TSelectData>,
+            ...options,
         });
-    url_ = url_.replace(/[?&]$/, '');
-    return url_;
-  }
-
-  static findPetsByStatusDefaultOptions?: UseQueryOptions<
-    Pet[],
-    unknown,
-    Pet[]
-  > = {};
-  public static findPetsByStatusQueryKey(status: Status[]): QueryKey;
-  public static findPetsByStatusQueryKey(...params: any[]): QueryKey {
-    if (params.length === 1 && isParameterObject(params[0])) {
-      const { status } = params[0] as FindPetsByStatusQueryParameters;
-
-      return removeUndefinedFromArrayTail([
-        'Client',
-        'findPetsByStatus',
-        status as any,
-      ]);
-    } else {
-      return removeUndefinedFromArrayTail([
-        'Client',
-        'findPetsByStatus',
-        ...params,
-      ]);
     }
-  }
-
-  private static findPetsByStatus(context: QueryFunctionContext) {
-    return Query.Client.findPetsByStatus(context.queryKey[2] as Status[]);
-  }
-
-  static useFindPetsByStatusQuery<TSelectData = Pet[], TError = unknown>(
-    dto: FindPetsByStatusQueryParameters,
-    options?: UseQueryOptions<Pet[], TError, TSelectData>,
-  ): UseQueryResult<TSelectData, TError>;
-  /**
-   * Finds Pets by status
-   * @param status Status values that need to be considered for filter
-   * @return successful operation
-   */
-  static useFindPetsByStatusQuery<TSelectData = Pet[], TError = unknown>(
-    status: Status[],
-    options?: UseQueryOptions<Pet[], TError, TSelectData>,
-  ): UseQueryResult<TSelectData, TError>;
-  static useFindPetsByStatusQuery<TSelectData = Pet[], TError = unknown>(
-    ...params: any[]
-  ): UseQueryResult<TSelectData, TError> {
-    let options: UseQueryOptions<Pet[], TError, TSelectData> | undefined =
-      undefined;
-    let status: any = undefined;
-
-    if (params.length > 0) {
-      if (isParameterObject(params[0])) {
-        ({ status } = params[0] as FindPetsByStatusQueryParameters);
-        options = params[1];
-      } else {
-        [status, options] = params;
-      }
+    /**
+     * Finds Pets by status
+     * @param status Status values that need to be considered for filter
+     * @return successful operation
+     */
+    static setFindPetsByStatusData(queryClient: QueryClient, updater: (data: Pet[] | undefined) => Pet[], status: Status[]) {
+        queryClient.setQueryData(Query.findPetsByStatusQueryKey(status),
+            updater
+        );
     }
 
-    const metaContext = useContext(QueryMetaContext);
-    options = addMetaToOptions(options, metaContext);
+    /**
+     * Finds Pets by status
+     * @param status Status values that need to be considered for filter
+     * @return successful operation
+     */
+    static setFindPetsByStatusDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: Pet[] | undefined) => Pet[]) {
+        queryClient.setQueryData(queryKey, updater);
+    }
+    
 
-    return useQuery<Pet[], TError, TSelectData>({
-      queryFn: Query.findPetsByStatus,
-      queryKey: Query.findPetsByStatusQueryKey(status),
-      ...(Query.findPetsByStatusDefaultOptions as unknown as UseQueryOptions<
-        Pet[],
-        TError,
-        TSelectData
-      >),
-      ...options,
-    });
-  }
-  /**
-   * Finds Pets by status
-   * @param status Status values that need to be considered for filter
-   * @return successful operation
-   */
-  static setFindPetsByStatusData(
-    queryClient: QueryClient,
-    updater: (data: Pet[] | undefined) => Pet[],
-    status: Status[],
-  ) {
-    queryClient.setQueryData(Query.findPetsByStatusQueryKey(status), updater);
-  }
-
-  /**
-   * Finds Pets by status
-   * @param status Status values that need to be considered for filter
-   * @return successful operation
-   */
-  static setFindPetsByStatusDataByQueryId(
-    queryClient: QueryClient,
-    queryKey: QueryKey,
-    updater: (data: Pet[] | undefined) => Pet[],
-  ) {
-    queryClient.setQueryData(queryKey, updater);
-  }
-
-  findPetsByTags(tags: string[]): string {
-    let url_ = this.baseUrl + '/pet/findByTags?';
+    findPetsByTags(tags: string[]): string {
+      let url_ = this.baseUrl + "/pet/findByTags?";
     if (tags === undefined || tags === null)
-      throw new Error(
-        "The parameter 'tags' must be defined and cannot be null.",
-      );
+        throw new Error("The parameter 'tags' must be defined and cannot be null.");
     else
-      tags &&
-        tags.forEach((item) => {
-          url_ += 'tags=' + encodeURIComponent('' + item) + '&';
+        tags && tags.forEach(item => { url_ += "tags=" + encodeURIComponent("" + item) + "&"; });
+    url_ = url_.replace(/[?&]$/, "");
+      return url_;
+    }
+
+    static findPetsByTagsDefaultOptions?: UseQueryOptions<Pet[], unknown, Pet[]> = {};
+    public static findPetsByTagsQueryKey(tags: string[]): QueryKey;
+    public static findPetsByTagsQueryKey(...params: any[]): QueryKey {
+        if (params.length === 1 && isParameterObject(params[0])) {
+            const { tags,  } = params[0] as FindPetsByTagsQueryParameters;
+
+            return removeUndefinedFromArrayTail([
+                'Client',
+                'findPetsByTags',
+                tags as any,
+
+            ]);
+        } else {
+            return removeUndefinedFromArrayTail([
+                'Client',
+                'findPetsByTags',
+                ...params
+            ]);
+        }
+    }
+
+    private static findPetsByTags(context: QueryFunctionContext) {
+        return Query.Client.findPetsByTags(
+                context.queryKey[2] as string[]
+            );
+    }
+
+    static useFindPetsByTagsQuery<TSelectData = Pet[], TError = unknown>(dto: FindPetsByTagsQueryParameters, options?: UseQueryOptions<Pet[], TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+    /**
+     * Finds Pets by tags
+     * @param tags Tags to filter by
+     * @return successful operation
+     * @deprecated
+     */
+    static useFindPetsByTagsQuery<TSelectData = Pet[], TError = unknown>(tags: string[], options?: UseQueryOptions<Pet[], TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+    static useFindPetsByTagsQuery<TSelectData = Pet[], TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+
+        let options: UseQueryOptions<Pet[], TError, TSelectData> | undefined = undefined;
+        let tags: any = undefined;
+        
+        if (params.length > 0) {
+            if (isParameterObject(params[0])) {
+                ({ tags,  } = params[0] as FindPetsByTagsQueryParameters);
+                options = params[1];
+            } else {
+                [tags,  options] = params;
+            }
+        }
+    
+
+        const metaContext = useContext(QueryMetaContext);
+        options = addMetaToOptions(options, metaContext);
+
+        return useQuery<Pet[], TError, TSelectData>({
+            queryFn: Query.findPetsByTags,
+            queryKey: Query.findPetsByTagsQueryKey(tags),
+            ...Query.findPetsByTagsDefaultOptions as unknown as UseQueryOptions<Pet[], TError, TSelectData>,
+            ...options,
         });
-    url_ = url_.replace(/[?&]$/, '');
-    return url_;
-  }
-
-  static findPetsByTagsDefaultOptions?: UseQueryOptions<Pet[], unknown, Pet[]> =
-    {};
-  public static findPetsByTagsQueryKey(tags: string[]): QueryKey;
-  public static findPetsByTagsQueryKey(...params: any[]): QueryKey {
-    if (params.length === 1 && isParameterObject(params[0])) {
-      const { tags } = params[0] as FindPetsByTagsQueryParameters;
-
-      return removeUndefinedFromArrayTail([
-        'Client',
-        'findPetsByTags',
-        tags as any,
-      ]);
-    } else {
-      return removeUndefinedFromArrayTail([
-        'Client',
-        'findPetsByTags',
-        ...params,
-      ]);
     }
-  }
-
-  private static findPetsByTags(context: QueryFunctionContext) {
-    return Query.Client.findPetsByTags(context.queryKey[2] as string[]);
-  }
-
-  static useFindPetsByTagsQuery<TSelectData = Pet[], TError = unknown>(
-    dto: FindPetsByTagsQueryParameters,
-    options?: UseQueryOptions<Pet[], TError, TSelectData>,
-  ): UseQueryResult<TSelectData, TError>;
-  /**
-   * Finds Pets by tags
-   * @param tags Tags to filter by
-   * @return successful operation
-   * @deprecated
-   */
-  static useFindPetsByTagsQuery<TSelectData = Pet[], TError = unknown>(
-    tags: string[],
-    options?: UseQueryOptions<Pet[], TError, TSelectData>,
-  ): UseQueryResult<TSelectData, TError>;
-  static useFindPetsByTagsQuery<TSelectData = Pet[], TError = unknown>(
-    ...params: any[]
-  ): UseQueryResult<TSelectData, TError> {
-    let options: UseQueryOptions<Pet[], TError, TSelectData> | undefined =
-      undefined;
-    let tags: any = undefined;
-
-    if (params.length > 0) {
-      if (isParameterObject(params[0])) {
-        ({ tags } = params[0] as FindPetsByTagsQueryParameters);
-        options = params[1];
-      } else {
-        [tags, options] = params;
-      }
+    /**
+     * Finds Pets by tags
+     * @param tags Tags to filter by
+     * @return successful operation
+     * @deprecated
+     */
+    static setFindPetsByTagsData(queryClient: QueryClient, updater: (data: Pet[] | undefined) => Pet[], tags: string[]) {
+        queryClient.setQueryData(Query.findPetsByTagsQueryKey(tags),
+            updater
+        );
     }
 
-    const metaContext = useContext(QueryMetaContext);
-    options = addMetaToOptions(options, metaContext);
+    /**
+     * Finds Pets by tags
+     * @param tags Tags to filter by
+     * @return successful operation
+     * @deprecated
+     */
+    static setFindPetsByTagsDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: Pet[] | undefined) => Pet[]) {
+        queryClient.setQueryData(queryKey, updater);
+    }
+    
 
-    return useQuery<Pet[], TError, TSelectData>({
-      queryFn: Query.findPetsByTags,
-      queryKey: Query.findPetsByTagsQueryKey(tags),
-      ...(Query.findPetsByTagsDefaultOptions as unknown as UseQueryOptions<
-        Pet[],
-        TError,
-        TSelectData
-      >),
-      ...options,
-    });
-  }
-  /**
-   * Finds Pets by tags
-   * @param tags Tags to filter by
-   * @return successful operation
-   * @deprecated
-   */
-  static setFindPetsByTagsData(
-    queryClient: QueryClient,
-    updater: (data: Pet[] | undefined) => Pet[],
-    tags: string[],
-  ) {
-    queryClient.setQueryData(Query.findPetsByTagsQueryKey(tags), updater);
-  }
-
-  /**
-   * Finds Pets by tags
-   * @param tags Tags to filter by
-   * @return successful operation
-   * @deprecated
-   */
-  static setFindPetsByTagsDataByQueryId(
-    queryClient: QueryClient,
-    queryKey: QueryKey,
-    updater: (data: Pet[] | undefined) => Pet[],
-  ) {
-    queryClient.setQueryData(queryKey, updater);
-  }
-
-  getPetById(petId: number): string {
-    let url_ = this.baseUrl + '/pet/{petId}';
+    getPetById(petId: number): string {
+      let url_ = this.baseUrl + "/pet/{petId}";
     if (petId === undefined || petId === null)
-      throw new Error("The parameter 'petId' must be defined.");
-    url_ = url_.replace('{petId}', encodeURIComponent('' + petId));
-    url_ = url_.replace(/[?&]$/, '');
-    return url_;
-  }
-
-  static getPetByIdDefaultOptions?: UseQueryOptions<Pet, unknown, Pet> = {};
-  public static getPetByIdQueryKey(petId: number): QueryKey;
-  public static getPetByIdQueryKey(...params: any[]): QueryKey {
-    if (params.length === 1 && isParameterObject(params[0])) {
-      const { petId } = params[0] as GetPetByIdQueryParameters;
-
-      return removeUndefinedFromArrayTail([
-        'Client',
-        'getPetById',
-        petId as any,
-      ]);
-    } else {
-      return removeUndefinedFromArrayTail(['Client', 'getPetById', ...params]);
-    }
-  }
-
-  private static getPetById(context: QueryFunctionContext) {
-    return Query.Client.getPetById(context.queryKey[2] as number);
-  }
-
-  static useGetPetByIdQuery<TSelectData = Pet, TError = unknown>(
-    dto: GetPetByIdQueryParameters,
-    options?: UseQueryOptions<Pet, TError, TSelectData>,
-  ): UseQueryResult<TSelectData, TError>;
-  /**
-   * Find pet by ID
-   * @param petId ID of pet to return
-   * @return successful operation
-   */
-  static useGetPetByIdQuery<TSelectData = Pet, TError = unknown>(
-    petId: number,
-    options?: UseQueryOptions<Pet, TError, TSelectData>,
-  ): UseQueryResult<TSelectData, TError>;
-  static useGetPetByIdQuery<TSelectData = Pet, TError = unknown>(
-    ...params: any[]
-  ): UseQueryResult<TSelectData, TError> {
-    let options: UseQueryOptions<Pet, TError, TSelectData> | undefined =
-      undefined;
-    let petId: any = undefined;
-
-    if (params.length > 0) {
-      if (isParameterObject(params[0])) {
-        ({ petId } = params[0] as GetPetByIdQueryParameters);
-        options = params[1];
-      } else {
-        [petId, options] = params;
-      }
+        throw new Error("The parameter 'petId' must be defined.");
+    url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
+    url_ = url_.replace(/[?&]$/, "");
+      return url_;
     }
 
-    const metaContext = useContext(QueryMetaContext);
-    options = addMetaToOptions(options, metaContext);
+    static getPetByIdDefaultOptions?: UseQueryOptions<Pet, unknown, Pet> = {};
+    public static getPetByIdQueryKey(petId: number): QueryKey;
+    public static getPetByIdQueryKey(...params: any[]): QueryKey {
+        if (params.length === 1 && isParameterObject(params[0])) {
+            const { petId,  } = params[0] as GetPetByIdQueryParameters;
 
-    return useQuery<Pet, TError, TSelectData>({
-      queryFn: Query.getPetById,
-      queryKey: Query.getPetByIdQueryKey(petId),
-      ...(Query.getPetByIdDefaultOptions as unknown as UseQueryOptions<
-        Pet,
-        TError,
-        TSelectData
-      >),
-      ...options,
-    });
-  }
-  /**
-   * Find pet by ID
-   * @param petId ID of pet to return
-   * @return successful operation
-   */
-  static setGetPetByIdData(
-    queryClient: QueryClient,
-    updater: (data: Pet | undefined) => Pet,
-    petId: number,
-  ) {
-    queryClient.setQueryData(Query.getPetByIdQueryKey(petId), updater);
-  }
+            return removeUndefinedFromArrayTail([
+                'Client',
+                'getPetById',
+                petId as any,
 
-  /**
-   * Find pet by ID
-   * @param petId ID of pet to return
-   * @return successful operation
-   */
-  static setGetPetByIdDataByQueryId(
-    queryClient: QueryClient,
-    queryKey: QueryKey,
-    updater: (data: Pet | undefined) => Pet,
-  ) {
-    queryClient.setQueryData(queryKey, updater);
-  }
+            ]);
+        } else {
+            return removeUndefinedFromArrayTail([
+                'Client',
+                'getPetById',
+                ...params
+            ]);
+        }
+    }
 
-  getOrderById(orderId: number): string {
-    let url_ = this.baseUrl + '/store/order/{orderId}';
+    private static getPetById(context: QueryFunctionContext) {
+        return Query.Client.getPetById(
+                context.queryKey[2] as number
+            );
+    }
+
+    static useGetPetByIdQuery<TSelectData = Pet, TError = unknown>(dto: GetPetByIdQueryParameters, options?: UseQueryOptions<Pet, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+    /**
+     * Find pet by ID
+     * @param petId ID of pet to return
+     * @return successful operation
+     */
+    static useGetPetByIdQuery<TSelectData = Pet, TError = unknown>(petId: number, options?: UseQueryOptions<Pet, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+    static useGetPetByIdQuery<TSelectData = Pet, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+
+        let options: UseQueryOptions<Pet, TError, TSelectData> | undefined = undefined;
+        let petId: any = undefined;
+        
+        if (params.length > 0) {
+            if (isParameterObject(params[0])) {
+                ({ petId,  } = params[0] as GetPetByIdQueryParameters);
+                options = params[1];
+            } else {
+                [petId,  options] = params;
+            }
+        }
+    
+
+        const metaContext = useContext(QueryMetaContext);
+        options = addMetaToOptions(options, metaContext);
+
+        return useQuery<Pet, TError, TSelectData>({
+            queryFn: Query.getPetById,
+            queryKey: Query.getPetByIdQueryKey(petId),
+            ...Query.getPetByIdDefaultOptions as unknown as UseQueryOptions<Pet, TError, TSelectData>,
+            ...options,
+        });
+    }
+    /**
+     * Find pet by ID
+     * @param petId ID of pet to return
+     * @return successful operation
+     */
+    static setGetPetByIdData(queryClient: QueryClient, updater: (data: Pet | undefined) => Pet, petId: number) {
+        queryClient.setQueryData(Query.getPetByIdQueryKey(petId),
+            updater
+        );
+    }
+
+    /**
+     * Find pet by ID
+     * @param petId ID of pet to return
+     * @return successful operation
+     */
+    static setGetPetByIdDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: Pet | undefined) => Pet) {
+        queryClient.setQueryData(queryKey, updater);
+    }
+          
+
+    getOrderById(orderId: number): string {
+      let url_ = this.baseUrl + "/store/order/{orderId}";
     if (orderId === undefined || orderId === null)
-      throw new Error("The parameter 'orderId' must be defined.");
-    url_ = url_.replace('{orderId}', encodeURIComponent('' + orderId));
-    url_ = url_.replace(/[?&]$/, '');
-    return url_;
-  }
-
-  static getOrderByIdDefaultOptions?: UseQueryOptions<Order, unknown, Order> =
-    {};
-  public static getOrderByIdQueryKey(orderId: number): QueryKey;
-  public static getOrderByIdQueryKey(...params: any[]): QueryKey {
-    if (params.length === 1 && isParameterObject(params[0])) {
-      const { orderId } = params[0] as GetOrderByIdQueryParameters;
-
-      return removeUndefinedFromArrayTail([
-        'Client',
-        'getOrderById',
-        orderId as any,
-      ]);
-    } else {
-      return removeUndefinedFromArrayTail([
-        'Client',
-        'getOrderById',
-        ...params,
-      ]);
-    }
-  }
-
-  private static getOrderById(context: QueryFunctionContext) {
-    return Query.Client.getOrderById(context.queryKey[2] as number);
-  }
-
-  static useGetOrderByIdQuery<TSelectData = Order, TError = unknown>(
-    dto: GetOrderByIdQueryParameters,
-    options?: UseQueryOptions<Order, TError, TSelectData>,
-  ): UseQueryResult<TSelectData, TError>;
-  /**
-   * Find purchase order by ID
-   * @param orderId ID of pet that needs to be fetched
-   * @return successful operation
-   */
-  static useGetOrderByIdQuery<TSelectData = Order, TError = unknown>(
-    orderId: number,
-    options?: UseQueryOptions<Order, TError, TSelectData>,
-  ): UseQueryResult<TSelectData, TError>;
-  static useGetOrderByIdQuery<TSelectData = Order, TError = unknown>(
-    ...params: any[]
-  ): UseQueryResult<TSelectData, TError> {
-    let options: UseQueryOptions<Order, TError, TSelectData> | undefined =
-      undefined;
-    let orderId: any = undefined;
-
-    if (params.length > 0) {
-      if (isParameterObject(params[0])) {
-        ({ orderId } = params[0] as GetOrderByIdQueryParameters);
-        options = params[1];
-      } else {
-        [orderId, options] = params;
-      }
+        throw new Error("The parameter 'orderId' must be defined.");
+    url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
+    url_ = url_.replace(/[?&]$/, "");
+      return url_;
     }
 
-    const metaContext = useContext(QueryMetaContext);
-    options = addMetaToOptions(options, metaContext);
+    static getOrderByIdDefaultOptions?: UseQueryOptions<Order, unknown, Order> = {};
+    public static getOrderByIdQueryKey(orderId: number): QueryKey;
+    public static getOrderByIdQueryKey(...params: any[]): QueryKey {
+        if (params.length === 1 && isParameterObject(params[0])) {
+            const { orderId,  } = params[0] as GetOrderByIdQueryParameters;
 
-    return useQuery<Order, TError, TSelectData>({
-      queryFn: Query.getOrderById,
-      queryKey: Query.getOrderByIdQueryKey(orderId),
-      ...(Query.getOrderByIdDefaultOptions as unknown as UseQueryOptions<
-        Order,
-        TError,
-        TSelectData
-      >),
-      ...options,
-    });
-  }
-  /**
-   * Find purchase order by ID
-   * @param orderId ID of pet that needs to be fetched
-   * @return successful operation
-   */
-  static setGetOrderByIdData(
-    queryClient: QueryClient,
-    updater: (data: Order | undefined) => Order,
-    orderId: number,
-  ) {
-    queryClient.setQueryData(Query.getOrderByIdQueryKey(orderId), updater);
-  }
+            return removeUndefinedFromArrayTail([
+                'Client',
+                'getOrderById',
+                orderId as any,
 
-  /**
-   * Find purchase order by ID
-   * @param orderId ID of pet that needs to be fetched
-   * @return successful operation
-   */
-  static setGetOrderByIdDataByQueryId(
-    queryClient: QueryClient,
-    queryKey: QueryKey,
-    updater: (data: Order | undefined) => Order,
-  ) {
-    queryClient.setQueryData(queryKey, updater);
-  }
+            ]);
+        } else {
+            return removeUndefinedFromArrayTail([
+                'Client',
+                'getOrderById',
+                ...params
+            ]);
+        }
+    }
 
-  getInventory(): string {
-    let url_ = this.baseUrl + '/store/inventory';
-    url_ = url_.replace(/[?&]$/, '');
-    return url_;
-  }
+    private static getOrderById(context: QueryFunctionContext) {
+        return Query.Client.getOrderById(
+                context.queryKey[2] as number
+            );
+    }
 
-  static getInventoryDefaultOptions?: UseQueryOptions<
-    { [key: string]: number },
-    unknown,
-    { [key: string]: number }
-  > = {};
-  public static getInventoryQueryKey(): QueryKey;
-  public static getInventoryQueryKey(...params: any[]): QueryKey {
-    return removeUndefinedFromArrayTail(['Client', 'getInventory']);
-  }
+    static useGetOrderByIdQuery<TSelectData = Order, TError = unknown>(dto: GetOrderByIdQueryParameters, options?: UseQueryOptions<Order, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+    /**
+     * Find purchase order by ID
+     * @param orderId ID of pet that needs to be fetched
+     * @return successful operation
+     */
+    static useGetOrderByIdQuery<TSelectData = Order, TError = unknown>(orderId: number, options?: UseQueryOptions<Order, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+    static useGetOrderByIdQuery<TSelectData = Order, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
 
-  private static getInventory() {
-    return Query.Client.getInventory();
-  }
+        let options: UseQueryOptions<Order, TError, TSelectData> | undefined = undefined;
+        let orderId: any = undefined;
+        
+        if (params.length > 0) {
+            if (isParameterObject(params[0])) {
+                ({ orderId,  } = params[0] as GetOrderByIdQueryParameters);
+                options = params[1];
+            } else {
+                [orderId,  options] = params;
+            }
+        }
+    
 
-  /**
-   * Returns pet inventories by status
-   * @return successful operation
-   */
-  static useGetInventoryQuery<
-    TSelectData = { [key: string]: number },
-    TError = unknown,
-  >(
-    options?: UseQueryOptions<{ [key: string]: number }, TError, TSelectData>,
-  ): UseQueryResult<TSelectData, TError>;
-  static useGetInventoryQuery<
-    TSelectData = { [key: string]: number },
-    TError = unknown,
-  >(...params: any[]): UseQueryResult<TSelectData, TError> {
-    let options:
-      | UseQueryOptions<{ [key: string]: number }, TError, TSelectData>
-      | undefined = undefined;
+        const metaContext = useContext(QueryMetaContext);
+        options = addMetaToOptions(options, metaContext);
 
-    options = params[0] as any;
+        return useQuery<Order, TError, TSelectData>({
+            queryFn: Query.getOrderById,
+            queryKey: Query.getOrderByIdQueryKey(orderId),
+            ...Query.getOrderByIdDefaultOptions as unknown as UseQueryOptions<Order, TError, TSelectData>,
+            ...options,
+        });
+    }
+    /**
+     * Find purchase order by ID
+     * @param orderId ID of pet that needs to be fetched
+     * @return successful operation
+     */
+    static setGetOrderByIdData(queryClient: QueryClient, updater: (data: Order | undefined) => Order, orderId: number) {
+        queryClient.setQueryData(Query.getOrderByIdQueryKey(orderId),
+            updater
+        );
+    }
 
-    const metaContext = useContext(QueryMetaContext);
-    options = addMetaToOptions(options, metaContext);
+    /**
+     * Find purchase order by ID
+     * @param orderId ID of pet that needs to be fetched
+     * @return successful operation
+     */
+    static setGetOrderByIdDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: Order | undefined) => Order) {
+        queryClient.setQueryData(queryKey, updater);
+    }
+      
 
-    return useQuery<{ [key: string]: number }, TError, TSelectData>({
-      queryFn: Query.getInventory,
-      queryKey: Query.getInventoryQueryKey(),
-      ...(Query.getInventoryDefaultOptions as unknown as UseQueryOptions<
-        { [key: string]: number },
-        TError,
-        TSelectData
-      >),
-      ...options,
-    });
-  }
-  /**
-   * Returns pet inventories by status
-   * @return successful operation
-   */
-  static setGetInventoryData(
-    queryClient: QueryClient,
-    updater: (data: { [key: string]: number } | undefined) => {
-      [key: string]: number;
-    },
-  ) {
-    queryClient.setQueryData(Query.getInventoryQueryKey(), updater);
-  }
+    getInventory(): string {
+      let url_ = this.baseUrl + "/store/inventory";
+    url_ = url_.replace(/[?&]$/, "");
+      return url_;
+    }
 
-  /**
-   * Returns pet inventories by status
-   * @return successful operation
-   */
-  static setGetInventoryDataByQueryId(
-    queryClient: QueryClient,
-    queryKey: QueryKey,
-    updater: (data: { [key: string]: number } | undefined) => {
-      [key: string]: number;
-    },
-  ) {
-    queryClient.setQueryData(queryKey, updater);
-  }
+    static getInventoryDefaultOptions?: UseQueryOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }> = {};
+    public static getInventoryQueryKey(): QueryKey;
+    public static getInventoryQueryKey(...params: any[]): QueryKey {
+        return removeUndefinedFromArrayTail([
+            'Client',
+            'getInventory',
+            ]);
+    }
 
-  getUserByName(username: string): string {
-    let url_ = this.baseUrl + '/user/{username}';
+    private static getInventory() {
+        return Query.Client.getInventory(
+            );
+    }
+
+    /**
+     * Returns pet inventories by status
+     * @return successful operation
+     */
+    static useGetInventoryQuery<TSelectData = { [key: string]: number; }, TError = unknown>(options?: UseQueryOptions<{ [key: string]: number; }, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+    static useGetInventoryQuery<TSelectData = { [key: string]: number; }, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+
+        let options: UseQueryOptions<{ [key: string]: number; }, TError, TSelectData> | undefined = undefined;
+        
+
+        options = params[0] as any;
+    
+
+        const metaContext = useContext(QueryMetaContext);
+        options = addMetaToOptions(options, metaContext);
+
+        return useQuery<{ [key: string]: number; }, TError, TSelectData>({
+            queryFn: Query.getInventory,
+            queryKey: Query.getInventoryQueryKey(),
+            ...Query.getInventoryDefaultOptions as unknown as UseQueryOptions<{ [key: string]: number; }, TError, TSelectData>,
+            ...options,
+        });
+    }
+    /**
+     * Returns pet inventories by status
+     * @return successful operation
+     */
+    static setGetInventoryData(queryClient: QueryClient, updater: (data: { [key: string]: number; } | undefined) => { [key: string]: number; }, ) {
+        queryClient.setQueryData(Query.getInventoryQueryKey(),
+            updater
+        );
+    }
+
+    /**
+     * Returns pet inventories by status
+     * @return successful operation
+     */
+    static setGetInventoryDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: { [key: string]: number; } | undefined) => { [key: string]: number; }) {
+        queryClient.setQueryData(queryKey, updater);
+    }
+        
+
+    getUserByName(username: string): string {
+      let url_ = this.baseUrl + "/user/{username}";
     if (username === undefined || username === null)
-      throw new Error("The parameter 'username' must be defined.");
-    url_ = url_.replace('{username}', encodeURIComponent('' + username));
-    url_ = url_.replace(/[?&]$/, '');
-    return url_;
-  }
-
-  static getUserByNameDefaultOptions?: UseQueryOptions<User, unknown, User> =
-    {};
-  public static getUserByNameQueryKey(username: string): QueryKey;
-  public static getUserByNameQueryKey(...params: any[]): QueryKey {
-    if (params.length === 1 && isParameterObject(params[0])) {
-      const { username } = params[0] as GetUserByNameQueryParameters;
-
-      return removeUndefinedFromArrayTail([
-        'Client',
-        'getUserByName',
-        username as any,
-      ]);
-    } else {
-      return removeUndefinedFromArrayTail([
-        'Client',
-        'getUserByName',
-        ...params,
-      ]);
-    }
-  }
-
-  private static getUserByName(context: QueryFunctionContext) {
-    return Query.Client.getUserByName(context.queryKey[2] as string);
-  }
-
-  static useGetUserByNameQuery<TSelectData = User, TError = unknown>(
-    dto: GetUserByNameQueryParameters,
-    options?: UseQueryOptions<User, TError, TSelectData>,
-  ): UseQueryResult<TSelectData, TError>;
-  /**
-   * Get user by user name
-   * @param username The name that needs to be fetched. Use user1 for testing.
-   * @return successful operation
-   */
-  static useGetUserByNameQuery<TSelectData = User, TError = unknown>(
-    username: string,
-    options?: UseQueryOptions<User, TError, TSelectData>,
-  ): UseQueryResult<TSelectData, TError>;
-  static useGetUserByNameQuery<TSelectData = User, TError = unknown>(
-    ...params: any[]
-  ): UseQueryResult<TSelectData, TError> {
-    let options: UseQueryOptions<User, TError, TSelectData> | undefined =
-      undefined;
-    let username: any = undefined;
-
-    if (params.length > 0) {
-      if (isParameterObject(params[0])) {
-        ({ username } = params[0] as GetUserByNameQueryParameters);
-        options = params[1];
-      } else {
-        [username, options] = params;
-      }
+        throw new Error("The parameter 'username' must be defined.");
+    url_ = url_.replace("{username}", encodeURIComponent("" + username));
+    url_ = url_.replace(/[?&]$/, "");
+      return url_;
     }
 
-    const metaContext = useContext(QueryMetaContext);
-    options = addMetaToOptions(options, metaContext);
+    static getUserByNameDefaultOptions?: UseQueryOptions<User, unknown, User> = {};
+    public static getUserByNameQueryKey(username: string): QueryKey;
+    public static getUserByNameQueryKey(...params: any[]): QueryKey {
+        if (params.length === 1 && isParameterObject(params[0])) {
+            const { username,  } = params[0] as GetUserByNameQueryParameters;
 
-    return useQuery<User, TError, TSelectData>({
-      queryFn: Query.getUserByName,
-      queryKey: Query.getUserByNameQueryKey(username),
-      ...(Query.getUserByNameDefaultOptions as unknown as UseQueryOptions<
-        User,
-        TError,
-        TSelectData
-      >),
-      ...options,
-    });
-  }
-  /**
-   * Get user by user name
-   * @param username The name that needs to be fetched. Use user1 for testing.
-   * @return successful operation
-   */
-  static setGetUserByNameData(
-    queryClient: QueryClient,
-    updater: (data: User | undefined) => User,
-    username: string,
-  ) {
-    queryClient.setQueryData(Query.getUserByNameQueryKey(username), updater);
-  }
+            return removeUndefinedFromArrayTail([
+                'Client',
+                'getUserByName',
+                username as any,
 
-  /**
-   * Get user by user name
-   * @param username The name that needs to be fetched. Use user1 for testing.
-   * @return successful operation
-   */
-  static setGetUserByNameDataByQueryId(
-    queryClient: QueryClient,
-    queryKey: QueryKey,
-    updater: (data: User | undefined) => User,
-  ) {
-    queryClient.setQueryData(queryKey, updater);
-  }
+            ]);
+        } else {
+            return removeUndefinedFromArrayTail([
+                'Client',
+                'getUserByName',
+                ...params
+            ]);
+        }
+    }
 
-  loginUser(username: string, password: string): string {
-    let url_ = this.baseUrl + '/user/login?';
+    private static getUserByName(context: QueryFunctionContext) {
+        return Query.Client.getUserByName(
+                context.queryKey[2] as string
+            );
+    }
+
+    static useGetUserByNameQuery<TSelectData = User, TError = unknown>(dto: GetUserByNameQueryParameters, options?: UseQueryOptions<User, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+    /**
+     * Get user by user name
+     * @param username The name that needs to be fetched. Use user1 for testing.
+     * @return successful operation
+     */
+    static useGetUserByNameQuery<TSelectData = User, TError = unknown>(username: string, options?: UseQueryOptions<User, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+    static useGetUserByNameQuery<TSelectData = User, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+
+        let options: UseQueryOptions<User, TError, TSelectData> | undefined = undefined;
+        let username: any = undefined;
+        
+        if (params.length > 0) {
+            if (isParameterObject(params[0])) {
+                ({ username,  } = params[0] as GetUserByNameQueryParameters);
+                options = params[1];
+            } else {
+                [username,  options] = params;
+            }
+        }
+    
+
+        const metaContext = useContext(QueryMetaContext);
+        options = addMetaToOptions(options, metaContext);
+
+        return useQuery<User, TError, TSelectData>({
+            queryFn: Query.getUserByName,
+            queryKey: Query.getUserByNameQueryKey(username),
+            ...Query.getUserByNameDefaultOptions as unknown as UseQueryOptions<User, TError, TSelectData>,
+            ...options,
+        });
+    }
+    /**
+     * Get user by user name
+     * @param username The name that needs to be fetched. Use user1 for testing.
+     * @return successful operation
+     */
+    static setGetUserByNameData(queryClient: QueryClient, updater: (data: User | undefined) => User, username: string) {
+        queryClient.setQueryData(Query.getUserByNameQueryKey(username),
+            updater
+        );
+    }
+
+    /**
+     * Get user by user name
+     * @param username The name that needs to be fetched. Use user1 for testing.
+     * @return successful operation
+     */
+    static setGetUserByNameDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: User | undefined) => User) {
+        queryClient.setQueryData(queryKey, updater);
+    }
+        
+
+    loginUser(username: string, password: string): string {
+      let url_ = this.baseUrl + "/user/login?";
     if (username === undefined || username === null)
-      throw new Error(
-        "The parameter 'username' must be defined and cannot be null.",
-      );
-    else url_ += 'username=' + encodeURIComponent('' + username) + '&';
+        throw new Error("The parameter 'username' must be defined and cannot be null.");
+    else
+        url_ += "username=" + encodeURIComponent("" + username) + "&";
     if (password === undefined || password === null)
-      throw new Error(
-        "The parameter 'password' must be defined and cannot be null.",
-      );
-    else url_ += 'password=' + encodeURIComponent('' + password) + '&';
-    url_ = url_.replace(/[?&]$/, '');
-    return url_;
-  }
-
-  static loginUserDefaultOptions?: UseQueryOptions<string, unknown, string> =
-    {};
-  public static loginUserQueryKey(dto: LoginUserQueryParameters): QueryKey;
-  public static loginUserQueryKey(username: string, password: string): QueryKey;
-  public static loginUserQueryKey(...params: any[]): QueryKey {
-    if (params.length === 1 && isParameterObject(params[0])) {
-      const { username, password } = params[0] as LoginUserQueryParameters;
-
-      return removeUndefinedFromArrayTail([
-        'Client',
-        'loginUser',
-        username as any,
-        password as any,
-      ]);
-    } else {
-      return removeUndefinedFromArrayTail(['Client', 'loginUser', ...params]);
+        throw new Error("The parameter 'password' must be defined and cannot be null.");
+    else
+        url_ += "password=" + encodeURIComponent("" + password) + "&";
+    url_ = url_.replace(/[?&]$/, "");
+      return url_;
     }
-  }
 
-  private static loginUser(context: QueryFunctionContext) {
-    return Query.Client.loginUser(
-      context.queryKey[2] as string,
-      context.queryKey[3] as string,
-    );
-  }
+    static loginUserDefaultOptions?: UseQueryOptions<string, unknown, string> = {};
+    public static loginUserQueryKey(dto: LoginUserQueryParameters): QueryKey;
+    public static loginUserQueryKey(username: string,password: string): QueryKey;
+    public static loginUserQueryKey(...params: any[]): QueryKey {
+        if (params.length === 1 && isParameterObject(params[0])) {
+            const { username, password,  } = params[0] as LoginUserQueryParameters;
 
-  static useLoginUserQuery<TSelectData = string, TError = unknown>(
-    dto: LoginUserQueryParameters,
-    options?: UseQueryOptions<string, TError, TSelectData>,
-  ): UseQueryResult<TSelectData, TError>;
-  /**
-   * Logs user into the system
-   * @param username The user name for login
-   * @param password The password for login in clear text
-   * @return successful operation
-   */
-  static useLoginUserQuery<TSelectData = string, TError = unknown>(
-    username: string,
-    password: string,
-    options?: UseQueryOptions<string, TError, TSelectData>,
-  ): UseQueryResult<TSelectData, TError>;
-  static useLoginUserQuery<TSelectData = string, TError = unknown>(
-    ...params: any[]
-  ): UseQueryResult<TSelectData, TError> {
-    let options: UseQueryOptions<string, TError, TSelectData> | undefined =
-      undefined;
-    let username: any = undefined;
-    let password: any = undefined;
+            return removeUndefinedFromArrayTail([
+                'Client',
+                'loginUser',
+                username as any,
+                password as any,
 
-    if (params.length > 0) {
-      if (isParameterObject(params[0])) {
-        ({ username, password } = params[0] as LoginUserQueryParameters);
-        options = params[1];
-      } else {
-        [username, password, options] = params;
+            ]);
+        } else {
+            return removeUndefinedFromArrayTail([
+                'Client',
+                'loginUser',
+                ...params
+            ]);
+        }
+    }
+
+    private static loginUser(context: QueryFunctionContext) {
+        return Query.Client.loginUser(
+                context.queryKey[2] as string, 
+                context.queryKey[3] as string
+            );
+    }
+
+    static useLoginUserQuery<TSelectData = string, TError = unknown>(dto: LoginUserQueryParameters, options?: UseQueryOptions<string, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+    /**
+     * Logs user into the system
+     * @param username The user name for login
+     * @param password The password for login in clear text
+     * @return successful operation
+     */
+    static useLoginUserQuery<TSelectData = string, TError = unknown>(username: string, password: string, options?: UseQueryOptions<string, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+    static useLoginUserQuery<TSelectData = string, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+
+        let options: UseQueryOptions<string, TError, TSelectData> | undefined = undefined;
+        let username: any = undefined;
+        let password: any = undefined;
+        
+        if (params.length > 0) {
+            if (isParameterObject(params[0])) {
+                ({ username, password,  } = params[0] as LoginUserQueryParameters);
+                options = params[1];
+            } else {
+                [username, password,  options] = params;
+            }
+        }
+    
+
+        const metaContext = useContext(QueryMetaContext);
+        options = addMetaToOptions(options, metaContext);
+
+        return useQuery<string, TError, TSelectData>({
+            queryFn: Query.loginUser,
+            queryKey: Query.loginUserQueryKey(username, password),
+            ...Query.loginUserDefaultOptions as unknown as UseQueryOptions<string, TError, TSelectData>,
+            ...options,
+        });
+    }
+    /**
+     * Logs user into the system
+     * @param username The user name for login
+     * @param password The password for login in clear text
+     * @return successful operation
+     */
+    static setLoginUserData(queryClient: QueryClient, updater: (data: string | undefined) => string, username: string, password: string) {
+        queryClient.setQueryData(Query.loginUserQueryKey(username, password),
+            updater
+        );
+    }
+
+    /**
+     * Logs user into the system
+     * @param username The user name for login
+     * @param password The password for login in clear text
+     * @return successful operation
+     */
+    static setLoginUserDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: string | undefined) => string) {
+        queryClient.setQueryData(queryKey, updater);
+    }
+    
+
+    logoutUser(): string {
+      let url_ = this.baseUrl + "/user/logout";
+    url_ = url_.replace(/[?&]$/, "");
+      return url_;
+    }
+
+    static logoutUserDefaultOptions?: UseQueryOptions<void, unknown, void> = {};
+    public static logoutUserQueryKey(): QueryKey;
+    public static logoutUserQueryKey(...params: any[]): QueryKey {
+        return removeUndefinedFromArrayTail([
+            'Client',
+            'logoutUser',
+            ]);
+    }
+
+    private static logoutUser() {
+        return Query.Client.logoutUser(
+            );
+    }
+
+    /**
+     * Logs out current logged in user session
+     * @return successful operation
+     */
+    static useLogoutUserQuery<TSelectData = void, TError = unknown>(options?: UseQueryOptions<void, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+    static useLogoutUserQuery<TSelectData = void, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+
+        let options: UseQueryOptions<void, TError, TSelectData> | undefined = undefined;
+        
+
+        options = params[0] as any;
+    
+
+        const metaContext = useContext(QueryMetaContext);
+        options = addMetaToOptions(options, metaContext);
+
+        return useQuery<void, TError, TSelectData>({
+            queryFn: Query.logoutUser,
+            queryKey: Query.logoutUserQueryKey(),
+            ...Query.logoutUserDefaultOptions as unknown as UseQueryOptions<void, TError, TSelectData>,
+            ...options,
+        });
+    }
+    /**
+     * Logs out current logged in user session
+     * @return successful operation
+     */
+    static setLogoutUserData(queryClient: QueryClient, updater: (data: void | undefined) => void, ) {
+        queryClient.setQueryData(Query.logoutUserQueryKey(),
+            updater
+        );
+    }
+
+    /**
+     * Logs out current logged in user session
+     * @return successful operation
+     */
+    static setLogoutUserDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: void | undefined) => void) {
+        queryClient.setQueryData(queryKey, updater);
+    }
       }
-    }
-
-    const metaContext = useContext(QueryMetaContext);
-    options = addMetaToOptions(options, metaContext);
-
-    return useQuery<string, TError, TSelectData>({
-      queryFn: Query.loginUser,
-      queryKey: Query.loginUserQueryKey(username, password),
-      ...(Query.loginUserDefaultOptions as unknown as UseQueryOptions<
-        string,
-        TError,
-        TSelectData
-      >),
-      ...options,
-    });
-  }
-  /**
-   * Logs user into the system
-   * @param username The user name for login
-   * @param password The password for login in clear text
-   * @return successful operation
-   */
-  static setLoginUserData(
-    queryClient: QueryClient,
-    updater: (data: string | undefined) => string,
-    username: string,
-    password: string,
-  ) {
-    queryClient.setQueryData(
-      Query.loginUserQueryKey(username, password),
-      updater,
-    );
-  }
-
-  /**
-   * Logs user into the system
-   * @param username The user name for login
-   * @param password The password for login in clear text
-   * @return successful operation
-   */
-  static setLoginUserDataByQueryId(
-    queryClient: QueryClient,
-    queryKey: QueryKey,
-    updater: (data: string | undefined) => string,
-  ) {
-    queryClient.setQueryData(queryKey, updater);
-  }
-
-  logoutUser(): string {
-    let url_ = this.baseUrl + '/user/logout';
-    url_ = url_.replace(/[?&]$/, '');
-    return url_;
-  }
-
-  static logoutUserDefaultOptions?: UseQueryOptions<void, unknown, void> = {};
-  public static logoutUserQueryKey(): QueryKey;
-  public static logoutUserQueryKey(...params: any[]): QueryKey {
-    return removeUndefinedFromArrayTail(['Client', 'logoutUser']);
-  }
-
-  private static logoutUser() {
-    return Query.Client.logoutUser();
-  }
-
-  /**
-   * Logs out current logged in user session
-   * @return successful operation
-   */
-  static useLogoutUserQuery<TSelectData = void, TError = unknown>(
-    options?: UseQueryOptions<void, TError, TSelectData>,
-  ): UseQueryResult<TSelectData, TError>;
-  static useLogoutUserQuery<TSelectData = void, TError = unknown>(
-    ...params: any[]
-  ): UseQueryResult<TSelectData, TError> {
-    let options: UseQueryOptions<void, TError, TSelectData> | undefined =
-      undefined;
-
-    options = params[0] as any;
-
-    const metaContext = useContext(QueryMetaContext);
-    options = addMetaToOptions(options, metaContext);
-
-    return useQuery<void, TError, TSelectData>({
-      queryFn: Query.logoutUser,
-      queryKey: Query.logoutUserQueryKey(),
-      ...(Query.logoutUserDefaultOptions as unknown as UseQueryOptions<
-        void,
-        TError,
-        TSelectData
-      >),
-      ...options,
-    });
-  }
-  /**
-   * Logs out current logged in user session
-   * @return successful operation
-   */
-  static setLogoutUserData(
-    queryClient: QueryClient,
-    updater: (data: void | undefined) => void,
-  ) {
-    queryClient.setQueryData(Query.logoutUserQueryKey(), updater);
-  }
-
-  /**
-   * Logs out current logged in user session
-   * @return successful operation
-   */
-  static setLogoutUserDataByQueryId(
-    queryClient: QueryClient,
-    queryKey: QueryKey,
-    updater: (data: void | undefined) => void,
-  ) {
-    queryClient.setQueryData(queryKey, updater);
-  }
-}
 resultTypesByQueryKey['Client___findPetsByStatus'] = () => new Pet();
 resultTypesByQueryKey['Client___findPetsByTags'] = () => new Pet();
 resultTypesByQueryKey['Client___getPetById'] = () => new Pet();
@@ -2039,419 +1631,398 @@ resultTypesByQueryKey['Client___getOrderById'] = () => new Order();
 resultTypesByQueryKey['Client___getUserByName'] = () => new User();
 
 export class ApiResponse implements IApiResponse {
-  code?: number | undefined;
-  type?: string | undefined;
-  message?: string | undefined;
+    code?: number | undefined;
+    type?: string | undefined;
+    message?: string | undefined;
 
-  constructor(data?: IApiResponse) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IApiResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
     }
-  }
 
-  init(_data?: any) {
-    if (_data) {
-      this.code = _data['code'];
-      this.type = _data['type'];
-      this.message = _data['message'];
+    init(_data?: any) {
+        if (_data) {
+            this.code = _data["code"];
+            this.type = _data["type"];
+            this.message = _data["message"];
+        }
     }
-  }
 
-  static fromJS(data: any): ApiResponse {
-    data = typeof data === 'object' ? data : {};
-    let result = new ApiResponse();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): ApiResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new ApiResponse();
+        result.init(data);
+        return result;
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data['code'] = this.code;
-    data['type'] = this.type;
-    data['message'] = this.message;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["type"] = this.type;
+        data["message"] = this.message;
+        return data;
+    }
 }
 
 export interface IApiResponse {
-  code?: number | undefined;
-  type?: string | undefined;
-  message?: string | undefined;
+    code?: number | undefined;
+    type?: string | undefined;
+    message?: string | undefined;
 }
 
 export class Category implements ICategory {
-  id?: number | undefined;
-  name?: string | undefined;
+    id?: number | undefined;
+    name?: string | undefined;
 
-  constructor(data?: ICategory) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: ICategory) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
     }
-  }
 
-  init(_data?: any) {
-    if (_data) {
-      this.id = _data['id'];
-      this.name = _data['name'];
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+        }
     }
-  }
 
-  static fromJS(data: any): Category {
-    data = typeof data === 'object' ? data : {};
-    let result = new Category();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): Category {
+        data = typeof data === 'object' ? data : {};
+        let result = new Category();
+        result.init(data);
+        return result;
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data['id'] = this.id;
-    data['name'] = this.name;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        return data;
+    }
 }
 
 export interface ICategory {
-  id?: number | undefined;
-  name?: string | undefined;
+    id?: number | undefined;
+    name?: string | undefined;
 }
 
 export class Pet implements IPet {
-  id?: number | undefined;
-  category?: Category | undefined;
-  name!: string;
-  photoUrls!: string[];
-  tags?: Tag[] | undefined;
-  /** pet status in the store */
-  status?: PetStatus | undefined;
+    id?: number | undefined;
+    category?: Category | undefined;
+    name!: string;
+    photoUrls!: string[];
+    tags?: Tag[] | undefined;
+    /** pet status in the store */
+    status?: PetStatus | undefined;
 
-  constructor(data?: IPet) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IPet) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.photoUrls = [];
+        }
     }
-    if (!data) {
-      this.photoUrls = [];
-    }
-  }
 
-  init(_data?: any) {
-    if (_data) {
-      this.id = _data['id'];
-      this.category = _data['category']
-        ? Category.fromJS(_data['category'])
-        : <any>undefined;
-      this.name = _data['name'];
-      if (Array.isArray(_data['photoUrls'])) {
-        this.photoUrls = [] as any;
-        for (let item of _data['photoUrls']) this.photoUrls!.push(item);
-      }
-      if (Array.isArray(_data['tags'])) {
-        this.tags = [] as any;
-        for (let item of _data['tags']) this.tags!.push(Tag.fromJS(item));
-      }
-      this.status = _data['status'];
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.category = _data["category"] ? Category.fromJS(_data["category"]) : <any>undefined;
+            this.name = _data["name"];
+            if (Array.isArray(_data["photoUrls"])) {
+                this.photoUrls = [] as any;
+                for (let item of _data["photoUrls"])
+                    this.photoUrls!.push(item);
+            }
+            if (Array.isArray(_data["tags"])) {
+                this.tags = [] as any;
+                for (let item of _data["tags"])
+                    this.tags!.push(Tag.fromJS(item));
+            }
+            this.status = _data["status"];
+        }
     }
-  }
 
-  static fromJS(data: any): Pet {
-    data = typeof data === 'object' ? data : {};
-    let result = new Pet();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): Pet {
+        data = typeof data === 'object' ? data : {};
+        let result = new Pet();
+        result.init(data);
+        return result;
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data['id'] = this.id;
-    data['category'] = this.category ? this.category.toJSON() : <any>undefined;
-    data['name'] = this.name;
-    if (Array.isArray(this.photoUrls)) {
-      data['photoUrls'] = [];
-      for (let item of this.photoUrls) data['photoUrls'].push(item);
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["category"] = this.category ? this.category.toJSON() : <any>undefined;
+        data["name"] = this.name;
+        if (Array.isArray(this.photoUrls)) {
+            data["photoUrls"] = [];
+            for (let item of this.photoUrls)
+                data["photoUrls"].push(item);
+        }
+        if (Array.isArray(this.tags)) {
+            data["tags"] = [];
+            for (let item of this.tags)
+                data["tags"].push(item.toJSON());
+        }
+        data["status"] = this.status;
+        return data;
     }
-    if (Array.isArray(this.tags)) {
-      data['tags'] = [];
-      for (let item of this.tags) data['tags'].push(item.toJSON());
-    }
-    data['status'] = this.status;
-    return data;
-  }
 }
 
 export interface IPet {
-  id?: number | undefined;
-  category?: Category | undefined;
-  name: string;
-  photoUrls: string[];
-  tags?: Tag[] | undefined;
-  /** pet status in the store */
-  status?: PetStatus | undefined;
+    id?: number | undefined;
+    category?: Category | undefined;
+    name: string;
+    photoUrls: string[];
+    tags?: Tag[] | undefined;
+    /** pet status in the store */
+    status?: PetStatus | undefined;
 }
 
 export class Tag implements ITag {
-  id?: number | undefined;
-  name?: string | undefined;
+    id?: number | undefined;
+    name?: string | undefined;
 
-  constructor(data?: ITag) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: ITag) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
     }
-  }
 
-  init(_data?: any) {
-    if (_data) {
-      this.id = _data['id'];
-      this.name = _data['name'];
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+        }
     }
-  }
 
-  static fromJS(data: any): Tag {
-    data = typeof data === 'object' ? data : {};
-    let result = new Tag();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): Tag {
+        data = typeof data === 'object' ? data : {};
+        let result = new Tag();
+        result.init(data);
+        return result;
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data['id'] = this.id;
-    data['name'] = this.name;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        return data;
+    }
 }
 
 export interface ITag {
-  id?: number | undefined;
-  name?: string | undefined;
+    id?: number | undefined;
+    name?: string | undefined;
 }
 
 export class Order implements IOrder {
-  id?: number | undefined;
-  petId?: number | undefined;
-  quantity?: number | undefined;
-  shipDate?: Date | undefined;
-  /** Order Status */
-  status?: OrderStatus | undefined;
-  complete?: boolean | undefined;
+    id?: number | undefined;
+    petId?: number | undefined;
+    quantity?: number | undefined;
+    shipDate?: Date | undefined;
+    /** Order Status */
+    status?: OrderStatus | undefined;
+    complete?: boolean | undefined;
 
-  constructor(data?: IOrder) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IOrder) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
     }
-  }
 
-  init(_data?: any) {
-    if (_data) {
-      this.id = _data['id'];
-      this.petId = _data['petId'];
-      this.quantity = _data['quantity'];
-      this.shipDate = _data['shipDate']
-        ? new Date(_data['shipDate'].toString())
-        : <any>undefined;
-      this.status = _data['status'];
-      this.complete = _data['complete'];
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.petId = _data["petId"];
+            this.quantity = _data["quantity"];
+            this.shipDate = _data["shipDate"] ? new Date(_data["shipDate"].toString()) : <any>undefined;
+            this.status = _data["status"];
+            this.complete = _data["complete"];
+        }
     }
-  }
 
-  static fromJS(data: any): Order {
-    data = typeof data === 'object' ? data : {};
-    let result = new Order();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): Order {
+        data = typeof data === 'object' ? data : {};
+        let result = new Order();
+        result.init(data);
+        return result;
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data['id'] = this.id;
-    data['petId'] = this.petId;
-    data['quantity'] = this.quantity;
-    data['shipDate'] = this.shipDate
-      ? this.shipDate.toISOString()
-      : <any>undefined;
-    data['status'] = this.status;
-    data['complete'] = this.complete;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["petId"] = this.petId;
+        data["quantity"] = this.quantity;
+        data["shipDate"] = this.shipDate ? this.shipDate.toISOString() : <any>undefined;
+        data["status"] = this.status;
+        data["complete"] = this.complete;
+        return data;
+    }
 }
 
 export interface IOrder {
-  id?: number | undefined;
-  petId?: number | undefined;
-  quantity?: number | undefined;
-  shipDate?: Date | undefined;
-  /** Order Status */
-  status?: OrderStatus | undefined;
-  complete?: boolean | undefined;
+    id?: number | undefined;
+    petId?: number | undefined;
+    quantity?: number | undefined;
+    shipDate?: Date | undefined;
+    /** Order Status */
+    status?: OrderStatus | undefined;
+    complete?: boolean | undefined;
 }
 
 export class User implements IUser {
-  id?: number | undefined;
-  username?: string | undefined;
-  firstName?: string | undefined;
-  lastName?: string | undefined;
-  email?: string | undefined;
-  password?: string | undefined;
-  phone?: string | undefined;
-  /** User Status */
-  userStatus?: number | undefined;
+    id?: number | undefined;
+    username?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    email?: string | undefined;
+    password?: string | undefined;
+    phone?: string | undefined;
+    /** User Status */
+    userStatus?: number | undefined;
 
-  constructor(data?: IUser) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IUser) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
     }
-  }
 
-  init(_data?: any) {
-    if (_data) {
-      this.id = _data['id'];
-      this.username = _data['username'];
-      this.firstName = _data['firstName'];
-      this.lastName = _data['lastName'];
-      this.email = _data['email'];
-      this.password = _data['password'];
-      this.phone = _data['phone'];
-      this.userStatus = _data['userStatus'];
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.username = _data["username"];
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+            this.email = _data["email"];
+            this.password = _data["password"];
+            this.phone = _data["phone"];
+            this.userStatus = _data["userStatus"];
+        }
     }
-  }
 
-  static fromJS(data: any): User {
-    data = typeof data === 'object' ? data : {};
-    let result = new User();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): User {
+        data = typeof data === 'object' ? data : {};
+        let result = new User();
+        result.init(data);
+        return result;
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data['id'] = this.id;
-    data['username'] = this.username;
-    data['firstName'] = this.firstName;
-    data['lastName'] = this.lastName;
-    data['email'] = this.email;
-    data['password'] = this.password;
-    data['phone'] = this.phone;
-    data['userStatus'] = this.userStatus;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["username"] = this.username;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["email"] = this.email;
+        data["password"] = this.password;
+        data["phone"] = this.phone;
+        data["userStatus"] = this.userStatus;
+        return data;
+    }
 }
 
 export interface IUser {
-  id?: number | undefined;
-  username?: string | undefined;
-  firstName?: string | undefined;
-  lastName?: string | undefined;
-  email?: string | undefined;
-  password?: string | undefined;
-  phone?: string | undefined;
-  /** User Status */
-  userStatus?: number | undefined;
+    id?: number | undefined;
+    username?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    email?: string | undefined;
+    password?: string | undefined;
+    phone?: string | undefined;
+    /** User Status */
+    userStatus?: number | undefined;
 }
 
 export enum Status {
-  Available = 'available',
-  Pending = 'pending',
-  Sold = 'sold',
+    Available = "available",
+    Pending = "pending",
+    Sold = "sold",
 }
 
 export enum PetStatus {
-  Available = 'available',
-  Pending = 'pending',
-  Sold = 'sold',
+    Available = "available",
+    Pending = "pending",
+    Sold = "sold",
 }
 
 export enum OrderStatus {
-  Placed = 'placed',
-  Approved = 'approved',
-  Delivered = 'delivered',
+    Placed = "placed",
+    Approved = "approved",
+    Delivered = "delivered",
 }
 
 export interface FileParameter {
-  data: any;
-  fileName: string;
+    data: any;
+    fileName: string;
 }
 
 export class ApiException extends Error {
-  message: string;
-  status: number;
-  response: string;
-  headers: { [key: string]: any };
-  result: any;
+    message: string;
+    status: number;
+    response: string;
+    headers: { [key: string]: any; };
+    result: any;
 
-  constructor(
-    message: string,
-    status: number,
-    response: string,
-    headers: { [key: string]: any },
-    result: any,
-  ) {
-    super();
+    constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
+        super();
 
-    this.message = message;
-    this.status = status;
-    this.response = response;
-    this.headers = headers;
-    this.result = result;
-  }
+        this.message = message;
+        this.status = status;
+        this.response = response;
+        this.headers = headers;
+        this.result = result;
+    }
 
-  protected isApiException = true;
+    protected isApiException = true;
 
-  static isApiException(obj: any): obj is ApiException {
-    return obj.isApiException === true;
-  }
+    static isApiException(obj: any): obj is ApiException {
+        return obj.isApiException === true;
+    }
 }
 
-function throwException(
-  message: string,
-  status: number,
-  response: string,
-  headers: { [key: string]: any },
-  result?: any,
-): any {
-  if (result !== null && result !== undefined) throw result;
-  else throw new ApiException(message, status, response, headers, null);
+function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
+    if (result !== null && result !== undefined)
+        throw result;
+    else
+        throw new ApiException(message, status, response, headers, null);
 }
 
-import {
-  useQuery,
-  UseQueryResult,
-  QueryFunctionContext,
-  UseQueryOptions,
-  QueryClient,
-  QueryKey,
-} from '@tanstack/react-query';
+import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey } from '@tanstack/react-query';
 import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
 import { useContext } from 'react';
 
 function removeUndefinedFromArrayTail<T>(arr: T[]): T[] {
-  let lastDefinedValueIndex = arr.length - 1;
-  while (lastDefinedValueIndex >= 0) {
-    if (arr[lastDefinedValueIndex] === undefined) {
-      lastDefinedValueIndex--;
-    } else {
-      break;
+    let lastDefinedValueIndex = arr.length - 1;
+    while (lastDefinedValueIndex >= 0) {
+        if (arr[lastDefinedValueIndex] === undefined) {
+            lastDefinedValueIndex--;
+        } else {
+            break;
+        }
     }
-  }
-  return lastDefinedValueIndex === arr.length - 1
-    ? arr
-    : arr.slice(0, lastDefinedValueIndex + 1);
+    return lastDefinedValueIndex === arr.length - 1 ? arr : arr.slice(0, lastDefinedValueIndex + 1);
 }
 
 /*
@@ -2460,18 +2031,16 @@ function removeUndefinedFromArrayTail<T>(arr: T[]): T[] {
   Returns false if parameter is number/string/boolean/Date or Array
 */
 function isParameterObject(param: unknown) {
-  if (param === null || param === undefined) return false;
-  if (param instanceof Array) return false;
-  const isObject = typeof param === 'object';
-  if (!isObject) return false;
-  if (param instanceof Date) return false;
-  return true;
+    if (param === null || param === undefined) return false;
+    if (param instanceof Array) return false;
+    const isObject = typeof param === 'object';
+    if (!isObject) return false;
+    if (param instanceof Date) return false;
+    return true;
 }
 
-type ClientFactoryFunction = <T>(type: new (...params: any[]) => T) => T;
-let _clientFactoryFunction: ClientFactoryFunction = <T>(
-  type: new (...params: any[]) => T,
-) => {
+type ClientFactoryFunction = <T>(type: (new (...params: any[]) => T)) => T;
+let _clientFactoryFunction: ClientFactoryFunction = <T>(type: (new (...params: any[]) => T)) => {
   const params = [_baseUrl, _fetchFactory()];
   return new type(...params);
 };
@@ -2492,7 +2061,7 @@ export function getClientFactory() {
 /*
   Function that will be called from `useQuery...` methods to get a client of certain type
 */
-function createClient<T>(type: new () => T) {
+function createClient<T>(type: (new () => T)) {
   return _clientFactoryFunction(type);
 }
 
@@ -2515,28 +2084,19 @@ let _fetchFactory = () => <any>window;
 /*
   Returns currently used factory for fetch
 */
-export function getFetchFactory(): () => {
-  fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
-} {
+export function getFetchFactory(): () => { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }  {
   return _fetchFactory;
 }
 /*
   Sets currently used factory for fetch
 */
-export function setFetchFactory(
-  factory: () => {
-    fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
-  },
-) {
+export function setFetchFactory(factory: () => { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
   _fetchFactory = factory;
 }
 
-function addMetaToOptions<TResultType, TError, TSelectData>(
-  options: UseQueryOptions<TResultType, TError, TSelectData> | undefined,
-  metaContext: QueryMetaContextValue,
-) {
+function addMetaToOptions<TResultType, TError, TSelectData>(options: UseQueryOptions<TResultType, TError, TSelectData> | undefined, metaContext: QueryMetaContextValue) {
   if (metaContext.metaFn) {
-    options = options ?? {};
+    options = options ?? { };
     options.meta = {
       ...metaContext.metaFn(),
       ...options.meta,
@@ -2546,8 +2106,9 @@ function addMetaToOptions<TResultType, TError, TSelectData>(
 }
 
 function parseDateOnly(s: string) {
-  const date = new Date(s);
-  return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+    const date = new Date(s);
+    return new Date(date.getTime() +
+        date.getTimezoneOffset() * 60000);
 }
 import type { PersistedClient } from '@tanstack/react-query-persist-client';
 /*
@@ -2556,15 +2117,14 @@ import type { PersistedClient } from '@tanstack/react-query-persist-client';
  */
 function deserializeDate(str: unknown) {
   const date = new Date(str as string);
-  const isDate =
-    date instanceof Date && !isNaN(date as any) && date.toISOString() === str;
+  const isDate = date instanceof Date && !isNaN(date as any) && date.toISOString() === str;
   return isDate ? date : str;
 }
 
 export function deserializeDatesInQueryKeys(client: PersistedClient) {
   client.clientState.queries.forEach((query) => {
     const data: any = query.state.data;
-    query.queryKey = query.queryKey.map((x) => deserializeDate(x));
+    query.queryKey = query.queryKey.map(x=>deserializeDate(x));
   });
 }
 
@@ -2572,9 +2132,7 @@ export function deserializeClassesInQueryData(client: PersistedClient) {
   client.clientState.queries.forEach((query) => {
     const data: any = query.state.data;
     if (Array.isArray(data)) {
-      query.state.data = data.map((elem) =>
-        constructDtoClass(query.queryKey, elem),
-      );
+      query.state.data = data.map(elem => constructDtoClass(query.queryKey, elem));
     } else {
       query.state.data = constructDtoClass(query.queryKey, data);
     }
