@@ -12,7 +12,7 @@ function deserializeDate(str: unknown) {
 export function deserializeDatesInQueryKeys(client: PersistedClient) {
   client.clientState.queries.forEach((query) => {
     const data: any = query.state.data;
-    query.queryKey = query.queryKey.map(x=>deserializeDate(x));
+    query.queryKey = query.queryKey.map(x => deserializeDate(x));
   });
 }
 
@@ -42,9 +42,8 @@ function constructDtoClass(queryKey: QueryKey, data: any): unknown {
   const resultTypeKey = getResultTypeClassKey(queryKey);
   const constructorFunction = resultTypesByQueryKey[resultTypeKey];
 
-  if (!constructorFunction) {
+  if (!data || !constructorFunction)
     return data;
-  }
 
   const dto = constructorFunction();
   dto.init(data);
