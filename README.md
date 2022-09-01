@@ -32,9 +32,9 @@ yarn react-query-swagger /input:https://petstore.swagger.io/v2/swagger.json /out
 You will probably want to add this script to your package.json to call it every time your API changes.
 
 All parameters are passed to NSwag, you could read about them [in NSwag documentation](https://github.com/RicoSuter/NJsonSchema/wiki/TypeScriptGeneratorSettings).
-Personally I tend to use it with few additional parameters:
+Personally I tend to use it with [few additional parameters](#use-recommended-configuration), which are combined under `/use-recommended-configuration`:
 ```
-yarn react-query-swagger /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/axios-client.ts /template:Axios /serviceHost:. /generateConstructorInterface:true /markOptionalProperties:true /generateOptionalParameters:true /nullValue:undefined
+yarn react-query-swagger /tanstack /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/axios-client.ts /template:Axios /serviceHost:. /use-recommended-configuration
 ```
 
 ## How to use
@@ -102,6 +102,126 @@ You could refetch based on meta via the following call:
 queryClient.refetchQueries({ predicate: (query) => ((query as any).observers as QueryObserver[]).find((observer) => observer.options.meta?.region === 'header') })
 ```
 
+## Additional flags
+In addition to [NSwag parameters](https://github.com/RicoSuter/NJsonSchema/wiki/TypeScriptGeneratorSettings) we have 2 specific parameters:
+### /fix-null-undefined-serialization
+This flag executes few regex replaces over the generated code.
+This is an easy way to achieve the behavior we want without forking and maintaining NSwag & NJsonSchema templates ourselves.
+
+Here are the regex rules and rationale behind them:
+- **| undefined;**  is replaced by **| null;**
+ 
+    Replaces DTO type definitions:
+  ```
+  export interface IUser {
+     id?: number | undefined;   ->  id?: number | null;
+  }
+  ```
+  Replace is made because this is what server (at least .NET :)) actually returns (at least by default) 
+
+
+-   **: <any>undefined** is replaced by **: <any>null**
+
+    Changes `init()` function from:
+    ```
+    this.lastChangeDateTime = _data["lastChangeDateTime"] ? new Date(_data["lastChangeDateTime"].toString()) : <any>undefined;
+    ```
+    to
+    ```
+    this.lastChangeDateTime = _data["lastChangeDateTime"] ? new Date(_data["lastChangeDateTime"].toString()) : <any>null;
+    ```
+    Again, server actually returns `null`, we don't want to change that.
+
+
+-   **? this.(...).toISOString() : <any>null** is replaced by **&& this.$1.toISOString()**
+
+    Performs the following change (in `toJSON()` method), from:
+    ```
+    data["shipDate"] = this.shipDate ? this.shipDate.toISOString() : <any>null;
+    ```
+    to
+    ```
+    data["shipDate"] = this.shipDate && this.shipDate.toISOString();
+    ```
+    This is to be able to send both `undefined` and `null` to the server (important for PATCH requests)
+
+
+- **? formatDate(...) : <any>null** is replaced by **&& formatDate(...)**
+
+  Performs the following change (in `toJSON()` method), from:
+  ```
+  data["shipDate"] = this.shipDate ? formatDate(this.shipDate) : <any>null;
+  ```
+  to
+  ```
+  data["shipDate"] = this.shipDate && formatDate(this.shipDate);
+  ```
+  This is to be able to send both `undefined` and `null` to the server (important for PATCH requests)
+
+
+### /use-recommended-configuration
+This option basically passes the following parameters to NSwag `/fix-null-undefined-serialization /generateOptionalParameters:true  /typeStyle:Class  /markOptionalProperties:true /nullValue:undefined /generateConstructorInterface:true`.
+
+Here's a rationale behind each of them:
+- */generateOptionalParameters:true* 
+       
+  Otherwise, optional parameters are generated as mandatory. E.g.:
+  - true: `deletePet(petId: number, api_key?: string | null | undefined)`
+  - false: `deletePet(petId: number, api_key: string | null | undefined)`
+`
+
+
+- */typeStyle:Class*
+
+    Otherwise, if `typeStyle` is `Inteface`, there's no code to convert `Date` objects
+
+
+- */markOptionalProperties:true*
+    
+  Otherwise PATCH dtos have all their properties defined as mandatory:
+    ```
+    export interface PatchUserDto {
+        userName!: string | null; 
+        // should be: userName?: string | null;
+    }
+    ```
+
+
+- */nullValue:undefined*
+
+   If we use `null` as null value, unnecessary code gets added to `.toJSON()` and `.init()` functions:
+    ```
+    toJSON(data?: any) {  
+        data = typeof data === 'object' ? data : {};
+      
+        // nullValue:undefined 
+        data["enabled"] = this.enabled;
+      
+        // nullValue:null
+        data["enabled"] = this.enabled !== undefined ? this.enabled : <any>null; 
+    }
+    ```
+
+    ```
+    init(_data?: any) {  
+       if (_data) {
+           // nullValue:undefined
+           this.enabled = _data["enabled"];
+          
+           // nullValue:null
+           this.enabled = _data["enabled"] !== undefined ? _data["enabled"] : <any>null;
+       }
+    }
+    ```
+
+- */generateConstructorInterface:true*
+
+   This gives a typed-possibility to create classes from interfaces (otherwise you have to use `init(_data?: any)` method)
+  
+
+- */fix-null-undefined-serialization*
+
+  We need this to be able to use both `undefined` and `null` as values in PATCH requests
 
 ## How does it work
 Under the cover it's just a couple of template files for [NSwag](https://github.com/RicoSuter/NSwag) and a small script to easily use them.
