@@ -1,0 +1,133 @@
+
+{%- if HasOperations -%}
+{%- assign QueryClassName = Class | prepend: 'Qqqqqq' | slice: 0, Class.size | append: "Query" | slice: 6, 1000 -%}
+
+{%- for operation in Operations -%}
+{%- if operation.HttpMethodUpper == 'Get' -%}
+{%- if operation.Parameters.size > 0 -%}
+
+{%- assign firstLetter = operation.ActualOperationName | slice: 0, 1 | upcase -%}
+{%- assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: QueryClassName | append: 'Parameters' -%}
+type {{ parameterClassName }} = {
+    {%- for parameter in operation.Parameters -%}
+      {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }};
+    {%- endfor -%}
+};
+
+{%- endif -%}
+{%- endif -%}
+{%- endfor -%}
+
+{%- if ExportTypes -%}export {% endif %}class {{ QueryClassName }} {%- if HasBaseClass -%}extends {{ BaseClass }} {%- endif -%} {
+
+    get baseUrl() {
+      return getBaseUrl() ?? '' + '{{ BaseUrl }}';
+    }
+
+    static get Client() {
+        return createClient({{ Class }});
+    }
+
+    static get Url() {
+        return new {{ QueryClassName }}();
+    }
+{%- for operation in Operations -%}
+{%- if operation.HttpMethodUpper == 'Get' -%}
+{% assign ResultType = operation.ResultType %}
+{%- assign firstLetter = operation.ActualOperationName | slice: 0, 1 | upcase -%}
+{%- assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: QueryClassName | append: 'Parameters' -%}
+
+    {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): string {
+      {% template Client.RequestUrl %}
+      return url_;
+    }
+
+    static {{ operation.ActualOperationName }}DefaultOptions?: UseQueryOptions<{{ ResultType }}, unknown, {{ ResultType }}> = {};
+    {%- if operation.Parameters.size > 1 -%}
+    public static {{ operation.ActualOperationName }}QueryKey(dto: {{ parameterClassName }}): QueryKey;
+    {%- endif -%}
+    public static {{ operation.ActualOperationName }}QueryKey({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {%- endif %}{%- endfor -%}): QueryKey;
+    public static {{ operation.ActualOperationName }}QueryKey(...params: any[]): QueryKey {
+        {%- if operation.Parameters.size == 0 -%}
+        return removeUndefinedFromArrayTail([
+            '{{ Class }}',
+            '{{ operation.ActualOperationName }}',
+            ]);
+        {%- else -%}
+        if (params.length === 1 && isParameterObject(params[0])) {
+            const { {% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %} } = params[0] as {{ parameterClassName  }};
+
+            return removeUndefinedFromArrayTail([
+                '{{ Class }}',
+                '{{ operation.ActualOperationName }}',
+                {%- for parameter in operation.Parameters -%}
+                {{ parameter.VariableName }} as any,
+                {%- endfor %}
+            ]);
+        } else {
+            return removeUndefinedFromArrayTail([
+                '{{ Class }}',
+                '{{ operation.ActualOperationName }}',
+                ...params
+            ]);
+        }
+        {%- endif -%}
+    }
+
+    private static {{ operation.ActualOperationName }}({% if operation.Parameters.size > 0 %}context: QueryFunctionContext{% endif %}) {
+        return {{ QueryClassName }}.Client.{{ operation.ActualOperationName }}(
+      {%- for parameter in operation.Parameters -%}
+    {%- assign ParameterType = parameter.Type -%}
+                context.queryKey[{{ forloop.index | plus: 1  }}] as {{ ParameterType }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}
+        {%- endfor -%}
+            );
+    }
+
+    {%- if operation.Parameters.size > 0 -%}
+    static {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Query<TSelectData = {{ ResultType }}, TError = unknown>(dto: {{ parameterClassName }}, options?: UseQueryOptions<{{ ResultType }}, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+    {%- endif -%}
+    {% template Client.Method.Documentation %}
+    static {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Query<TSelectData = {{ ResultType }}, TError = unknown>({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}, {% endfor %}options?: UseQueryOptions<{{ ResultType }}, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+    static use{{ operation.ActualOperationName | capitalize }}Query<TSelectData = {{ ResultType }}, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+
+        let options: UseQueryOptions<{{ ResultType }}, TError, TSelectData> | undefined = undefined;
+        {% for parameter in operation.Parameters %}let {{ parameter.VariableName }}: any = undefined;
+        {% endfor %}
+    {%- if operation.Parameters.size > 0 -%}
+        if (params.length > 0) {
+            if (isParameterObject(params[0])) {
+                ({ {% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %} } = params[0] as {{ parameterClassName  }});
+                options = params[1];
+            } else {
+                [{% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %} options] = params;
+            }
+        }
+    {% else %}
+        options = params[0] as any;
+    {% endif %}
+
+        const metaContext = useContext(QueryMetaContext);
+        options = addMetaToOptions(options, metaContext);
+
+        return useQuery<{{ ResultType }}, TError, TSelectData>({
+            queryFn: {{ QueryClassName }}.{{ operation.ActualOperationName }},
+            queryKey: {{ QueryClassName }}.{{ operation.ActualOperationName }}QueryKey({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}),
+            ...{{ QueryClassName }}.{{ operation.ActualOperationName }}DefaultOptions as unknown as UseQueryOptions<{{ ResultType }}, TError, TSelectData>,
+            ...options,
+        });
+    }
+    {% template Client.Method.Documentation %}
+    static {{ operation.MethodAccessModifier }}set{{ operation.ActualOperationName | capitalize }}Data(queryClient: QueryClient, updater: (data: {{ ResultType }} | undefined) => {{ ResultType }}, {% for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}) {
+        queryClient.setQueryData({{ QueryClassName }}.{{ operation.ActualOperationName }}QueryKey({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}),
+            updater
+        );
+    }
+
+    {% template Client.Method.Documentation %}
+    static {{ operation.MethodAccessModifier }}set{{ operation.ActualOperationName | capitalize }}DataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: {{ ResultType }} | undefined) => {{ ResultType }}) {
+        queryClient.setQueryData(queryKey, updater);
+    }
+  {% endif -%}
+  {% endfor -%}
+}
+{% endif -%}

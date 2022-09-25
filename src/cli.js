@@ -4,10 +4,16 @@ const { execSync } = require('child_process');
 const { readFileSync, writeFileSync } = require('fs');
 let args = process.argv.splice(2).join(' ');
 const isV4 = args.includes('/tanstack');
+// this one might be useful if you only want to have
+// to initialize Axios and baseUrl from a single place
+const noHooks = args.includes('/no-hooks');
+
 let pathToTemplates = process.mainModule.filename
   .replace('cli.js', 'templates')
   .replace('.bin/react-query-swagger', 'react-query-swagger/templates');
-if (!isV4) {
+if (noHooks) {
+  pathToTemplates = pathToTemplates.replace(/templates$/, 'templates_no_hooks');
+} else if (!isV4) {
   pathToTemplates = pathToTemplates.replace(/templates$/, 'templates_v3');
 }
 
