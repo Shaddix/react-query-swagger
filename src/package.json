@@ -43,6 +43,7 @@
   "files": [
     "templates/**/*",
     "templates_v3/**/*",
+    "templates_no_hooks/**/*",
     "dist",
     "cli.js"
   ]
