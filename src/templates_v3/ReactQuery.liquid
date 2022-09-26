@@ -25,8 +25,10 @@ type {{ parameterClassName }} = {
     }
 
     static get Client() {
-        return createClient({{ Class }});
+      const client = createClient({{ Class }});
+      return client;
     }
+
 
     static get Url() {
         return new {{ QueryClassName }}();
@@ -37,7 +39,7 @@ type {{ parameterClassName }} = {
 {%- assign firstLetter = operation.ActualOperationName | slice: 0, 1 | upcase -%}
 {%- assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: QueryClassName | append: 'Parameters' -%}
 
-    {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): string {
+    {{ operation.ActualOperationName }}Url({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): string {
       {% template Client.RequestUrl %}
       return url_;
     }

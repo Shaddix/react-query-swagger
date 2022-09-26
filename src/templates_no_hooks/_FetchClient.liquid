@@ -1,4 +1,4 @@
-﻿{% if HasOperations -%}
+{% if HasOperations -%}
 {% if GenerateClientInterfaces -%}
 {% if ExportTypes %}export {% endif %}interface I{{ Class }} {
 {%    for operation in Operations %}
