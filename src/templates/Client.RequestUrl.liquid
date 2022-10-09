@@ -1,8 +1,8 @@
 ﻿let url_ = this.baseUrl + "/{{ operation.Path }}{% if operation.HasQueryParameters %}?{% endif %}";
-{% for parameter in operation.PathParameters -%}
-{%    if parameter.IsRequired -%}
+{%- for parameter in operation.PathParameters -%}
+{%    if parameter.IsRequired %}
 if ({{ parameter.VariableName }} === undefined || {{ parameter.VariableName }} === null)
-    throw new Error("The parameter '{{ parameter.VariableName }}' must be defined.");
+  throw new Error("The parameter '{{ parameter.VariableName }}' must be defined.");
 {%    else -%}
 if ({{ parameter.VariableName }} !== null && {{ parameter.VariableName }} !== undefined)
 {%    endif -%}
@@ -21,19 +21,19 @@ url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent("" + {{
 {%    endif -%}
 {%    if parameter.IsOptional -%}
 else
-    url_ = url_.replace("/{{ "{" }}{{ parameter.Name }}}", "");
-{%    endif -%}
-{% endfor -%}
-{% for parameter in operation.QueryParameters -%}
-{%    if parameter.IsRequired -%}
-{%        if parameter.IsNullable -%}
+  url_ = url_.replace("/{{ "{" }}{{ parameter.Name }}}", "");
+{%-    endif -%}
+{%- endfor -%}
+{%- for parameter in operation.QueryParameters -%}
+{%-    if parameter.IsRequired -%}
+{%-        if parameter.IsNullable -%}
 if ({{ parameter.VariableName }} === undefined)
-    throw new Error("The parameter '{{ parameter.VariableName }}' must be defined.");
+  throw new Error("The parameter '{{ parameter.VariableName }}' must be defined.");
 else if({{ parameter.VariableName }} !== null)
-{%        else -%}
-if ({{ parameter.VariableName }} === undefined || {{ parameter.VariableName }} === null)
+{%-        else -%}
+  if ({{ parameter.VariableName }} === undefined || {{ parameter.VariableName }} === null)
     throw new Error("The parameter '{{ parameter.VariableName }}' must be defined and cannot be null.");
-else
+  else
 {%        endif -%}
 {%    else -%}
 {%        if parameter.IsNullable -%}
@@ -65,4 +65,4 @@ else if ({{ parameter.VariableName }} !== undefined)
     url_ += "{{ parameter.Name }}=" + encodeURIComponent("" + {{ parameter.VariableName }}) + "&";
 {%    endif -%}
 {% endfor -%}
-url_ = url_.replace(/[?&]$/, "");
+  url_ = url_.replace(/[?&]$/, "");
