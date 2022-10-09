@@ -32,10 +32,11 @@ export class Client {
      */
     uploadFile(petId: number, additionalMetadata?: string | null | undefined, file?: FileParameter | null | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResponse> {
         let url_ = this.baseUrl + "/pet/{petId}/uploadImage";
+
         if (petId === undefined || petId === null)
-            throw new Error("The parameter 'petId' must be defined.");
+          throw new Error("The parameter 'petId' must be defined.");
         url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         const content_ = new FormData();
         if (additionalMetadata !== null && additionalMetadata !== undefined)
@@ -94,7 +95,7 @@ export class Client {
      */
     addPet(body: Pet , cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/pet";
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
@@ -146,7 +147,7 @@ export class Client {
      */
     updatePet(body: Pet , cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/pet";
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
@@ -207,11 +208,11 @@ export class Client {
      */
     findPetsByStatus(status: Status[] , cancelToken?: CancelToken | undefined): Promise<Pet[]> {
         let url_ = this.baseUrl + "/pet/findByStatus?";
-        if (status === undefined || status === null)
+          if (status === undefined || status === null)
             throw new Error("The parameter 'status' must be defined and cannot be null.");
-        else
+          else
             status && status.forEach(item => { url_ += "status=" + encodeURIComponent("" + item) + "&"; });
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         let options_: AxiosRequestConfig = {
             method: "GET",
@@ -276,11 +277,11 @@ export class Client {
      */
     findPetsByTags(tags: string[] , cancelToken?: CancelToken | undefined): Promise<Pet[]> {
         let url_ = this.baseUrl + "/pet/findByTags?";
-        if (tags === undefined || tags === null)
+          if (tags === undefined || tags === null)
             throw new Error("The parameter 'tags' must be defined and cannot be null.");
-        else
+          else
             tags && tags.forEach(item => { url_ += "tags=" + encodeURIComponent("" + item) + "&"; });
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         let options_: AxiosRequestConfig = {
             method: "GET",
@@ -344,10 +345,11 @@ export class Client {
      */
     getPetById(petId: number , cancelToken?: CancelToken | undefined): Promise<Pet> {
         let url_ = this.baseUrl + "/pet/{petId}";
+
         if (petId === undefined || petId === null)
-            throw new Error("The parameter 'petId' must be defined.");
+          throw new Error("The parameter 'petId' must be defined.");
         url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         let options_: AxiosRequestConfig = {
             method: "GET",
@@ -409,10 +411,11 @@ export class Client {
      */
     updatePetWithForm(petId: number, name?: string | null | undefined, status?: string | null | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/pet/{petId}";
+
         if (petId === undefined || petId === null)
-            throw new Error("The parameter 'petId' must be defined.");
+          throw new Error("The parameter 'petId' must be defined.");
         url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         let content_ = "";
         if (name !== undefined)
@@ -470,10 +473,11 @@ export class Client {
      */
     deletePet(petId: number, api_key?: string | null | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/pet/{petId}";
+
         if (petId === undefined || petId === null)
-            throw new Error("The parameter 'petId' must be defined.");
+          throw new Error("The parameter 'petId' must be defined.");
         url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         let options_: AxiosRequestConfig = {
             method: "DELETE",
@@ -527,7 +531,7 @@ export class Client {
      */
     placeOrder(body: Order , cancelToken?: CancelToken | undefined): Promise<Order> {
         let url_ = this.baseUrl + "/store/order";
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
@@ -588,10 +592,11 @@ export class Client {
      */
     getOrderById(orderId: number , cancelToken?: CancelToken | undefined): Promise<Order> {
         let url_ = this.baseUrl + "/store/order/{orderId}";
+
         if (orderId === undefined || orderId === null)
-            throw new Error("The parameter 'orderId' must be defined.");
+          throw new Error("The parameter 'orderId' must be defined.");
         url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         let options_: AxiosRequestConfig = {
             method: "GET",
@@ -651,10 +656,11 @@ export class Client {
      */
     deleteOrder(orderId: number , cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/store/order/{orderId}";
+
         if (orderId === undefined || orderId === null)
-            throw new Error("The parameter 'orderId' must be defined.");
+          throw new Error("The parameter 'orderId' must be defined.");
         url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         let options_: AxiosRequestConfig = {
             method: "DELETE",
@@ -706,7 +712,7 @@ export class Client {
      */
     getInventory(  cancelToken?: CancelToken | undefined): Promise<{ [key: string]: number; }> {
         let url_ = this.baseUrl + "/store/inventory";
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         let options_: AxiosRequestConfig = {
             method: "GET",
@@ -768,7 +774,7 @@ export class Client {
      */
     createUsersWithArrayInput(body: User[] , cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/user/createWithArray";
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
@@ -817,7 +823,7 @@ export class Client {
      */
     createUsersWithListInput(body: User[] , cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/user/createWithList";
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
@@ -866,10 +872,11 @@ export class Client {
      */
     getUserByName(username: string , cancelToken?: CancelToken | undefined): Promise<User> {
         let url_ = this.baseUrl + "/user/{username}";
+
         if (username === undefined || username === null)
-            throw new Error("The parameter 'username' must be defined.");
+          throw new Error("The parameter 'username' must be defined.");
         url_ = url_.replace("{username}", encodeURIComponent("" + username));
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         let options_: AxiosRequestConfig = {
             method: "GET",
@@ -930,10 +937,11 @@ export class Client {
      */
     updateUser(username: string, body: User , cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/user/{username}";
+
         if (username === undefined || username === null)
-            throw new Error("The parameter 'username' must be defined.");
+          throw new Error("The parameter 'username' must be defined.");
         url_ = url_.replace("{username}", encodeURIComponent("" + username));
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
@@ -989,10 +997,11 @@ export class Client {
      */
     deleteUser(username: string , cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/user/{username}";
+
         if (username === undefined || username === null)
-            throw new Error("The parameter 'username' must be defined.");
+          throw new Error("The parameter 'username' must be defined.");
         url_ = url_.replace("{username}", encodeURIComponent("" + username));
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         let options_: AxiosRequestConfig = {
             method: "DELETE",
@@ -1046,15 +1055,15 @@ export class Client {
      */
     loginUser(username: string, password: string , cancelToken?: CancelToken | undefined): Promise<string> {
         let url_ = this.baseUrl + "/user/login?";
-        if (username === undefined || username === null)
+          if (username === undefined || username === null)
             throw new Error("The parameter 'username' must be defined and cannot be null.");
-        else
+          else
             url_ += "username=" + encodeURIComponent("" + username) + "&";
-        if (password === undefined || password === null)
+          if (password === undefined || password === null)
             throw new Error("The parameter 'password' must be defined and cannot be null.");
-        else
+          else
             url_ += "password=" + encodeURIComponent("" + password) + "&";
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         let options_: AxiosRequestConfig = {
             method: "GET",
@@ -1111,7 +1120,7 @@ export class Client {
      */
     logoutUser(  cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/user/logout";
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         let options_: AxiosRequestConfig = {
             method: "GET",
@@ -1156,7 +1165,7 @@ export class Client {
      */
     createUser(body: User , cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/user";
-        url_ = url_.replace(/[?&]$/, "");
+          url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
@@ -1199,28 +1208,28 @@ export class Client {
     }
 }
 type FindPetsByStatusQueryParameters = {
-      status: Status[];
+  status: Status[];
 };
 
 type FindPetsByTagsQueryParameters = {
-      tags: string[];
+  tags: string[];
 };
 
 type GetPetByIdQueryParameters = {
-      petId: number;
+  petId: number;
 };
 
 type GetOrderByIdQueryParameters = {
-      orderId: number;
+  orderId: number;
 };
 
 type GetUserByNameQueryParameters = {
-      username: string;
+  username: string;
 };
 
 type LoginUserQueryParameters = {
-      username: string;
-      password: string;
+  username: string;
+  password: string;
 };
 
 export class Query{
@@ -1235,45 +1244,44 @@ export class Query{
     }
 
     static get Url() {
-        return new Query();
+      return new Query();
     }
       
 
     findPetsByStatusUrl(status: Status[]): string {
       let url_ = this.baseUrl + "/pet/findByStatus?";
-    if (status === undefined || status === null)
+      if (status === undefined || status === null)
         throw new Error("The parameter 'status' must be defined and cannot be null.");
-    else
+      else
         status && status.forEach(item => { url_ += "status=" + encodeURIComponent("" + item) + "&"; });
-    url_ = url_.replace(/[?&]$/, "");
+      url_ = url_.replace(/[?&]$/, "");
       return url_;
     }
 
     static findPetsByStatusDefaultOptions?: UseQueryOptions<Pet[], unknown, Pet[]> = {};
     public static findPetsByStatusQueryKey(status: Status[]): QueryKey;
     public static findPetsByStatusQueryKey(...params: any[]): QueryKey {
-        if (params.length === 1 && isParameterObject(params[0])) {
-            const { status,  } = params[0] as FindPetsByStatusQueryParameters;
+      if (params.length === 1 && isParameterObject(params[0])) {
+        const { status,  } = params[0] as FindPetsByStatusQueryParameters;
 
-            return removeUndefinedFromArrayTail([
-                'Client',
-                'findPetsByStatus',
-                status as any,
-
-            ]);
-        } else {
-            return removeUndefinedFromArrayTail([
-                'Client',
-                'findPetsByStatus',
-                ...params
-            ]);
-        }
+        return removeUndefinedFromArrayTail([
+            'Client',
+            'findPetsByStatus',
+            status as any,
+          ]);
+      } else {
+        return removeUndefinedFromArrayTail([
+            'Client',
+            'findPetsByStatus',
+            ...params
+          ]);
+      }
     }
 
     private static findPetsByStatus(context: QueryFunctionContext) {
-        return Query.Client.findPetsByStatus(
-                context.queryKey[2] as Status[]
-            );
+      return Query.Client.findPetsByStatus(
+          context.queryKey[2] as Status[]
+        );
     }
 
     static useFindPetsByStatusQuery<TSelectData = Pet[], TError = unknown>(dto: FindPetsByStatusQueryParameters, options?: UseQueryOptions<Pet[], TError, TSelectData>): UseQueryResult<TSelectData, TError>;
@@ -1284,29 +1292,28 @@ export class Query{
      */
     static useFindPetsByStatusQuery<TSelectData = Pet[], TError = unknown>(status: Status[], options?: UseQueryOptions<Pet[], TError, TSelectData>): UseQueryResult<TSelectData, TError>;
     static useFindPetsByStatusQuery<TSelectData = Pet[], TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
-
-        let options: UseQueryOptions<Pet[], TError, TSelectData> | undefined = undefined;
-        let status: any = undefined;
-        
-        if (params.length > 0) {
-            if (isParameterObject(params[0])) {
-                ({ status,  } = params[0] as FindPetsByStatusQueryParameters);
-                options = params[1];
-            } else {
-                [status,  options] = params;
-            }
+      let options: UseQueryOptions<Pet[], TError, TSelectData> | undefined = undefined;
+      let status: any = undefined;
+      
+      if (params.length > 0) {
+        if (isParameterObject(params[0])) {
+          ({ status,  } = params[0] as FindPetsByStatusQueryParameters);
+          options = params[1];
+        } else {
+          [status,  options] = params;
         }
+      }
     
 
-        const metaContext = useContext(QueryMetaContext);
-        options = addMetaToOptions(options, metaContext);
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
 
-        return useQuery<Pet[], TError, TSelectData>({
-            queryFn: Query.findPetsByStatus,
-            queryKey: Query.findPetsByStatusQueryKey(status),
-            ...Query.findPetsByStatusDefaultOptions as unknown as UseQueryOptions<Pet[], TError, TSelectData>,
-            ...options,
-        });
+      return useQuery<Pet[], TError, TSelectData>({
+        queryFn: Query.findPetsByStatus,
+        queryKey: Query.findPetsByStatusQueryKey(status),
+        ...Query.findPetsByStatusDefaultOptions as unknown as UseQueryOptions<Pet[], TError, TSelectData>,
+        ...options,
+      });
     }
     /**
      * Finds Pets by status
@@ -1314,9 +1321,9 @@ export class Query{
      * @return successful operation
      */
     static setFindPetsByStatusData(queryClient: QueryClient, updater: (data: Pet[] | undefined) => Pet[], status: Status[]) {
-        queryClient.setQueryData(Query.findPetsByStatusQueryKey(status),
-            updater
-        );
+      queryClient.setQueryData(Query.findPetsByStatusQueryKey(status),
+        updater
+      );
     }
 
     /**
@@ -1325,45 +1332,44 @@ export class Query{
      * @return successful operation
      */
     static setFindPetsByStatusDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: Pet[] | undefined) => Pet[]) {
-        queryClient.setQueryData(queryKey, updater);
+      queryClient.setQueryData(queryKey, updater);
     }
     
 
     findPetsByTagsUrl(tags: string[]): string {
       let url_ = this.baseUrl + "/pet/findByTags?";
-    if (tags === undefined || tags === null)
+      if (tags === undefined || tags === null)
         throw new Error("The parameter 'tags' must be defined and cannot be null.");
-    else
+      else
         tags && tags.forEach(item => { url_ += "tags=" + encodeURIComponent("" + item) + "&"; });
-    url_ = url_.replace(/[?&]$/, "");
+      url_ = url_.replace(/[?&]$/, "");
       return url_;
     }
 
     static findPetsByTagsDefaultOptions?: UseQueryOptions<Pet[], unknown, Pet[]> = {};
     public static findPetsByTagsQueryKey(tags: string[]): QueryKey;
     public static findPetsByTagsQueryKey(...params: any[]): QueryKey {
-        if (params.length === 1 && isParameterObject(params[0])) {
-            const { tags,  } = params[0] as FindPetsByTagsQueryParameters;
+      if (params.length === 1 && isParameterObject(params[0])) {
+        const { tags,  } = params[0] as FindPetsByTagsQueryParameters;
 
-            return removeUndefinedFromArrayTail([
-                'Client',
-                'findPetsByTags',
-                tags as any,
-
-            ]);
-        } else {
-            return removeUndefinedFromArrayTail([
-                'Client',
-                'findPetsByTags',
-                ...params
-            ]);
-        }
+        return removeUndefinedFromArrayTail([
+            'Client',
+            'findPetsByTags',
+            tags as any,
+          ]);
+      } else {
+        return removeUndefinedFromArrayTail([
+            'Client',
+            'findPetsByTags',
+            ...params
+          ]);
+      }
     }
 
     private static findPetsByTags(context: QueryFunctionContext) {
-        return Query.Client.findPetsByTags(
-                context.queryKey[2] as string[]
-            );
+      return Query.Client.findPetsByTags(
+          context.queryKey[2] as string[]
+        );
     }
 
     static useFindPetsByTagsQuery<TSelectData = Pet[], TError = unknown>(dto: FindPetsByTagsQueryParameters, options?: UseQueryOptions<Pet[], TError, TSelectData>): UseQueryResult<TSelectData, TError>;
@@ -1375,29 +1381,28 @@ export class Query{
      */
     static useFindPetsByTagsQuery<TSelectData = Pet[], TError = unknown>(tags: string[], options?: UseQueryOptions<Pet[], TError, TSelectData>): UseQueryResult<TSelectData, TError>;
     static useFindPetsByTagsQuery<TSelectData = Pet[], TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
-
-        let options: UseQueryOptions<Pet[], TError, TSelectData> | undefined = undefined;
-        let tags: any = undefined;
-        
-        if (params.length > 0) {
-            if (isParameterObject(params[0])) {
-                ({ tags,  } = params[0] as FindPetsByTagsQueryParameters);
-                options = params[1];
-            } else {
-                [tags,  options] = params;
-            }
+      let options: UseQueryOptions<Pet[], TError, TSelectData> | undefined = undefined;
+      let tags: any = undefined;
+      
+      if (params.length > 0) {
+        if (isParameterObject(params[0])) {
+          ({ tags,  } = params[0] as FindPetsByTagsQueryParameters);
+          options = params[1];
+        } else {
+          [tags,  options] = params;
         }
+      }
     
 
-        const metaContext = useContext(QueryMetaContext);
-        options = addMetaToOptions(options, metaContext);
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
 
-        return useQuery<Pet[], TError, TSelectData>({
-            queryFn: Query.findPetsByTags,
-            queryKey: Query.findPetsByTagsQueryKey(tags),
-            ...Query.findPetsByTagsDefaultOptions as unknown as UseQueryOptions<Pet[], TError, TSelectData>,
-            ...options,
-        });
+      return useQuery<Pet[], TError, TSelectData>({
+        queryFn: Query.findPetsByTags,
+        queryKey: Query.findPetsByTagsQueryKey(tags),
+        ...Query.findPetsByTagsDefaultOptions as unknown as UseQueryOptions<Pet[], TError, TSelectData>,
+        ...options,
+      });
     }
     /**
      * Finds Pets by tags
@@ -1406,9 +1411,9 @@ export class Query{
      * @deprecated
      */
     static setFindPetsByTagsData(queryClient: QueryClient, updater: (data: Pet[] | undefined) => Pet[], tags: string[]) {
-        queryClient.setQueryData(Query.findPetsByTagsQueryKey(tags),
-            updater
-        );
+      queryClient.setQueryData(Query.findPetsByTagsQueryKey(tags),
+        updater
+      );
     }
 
     /**
@@ -1418,44 +1423,44 @@ export class Query{
      * @deprecated
      */
     static setFindPetsByTagsDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: Pet[] | undefined) => Pet[]) {
-        queryClient.setQueryData(queryKey, updater);
+      queryClient.setQueryData(queryKey, updater);
     }
     
 
     getPetByIdUrl(petId: number): string {
       let url_ = this.baseUrl + "/pet/{petId}";
+
     if (petId === undefined || petId === null)
-        throw new Error("The parameter 'petId' must be defined.");
+      throw new Error("The parameter 'petId' must be defined.");
     url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
-    url_ = url_.replace(/[?&]$/, "");
+      url_ = url_.replace(/[?&]$/, "");
       return url_;
     }
 
     static getPetByIdDefaultOptions?: UseQueryOptions<Pet, unknown, Pet> = {};
     public static getPetByIdQueryKey(petId: number): QueryKey;
     public static getPetByIdQueryKey(...params: any[]): QueryKey {
-        if (params.length === 1 && isParameterObject(params[0])) {
-            const { petId,  } = params[0] as GetPetByIdQueryParameters;
+      if (params.length === 1 && isParameterObject(params[0])) {
+        const { petId,  } = params[0] as GetPetByIdQueryParameters;
 
-            return removeUndefinedFromArrayTail([
-                'Client',
-                'getPetById',
-                petId as any,
-
-            ]);
-        } else {
-            return removeUndefinedFromArrayTail([
-                'Client',
-                'getPetById',
-                ...params
-            ]);
-        }
+        return removeUndefinedFromArrayTail([
+            'Client',
+            'getPetById',
+            petId as any,
+          ]);
+      } else {
+        return removeUndefinedFromArrayTail([
+            'Client',
+            'getPetById',
+            ...params
+          ]);
+      }
     }
 
     private static getPetById(context: QueryFunctionContext) {
-        return Query.Client.getPetById(
-                context.queryKey[2] as number
-            );
+      return Query.Client.getPetById(
+          context.queryKey[2] as number
+        );
     }
 
     static useGetPetByIdQuery<TSelectData = Pet, TError = unknown>(dto: GetPetByIdQueryParameters, options?: UseQueryOptions<Pet, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
@@ -1466,29 +1471,28 @@ export class Query{
      */
     static useGetPetByIdQuery<TSelectData = Pet, TError = unknown>(petId: number, options?: UseQueryOptions<Pet, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
     static useGetPetByIdQuery<TSelectData = Pet, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
-
-        let options: UseQueryOptions<Pet, TError, TSelectData> | undefined = undefined;
-        let petId: any = undefined;
-        
-        if (params.length > 0) {
-            if (isParameterObject(params[0])) {
-                ({ petId,  } = params[0] as GetPetByIdQueryParameters);
-                options = params[1];
-            } else {
-                [petId,  options] = params;
-            }
+      let options: UseQueryOptions<Pet, TError, TSelectData> | undefined = undefined;
+      let petId: any = undefined;
+      
+      if (params.length > 0) {
+        if (isParameterObject(params[0])) {
+          ({ petId,  } = params[0] as GetPetByIdQueryParameters);
+          options = params[1];
+        } else {
+          [petId,  options] = params;
         }
+      }
     
 
-        const metaContext = useContext(QueryMetaContext);
-        options = addMetaToOptions(options, metaContext);
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
 
-        return useQuery<Pet, TError, TSelectData>({
-            queryFn: Query.getPetById,
-            queryKey: Query.getPetByIdQueryKey(petId),
-            ...Query.getPetByIdDefaultOptions as unknown as UseQueryOptions<Pet, TError, TSelectData>,
-            ...options,
-        });
+      return useQuery<Pet, TError, TSelectData>({
+        queryFn: Query.getPetById,
+        queryKey: Query.getPetByIdQueryKey(petId),
+        ...Query.getPetByIdDefaultOptions as unknown as UseQueryOptions<Pet, TError, TSelectData>,
+        ...options,
+      });
     }
     /**
      * Find pet by ID
@@ -1496,9 +1500,9 @@ export class Query{
      * @return successful operation
      */
     static setGetPetByIdData(queryClient: QueryClient, updater: (data: Pet | undefined) => Pet, petId: number) {
-        queryClient.setQueryData(Query.getPetByIdQueryKey(petId),
-            updater
-        );
+      queryClient.setQueryData(Query.getPetByIdQueryKey(petId),
+        updater
+      );
     }
 
     /**
@@ -1507,44 +1511,44 @@ export class Query{
      * @return successful operation
      */
     static setGetPetByIdDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: Pet | undefined) => Pet) {
-        queryClient.setQueryData(queryKey, updater);
+      queryClient.setQueryData(queryKey, updater);
     }
           
 
     getOrderByIdUrl(orderId: number): string {
       let url_ = this.baseUrl + "/store/order/{orderId}";
+
     if (orderId === undefined || orderId === null)
-        throw new Error("The parameter 'orderId' must be defined.");
+      throw new Error("The parameter 'orderId' must be defined.");
     url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
-    url_ = url_.replace(/[?&]$/, "");
+      url_ = url_.replace(/[?&]$/, "");
       return url_;
     }
 
     static getOrderByIdDefaultOptions?: UseQueryOptions<Order, unknown, Order> = {};
     public static getOrderByIdQueryKey(orderId: number): QueryKey;
     public static getOrderByIdQueryKey(...params: any[]): QueryKey {
-        if (params.length === 1 && isParameterObject(params[0])) {
-            const { orderId,  } = params[0] as GetOrderByIdQueryParameters;
+      if (params.length === 1 && isParameterObject(params[0])) {
+        const { orderId,  } = params[0] as GetOrderByIdQueryParameters;
 
-            return removeUndefinedFromArrayTail([
-                'Client',
-                'getOrderById',
-                orderId as any,
-
-            ]);
-        } else {
-            return removeUndefinedFromArrayTail([
-                'Client',
-                'getOrderById',
-                ...params
-            ]);
-        }
+        return removeUndefinedFromArrayTail([
+            'Client',
+            'getOrderById',
+            orderId as any,
+          ]);
+      } else {
+        return removeUndefinedFromArrayTail([
+            'Client',
+            'getOrderById',
+            ...params
+          ]);
+      }
     }
 
     private static getOrderById(context: QueryFunctionContext) {
-        return Query.Client.getOrderById(
-                context.queryKey[2] as number
-            );
+      return Query.Client.getOrderById(
+          context.queryKey[2] as number
+        );
     }
 
     static useGetOrderByIdQuery<TSelectData = Order, TError = unknown>(dto: GetOrderByIdQueryParameters, options?: UseQueryOptions<Order, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
@@ -1555,29 +1559,28 @@ export class Query{
      */
     static useGetOrderByIdQuery<TSelectData = Order, TError = unknown>(orderId: number, options?: UseQueryOptions<Order, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
     static useGetOrderByIdQuery<TSelectData = Order, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
-
-        let options: UseQueryOptions<Order, TError, TSelectData> | undefined = undefined;
-        let orderId: any = undefined;
-        
-        if (params.length > 0) {
-            if (isParameterObject(params[0])) {
-                ({ orderId,  } = params[0] as GetOrderByIdQueryParameters);
-                options = params[1];
-            } else {
-                [orderId,  options] = params;
-            }
+      let options: UseQueryOptions<Order, TError, TSelectData> | undefined = undefined;
+      let orderId: any = undefined;
+      
+      if (params.length > 0) {
+        if (isParameterObject(params[0])) {
+          ({ orderId,  } = params[0] as GetOrderByIdQueryParameters);
+          options = params[1];
+        } else {
+          [orderId,  options] = params;
         }
+      }
     
 
-        const metaContext = useContext(QueryMetaContext);
-        options = addMetaToOptions(options, metaContext);
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
 
-        return useQuery<Order, TError, TSelectData>({
-            queryFn: Query.getOrderById,
-            queryKey: Query.getOrderByIdQueryKey(orderId),
-            ...Query.getOrderByIdDefaultOptions as unknown as UseQueryOptions<Order, TError, TSelectData>,
-            ...options,
-        });
+      return useQuery<Order, TError, TSelectData>({
+        queryFn: Query.getOrderById,
+        queryKey: Query.getOrderByIdQueryKey(orderId),
+        ...Query.getOrderByIdDefaultOptions as unknown as UseQueryOptions<Order, TError, TSelectData>,
+        ...options,
+      });
     }
     /**
      * Find purchase order by ID
@@ -1585,9 +1588,9 @@ export class Query{
      * @return successful operation
      */
     static setGetOrderByIdData(queryClient: QueryClient, updater: (data: Order | undefined) => Order, orderId: number) {
-        queryClient.setQueryData(Query.getOrderByIdQueryKey(orderId),
-            updater
-        );
+      queryClient.setQueryData(Query.getOrderByIdQueryKey(orderId),
+        updater
+      );
     }
 
     /**
@@ -1596,28 +1599,28 @@ export class Query{
      * @return successful operation
      */
     static setGetOrderByIdDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: Order | undefined) => Order) {
-        queryClient.setQueryData(queryKey, updater);
+      queryClient.setQueryData(queryKey, updater);
     }
       
 
     getInventoryUrl(): string {
       let url_ = this.baseUrl + "/store/inventory";
-    url_ = url_.replace(/[?&]$/, "");
+      url_ = url_.replace(/[?&]$/, "");
       return url_;
     }
 
     static getInventoryDefaultOptions?: UseQueryOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }> = {};
     public static getInventoryQueryKey(): QueryKey;
     public static getInventoryQueryKey(...params: any[]): QueryKey {
-        return removeUndefinedFromArrayTail([
-            'Client',
-            'getInventory',
-            ]);
+      return removeUndefinedFromArrayTail([
+          'Client',
+          'getInventory',
+        ]);
     }
 
     private static getInventory() {
-        return Query.Client.getInventory(
-            );
+      return Query.Client.getInventory(
+        );
     }
 
     /**
@@ -1626,31 +1629,30 @@ export class Query{
      */
     static useGetInventoryQuery<TSelectData = { [key: string]: number; }, TError = unknown>(options?: UseQueryOptions<{ [key: string]: number; }, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
     static useGetInventoryQuery<TSelectData = { [key: string]: number; }, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+      let options: UseQueryOptions<{ [key: string]: number; }, TError, TSelectData> | undefined = undefined;
+      
 
-        let options: UseQueryOptions<{ [key: string]: number; }, TError, TSelectData> | undefined = undefined;
-        
-
-        options = params[0] as any;
+      options = params[0] as any;
     
 
-        const metaContext = useContext(QueryMetaContext);
-        options = addMetaToOptions(options, metaContext);
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
 
-        return useQuery<{ [key: string]: number; }, TError, TSelectData>({
-            queryFn: Query.getInventory,
-            queryKey: Query.getInventoryQueryKey(),
-            ...Query.getInventoryDefaultOptions as unknown as UseQueryOptions<{ [key: string]: number; }, TError, TSelectData>,
-            ...options,
-        });
+      return useQuery<{ [key: string]: number; }, TError, TSelectData>({
+        queryFn: Query.getInventory,
+        queryKey: Query.getInventoryQueryKey(),
+        ...Query.getInventoryDefaultOptions as unknown as UseQueryOptions<{ [key: string]: number; }, TError, TSelectData>,
+        ...options,
+      });
     }
     /**
      * Returns pet inventories by status
      * @return successful operation
      */
     static setGetInventoryData(queryClient: QueryClient, updater: (data: { [key: string]: number; } | undefined) => { [key: string]: number; }, ) {
-        queryClient.setQueryData(Query.getInventoryQueryKey(),
-            updater
-        );
+      queryClient.setQueryData(Query.getInventoryQueryKey(),
+        updater
+      );
     }
 
     /**
@@ -1658,44 +1660,44 @@ export class Query{
      * @return successful operation
      */
     static setGetInventoryDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: { [key: string]: number; } | undefined) => { [key: string]: number; }) {
-        queryClient.setQueryData(queryKey, updater);
+      queryClient.setQueryData(queryKey, updater);
     }
         
 
     getUserByNameUrl(username: string): string {
       let url_ = this.baseUrl + "/user/{username}";
+
     if (username === undefined || username === null)
-        throw new Error("The parameter 'username' must be defined.");
+      throw new Error("The parameter 'username' must be defined.");
     url_ = url_.replace("{username}", encodeURIComponent("" + username));
-    url_ = url_.replace(/[?&]$/, "");
+      url_ = url_.replace(/[?&]$/, "");
       return url_;
     }
 
     static getUserByNameDefaultOptions?: UseQueryOptions<User, unknown, User> = {};
     public static getUserByNameQueryKey(username: string): QueryKey;
     public static getUserByNameQueryKey(...params: any[]): QueryKey {
-        if (params.length === 1 && isParameterObject(params[0])) {
-            const { username,  } = params[0] as GetUserByNameQueryParameters;
+      if (params.length === 1 && isParameterObject(params[0])) {
+        const { username,  } = params[0] as GetUserByNameQueryParameters;
 
-            return removeUndefinedFromArrayTail([
-                'Client',
-                'getUserByName',
-                username as any,
-
-            ]);
-        } else {
-            return removeUndefinedFromArrayTail([
-                'Client',
-                'getUserByName',
-                ...params
-            ]);
-        }
+        return removeUndefinedFromArrayTail([
+            'Client',
+            'getUserByName',
+            username as any,
+          ]);
+      } else {
+        return removeUndefinedFromArrayTail([
+            'Client',
+            'getUserByName',
+            ...params
+          ]);
+      }
     }
 
     private static getUserByName(context: QueryFunctionContext) {
-        return Query.Client.getUserByName(
-                context.queryKey[2] as string
-            );
+      return Query.Client.getUserByName(
+          context.queryKey[2] as string
+        );
     }
 
     static useGetUserByNameQuery<TSelectData = User, TError = unknown>(dto: GetUserByNameQueryParameters, options?: UseQueryOptions<User, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
@@ -1706,29 +1708,28 @@ export class Query{
      */
     static useGetUserByNameQuery<TSelectData = User, TError = unknown>(username: string, options?: UseQueryOptions<User, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
     static useGetUserByNameQuery<TSelectData = User, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
-
-        let options: UseQueryOptions<User, TError, TSelectData> | undefined = undefined;
-        let username: any = undefined;
-        
-        if (params.length > 0) {
-            if (isParameterObject(params[0])) {
-                ({ username,  } = params[0] as GetUserByNameQueryParameters);
-                options = params[1];
-            } else {
-                [username,  options] = params;
-            }
+      let options: UseQueryOptions<User, TError, TSelectData> | undefined = undefined;
+      let username: any = undefined;
+      
+      if (params.length > 0) {
+        if (isParameterObject(params[0])) {
+          ({ username,  } = params[0] as GetUserByNameQueryParameters);
+          options = params[1];
+        } else {
+          [username,  options] = params;
         }
+      }
     
 
-        const metaContext = useContext(QueryMetaContext);
-        options = addMetaToOptions(options, metaContext);
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
 
-        return useQuery<User, TError, TSelectData>({
-            queryFn: Query.getUserByName,
-            queryKey: Query.getUserByNameQueryKey(username),
-            ...Query.getUserByNameDefaultOptions as unknown as UseQueryOptions<User, TError, TSelectData>,
-            ...options,
-        });
+      return useQuery<User, TError, TSelectData>({
+        queryFn: Query.getUserByName,
+        queryKey: Query.getUserByNameQueryKey(username),
+        ...Query.getUserByNameDefaultOptions as unknown as UseQueryOptions<User, TError, TSelectData>,
+        ...options,
+      });
     }
     /**
      * Get user by user name
@@ -1736,9 +1737,9 @@ export class Query{
      * @return successful operation
      */
     static setGetUserByNameData(queryClient: QueryClient, updater: (data: User | undefined) => User, username: string) {
-        queryClient.setQueryData(Query.getUserByNameQueryKey(username),
-            updater
-        );
+      queryClient.setQueryData(Query.getUserByNameQueryKey(username),
+        updater
+      );
     }
 
     /**
@@ -1747,21 +1748,21 @@ export class Query{
      * @return successful operation
      */
     static setGetUserByNameDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: User | undefined) => User) {
-        queryClient.setQueryData(queryKey, updater);
+      queryClient.setQueryData(queryKey, updater);
     }
         
 
     loginUserUrl(username: string, password: string): string {
       let url_ = this.baseUrl + "/user/login?";
-    if (username === undefined || username === null)
+      if (username === undefined || username === null)
         throw new Error("The parameter 'username' must be defined and cannot be null.");
-    else
+      else
         url_ += "username=" + encodeURIComponent("" + username) + "&";
-    if (password === undefined || password === null)
+      if (password === undefined || password === null)
         throw new Error("The parameter 'password' must be defined and cannot be null.");
-    else
+      else
         url_ += "password=" + encodeURIComponent("" + password) + "&";
-    url_ = url_.replace(/[?&]$/, "");
+      url_ = url_.replace(/[?&]$/, "");
       return url_;
     }
 
@@ -1769,30 +1770,29 @@ export class Query{
     public static loginUserQueryKey(dto: LoginUserQueryParameters): QueryKey;
     public static loginUserQueryKey(username: string,password: string): QueryKey;
     public static loginUserQueryKey(...params: any[]): QueryKey {
-        if (params.length === 1 && isParameterObject(params[0])) {
-            const { username, password,  } = params[0] as LoginUserQueryParameters;
+      if (params.length === 1 && isParameterObject(params[0])) {
+        const { username, password,  } = params[0] as LoginUserQueryParameters;
 
-            return removeUndefinedFromArrayTail([
-                'Client',
-                'loginUser',
-                username as any,
-                password as any,
-
-            ]);
-        } else {
-            return removeUndefinedFromArrayTail([
-                'Client',
-                'loginUser',
-                ...params
-            ]);
-        }
+        return removeUndefinedFromArrayTail([
+            'Client',
+            'loginUser',
+            username as any,
+            password as any,
+          ]);
+      } else {
+        return removeUndefinedFromArrayTail([
+            'Client',
+            'loginUser',
+            ...params
+          ]);
+      }
     }
 
     private static loginUser(context: QueryFunctionContext) {
-        return Query.Client.loginUser(
-                context.queryKey[2] as string, 
-                context.queryKey[3] as string
-            );
+      return Query.Client.loginUser(
+          context.queryKey[2] as string, 
+          context.queryKey[3] as string
+        );
     }
 
     static useLoginUserQuery<TSelectData = string, TError = unknown>(dto: LoginUserQueryParameters, options?: UseQueryOptions<string, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
@@ -1804,30 +1804,29 @@ export class Query{
      */
     static useLoginUserQuery<TSelectData = string, TError = unknown>(username: string, password: string, options?: UseQueryOptions<string, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
     static useLoginUserQuery<TSelectData = string, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
-
-        let options: UseQueryOptions<string, TError, TSelectData> | undefined = undefined;
-        let username: any = undefined;
-        let password: any = undefined;
-        
-        if (params.length > 0) {
-            if (isParameterObject(params[0])) {
-                ({ username, password,  } = params[0] as LoginUserQueryParameters);
-                options = params[1];
-            } else {
-                [username, password,  options] = params;
-            }
+      let options: UseQueryOptions<string, TError, TSelectData> | undefined = undefined;
+      let username: any = undefined;
+      let password: any = undefined;
+      
+      if (params.length > 0) {
+        if (isParameterObject(params[0])) {
+          ({ username, password,  } = params[0] as LoginUserQueryParameters);
+          options = params[1];
+        } else {
+          [username, password,  options] = params;
         }
+      }
     
 
-        const metaContext = useContext(QueryMetaContext);
-        options = addMetaToOptions(options, metaContext);
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
 
-        return useQuery<string, TError, TSelectData>({
-            queryFn: Query.loginUser,
-            queryKey: Query.loginUserQueryKey(username, password),
-            ...Query.loginUserDefaultOptions as unknown as UseQueryOptions<string, TError, TSelectData>,
-            ...options,
-        });
+      return useQuery<string, TError, TSelectData>({
+        queryFn: Query.loginUser,
+        queryKey: Query.loginUserQueryKey(username, password),
+        ...Query.loginUserDefaultOptions as unknown as UseQueryOptions<string, TError, TSelectData>,
+        ...options,
+      });
     }
     /**
      * Logs user into the system
@@ -1836,9 +1835,9 @@ export class Query{
      * @return successful operation
      */
     static setLoginUserData(queryClient: QueryClient, updater: (data: string | undefined) => string, username: string, password: string) {
-        queryClient.setQueryData(Query.loginUserQueryKey(username, password),
-            updater
-        );
+      queryClient.setQueryData(Query.loginUserQueryKey(username, password),
+        updater
+      );
     }
 
     /**
@@ -1848,28 +1847,28 @@ export class Query{
      * @return successful operation
      */
     static setLoginUserDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: string | undefined) => string) {
-        queryClient.setQueryData(queryKey, updater);
+      queryClient.setQueryData(queryKey, updater);
     }
     
 
     logoutUserUrl(): string {
       let url_ = this.baseUrl + "/user/logout";
-    url_ = url_.replace(/[?&]$/, "");
+      url_ = url_.replace(/[?&]$/, "");
       return url_;
     }
 
     static logoutUserDefaultOptions?: UseQueryOptions<void, unknown, void> = {};
     public static logoutUserQueryKey(): QueryKey;
     public static logoutUserQueryKey(...params: any[]): QueryKey {
-        return removeUndefinedFromArrayTail([
-            'Client',
-            'logoutUser',
-            ]);
+      return removeUndefinedFromArrayTail([
+          'Client',
+          'logoutUser',
+        ]);
     }
 
     private static logoutUser() {
-        return Query.Client.logoutUser(
-            );
+      return Query.Client.logoutUser(
+        );
     }
 
     /**
@@ -1878,31 +1877,30 @@ export class Query{
      */
     static useLogoutUserQuery<TSelectData = void, TError = unknown>(options?: UseQueryOptions<void, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
     static useLogoutUserQuery<TSelectData = void, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+      let options: UseQueryOptions<void, TError, TSelectData> | undefined = undefined;
+      
 
-        let options: UseQueryOptions<void, TError, TSelectData> | undefined = undefined;
-        
-
-        options = params[0] as any;
+      options = params[0] as any;
     
 
-        const metaContext = useContext(QueryMetaContext);
-        options = addMetaToOptions(options, metaContext);
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
 
-        return useQuery<void, TError, TSelectData>({
-            queryFn: Query.logoutUser,
-            queryKey: Query.logoutUserQueryKey(),
-            ...Query.logoutUserDefaultOptions as unknown as UseQueryOptions<void, TError, TSelectData>,
-            ...options,
-        });
+      return useQuery<void, TError, TSelectData>({
+        queryFn: Query.logoutUser,
+        queryKey: Query.logoutUserQueryKey(),
+        ...Query.logoutUserDefaultOptions as unknown as UseQueryOptions<void, TError, TSelectData>,
+        ...options,
+      });
     }
     /**
      * Logs out current logged in user session
      * @return successful operation
      */
     static setLogoutUserData(queryClient: QueryClient, updater: (data: void | undefined) => void, ) {
-        queryClient.setQueryData(Query.logoutUserQueryKey(),
-            updater
-        );
+      queryClient.setQueryData(Query.logoutUserQueryKey(),
+        updater
+      );
     }
 
     /**
@@ -1910,7 +1908,7 @@ export class Query{
      * @return successful operation
      */
     static setLogoutUserDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: void | undefined) => void) {
-        queryClient.setQueryData(queryKey, updater);
+      queryClient.setQueryData(queryKey, updater);
     }
       }
 

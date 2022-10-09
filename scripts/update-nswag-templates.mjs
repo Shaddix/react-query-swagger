@@ -1,4 +1,6 @@
 import fs from 'fs';
+import fetch from 'node-fetch';
+
 const axiosClientLiquid = await fetch(
   'https://raw.githubusercontent.com/RicoSuter/NSwag/master/src/NSwag.CodeGeneration.TypeScript/Templates/AxiosClient.liquid',
 ).then((x) => x.text());
