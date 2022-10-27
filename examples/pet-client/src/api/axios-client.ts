@@ -1286,6 +1286,10 @@ export class Query{
      */
     static useUploadFileMutation<TContext>(petId: number, options?: Omit<UseMutationOptions<ApiResponse, unknown, UploadFileMutationParameters, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<ApiResponse, unknown, UploadFileMutationParameters, TContext> {
       const key = Query.uploadFileMutationKey(petId);
+      
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
+      
       return useMutation((uploadFileMutationParameters: UploadFileMutationParameters) => Query.Client.uploadFile(petId, uploadFileMutationParameters.additionalMetadata, uploadFileMutationParameters.file), {...options, mutationKey: key});
     }
   
@@ -1308,6 +1312,10 @@ export class Query{
      */
     static useAddPetMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Pet, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, Pet, TContext> {
       const key = Query.addPetMutationKey();
+      
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
+      
       return useMutation((body: Pet) => Query.Client.addPet(body), {...options, mutationKey: key});
     }
   
@@ -1330,6 +1338,10 @@ export class Query{
      */
     static useUpdatePetMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Pet, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, Pet, TContext> {
       const key = Query.updatePetMutationKey();
+      
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
+      
       return useMutation((body: Pet) => Query.Client.updatePet(body), {...options, mutationKey: key});
     }
   
@@ -1623,6 +1635,10 @@ export class Query{
      */
     static useUpdatePetWithFormMutation<TContext>(petId: number, options?: Omit<UseMutationOptions<void, unknown, UpdatePetWithFormMutationParameters, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, UpdatePetWithFormMutationParameters, TContext> {
       const key = Query.updatePetWithFormMutationKey(petId);
+      
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
+      
       return useMutation((updatePetWithFormMutationParameters: UpdatePetWithFormMutationParameters) => Query.Client.updatePetWithForm(petId, updatePetWithFormMutationParameters.name, updatePetWithFormMutationParameters.status), {...options, mutationKey: key});
     }
   
@@ -1651,6 +1667,10 @@ export class Query{
      */
     static useDeletePetMutation<TContext>(petId: number, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, void, TContext> {
       const key = Query.deletePetMutationKey(petId);
+      
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
+      
       return useMutation(() => Query.Client.deletePet(petId, ), {...options, mutationKey: key});
     }
   
@@ -1674,6 +1694,10 @@ export class Query{
      */
     static usePlaceOrderMutation<TContext>(options?: Omit<UseMutationOptions<Order, unknown, Order, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<Order, unknown, Order, TContext> {
       const key = Query.placeOrderMutationKey();
+      
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
+      
       return useMutation((body: Order) => Query.Client.placeOrder(body), {...options, mutationKey: key});
     }
   
@@ -1788,6 +1812,10 @@ export class Query{
      */
     static useDeleteOrderMutation<TContext>(orderId: number, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, void, TContext> {
       const key = Query.deleteOrderMutationKey(orderId);
+      
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
+      
       return useMutation(() => Query.Client.deleteOrder(orderId, ), {...options, mutationKey: key});
     }
   
@@ -1872,6 +1900,10 @@ export class Query{
      */
     static useCreateUsersWithArrayInputMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, User[], TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, User[], TContext> {
       const key = Query.createUsersWithArrayInputMutationKey();
+      
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
+      
       return useMutation((body: User[]) => Query.Client.createUsersWithArrayInput(body), {...options, mutationKey: key});
     }
   
@@ -1895,6 +1927,10 @@ export class Query{
      */
     static useCreateUsersWithListInputMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, User[], TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, User[], TContext> {
       const key = Query.createUsersWithListInputMutationKey();
+      
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
+      
       return useMutation((body: User[]) => Query.Client.createUsersWithListInput(body), {...options, mutationKey: key});
     }
   
@@ -2010,6 +2046,10 @@ export class Query{
      */
     static useUpdateUserMutation<TContext>(username: string, options?: Omit<UseMutationOptions<void, unknown, User, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, User, TContext> {
       const key = Query.updateUserMutationKey(username);
+      
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
+      
       return useMutation((body: User) => Query.Client.updateUser(username, body), {...options, mutationKey: key});
     }
   
@@ -2037,6 +2077,10 @@ export class Query{
      */
     static useDeleteUserMutation<TContext>(username: string, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, void, TContext> {
       const key = Query.deleteUserMutationKey(username);
+      
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
+      
       return useMutation(() => Query.Client.deleteUser(username, ), {...options, mutationKey: key});
     }
   
@@ -2218,6 +2262,10 @@ export class Query{
      */
     static useCreateUserMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, User, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, User, TContext> {
       const key = Query.createUserMutationKey();
+      
+      const metaContext = useContext(QueryMetaContext);
+      options = addMetaToOptions(options, metaContext);
+      
       return useMutation((body: User) => Query.Client.createUser(body), {...options, mutationKey: key});
     }
   }
@@ -2610,7 +2658,7 @@ function isAxiosError(obj: any | undefined): obj is AxiosError {
     return obj && obj.isAxiosError === true;
 }
 
-import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, useMutation, MutationKey, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
+import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, useMutation, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from '@tanstack/react-query';
 import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
 import { useContext } from 'react';
 
@@ -2695,12 +2743,12 @@ export function setAxiosFactory(factory: () => AxiosInstance) {
   _axiosFactory = factory;
 }
 
-function addMetaToOptions<TResultType, TError, TSelectData>(options: UseQueryOptions<TResultType, TError, TSelectData> | undefined, metaContext: QueryMetaContextValue) {
+function addMetaToOptions<T extends {meta?: QueryMeta | MutationMeta | undefined}>(options: T | undefined, metaContext: QueryMetaContextValue): T | undefined {
   if (metaContext.metaFn) {
-    options = options ?? { };
-    options.meta = {
+    options = options ?? { } as any;
+    options!.meta = {
       ...metaContext.metaFn(),
-      ...options.meta,
+      ...options!.meta,
     };
   }
   return options;

@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, useMutation, MutationKey, UseMutationOptions, UseMutationResult } from 'react-query';
+import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, useMutation, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from 'react-query';
 import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
 import { useContext } from 'react';
 
@@ -106,12 +106,12 @@ export function setFetchFactory(factory: () => { fetch(url: RequestInfo, init?: 
 }
 {%         endif -%}
 
-function addMetaToOptions<TResultType, TError, TSelectData>(options: UseQueryOptions<TResultType, TError, TSelectData> | undefined, metaContext: QueryMetaContextValue) {
+function addMetaToOptions<T extends {meta?: QueryMeta | MutationMeta | undefined}>(options: T | undefined, metaContext: QueryMetaContextValue): T | undefined {
   if (metaContext.metaFn) {
-    options = options ?? { };
-    options.meta = {
+    options = options ?? { } as any;
+    options!.meta = {
       ...metaContext.metaFn(),
-      ...options.meta,
+      ...options!.meta,
     };
   }
   return options;
