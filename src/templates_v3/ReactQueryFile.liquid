@@ -1,8 +1,8 @@
-import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey } from 'react-query';
+import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, useMutation, MutationKey, UseMutationOptions, UseMutationResult } from 'react-query';
 import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
 import { useContext } from 'react';
 
-function removeUndefinedFromArrayTail<T>(arr: T[]): T[] {
+function trimArrayEnd<T>(arr: T[]): T[] {
     let lastDefinedValueIndex = arr.length - 1;
     while (lastDefinedValueIndex >= 0) {
         if (arr[lastDefinedValueIndex] === undefined) {

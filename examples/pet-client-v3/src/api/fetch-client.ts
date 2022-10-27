@@ -918,6 +918,11 @@ export class Client {
         }
     }
 }
+type UploadFileMutationParameters = {
+  additionalMetadata?: string | null | undefined;
+  file?: FileParameter | null | undefined;
+};
+
 type FindPetsByStatusQueryParameters = {
   status: Status[];
 };
@@ -928,6 +933,11 @@ type FindPetsByTagsQueryParameters = {
 
 type GetPetByIdQueryParameters = {
   petId: number;
+};
+
+type UpdatePetWithFormMutationParameters = {
+  name?: string | null | undefined;
+  status?: string | null | undefined;
 };
 
 type GetOrderByIdQueryParameters = {
@@ -957,8 +967,82 @@ export class Query{
     static get Url() {
       return new Query();
     }
-      
 
+    
+    uploadFileUrl(petId: number): string {
+      let url_ = this.baseUrl + "/pet/{petId}/uploadImage";
+
+    if (petId === undefined || petId === null)
+      throw new Error("The parameter 'petId' must be defined.");
+    url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
+      url_ = url_.replace(/[?&]$/, "");
+      return url_;
+    }
+
+    public static uploadFileMutationKey(petId: number): MutationKey {
+      return trimArrayEnd([
+          'Client',
+          'uploadFile',
+          petId as any,
+        ]);
+    }
+    /**
+     * uploads an image
+     * @param petId ID of pet to update
+     * @param additionalMetadata (optional) Additional data to pass to server
+     * @param file (optional) file to upload
+     * @return successful operation
+     */
+    static useUploadFileMutation<TContext>(petId: number, options?: Omit<UseMutationOptions<ApiResponse, unknown, UploadFileMutationParameters, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<ApiResponse, unknown, UploadFileMutationParameters, TContext> {
+      const key = Query.uploadFileMutationKey(petId);
+      return useMutation((uploadFileMutationParameters: UploadFileMutationParameters) => Query.Client.uploadFile(petId, uploadFileMutationParameters.additionalMetadata, uploadFileMutationParameters.file), {...options, mutationKey: key});
+    }
+  
+    
+    addPetUrl(): string {
+      let url_ = this.baseUrl + "/pet";
+      url_ = url_.replace(/[?&]$/, "");
+      return url_;
+    }
+
+    public static addPetMutationKey(): MutationKey {
+      return trimArrayEnd([
+          'Client',
+          'addPet',
+        ]);
+    }
+    /**
+     * Add a new pet to the store
+     * @param body Pet object that needs to be added to the store
+     */
+    static useAddPetMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Pet, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, Pet, TContext> {
+      const key = Query.addPetMutationKey();
+      return useMutation((body: Pet) => Query.Client.addPet(body), {...options, mutationKey: key});
+    }
+  
+    
+    updatePetUrl(): string {
+      let url_ = this.baseUrl + "/pet";
+      url_ = url_.replace(/[?&]$/, "");
+      return url_;
+    }
+
+    public static updatePetMutationKey(): MutationKey {
+      return trimArrayEnd([
+          'Client',
+          'updatePet',
+        ]);
+    }
+    /**
+     * Update an existing pet
+     * @param body Pet object that needs to be added to the store
+     */
+    static useUpdatePetMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Pet, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, Pet, TContext> {
+      const key = Query.updatePetMutationKey();
+      return useMutation((body: Pet) => Query.Client.updatePet(body), {...options, mutationKey: key});
+    }
+  
+    
     findPetsByStatusUrl(status: Status[]): string {
       let url_ = this.baseUrl + "/pet/findByStatus?";
       if (status === undefined || status === null)
@@ -975,13 +1059,13 @@ export class Query{
       if (params.length === 1 && isParameterObject(params[0])) {
         const { status,  } = params[0] as FindPetsByStatusQueryParameters;
 
-        return removeUndefinedFromArrayTail([
+        return trimArrayEnd([
             'Client',
             'findPetsByStatus',
             status as any,
           ]);
       } else {
-        return removeUndefinedFromArrayTail([
+        return trimArrayEnd([
             'Client',
             'findPetsByStatus',
             ...params
@@ -991,8 +1075,7 @@ export class Query{
 
     private static findPetsByStatus(context: QueryFunctionContext) {
       return Query.Client.findPetsByStatus(
-          context.queryKey[2] as Status[]
-        );
+          context.queryKey[2] as Status[]        );
     }
 
     static useFindPetsByStatusQuery<TSelectData = Pet[], TError = unknown>(dto: FindPetsByStatusQueryParameters, options?: UseQueryOptions<Pet[], TError, TSelectData>): UseQueryResult<TSelectData, TError>;
@@ -1046,7 +1129,7 @@ export class Query{
       queryClient.setQueryData(queryKey, updater);
     }
     
-
+    
     findPetsByTagsUrl(tags: string[]): string {
       let url_ = this.baseUrl + "/pet/findByTags?";
       if (tags === undefined || tags === null)
@@ -1063,13 +1146,13 @@ export class Query{
       if (params.length === 1 && isParameterObject(params[0])) {
         const { tags,  } = params[0] as FindPetsByTagsQueryParameters;
 
-        return removeUndefinedFromArrayTail([
+        return trimArrayEnd([
             'Client',
             'findPetsByTags',
             tags as any,
           ]);
       } else {
-        return removeUndefinedFromArrayTail([
+        return trimArrayEnd([
             'Client',
             'findPetsByTags',
             ...params
@@ -1079,8 +1162,7 @@ export class Query{
 
     private static findPetsByTags(context: QueryFunctionContext) {
       return Query.Client.findPetsByTags(
-          context.queryKey[2] as string[]
-        );
+          context.queryKey[2] as string[]        );
     }
 
     static useFindPetsByTagsQuery<TSelectData = Pet[], TError = unknown>(dto: FindPetsByTagsQueryParameters, options?: UseQueryOptions<Pet[], TError, TSelectData>): UseQueryResult<TSelectData, TError>;
@@ -1137,7 +1219,7 @@ export class Query{
       queryClient.setQueryData(queryKey, updater);
     }
     
-
+    
     getPetByIdUrl(petId: number): string {
       let url_ = this.baseUrl + "/pet/{petId}";
 
@@ -1154,13 +1236,13 @@ export class Query{
       if (params.length === 1 && isParameterObject(params[0])) {
         const { petId,  } = params[0] as GetPetByIdQueryParameters;
 
-        return removeUndefinedFromArrayTail([
+        return trimArrayEnd([
             'Client',
             'getPetById',
             petId as any,
           ]);
       } else {
-        return removeUndefinedFromArrayTail([
+        return trimArrayEnd([
             'Client',
             'getPetById',
             ...params
@@ -1170,8 +1252,7 @@ export class Query{
 
     private static getPetById(context: QueryFunctionContext) {
       return Query.Client.getPetById(
-          context.queryKey[2] as number
-        );
+          context.queryKey[2] as number        );
     }
 
     static useGetPetByIdQuery<TSelectData = Pet, TError = unknown>(dto: GetPetByIdQueryParameters, options?: UseQueryOptions<Pet, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
@@ -1224,8 +1305,88 @@ export class Query{
     static setGetPetByIdDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: Pet | undefined) => Pet) {
       queryClient.setQueryData(queryKey, updater);
     }
-          
+    
+    
+    updatePetWithFormUrl(petId: number): string {
+      let url_ = this.baseUrl + "/pet/{petId}";
 
+    if (petId === undefined || petId === null)
+      throw new Error("The parameter 'petId' must be defined.");
+    url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
+      url_ = url_.replace(/[?&]$/, "");
+      return url_;
+    }
+
+    public static updatePetWithFormMutationKey(petId: number): MutationKey {
+      return trimArrayEnd([
+          'Client',
+          'updatePetWithForm',
+          petId as any,
+        ]);
+    }
+    /**
+     * Updates a pet in the store with form data
+     * @param petId ID of pet that needs to be updated
+     * @param name (optional) Updated name of the pet
+     * @param status (optional) Updated status of the pet
+     */
+    static useUpdatePetWithFormMutation<TContext>(petId: number, options?: Omit<UseMutationOptions<void, unknown, UpdatePetWithFormMutationParameters, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, UpdatePetWithFormMutationParameters, TContext> {
+      const key = Query.updatePetWithFormMutationKey(petId);
+      return useMutation((updatePetWithFormMutationParameters: UpdatePetWithFormMutationParameters) => Query.Client.updatePetWithForm(petId, updatePetWithFormMutationParameters.name, updatePetWithFormMutationParameters.status), {...options, mutationKey: key});
+    }
+  
+    
+    deletePetUrl(petId: number): string {
+      let url_ = this.baseUrl + "/pet/{petId}";
+
+    if (petId === undefined || petId === null)
+      throw new Error("The parameter 'petId' must be defined.");
+    url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
+      url_ = url_.replace(/[?&]$/, "");
+      return url_;
+    }
+
+    public static deletePetMutationKey(petId: number): MutationKey {
+      return trimArrayEnd([
+          'Client',
+          'deletePet',
+          petId as any,
+        ]);
+    }
+    /**
+     * Deletes a pet
+     * @param petId Pet id to delete
+     * @param api_key (optional) 
+     */
+    static useDeletePetMutation<TContext>(petId: number, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, void, TContext> {
+      const key = Query.deletePetMutationKey(petId);
+      return useMutation(() => Query.Client.deletePet(petId, ), {...options, mutationKey: key});
+    }
+  
+    
+    placeOrderUrl(): string {
+      let url_ = this.baseUrl + "/store/order";
+      url_ = url_.replace(/[?&]$/, "");
+      return url_;
+    }
+
+    public static placeOrderMutationKey(): MutationKey {
+      return trimArrayEnd([
+          'Client',
+          'placeOrder',
+        ]);
+    }
+    /**
+     * Place an order for a pet
+     * @param body order placed for purchasing the pet
+     * @return successful operation
+     */
+    static usePlaceOrderMutation<TContext>(options?: Omit<UseMutationOptions<Order, unknown, Order, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<Order, unknown, Order, TContext> {
+      const key = Query.placeOrderMutationKey();
+      return useMutation((body: Order) => Query.Client.placeOrder(body), {...options, mutationKey: key});
+    }
+  
+    
     getOrderByIdUrl(orderId: number): string {
       let url_ = this.baseUrl + "/store/order/{orderId}";
 
@@ -1242,13 +1403,13 @@ export class Query{
       if (params.length === 1 && isParameterObject(params[0])) {
         const { orderId,  } = params[0] as GetOrderByIdQueryParameters;
 
-        return removeUndefinedFromArrayTail([
+        return trimArrayEnd([
             'Client',
             'getOrderById',
             orderId as any,
           ]);
       } else {
-        return removeUndefinedFromArrayTail([
+        return trimArrayEnd([
             'Client',
             'getOrderById',
             ...params
@@ -1258,8 +1419,7 @@ export class Query{
 
     private static getOrderById(context: QueryFunctionContext) {
       return Query.Client.getOrderById(
-          context.queryKey[2] as number
-        );
+          context.queryKey[2] as number        );
     }
 
     static useGetOrderByIdQuery<TSelectData = Order, TError = unknown>(dto: GetOrderByIdQueryParameters, options?: UseQueryOptions<Order, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
@@ -1312,8 +1472,35 @@ export class Query{
     static setGetOrderByIdDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: Order | undefined) => Order) {
       queryClient.setQueryData(queryKey, updater);
     }
-      
+    
+    
+    deleteOrderUrl(orderId: number): string {
+      let url_ = this.baseUrl + "/store/order/{orderId}";
 
+    if (orderId === undefined || orderId === null)
+      throw new Error("The parameter 'orderId' must be defined.");
+    url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
+      url_ = url_.replace(/[?&]$/, "");
+      return url_;
+    }
+
+    public static deleteOrderMutationKey(orderId: number): MutationKey {
+      return trimArrayEnd([
+          'Client',
+          'deleteOrder',
+          orderId as any,
+        ]);
+    }
+    /**
+     * Delete purchase order by ID
+     * @param orderId ID of the order that needs to be deleted
+     */
+    static useDeleteOrderMutation<TContext>(orderId: number, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, void, TContext> {
+      const key = Query.deleteOrderMutationKey(orderId);
+      return useMutation(() => Query.Client.deleteOrder(orderId, ), {...options, mutationKey: key});
+    }
+  
+    
     getInventoryUrl(): string {
       let url_ = this.baseUrl + "/store/inventory";
       url_ = url_.replace(/[?&]$/, "");
@@ -1323,7 +1510,7 @@ export class Query{
     static getInventoryDefaultOptions?: UseQueryOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }> = {};
     public static getInventoryQueryKey(): QueryKey;
     public static getInventoryQueryKey(...params: any[]): QueryKey {
-      return removeUndefinedFromArrayTail([
+      return trimArrayEnd([
           'Client',
           'getInventory',
         ]);
@@ -1373,8 +1560,54 @@ export class Query{
     static setGetInventoryDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: { [key: string]: number; } | undefined) => { [key: string]: number; }) {
       queryClient.setQueryData(queryKey, updater);
     }
-        
+    
+    
+    createUsersWithArrayInputUrl(): string {
+      let url_ = this.baseUrl + "/user/createWithArray";
+      url_ = url_.replace(/[?&]$/, "");
+      return url_;
+    }
 
+    public static createUsersWithArrayInputMutationKey(): MutationKey {
+      return trimArrayEnd([
+          'Client',
+          'createUsersWithArrayInput',
+        ]);
+    }
+    /**
+     * Creates list of users with given input array
+     * @param body List of user object
+     * @return successful operation
+     */
+    static useCreateUsersWithArrayInputMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, User[], TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, User[], TContext> {
+      const key = Query.createUsersWithArrayInputMutationKey();
+      return useMutation((body: User[]) => Query.Client.createUsersWithArrayInput(body), {...options, mutationKey: key});
+    }
+  
+    
+    createUsersWithListInputUrl(): string {
+      let url_ = this.baseUrl + "/user/createWithList";
+      url_ = url_.replace(/[?&]$/, "");
+      return url_;
+    }
+
+    public static createUsersWithListInputMutationKey(): MutationKey {
+      return trimArrayEnd([
+          'Client',
+          'createUsersWithListInput',
+        ]);
+    }
+    /**
+     * Creates list of users with given input array
+     * @param body List of user object
+     * @return successful operation
+     */
+    static useCreateUsersWithListInputMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, User[], TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, User[], TContext> {
+      const key = Query.createUsersWithListInputMutationKey();
+      return useMutation((body: User[]) => Query.Client.createUsersWithListInput(body), {...options, mutationKey: key});
+    }
+  
+    
     getUserByNameUrl(username: string): string {
       let url_ = this.baseUrl + "/user/{username}";
 
@@ -1391,13 +1624,13 @@ export class Query{
       if (params.length === 1 && isParameterObject(params[0])) {
         const { username,  } = params[0] as GetUserByNameQueryParameters;
 
-        return removeUndefinedFromArrayTail([
+        return trimArrayEnd([
             'Client',
             'getUserByName',
             username as any,
           ]);
       } else {
-        return removeUndefinedFromArrayTail([
+        return trimArrayEnd([
             'Client',
             'getUserByName',
             ...params
@@ -1407,8 +1640,7 @@ export class Query{
 
     private static getUserByName(context: QueryFunctionContext) {
       return Query.Client.getUserByName(
-          context.queryKey[2] as string
-        );
+          context.queryKey[2] as string        );
     }
 
     static useGetUserByNameQuery<TSelectData = User, TError = unknown>(dto: GetUserByNameQueryParameters, options?: UseQueryOptions<User, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
@@ -1461,8 +1693,63 @@ export class Query{
     static setGetUserByNameDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: User | undefined) => User) {
       queryClient.setQueryData(queryKey, updater);
     }
-        
+    
+    
+    updateUserUrl(username: string): string {
+      let url_ = this.baseUrl + "/user/{username}";
 
+    if (username === undefined || username === null)
+      throw new Error("The parameter 'username' must be defined.");
+    url_ = url_.replace("{username}", encodeURIComponent("" + username));
+      url_ = url_.replace(/[?&]$/, "");
+      return url_;
+    }
+
+    public static updateUserMutationKey(username: string): MutationKey {
+      return trimArrayEnd([
+          'Client',
+          'updateUser',
+          username as any,
+        ]);
+    }
+    /**
+     * Updated user
+     * @param username name that need to be updated
+     * @param body Updated user object
+     */
+    static useUpdateUserMutation<TContext>(username: string, options?: Omit<UseMutationOptions<void, unknown, User, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, User, TContext> {
+      const key = Query.updateUserMutationKey(username);
+      return useMutation((body: User) => Query.Client.updateUser(username, body), {...options, mutationKey: key});
+    }
+  
+    
+    deleteUserUrl(username: string): string {
+      let url_ = this.baseUrl + "/user/{username}";
+
+    if (username === undefined || username === null)
+      throw new Error("The parameter 'username' must be defined.");
+    url_ = url_.replace("{username}", encodeURIComponent("" + username));
+      url_ = url_.replace(/[?&]$/, "");
+      return url_;
+    }
+
+    public static deleteUserMutationKey(username: string): MutationKey {
+      return trimArrayEnd([
+          'Client',
+          'deleteUser',
+          username as any,
+        ]);
+    }
+    /**
+     * Delete user
+     * @param username The name that needs to be deleted
+     */
+    static useDeleteUserMutation<TContext>(username: string, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, void, TContext> {
+      const key = Query.deleteUserMutationKey(username);
+      return useMutation(() => Query.Client.deleteUser(username, ), {...options, mutationKey: key});
+    }
+  
+    
     loginUserUrl(username: string, password: string): string {
       let url_ = this.baseUrl + "/user/login?";
       if (username === undefined || username === null)
@@ -1479,19 +1766,19 @@ export class Query{
 
     static loginUserDefaultOptions?: UseQueryOptions<string, unknown, string> = {};
     public static loginUserQueryKey(dto: LoginUserQueryParameters): QueryKey;
-    public static loginUserQueryKey(username: string,password: string): QueryKey;
+    public static loginUserQueryKey(username: string, password: string): QueryKey;
     public static loginUserQueryKey(...params: any[]): QueryKey {
       if (params.length === 1 && isParameterObject(params[0])) {
         const { username, password,  } = params[0] as LoginUserQueryParameters;
 
-        return removeUndefinedFromArrayTail([
+        return trimArrayEnd([
             'Client',
             'loginUser',
             username as any,
             password as any,
           ]);
       } else {
-        return removeUndefinedFromArrayTail([
+        return trimArrayEnd([
             'Client',
             'loginUser',
             ...params
@@ -1501,9 +1788,7 @@ export class Query{
 
     private static loginUser(context: QueryFunctionContext) {
       return Query.Client.loginUser(
-          context.queryKey[2] as string, 
-          context.queryKey[3] as string
-        );
+          context.queryKey[2] as string,           context.queryKey[3] as string        );
     }
 
     static useLoginUserQuery<TSelectData = string, TError = unknown>(dto: LoginUserQueryParameters, options?: UseQueryOptions<string, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
@@ -1561,7 +1846,7 @@ export class Query{
       queryClient.setQueryData(queryKey, updater);
     }
     
-
+    
     logoutUserUrl(): string {
       let url_ = this.baseUrl + "/user/logout";
       url_ = url_.replace(/[?&]$/, "");
@@ -1571,7 +1856,7 @@ export class Query{
     static logoutUserDefaultOptions?: UseQueryOptions<void, unknown, void> = {};
     public static logoutUserQueryKey(): QueryKey;
     public static logoutUserQueryKey(...params: any[]): QueryKey {
-      return removeUndefinedFromArrayTail([
+      return trimArrayEnd([
           'Client',
           'logoutUser',
         ]);
@@ -1621,7 +1906,30 @@ export class Query{
     static setLogoutUserDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: void | undefined) => void) {
       queryClient.setQueryData(queryKey, updater);
     }
-      }
+    
+    
+    createUserUrl(): string {
+      let url_ = this.baseUrl + "/user";
+      url_ = url_.replace(/[?&]$/, "");
+      return url_;
+    }
+
+    public static createUserMutationKey(): MutationKey {
+      return trimArrayEnd([
+          'Client',
+          'createUser',
+        ]);
+    }
+    /**
+     * Create user
+     * @param body Created user object
+     * @return successful operation
+     */
+    static useCreateUserMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, User, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, User, TContext> {
+      const key = Query.createUserMutationKey();
+      return useMutation((body: User) => Query.Client.createUser(body), {...options, mutationKey: key});
+    }
+  }
 
 export class ApiResponse implements IApiResponse {
     code?: number | undefined;
@@ -2002,11 +2310,11 @@ function throwException(message: string, status: number, response: string, heade
         throw new ApiException(message, status, response, headers, null);
 }
 
-import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey } from 'react-query';
+import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, useMutation, MutationKey, UseMutationOptions, UseMutationResult } from 'react-query';
 import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
 import { useContext } from 'react';
 
-function removeUndefinedFromArrayTail<T>(arr: T[]): T[] {
+function trimArrayEnd<T>(arr: T[]): T[] {
     let lastDefinedValueIndex = arr.length - 1;
     while (lastDefinedValueIndex >= 0) {
         if (arr[lastDefinedValueIndex] === undefined) {
