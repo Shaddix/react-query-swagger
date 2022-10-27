@@ -1,15 +1,27 @@
 
 {%- if HasOperations -%}
 {%- assign QueryClassName = Class | prepend: 'Qqqqqq' | slice: 0, Class.size | append: "Query" | slice: 6, 1000 -%}
+{%- assign MutationClassName = Class | prepend: 'Qqqqqq' | slice: 0, Class.size | append: "Mutation" | slice: 6, 1000 -%}
 
 {%- for operation in Operations -%}
 {%- if operation.HttpMethodUpper == 'Get' -%}
 {%- if operation.Parameters.size > 0 -%}
-
 {%- assign firstLetter = operation.ActualOperationName | slice: 0, 1 | upcase -%}
 {%- assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: QueryClassName | append: 'Parameters' -%}
 type {{ parameterClassName }} = {
   {%- for parameter in operation.Parameters -%}
+  {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }};
+  {%- endfor -%}
+};
+
+{%- endif -%}
+{%- endif -%}
+{%- if operation.HttpMethodUpper <> 'Get' -%}
+{%- if operation.FormParameters.size > 0 -%}
+{%- assign firstLetter = operation.ActualOperationName | slice: 0, 1 | upcase -%}
+{%- assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: MutationClassName | append: 'Parameters' -%}
+type {{ parameterClassName }} = {
+  {%- for parameter in operation.FormParameters -%}
   {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }};
   {%- endfor -%}
 };
@@ -34,24 +46,52 @@ type {{ parameterClassName }} = {
       return new {{ QueryClassName }}();
     }
 {%- for operation in Operations -%}
-{%- if operation.HttpMethodUpper == 'Get' -%}
 {% assign ResultType = operation.ResultType %}
 {%- assign firstLetter = operation.ActualOperationName | slice: 0, 1 | upcase -%}
-{%- assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: QueryClassName | append: 'Parameters' -%}
-
-    {{ operation.ActualOperationName }}Url({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): string {
+    {% assign NonBodyParameters = operation.PathParameters | concat: operation.QueryParameters %}
+    {{ operation.ActualOperationName }}Url({% for parameter in NonBodyParameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% unless forloop.last %}, {% endunless -%}{% endfor %}): string {
       {% template Client.RequestUrl %}
       return url_;
     }
 
+{%- if operation.HttpMethodUpper <> 'Get' -%}
+    {%- assign firstLetter = operation.ActualOperationName | slice: 0, 1 | upcase -%}
+    {%- if operation.FormParameters.size > 0 -%}
+      {%- assign TVariableType = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: MutationClassName | append: 'Parameters' -%}
+      {%- assign TVariableName = operation.ActualOperationName | append: MutationClassName | append: 'Parameters' -%}
+    {%- else -%}
+      {%- assign TVariableType = operation.ContentParameter.Type | default: 'void' -%}
+      {%- assign TVariableName = operation.ContentParameter.VariableName -%}
+    {%- endif -%}
+    public static {{ operation.ActualOperationName }}MutationKey({%- for parameter in NonBodyParameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}{% unless forloop.last %}, {% endunless -%}{%- endfor -%}): MutationKey {
+      return trimArrayEnd([
+          '{{ Class }}',
+          '{{ operation.ActualOperationName }}',
+          {%- for parameter in NonBodyParameters -%}
+          {{ parameter.VariableName }} as any,
+          {%- endfor -%}
+        ]);
+    }
+    {% template Client.Method.Documentation %}
+    static {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Mutation<TContext>({%- for parameter in NonBodyParameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}, {% endfor -%}options?: Omit<UseMutationOptions<{{ ResultType }}, unknown, {{ TVariableType }}, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<{{ ResultType }}, unknown, {{ TVariableType }}, TContext> {
+      const key = {{ QueryClassName }}.{{ operation.ActualOperationName }}MutationKey({%- for parameter in NonBodyParameters -%}{{ parameter.VariableName }}{% unless forloop.last %}, {% endunless -%}{% endfor -%});
+      {%- if operation.FormParameters.size > 0 -%}
+      return useMutation(({{TVariableName}}: {{TVariableType}}) => {{ QueryClassName }}.Client.{{ operation.ActualOperationName }}({%- for parameter in operation.PathParameters -%}{{ parameter.VariableName }}{{ parameter.TypePostfix }}, {% endfor -%}{%- for parameter in operation.FormParameters -%}{{TVariableName}}.{{parameter.VariableName}}{% unless forloop.last %}, {% endunless -%}{%endfor-%}), {...options, mutationKey: key});
+      {%- else -%}
+      return useMutation(({% if operation.HasBody %}{{TVariableName}}: {{TVariableType}}{% endif %}) => {{ QueryClassName }}.Client.{{ operation.ActualOperationName }}({%- for parameter in NonBodyParameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{{ parameter.TypePostfix }}, {% endfor -%}{{TVariableName}}), {...options, mutationKey: key});
+      {%- endif -%}
+    }
+{%- endif -%}
+{%- if operation.HttpMethodUpper == 'Get' -%}
+    {%- assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: QueryClassName | append: 'Parameters' -%}
     static {{ operation.ActualOperationName }}DefaultOptions?: UseQueryOptions<{{ ResultType }}, unknown, {{ ResultType }}> = {};
     {%- if operation.Parameters.size > 1 -%}
     public static {{ operation.ActualOperationName }}QueryKey(dto: {{ parameterClassName }}): QueryKey;
     {%- endif -%}
-    public static {{ operation.ActualOperationName }}QueryKey({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {%- endif %}{%- endfor -%}): QueryKey;
+    public static {{ operation.ActualOperationName }}QueryKey({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}{% unless forloop.last %}, {% endunless -%}{%- endfor -%}): QueryKey;
     public static {{ operation.ActualOperationName }}QueryKey(...params: any[]): QueryKey {
         {%- if operation.Parameters.size == 0 -%}
-      return removeUndefinedFromArrayTail([
+      return trimArrayEnd([
           '{{ Class }}',
           '{{ operation.ActualOperationName }}',
         ]);
@@ -59,7 +99,7 @@ type {{ parameterClassName }} = {
       if (params.length === 1 && isParameterObject(params[0])) {
         const { {% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %} } = params[0] as {{ parameterClassName  }};
 
-        return removeUndefinedFromArrayTail([
+        return trimArrayEnd([
             '{{ Class }}',
             '{{ operation.ActualOperationName }}',
             {%- for parameter in operation.Parameters -%}
@@ -67,7 +107,7 @@ type {{ parameterClassName }} = {
             {%- endfor -%}
           ]);
       } else {
-        return removeUndefinedFromArrayTail([
+        return trimArrayEnd([
             '{{ Class }}',
             '{{ operation.ActualOperationName }}',
             ...params
@@ -80,7 +120,7 @@ type {{ parameterClassName }} = {
       return {{ QueryClassName }}.Client.{{ operation.ActualOperationName }}(
       {%- for parameter in operation.Parameters -%}
     {%- assign ParameterType = parameter.Type -%}
-          context.queryKey[{{ forloop.index | plus: 1  }}] as {{ ParameterType }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}
+          context.queryKey[{{ forloop.index | plus: 1  }}] as {{ ParameterType }}{{ parameter.TypePostfix }}{% unless forloop.last %}, {% endunless -%}
       {%- endfor -%}
         );
     }
@@ -112,14 +152,14 @@ type {{ parameterClassName }} = {
 
       return useQuery<{{ ResultType }}, TError, TSelectData>({
         queryFn: {{ QueryClassName }}.{{ operation.ActualOperationName }},
-        queryKey: {{ QueryClassName }}.{{ operation.ActualOperationName }}QueryKey({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}),
+        queryKey: {{ QueryClassName }}.{{ operation.ActualOperationName }}QueryKey({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% unless forloop.last %}, {% endunless -%}{% endfor %}),
         ...{{ QueryClassName }}.{{ operation.ActualOperationName }}DefaultOptions as unknown as UseQueryOptions<{{ ResultType }}, TError, TSelectData>,
         ...options,
       });
     }
     {% template Client.Method.Documentation %}
-    static {{ operation.MethodAccessModifier }}set{{ operation.ActualOperationName | capitalize }}Data(queryClient: QueryClient, updater: (data: {{ ResultType }} | undefined) => {{ ResultType }}, {% for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}) {
-      queryClient.setQueryData({{ QueryClassName }}.{{ operation.ActualOperationName }}QueryKey({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}),
+    static {{ operation.MethodAccessModifier }}set{{ operation.ActualOperationName | capitalize }}Data(queryClient: QueryClient, updater: (data: {{ ResultType }} | undefined) => {{ ResultType }}, {% for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}{% unless forloop.last %}, {% endunless -%}{% endfor %}) {
+      queryClient.setQueryData({{ QueryClassName }}.{{ operation.ActualOperationName }}QueryKey({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% unless forloop.last %}, {% endunless -%}{% endfor %}),
         updater
       );
     }

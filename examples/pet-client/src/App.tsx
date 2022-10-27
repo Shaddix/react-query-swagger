@@ -1,13 +1,17 @@
 import React, { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import './App.css';
 import { AxiosQuery } from './api';
-import { Status } from './api/axios-client';
+import { IPet, Pet, Status } from './api/axios-client';
 import { PetsList } from './components/PetsList';
 import { QueryMetaProvider } from 'react-query-swagger';
-import { QueryObserver, useQueryClient } from '@tanstack/react-query';
+import { QueryObserver, useMutation, useQueryClient } from '@tanstack/react-query';
 
 function App() {
   const queryClient = useQueryClient();
+  const addPetMutation = AxiosQuery.Query.useAddPetMutation({
+    onSuccess:()=>{setAddPetName('');}
+  });
+
   const pets1Query = AxiosQuery.Query.useFindPetsByStatusQuery({
     status: [Status.Pending, Status.Sold],
   });
@@ -40,9 +44,13 @@ function App() {
   }, []);
 
   const [petList1Show, setPetList1Show] = useState(true);
-
+  const [addPetName, setAddPetName] = useState('');
   return (
     <div className="App">
+      <form onSubmit={(e)=>{
+        e.preventDefault();
+        addPetMutation.mutate(new Pet({name: addPetName, photoUrls:[]}));
+      }}><input name="name" value={addPetName} onChange={(e)=>setAddPetName(e.target.value)} /><input type="submit" value="Add"/></form>
       <div
         style={{
           display: 'flex',
