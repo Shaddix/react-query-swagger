@@ -448,3 +448,4 @@ src/templates_no_hooks/Client.ProcessResponse.Return.liquid
 src/templates_no_hooks/Client.ProcessResponse.HandleStatusCode.liquid
 src/templates/ReactQuery.GetClientFunction.liquid
 src/templates_v3/ReactQuery.GetClientFunction.liquid
+src/templates_no_hooks/ReactQuery.GetClientFunction.liquid
