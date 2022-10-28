@@ -20,7 +20,7 @@ return {{ Framework.RxJs.ObservableOfMethod }}(new {{ operation.ResponseClass }}
 {%         elsif Framework.IsAngularJS -%}
 return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers }));
 {%         elsif Framework.IsAxios -%}
-return Promise.resolve<{{ operation.ResultType | prepend: 'Types.'  }}>(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, status: status, data: new Blob([response.data], { type: response.headers["content-type"] }), headers: _headers }));
+return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, status: status, data: new Blob([response.data], { type: response.headers["content-type"] }), headers: _headers }));
 {%         else -%}
 return response.blob().then(blob => { return new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: blob, status: status, headers: _headers }); });
 {%         endif -%}
@@ -61,7 +61,7 @@ return {{ Framework.RxJs.ObservableOfMethod }}(new {{ operation.ResponseClass }}
 {%                 elsif Framework.IsAngularJS -%}
 return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
 {%                 elsif Framework.IsAxios -%}
-return Promise.resolve<{{ operation.ResultType | prepend: 'Types.'  }}>(new {{ operation.ResultType | prepend: 'Types.'  }}(status, _headers, result{{ response.StatusCode }}));
+return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResultType }}(status, _headers, result{{ response.StatusCode }}));
 {%                 else -%}
 return new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }});
 {%                 endif -%}
@@ -71,7 +71,7 @@ return {{ Framework.RxJs.ObservableOfMethod }}(result{{ response.StatusCode }});
 {%                 elsif Framework.IsAngularJS -%}
 return this.q.resolve(result{{ response.StatusCode }});
 {%                 elsif Framework.IsAxios -%}
-return Promise.resolve<{{ operation.ResultType | prepend: 'Types.'  }}>(result{{ response.StatusCode }});
+return Promise.resolve<{{ operation.ResultType }}>(result{{ response.StatusCode }});
 {%                 else -%}
 return result{{ response.StatusCode }};
 {%                 endif -%}
@@ -82,11 +82,11 @@ return throwException({% if Framework.IsAngularJS %}this.q, {% endif %}"{{ respo
 {%     elsif response.IsSuccess -%}
 {%         if operation.WrapResponse -%}
 {%             if Framework.IsAngular -%}
-return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType | prepend: 'Types.'  }}>(new {{ operation.ResponseClass }}(status, _headers, null as any));
+return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, null as any));
 {%             elsif Framework.IsAngularJS -%}
-return this.q.resolve<{{ operation.ResultType | prepend: 'Types.'  }}>(new {{ operation.ResponseClass }}(status, _headers, null as any));
+return this.q.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, null as any));
 {%             elsif Framework.IsAxios -%}
-return Promise.resolve<{{ operation.ResultType | prepend: 'Types.'  }}>(new {{ operation.ResultType | prepend: 'Types.'  }}(status, _headers, null as any));
+return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResultType }}(status, _headers, null as any));
 {%             else -%}
 return new {{ operation.ResponseClass }}(status, _headers, null as any);
 {%             endif -%}
@@ -98,9 +98,9 @@ return {{ Framework.RxJs.ObservableOfMethod }}(null as any);
 return {{ Framework.RxJs.ObservableOfMethod }}<{{operation.ResultType}}>(null as any);
 {%                 endif -%}
 {%             elsif Framework.IsAngularJS -%}
-return this.q.resolve<{{ operation.ResultType | prepend: 'Types.'  }}>(null as any);
+return this.q.resolve<{{ operation.ResultType }}>(null as any);
 {%             elsif Framework.IsAxios -%}
-return Promise.resolve<{{ operation.ResultType | prepend: 'Types.'  }}>(null as any);
+return Promise.resolve<{{ operation.ResultType }}>(null as any);
 {%             else -%}
 return{% if operation.HasResultType %} null{% endif %};
 {%             endif -%}
