@@ -68,7 +68,7 @@ export class Client {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Types.ApiResponse>(null as any);
+        return Promise.resolve<ApiResponse>(null as any);
     }
 
     /**
@@ -106,7 +106,7 @@ export class Client {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Types.void>(null as any);
+        return Promise.resolve<void>(null as any);
     }
 
     /**
@@ -152,7 +152,7 @@ export class Client {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Types.void>(null as any);
+        return Promise.resolve<void>(null as any);
     }
 
     /**
@@ -206,7 +206,7 @@ export class Client {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Types.Pet[]>(null as any);
+        return Promise.resolve<Pet[]>(null as any);
     }
 
     /**
@@ -261,7 +261,7 @@ export class Client {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Types.Pet[]>(null as any);
+        return Promise.resolve<Pet[]>(null as any);
     }
 
     /**
@@ -312,7 +312,7 @@ export class Client {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Types.Pet>(null as any);
+        return Promise.resolve<Pet>(null as any);
     }
 
     /**
@@ -361,7 +361,7 @@ export class Client {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Types.void>(null as any);
+        return Promise.resolve<void>(null as any);
     }
 
     /**
@@ -405,7 +405,7 @@ export class Client {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Types.void>(null as any);
+        return Promise.resolve<void>(null as any);
     }
 
     /**
@@ -452,7 +452,7 @@ export class Client {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Types.Order>(null as any);
+        return Promise.resolve<Order>(null as any);
     }
 
     /**
@@ -503,7 +503,7 @@ export class Client {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Types.Order>(null as any);
+        return Promise.resolve<Order>(null as any);
     }
 
     /**
@@ -545,7 +545,7 @@ export class Client {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Types.void>(null as any);
+        return Promise.resolve<void>(null as any);
     }
 
     /**
@@ -592,7 +592,7 @@ export class Client {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Types.{ [key: string]: number; }>(null as any);
+        return Promise.resolve<{ [key: string]: number; }>(null as any);
     }
 
     /**
@@ -711,7 +711,7 @@ export class Client {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Types.User>(null as any);
+        return Promise.resolve<User>(null as any);
     }
 
     /**
@@ -758,7 +758,7 @@ export class Client {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Types.void>(null as any);
+        return Promise.resolve<void>(null as any);
     }
 
     /**
@@ -800,7 +800,7 @@ export class Client {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Types.void>(null as any);
+        return Promise.resolve<void>(null as any);
     }
 
     /**
@@ -853,7 +853,7 @@ export class Client {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Types.string>(null as any);
+        return Promise.resolve<string>(null as any);
     }
 
     /**

@@ -81,13 +81,13 @@ export class Client {
             let result200: any = null;
             let resultData200  = _responseText;
             result200 = ApiResponse.fromJS(resultData200);
-            return Promise.resolve<Types.ApiResponse>(result200);
+            return Promise.resolve<ApiResponse>(result200);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<Types.ApiResponse>(null as any);
+        return Promise.resolve<ApiResponse>(null as any);
     }
 
     /**
@@ -139,7 +139,7 @@ export class Client {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<Types.void>(null as any);
+        return Promise.resolve<void>(null as any);
     }
 
     /**
@@ -199,7 +199,7 @@ export class Client {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<Types.void>(null as any);
+        return Promise.resolve<void>(null as any);
     }
 
     /**
@@ -257,7 +257,7 @@ export class Client {
             else {
                 result200 = <any>null;
             }
-            return Promise.resolve<Types.Pet[]>(result200);
+            return Promise.resolve<Pet[]>(result200);
 
         } else if (status === 400) {
             const _responseText = response.data;
@@ -267,7 +267,7 @@ export class Client {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<Types.Pet[]>(null as any);
+        return Promise.resolve<Pet[]>(null as any);
     }
 
     /**
@@ -326,7 +326,7 @@ export class Client {
             else {
                 result200 = <any>null;
             }
-            return Promise.resolve<Types.Pet[]>(result200);
+            return Promise.resolve<Pet[]>(result200);
 
         } else if (status === 400) {
             const _responseText = response.data;
@@ -336,7 +336,7 @@ export class Client {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<Types.Pet[]>(null as any);
+        return Promise.resolve<Pet[]>(null as any);
     }
 
     /**
@@ -387,7 +387,7 @@ export class Client {
             let result200: any = null;
             let resultData200  = _responseText;
             result200 = Pet.fromJS(resultData200);
-            return Promise.resolve<Types.Pet>(result200);
+            return Promise.resolve<Pet>(result200);
 
         } else if (status === 400) {
             const _responseText = response.data;
@@ -401,7 +401,7 @@ export class Client {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<Types.Pet>(null as any);
+        return Promise.resolve<Pet>(null as any);
     }
 
     /**
@@ -464,7 +464,7 @@ export class Client {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<Types.void>(null as any);
+        return Promise.resolve<void>(null as any);
     }
 
     /**
@@ -522,7 +522,7 @@ export class Client {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<Types.void>(null as any);
+        return Promise.resolve<void>(null as any);
     }
 
     /**
@@ -573,7 +573,7 @@ export class Client {
             let result200: any = null;
             let resultData200  = _responseText;
             result200 = Order.fromJS(resultData200);
-            return Promise.resolve<Types.Order>(result200);
+            return Promise.resolve<Order>(result200);
 
         } else if (status === 400) {
             const _responseText = response.data;
@@ -583,7 +583,7 @@ export class Client {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<Types.Order>(null as any);
+        return Promise.resolve<Order>(null as any);
     }
 
     /**
@@ -634,7 +634,7 @@ export class Client {
             let result200: any = null;
             let resultData200  = _responseText;
             result200 = Order.fromJS(resultData200);
-            return Promise.resolve<Types.Order>(result200);
+            return Promise.resolve<Order>(result200);
 
         } else if (status === 400) {
             const _responseText = response.data;
@@ -648,7 +648,7 @@ export class Client {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<Types.Order>(null as any);
+        return Promise.resolve<Order>(null as any);
     }
 
     /**
@@ -704,7 +704,7 @@ export class Client {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<Types.void>(null as any);
+        return Promise.resolve<void>(null as any);
     }
 
     /**
@@ -759,13 +759,13 @@ export class Client {
             else {
                 result200 = <any>null;
             }
-            return Promise.resolve<Types.{ [key: string]: number; }>(result200);
+            return Promise.resolve<{ [key: string]: number; }>(result200);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<Types.{ [key: string]: number; }>(null as any);
+        return Promise.resolve<{ [key: string]: number; }>(null as any);
     }
 
     /**
@@ -812,7 +812,7 @@ export class Client {
         }
         {
             const _responseText = response.data;
-            return Promise.resolve<Types.void>(null as any);
+            return Promise.resolve<void>(null as any);
 
         }
     }
@@ -861,7 +861,7 @@ export class Client {
         }
         {
             const _responseText = response.data;
-            return Promise.resolve<Types.void>(null as any);
+            return Promise.resolve<void>(null as any);
 
         }
     }
@@ -914,7 +914,7 @@ export class Client {
             let result200: any = null;
             let resultData200  = _responseText;
             result200 = User.fromJS(resultData200);
-            return Promise.resolve<Types.User>(result200);
+            return Promise.resolve<User>(result200);
 
         } else if (status === 400) {
             const _responseText = response.data;
@@ -928,7 +928,7 @@ export class Client {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<Types.User>(null as any);
+        return Promise.resolve<User>(null as any);
     }
 
     /**
@@ -989,7 +989,7 @@ export class Client {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<Types.void>(null as any);
+        return Promise.resolve<void>(null as any);
     }
 
     /**
@@ -1045,7 +1045,7 @@ export class Client {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<Types.void>(null as any);
+        return Promise.resolve<void>(null as any);
     }
 
     /**
@@ -1102,7 +1102,7 @@ export class Client {
             let resultData200  = _responseText;
                 result200 = resultData200 !== undefined ? resultData200 : <any>null;
     
-            return Promise.resolve<Types.string>(result200);
+            return Promise.resolve<string>(result200);
 
         } else if (status === 400) {
             const _responseText = response.data;
@@ -1112,7 +1112,7 @@ export class Client {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<Types.string>(null as any);
+        return Promise.resolve<string>(null as any);
     }
 
     /**
@@ -1154,7 +1154,7 @@ export class Client {
         }
         {
             const _responseText = response.data;
-            return Promise.resolve<Types.void>(null as any);
+            return Promise.resolve<void>(null as any);
 
         }
     }
@@ -1203,7 +1203,7 @@ export class Client {
         }
         {
             const _responseText = response.data;
-            return Promise.resolve<Types.void>(null as any);
+            return Promise.resolve<void>(null as any);
 
         }
     }
