@@ -7,7 +7,7 @@
       {%- assign typeWithoutBrackets = operation.UnwrappedResultType |  prepend: '  ' | slice: 0, operation.UnwrappedResultType.size | lstrip -%}
     {%- endif -%}
     {%- if typeWithoutBrackets != 'string' and typeWithoutBrackets != 'number' and typeWithoutBrackets != 'boolean' and typeWithoutBrackets != 'FileResponse' -%}
-resultTypesByQueryKey['{{ Class }}___{{ operation.ActualOperationName }}'] = () => new {{ typeWithoutBrackets }}();
+addResultTypeFactory('{{ Class }}___{{ operation.ActualOperationName }}', () => new {{ typeWithoutBrackets }}());
     {%- endif -%}
   {%- endif -%}
 {% endif -%}

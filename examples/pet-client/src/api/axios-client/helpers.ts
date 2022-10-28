@@ -1,11 +1,35 @@
-export { setBaseUrl } from './helpers';
 //-----ReactQueryFile-----
+import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, useMutation, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from '@tanstack/react-query';
+import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
+import { useContext } from 'react';
+import { AxiosInstance } from 'axios';
+
+const _resultTypesByQueryKey: Record<string, () => { init(data: any): void }> = {};
+export function addResultTypeFactory(typeName: string, factory: () => { init(data: any): void }) {
+  _resultTypesByQueryKey[typeName] = factory;
+}
+export function getResultTypeFactory(typeName: string) {
+  return _resultTypesByQueryKey[typeName];
+}
+
+export function trimArrayEnd<T>(arr: T[]): T[] {
+    let lastDefinedValueIndex = arr.length - 1;
+    while (lastDefinedValueIndex >= 0) {
+        if (arr[lastDefinedValueIndex] === undefined) {
+            lastDefinedValueIndex--;
+        } else {
+            break;
+        }
+    }
+    return lastDefinedValueIndex === arr.length - 1 ? arr : arr.slice(0, lastDefinedValueIndex + 1);
+}
+
 /*
   Determines if first parameter of useSomethingQuery is an object with query parameters, or it's a regular parameter
   Returns true if parameter is Object
   Returns false if parameter is number/string/boolean/Date or Array
 */
-function isParameterObject(param: unknown) {
+export function isParameterObject(param: unknown) {
     if (param === null || param === undefined) return false;
     if (param instanceof Array) return false;
     const isObject = typeof param === 'object';
@@ -16,12 +40,7 @@ function isParameterObject(param: unknown) {
 
 type ClientFactoryFunction = <T>(type: (new (...params: any[]) => T)) => T;
 let _clientFactoryFunction: ClientFactoryFunction = <T>(type: (new (...params: any[]) => T)) => {
-{%         if Framework.IsAxios -%}
   const params = [_baseUrl, _axiosFactory()];
-{%         endif -%}
-{%         if Framework.IsFetchOrAurelia -%}
-  const params = [_baseUrl, _fetchFactory()];
-{%         endif -%}
   return new type(...params);
 };
 /*
@@ -60,7 +79,6 @@ export function setBaseUrl(baseUrl: string) {
   _baseUrl = baseUrl;
 }
 
-{%         if Framework.IsAxios -%}
 let _axiosFactory: () => AxiosInstance | undefined = () => undefined;
 /*
   Returns currently used factory for Axios instances
@@ -74,20 +92,15 @@ export function getAxiosFactory() {
 export function setAxiosFactory(factory: () => AxiosInstance) {
   _axiosFactory = factory;
 }
-{%         endif -%}
-{%         if Framework.IsFetchOrAurelia -%}
-let _fetchFactory = () => <any>window;
-/*
-  Returns currently used factory for fetch
-*/
-export function getFetchFactory(): () => { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }  {
-  return _fetchFactory;
+
+export function addMetaToOptions<T extends {meta?: QueryMeta | MutationMeta | undefined}>(options: T | undefined, metaContext: QueryMetaContextValue): T | undefined {
+  if (metaContext.metaFn) {
+    options = options ?? { } as any;
+    options!.meta = {
+      ...metaContext.metaFn(),
+      ...options!.meta,
+    };
+  }
+  return options;
 }
-/*
-  Sets currently used factory for fetch
-*/
-export function setFetchFactory(factory: () => { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-  _fetchFactory = factory;
-}
-{%         endif -%}
 //-----/ReactQueryFile----

@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 const { execSync } = require('child_process');
-const { readFileSync, writeFileSync } = require('fs');
+const { dirname, join, parse } = require('path');
+const { readFileSync, writeFileSync, existsSync, rmSync, mkdirSync } = require('fs');
 let args = process.argv.splice(2).join(' ');
 const isV4 = args.includes('/tanstack');
 // this one might be useful if you only want to have
@@ -76,14 +77,18 @@ execSync(toExecute, function (e, stdout, stderr) {
   console.log(stdout);
 });
 
+const outputRegex =
+args.match(/\/output:"(?<path>.*?)"/) ||
+args.match(/\/output:(?<path>\S*)/);
+const outputPath = outputRegex?.groups?.['path'];
+if (!outputPath) {
+  throw new Error('Unable to parse "/output" option from command line args');
+}
+const outputDir = dirname(outputPath);
+const outputFileWithoutExtension = parse(outputPath).name;
+
 if (args.includes('/fix-null-undefined-serialization')) {
-  const outputRegex =
-    args.match(/\/output:"(?<path>.*?)"/) ||
-    args.match(/\/output:(?<path>\S*)/);
-  const outputPath = outputRegex?.groups?.['path'];
-  if (!outputPath) {
-    throw new Error('Unable to parse "/output" option from command line args');
-  }
+
   let apiClient = readFileSync(outputPath, 'utf-8');
 
   // Replace DTO type definitions:
@@ -129,4 +134,60 @@ if (args.includes('/fix-null-undefined-serialization')) {
   );
 
   writeFileSync(outputPath, apiClient);
+}
+
+if (true) {
+  // extract every Controller into separate file (only react-query stuff for now)
+  const queryFolderName = outputFileWithoutExtension
+  const queryDir = join(outputDir, queryFolderName);
+  
+  if (existsSync(queryDir)){
+    rmSync(queryDir, { recursive: true, force: true });
+  }
+  mkdirSync(queryDir);
+
+  
+  
+  let apiClient = readFileSync(outputPath, 'utf-8');
+  apiClient = extractQueryHelperFunctions(apiClient, queryDir);
+  const queryClasses = apiClient.matchAll(/\/\/-----ReactQueryClass--(?<name>[^-]*)---(?<content>[\s\S]*?)\/\/-----\/ReactQueryClass----/gims)
+  for (let queryClass of queryClasses) {
+    let {name, content} = queryClass.groups;
+    const foundText = queryClass[0];
+    const fileName = join(queryDir, `${name}.ts`);
+
+    
+    apiClient = apiClient.replace(foundText, `export * as ${name} from './${queryFolderName}/${name}';`)
+
+    content = content
+      .replaceAll(`Class } from '../client';`, `Class } from '../${outputFileWithoutExtension}';`)
+      .replaceAll('this.baseUrl +', 'baseUrl() +')
+      .replaceAll('Types.string', 'string')
+      .replaceAll('Types.number', 'number')
+      .replaceAll('Types.boolean', 'boolean')
+      .replaceAll('Types.Date', 'Date')
+      .replaceAll('Types.void', 'void')
+      .replaceAll('Types.unknown', 'unknown')
+      .replaceAll('Types.any', 'any')
+      .replaceAll('Types.Record', 'Record')
+      .replaceAll('Types.{', '{')
+      ;
+    content = `import type * as Types from '../${outputFileWithoutExtension}';\n${content}`;
+
+    writeFileSync(fileName, content);
+  }
+
+  apiClient = apiClient.replaceAll(`from './helpers';`, `from './${queryFolderName}/helpers';`)
+  
+  writeFileSync(outputPath, apiClient);
+}
+
+function extractQueryHelperFunctions(apiClient, queryDir) {
+  const helperFunctionsMatch = apiClient.match(/\/\/-----ReactQueryFile-----(?<content>[\s\S]*?)\/\/-----\/ReactQueryFile----/gims)
+  const foundText = helperFunctionsMatch[0];
+  const fileName = join(queryDir, `helpers.ts`);
+
+  writeFileSync(fileName, foundText);
+  apiClient = apiClient.replace(foundText, '');
+  return apiClient
 }

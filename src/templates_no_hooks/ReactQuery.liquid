@@ -1,3 +1,5 @@
+import { {{ Class }} as {{ Class }}Class } from '../client';
+import { createClient, getBaseUrl } from './helpers';
 
 {%- if HasOperations -%}
     {%- assign QueryClassName = Class | prepend: 'Qqqqqq' | slice: 0, Class.size | append: "Query" | slice: 6, 1000 -%}
@@ -8,42 +10,36 @@
 
                 {%- assign firstLetter = operation.ActualOperationName | slice: 0, 1 | upcase -%}
                 {%- assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: QueryClassName | append: 'Parameters' -%}
-                type {{ parameterClassName }} = {
-                {%- for parameter in operation.Parameters -%}
-                    {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }};
-                {%- endfor -%}
-                };
+type {{ parameterClassName }} = {
+{%- for parameter in operation.Parameters -%}
+    {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type | prepend: 'Types.' }}{{ parameter.TypePostfix }};
+{%- endfor -%}
+};
 
             {%- endif -%}
         {%- endif -%}
     {%- endfor -%}
 
-    {%- if ExportTypes -%}export {% endif %}class {{ QueryClassName }} {%- if HasBaseClass -%}extends {{ BaseClass }} {%- endif -%} {
+function baseUrl() {
+  return getBaseUrl() ?? '' + '{{ BaseUrl }}';
+}
 
-    get baseUrl() {
-    return getBaseUrl() ?? '' + '{{ BaseUrl }}';
-    }
+function Client() {
+  const client = createClient({{ Class }}Class);
+  return client;
+}
 
-    static get Client() {
-      const client = createClient({{ Class }});
-      return client;
-    }
-
-    static get Url() {
-      return new {{ QueryClassName }}();
-    }
     {%- for operation in Operations -%}
         {%- if operation.HttpMethodUpper == 'Get' -%}
             {% assign ResultType = operation.ResultType %}
             {%- assign firstLetter = operation.ActualOperationName | slice: 0, 1 | upcase -%}
             {%- assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: QueryClassName | append: 'Parameters' -%}
 
-            {{ operation.ActualOperationName }}Url({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): string {
-            {% template Client.RequestUrl %}
-            return url_;
-            }
+export function {{ operation.ActualOperationName }}Url({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type | prepend: 'Types.' }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): string {
+  {% template Client.RequestUrl %}
+  return url_;
+}
 
         {% endif -%}
     {% endfor -%}
-    }
 {% endif -%}

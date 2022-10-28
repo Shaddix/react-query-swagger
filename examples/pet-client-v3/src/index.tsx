@@ -8,9 +8,9 @@ import { AxiosQuery } from './api';
 
 const queryClient = new QueryClient();
 AxiosQuery.setBaseUrl('https://petstore.swagger.io/v2');
-AxiosQuery.Query.findPetsByStatusDefaultOptions = {
+AxiosQuery.Query.setFindPetsByStatusDefaultOptions({
   cacheTime: 10000,
-};
+});
 ReactDOM.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>

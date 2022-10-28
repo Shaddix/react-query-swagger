@@ -1,8 +1,23 @@
+import { addResultTypeFactory } from './helpers';
+export { setBaseUrl } from './helpers';
+//-----ReactQueryFile-----
 import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, useMutation, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from 'react-query';
 import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
 import { useContext } from 'react';
+{%         if Framework.IsAxios -%}
+import { AxiosInstance } from 'axios';
+{%         endif -%}
 
-function trimArrayEnd<T>(arr: T[]): T[] {
+
+const _resultTypesByQueryKey: Record<string, () => { init(data: any): void }> = {};
+export function addResultTypeFactory(typeName: string, factory: () => { init(data: any): void }) {
+  _resultTypesByQueryKey[typeName] = factory;
+}
+export function getResultTypeFactory(typeName: string) {
+  return _resultTypesByQueryKey[typeName];
+}
+
+export function trimArrayEnd<T>(arr: T[]): T[] {
     let lastDefinedValueIndex = arr.length - 1;
     while (lastDefinedValueIndex >= 0) {
         if (arr[lastDefinedValueIndex] === undefined) {
@@ -20,7 +35,7 @@ function trimArrayEnd<T>(arr: T[]): T[] {
   Returns true if parameter is Object
   Returns false if parameter is number/string/boolean/Date or Array
 */
-function isParameterObject(param: unknown) {
+export function isParameterObject(param: unknown) {
     if (param === null || param === undefined) return false;
     if (param instanceof Array) return false;
     const isObject = typeof param === 'object';
@@ -56,7 +71,7 @@ export function getClientFactory() {
 /*
   Function that will be called from `useQuery...` methods to get a client of certain type
 */
-function createClient<T>(type: (new () => T)) {
+export function createClient<T>(type: (new () => T)) {
   return _clientFactoryFunction(type);
 }
 
@@ -106,7 +121,7 @@ export function setFetchFactory(factory: () => { fetch(url: RequestInfo, init?: 
 }
 {%         endif -%}
 
-function addMetaToOptions<T extends {meta?: QueryMeta | MutationMeta | undefined}>(options: T | undefined, metaContext: QueryMetaContextValue): T | undefined {
+export function addMetaToOptions<T extends {meta?: QueryMeta | MutationMeta | undefined}>(options: T | undefined, metaContext: QueryMetaContextValue): T | undefined {
   if (metaContext.metaFn) {
     options = options ?? { } as any;
     options!.meta = {
@@ -116,3 +131,4 @@ function addMetaToOptions<T extends {meta?: QueryMeta | MutationMeta | undefined
   }
   return options;
 }
+//-----/ReactQueryFile----

@@ -1,9 +1,12 @@
 ﻿import type { PersistedClient } from '@tanstack/react-query-persist-client';
+import type { QueryKey } from '@tanstack/react-query'
+import { getResultTypeFactory } from './helpers';
+
 /*
  * If you have Dates in QueryKeys (i.e. in request parameters), you need to deserialize them to Dates correctly
  * (otherwise they are deserialized as strings by default, and your queries are broken).
  */
-function deserializeDate(str: unknown) {
+export function deserializeDate(str: unknown) {
   const date = new Date(str as string);
   const isDate = date instanceof Date && !isNaN(date as any) && date.toISOString() === str;
   return isDate ? date : str;
@@ -38,9 +41,9 @@ export function persistorDeserialize(cache: string): PersistedClient {
   return client;
 }
 
-function constructDtoClass(queryKey: QueryKey, data: any): unknown {
+export function constructDtoClass(queryKey: QueryKey, data: any): unknown {
   const resultTypeKey = getResultTypeClassKey(queryKey);
-  const constructorFunction = resultTypesByQueryKey[resultTypeKey];
+  const constructorFunction = getResultTypeFactory(resultTypeKey);
 
   if (!data || !constructorFunction)
     return data;
@@ -51,7 +54,7 @@ function constructDtoClass(queryKey: QueryKey, data: any): unknown {
   return dto;
 }
 
-function getResultTypeClassKey(queryKey: QueryKey): string {
+export function getResultTypeClassKey(queryKey: QueryKey): string {
   if (!Array.isArray(queryKey)) {
     return queryKey as unknown as string;
   }

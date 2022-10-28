@@ -1,2 +1,7 @@
 ﻿{% template _FetchClient %}
+{%- if HasOperations -%}
+{%- assign QueryClassName = Class | prepend: 'Qqqqqq' | slice: 0, Class.size | append: "Query" | slice: 6, 1000 -%}
+//-----ReactQueryClass--{{QueryClassName}}---
 {% template ReactQuery %}
+//-----/ReactQueryClass----
+{% endif %}
