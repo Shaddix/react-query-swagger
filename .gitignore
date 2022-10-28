@@ -456,3 +456,7 @@ src/templates_v3/original/ReactQuery.GetClientFactory.liquid
 src/templates_no_hooks/ReactQuery.GetClientFactory.liquid
 src/templates/ReactQuery.GetClientFactory.liquid
 src/templates_v3/ReactQuery.GetClientFactory.liquid
+src/templates_no_hooks/modules/ReactQuery.GetClientFunction.liquid
+src/templates_no_hooks/original/ReactQuery.GetClientFunction.liquid
+src/templates_v3/modules/ReactQuery.GetClientFunction.liquid
+src/templates_v3/original/ReactQuery.GetClientFunction.liquid

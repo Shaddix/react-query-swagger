@@ -3,8 +3,10 @@ import * as Types from '../fetch-client';
 import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, useMutation, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from '@tanstack/react-query';
 import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
 import { useContext } from 'react';
-import { addMetaToOptions, createClient, trimArrayEnd, isParameterObject, getBaseUrl } from './helpers';
+import { addMetaToOptions, createClient, trimArrayEnd, isParameterObject, getBaseUrl, getClientFactory } from './helpers';
 import { Client as ClientClass } from '../fetch-client';
+
+export const Client = () => getClientFactory()(ClientClass);
 
 export type UploadFileMutationParameters = {
   additionalMetadata?: string | null | undefined;
@@ -73,7 +75,7 @@ export function useUploadFileMutation<TContext>(petId: number, options?: Omit<Us
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((uploadFileMutationParameters: UploadFileMutationParameters) => Types.Client.uploadFile(petId, uploadFileMutationParameters.additionalMetadata, uploadFileMutationParameters.file), {...options, mutationKey: key});
+  return useMutation((uploadFileMutationParameters: UploadFileMutationParameters) => Client().uploadFile(petId, uploadFileMutationParameters.additionalMetadata, uploadFileMutationParameters.file), {...options, mutationKey: key});
 }
   
     
@@ -100,7 +102,7 @@ export function useAddPetMutation<TContext>(options?: Omit<UseMutationOptions<vo
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((body: Types.Pet) => Types.Client.addPet(body), {...options, mutationKey: key});
+  return useMutation((body: Types.Pet) => Client().addPet(body), {...options, mutationKey: key});
 }
   
     
@@ -127,7 +129,7 @@ export function useUpdatePetMutation<TContext>(options?: Omit<UseMutationOptions
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((body: Types.Pet) => Types.Client.updatePet(body), {...options, mutationKey: key});
+  return useMutation((body: Types.Pet) => Client().updatePet(body), {...options, mutationKey: key});
 }
   
     
@@ -169,7 +171,7 @@ export function findPetsByStatusQueryKey(...params: any[]): QueryKey {
 }
 
 function findPetsByStatus(context: QueryFunctionContext) {
-  return Types.Client.findPetsByStatus(
+  return Client().findPetsByStatus(
       context.queryKey[2] as Types.Status[]    );
 }
 
@@ -262,7 +264,7 @@ export function findPetsByTagsQueryKey(...params: any[]): QueryKey {
 }
 
 function findPetsByTags(context: QueryFunctionContext) {
-  return Types.Client.findPetsByTags(
+  return Client().findPetsByTags(
       context.queryKey[2] as string[]    );
 }
 
@@ -358,7 +360,7 @@ export function getPetByIdQueryKey(...params: any[]): QueryKey {
 }
 
 function getPetById(context: QueryFunctionContext) {
-  return Types.Client.getPetById(
+  return Client().getPetById(
       context.queryKey[2] as number    );
 }
 
@@ -443,7 +445,7 @@ export function useUpdatePetWithFormMutation<TContext>(petId: number, options?: 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((updatePetWithFormMutationParameters: UpdatePetWithFormMutationParameters) => Types.Client.updatePetWithForm(petId, updatePetWithFormMutationParameters.name, updatePetWithFormMutationParameters.status), {...options, mutationKey: key});
+  return useMutation((updatePetWithFormMutationParameters: UpdatePetWithFormMutationParameters) => Client().updatePetWithForm(petId, updatePetWithFormMutationParameters.name, updatePetWithFormMutationParameters.status), {...options, mutationKey: key});
 }
   
     
@@ -476,7 +478,7 @@ export function useDeletePetMutation<TContext>(petId: number, options?: Omit<Use
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation(() => Types.Client.deletePet(petId, ), {...options, mutationKey: key});
+  return useMutation(() => Client().deletePet(petId, ), {...options, mutationKey: key});
 }
   
     
@@ -504,7 +506,7 @@ export function usePlaceOrderMutation<TContext>(options?: Omit<UseMutationOption
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((body: Types.Order) => Types.Client.placeOrder(body), {...options, mutationKey: key});
+  return useMutation((body: Types.Order) => Client().placeOrder(body), {...options, mutationKey: key});
 }
   
     
@@ -546,7 +548,7 @@ export function getOrderByIdQueryKey(...params: any[]): QueryKey {
 }
 
 function getOrderById(context: QueryFunctionContext) {
-  return Types.Client.getOrderById(
+  return Client().getOrderById(
       context.queryKey[2] as number    );
 }
 
@@ -629,7 +631,7 @@ export function useDeleteOrderMutation<TContext>(orderId: number, options?: Omit
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation(() => Types.Client.deleteOrder(orderId, ), {...options, mutationKey: key});
+  return useMutation(() => Client().deleteOrder(orderId, ), {...options, mutationKey: key});
 }
   
     
@@ -656,7 +658,7 @@ export function getInventoryQueryKey(...params: any[]): QueryKey {
 }
 
 function getInventory() {
-  return Types.Client.getInventory(
+  return Client().getInventory(
     );
 }
 
@@ -724,7 +726,7 @@ export function useCreateUsersWithArrayInputMutation<TContext>(options?: Omit<Us
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((body: Types.User[]) => Types.Client.createUsersWithArrayInput(body), {...options, mutationKey: key});
+  return useMutation((body: Types.User[]) => Client().createUsersWithArrayInput(body), {...options, mutationKey: key});
 }
   
     
@@ -752,7 +754,7 @@ export function useCreateUsersWithListInputMutation<TContext>(options?: Omit<Use
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((body: Types.User[]) => Types.Client.createUsersWithListInput(body), {...options, mutationKey: key});
+  return useMutation((body: Types.User[]) => Client().createUsersWithListInput(body), {...options, mutationKey: key});
 }
   
     
@@ -794,7 +796,7 @@ export function getUserByNameQueryKey(...params: any[]): QueryKey {
 }
 
 function getUserByName(context: QueryFunctionContext) {
-  return Types.Client.getUserByName(
+  return Client().getUserByName(
       context.queryKey[2] as string    );
 }
 
@@ -878,7 +880,7 @@ export function useUpdateUserMutation<TContext>(username: string, options?: Omit
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((body: Types.User) => Types.Client.updateUser(username, body), {...options, mutationKey: key});
+  return useMutation((body: Types.User) => Client().updateUser(username, body), {...options, mutationKey: key});
 }
   
     
@@ -910,7 +912,7 @@ export function useDeleteUserMutation<TContext>(username: string, options?: Omit
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation(() => Types.Client.deleteUser(username, ), {...options, mutationKey: key});
+  return useMutation(() => Client().deleteUser(username, ), {...options, mutationKey: key});
 }
   
     
@@ -958,7 +960,7 @@ export function loginUserQueryKey(...params: any[]): QueryKey {
 }
 
 function loginUser(context: QueryFunctionContext) {
-  return Types.Client.loginUser(
+  return Client().loginUser(
       context.queryKey[2] as string,       context.queryKey[3] as string    );
 }
 
@@ -1040,7 +1042,7 @@ export function logoutUserQueryKey(...params: any[]): QueryKey {
 }
 
 function logoutUser() {
-  return Types.Client.logoutUser(
+  return Client().logoutUser(
     );
 }
 
@@ -1108,6 +1110,6 @@ export function useCreateUserMutation<TContext>(options?: Omit<UseMutationOption
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((body: Types.User) => Types.Client.createUser(body), {...options, mutationKey: key});
+  return useMutation((body: Types.User) => Client().createUser(body), {...options, mutationKey: key});
 }
   

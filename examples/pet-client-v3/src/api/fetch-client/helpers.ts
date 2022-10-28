@@ -3,6 +3,31 @@ import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryC
 import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
 import { useContext } from 'react';
 
+type ClientFactoryFunction = <T>(type: (new (...params: any[]) => T)) => T;
+let _clientFactoryFunction: ClientFactoryFunction = <T>(type: (new (...params: any[]) => T)) => {
+  const params = [_baseUrl, _fetchFactory()];
+  return new type(...params);
+};
+/*
+  Overrides default Client factory function
+*/
+export function setClientFactory(value: ClientFactoryFunction) {
+  _clientFactoryFunction = value;
+}
+
+/*
+  Returns current Client factory function
+*/
+export function getClientFactory() {
+  return _clientFactoryFunction;
+}
+
+/*
+  Function that will be called from `useQuery...` methods to get a client of certain type
+*/
+export function createClient<T>(type: (new () => T)) {
+  return _clientFactoryFunction(type);
+}
 const _resultTypesByQueryKey: Record<string, () => { init(data: any): void }> = {};
 export function addResultTypeFactory(typeName: string, factory: () => { init(data: any): void }) {
   _resultTypesByQueryKey[typeName] = factory;
