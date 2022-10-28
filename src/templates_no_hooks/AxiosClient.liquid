@@ -1,4 +1,9 @@
-﻿{% template _AxiosClient %}
+﻿{%- if HasOperations -%}
+//-----ClientClass--{{Class}}---
+{% template _AxiosClient %}
+//-----/ClientClass----
+{% endif %}
+
 {%- if HasOperations -%}
 {%- assign QueryClassName = Class | prepend: 'Qqqqqq' | slice: 0, Class.size | append: "Query" | slice: 6, 1000 -%}
 //-----ReactQueryClass--{{QueryClassName}}---

@@ -1,0 +1,51 @@
+{% for operation in Operations %}
+
+{% template Client.Method.Documentation %}
+export function {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type | prepend: 'Types.' }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}{% if UseAbortSignal %}{% if operation.Parameters.size > 0 %}, {% endif %}signal?: AbortSignal | undefined{% endif %}): Promise<{{ operation.ResultType }}> {
+    {% template Client.RequestUrl %}
+
+{%-    if operation.HasBody -%}
+    {% template Client.RequestBody %}
+
+{%-    endif -%}
+    let options_: RequestInit = {
+{%-    if operation.HasBody -%}
+        body: content_,
+{%-    endif -%}
+        method: "{{ operation.HttpMethodUpper | upcase }}",
+{%-    if UseAbortSignal -%}
+        signal,
+{%-    endif -%}
+        headers: {
+{%-    for parameter in operation.HeaderParameters -%}
+            "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "",
+{%-    endfor -%}
+{%-    if operation.HasContent or operation.ConsumesFormUrlEncoded -%}
+            "Content-Type": "{{ operation.Consumes }}",
+{%-    endif -%}
+{%-    if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
+            "Accept": "{{ operation.Produces }}"
+{%-    endif -%}
+        }
+    };
+
+{%-    if UseTransformOptionsMethod -%}
+    return transformOptions(options_).then(transformedOptions_ => {
+        return getFetch().fetch(url_, transformedOptions_);
+    }).then((_response: Response) => {
+{%-    else -%}
+    return getFetch().fetch(url_, options_).then((_response: Response) => {
+{%-    endif -%}
+{%-    if UseTransformResultMethod -%}
+        return transformResult(url_, _response, (_response: Response) => this.process{{ operation.ActualOperationNameUpper }}(_response));
+{%-    else -%}
+        return process{{ operation.ActualOperationNameUpper }}(_response);
+{%-    endif -%}
+    });
+}
+
+function process{{ operation.ActualOperationNameUpper }}(response: Response): Promise<{{ operation.ResultType | prepend: 'Types.' }}> {
+    const status = response.status;
+    {% template Client.ProcessResponse %}
+}
+{% endfor -%}

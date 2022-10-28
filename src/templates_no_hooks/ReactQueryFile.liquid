@@ -65,8 +65,8 @@ let _axiosFactory: () => AxiosInstance | undefined = () => undefined;
 /*
   Returns currently used factory for Axios instances
 */
-export function getAxiosFactory() {
-  return _axiosFactory;
+export function getAxios() {
+  return _axiosFactory?.() ?? axios;
 }
 /*
   Sets the factory for Axios instances
@@ -80,8 +80,8 @@ let _fetchFactory = () => <any>window;
 /*
   Returns currently used factory for fetch
 */
-export function getFetchFactory(): () => { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }  {
-  return _fetchFactory;
+export function getFetch(): { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }  {
+  return _fetchFactory?.() ?? { fetch };
 }
 /*
   Sets currently used factory for fetch

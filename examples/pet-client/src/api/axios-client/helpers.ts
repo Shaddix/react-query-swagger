@@ -2,7 +2,7 @@
 import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, useMutation, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from '@tanstack/react-query';
 import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
 import { useContext } from 'react';
-import { AxiosInstance } from 'axios';
+import axios, { AxiosInstance }  from 'axios';
 
 const _resultTypesByQueryKey: Record<string, () => { init(data: any): void }> = {};
 export function addResultTypeFactory(typeName: string, factory: () => { init(data: any): void }) {
@@ -38,32 +38,6 @@ export function isParameterObject(param: unknown) {
     return true;
 }
 
-type ClientFactoryFunction = <T>(type: (new (...params: any[]) => T)) => T;
-let _clientFactoryFunction: ClientFactoryFunction = <T>(type: (new (...params: any[]) => T)) => {
-  const params = [_baseUrl, _axiosFactory()];
-  return new type(...params);
-};
-/*
-  Overrides default Client factory function
-*/
-export function setClientFactory(value: ClientFactoryFunction) {
-  _clientFactoryFunction = value;
-}
-
-/*
-  Returns current Client factory function
-*/
-export function getClientFactory() {
-  return _clientFactoryFunction;
-}
-
-/*
-  Function that will be called from `useQuery...` methods to get a client of certain type
-*/
-export function createClient<T>(type: (new () => T)) {
-  return _clientFactoryFunction(type);
-}
-
 let _baseUrl = '';
 /*
   Returns the base URL for http requests
@@ -81,10 +55,10 @@ export function setBaseUrl(baseUrl: string) {
 
 let _axiosFactory: () => AxiosInstance | undefined = () => undefined;
 /*
-  Returns currently used factory for Axios instances
+  Returns an instance of Axios either created by a configured factory or a default one
 */
-export function getAxiosFactory() {
-  return _axiosFactory;
+export function getAxios() {
+  return _axiosFactory?.() ?? axios;
 }
 /*
   Sets the factory for Axios instances

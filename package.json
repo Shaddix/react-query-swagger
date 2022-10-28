@@ -18,8 +18,8 @@
     "generate-api-client-fetch-v3": "yarn workspace pet-client-v3 generate-fetch",
     "generate-api-client-no-hooks": "yarn workspace pet-client generate-no-hooks",
     "update-nswag": "node scripts/update-nswag-templates.mjs --experimental-fetch",
-    "copy_from_v4_to_v3": "yarn copyfiles -u 2 -e \"**/File.liquid\" -e \"**/AxiosClient.liquid\" -e \"**/FetchClient.liquid\" src/templates/* src/templates_v3 && yarn replace \"from '@tanstack/react-query';\" \"from 'react-query';\" src/templates_v3/ReactQueryFile.liquid",
-    "copy_to_no_hooks": "yarn copyfiles -u 2 -e \"**/File.liquid\" -e \"**/AxiosClient.liquid\" -e \"**/FetchClient.liquid\" -e \"**/ReactQueryFile.liquid\" -e \"**/ReactQuery.liquid\" src/templates/* src/templates_no_hooks"
+    "copy_from_v4_to_v3": "yarn copyfiles -u 2 -e \"src/templates/File.liquid\" -e \"src/templates/AxiosClient.liquid\" -e \"src/templates/FetchClient.liquid\" src/templates/**/* src/templates_v3 && yarn replace \"from '@tanstack/react-query';\" \"from 'react-query';\" src/templates_v3/ReactQueryFile.liquid",
+    "copy_to_no_hooks": "yarn copyfiles -u 2 -e \"src/templates/File.liquid\" -e \"src/templates/AxiosClient.liquid\" -e \"src/templates/FetchClient.liquid\" -e \"**/ReactQueryFile.liquid\" -e \"**/ReactQuery.liquid\" src/templates/**/* src/templates_no_hooks"
   },
   "devDependencies": {
     "copyfiles": "2.4.1",

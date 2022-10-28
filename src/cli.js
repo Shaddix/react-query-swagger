@@ -2,7 +2,7 @@
 'use strict';
 const { execSync } = require('child_process');
 const { dirname, join, parse } = require('path');
-const { readFileSync, writeFileSync, existsSync, rmSync, mkdirSync } = require('fs');
+const { readFileSync, writeFileSync, existsSync, rmSync, mkdirSync, copyFileSync } = require('fs');
 let args = process.argv.splice(2).join(' ');
 const isV4 = args.includes('/tanstack');
 // this one might be useful if you only want to have
@@ -68,7 +68,26 @@ if (args.includes('/use-recommended-configuration')) {
    * We need this to be able to use both `undefined` and `null` as values in PATCH requests
    */
   args += ' /fix-null-undefined-serialization';
+
+  /*
+   * This flag places each Client class into separate file and converts it to a module (removing the class declaration)
+   * This makes clients tree-shakable, since the bundler could remove functions that are not actually used in code.
+   * This flag is incompatible with /clientBaseClass and /generateClientInterfaces
+   */
+  args += ' /clients-as-modules';
 }
+
+const isClientsAsModules = args.includes('/clients-as-modules');
+if (isClientsAsModules) {
+  if (args.includes('/clientBaseClass') || args.includes('/generateClientInterfaces')) {
+    console.error('/clients-as-modules flag is incompatible with /clientBaseClass and /generateClientInterfaces');
+    throw new Error('/clients-as-modules flag is incompatible with /clientBaseClass and /generateClientInterfaces');
+  }
+}
+
+copyFileSync(join(pathToTemplates, isClientsAsModules ? 'modules' : 'original', 'AxiosClient.liquid'), join(pathToTemplates, '_AxiosClient.liquid'));
+copyFileSync(join(pathToTemplates, isClientsAsModules ? 'modules' : 'original', 'FetchClient.liquid'), join(pathToTemplates, '_FetchClient.liquid'));
+
 
 const isYarn = process.env.npm_execpath.includes('yarn');
 const cliExecutor = isYarn ? 'yarn' : 'npx';
@@ -136,20 +155,44 @@ if (args.includes('/fix-null-undefined-serialization')) {
   writeFileSync(outputPath, apiClient);
 }
 
-if (true) {
-  // extract every Controller into separate file (only react-query stuff for now)
-  const queryFolderName = outputFileWithoutExtension
-  const queryDir = join(outputDir, queryFolderName);
-  
-  if (existsSync(queryDir)){
-    rmSync(queryDir, { recursive: true, force: true });
-  }
-  mkdirSync(queryDir);
+// we will extract every Controller into separate file.
+// these files will be put in `queryFolderName` directory (with the same name as the output file)
+const queryFolderName = outputFileWithoutExtension
+const queryDir = join(outputDir, queryFolderName);
+if (existsSync(queryDir)){
+  rmSync(queryDir, { recursive: true, force: true });
+}
+mkdirSync(queryDir);
 
   
-  
+
+if (isClientsAsModules) {
   let apiClient = readFileSync(outputPath, 'utf-8');
+
+  const clientClasses = apiClient.matchAll(/\/\/-----ClientClass--(?<name>[^-]*)---(?<content>[\s\S]*?)\/\/-----\/ClientClass----/gims)
+  for (let clientClass of clientClasses) {
+    let {name, content} = clientClass.groups;
+    const foundText = clientClass[0];
+    const fileName = join(queryDir, `${name}.ts`);
+
+    apiClient = apiClient.replace(foundText, `export * as ${name} from './${queryFolderName}/${name}';`)
+    content = postProcessClientContent(content, outputFileWithoutExtension);
+
+    writeFileSync(fileName, content);
+  }
+  
+  apiClient = apiClient
+    .replace('function throwException', 'export function throwException')
+    .replace('function isAxiosError', 'export function isAxiosError')
+    ;
+  writeFileSync(outputPath, apiClient);
+}
+
+if (true) {
+  let apiClient = readFileSync(outputPath, 'utf-8');
+
   apiClient = extractQueryHelperFunctions(apiClient, queryDir);
+
   const queryClasses = apiClient.matchAll(/\/\/-----ReactQueryClass--(?<name>[^-]*)---(?<content>[\s\S]*?)\/\/-----\/ReactQueryClass----/gims)
   for (let queryClass of queryClasses) {
     let {name, content} = queryClass.groups;
@@ -159,26 +202,12 @@ if (true) {
     
     apiClient = apiClient.replace(foundText, `export * as ${name} from './${queryFolderName}/${name}';`)
 
-    content = content
-      .replaceAll(`Class } from '../client';`, `Class } from '../${outputFileWithoutExtension}';`)
-      .replaceAll('this.baseUrl +', 'baseUrl() +')
-      .replaceAll('Types.string', 'string')
-      .replaceAll('Types.number', 'number')
-      .replaceAll('Types.boolean', 'boolean')
-      .replaceAll('Types.Date', 'Date')
-      .replaceAll('Types.void', 'void')
-      .replaceAll('Types.unknown', 'unknown')
-      .replaceAll('Types.any', 'any')
-      .replaceAll('Types.Record', 'Record')
-      .replaceAll('Types.{', '{')
-      ;
-    content = `import type * as Types from '../${outputFileWithoutExtension}';\n${content}`;
-
+    content = postProcessClientContent(content, outputFileWithoutExtension);
+   
     writeFileSync(fileName, content);
   }
 
   apiClient = apiClient.replaceAll(`from './helpers';`, `from './${queryFolderName}/helpers';`)
-  
   writeFileSync(outputPath, apiClient);
 }
 
@@ -190,4 +219,23 @@ function extractQueryHelperFunctions(apiClient, queryDir) {
   writeFileSync(fileName, foundText);
   apiClient = apiClient.replace(foundText, '');
   return apiClient
+}
+
+function postProcessClientContent(content, outputFileWithoutExtension) {
+  content = content
+    .replaceAll(` from '../client';`, ` from '../${outputFileWithoutExtension}';`)
+    .replaceAll('this.baseUrl +', 'getBaseUrl() +')
+    .replaceAll('Types.string', 'string')
+    .replaceAll('Types.number', 'number')
+    .replaceAll('Types.boolean', 'boolean')
+    .replaceAll('Types.Date', 'Date')
+    .replaceAll('Types.void', 'void')
+    .replaceAll('Types.unknown', 'unknown')
+    .replaceAll('Types.any', 'any')
+    .replaceAll('Types.Record', 'Record')
+    .replaceAll('Types.\{', '{')
+    .replaceAll(/([a-zA-Z0-9_]*?)\.fromJS\(/g, 'Types.$1.fromJS(')
+    ;
+  content = `import * as Types from '../${outputFileWithoutExtension}';\n${content}`;
+return content;
 }
