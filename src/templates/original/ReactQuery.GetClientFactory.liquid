@@ -1,0 +1,30 @@
+type ClientFactoryFunction = <T>(type: (new (...params: any[]) => T)) => T;
+let _clientFactoryFunction: ClientFactoryFunction = <T>(type: (new (...params: any[]) => T)) => {
+{%         if Framework.IsAxios -%}
+  const params = [_baseUrl, _axiosFactory()];
+{%         endif -%}
+{%         if Framework.IsFetchOrAurelia -%}
+  const params = [_baseUrl, _fetchFactory()];
+{%         endif -%}
+  return new type(...params);
+};
+/*
+  Overrides default Client factory function
+*/
+export function setClientFactory(value: ClientFactoryFunction) {
+  _clientFactoryFunction = value;
+}
+
+/*
+  Returns current Client factory function
+*/
+export function getClientFactory() {
+  return _clientFactoryFunction;
+}
+
+/*
+  Function that will be called from `useQuery...` methods to get a client of certain type
+*/
+export function createClient<T>(type: (new () => T)) {
+  return _clientFactoryFunction(type);
+}
