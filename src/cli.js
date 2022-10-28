@@ -97,9 +97,13 @@ copyFileSync(join(pathToTemplates, sourceFolder, 'ReactQuery.GetClientFactory.li
 const isYarn = process.env.npm_execpath.includes('yarn');
 const cliExecutor = isYarn ? 'yarn' : 'npx';
 const toExecute = `${cliExecutor} nswag openapi2tsclient /templateDirectory:"${pathToTemplates}" ${args}`;
-execSync(toExecute, function (e, stdout, stderr) {
-  console.log(stdout);
-});
+try {
+  execSync(toExecute, function (e, stdout, stderr) {
+    console.log(stdout);
+  });
+} catch (e) {
+  console.log(e?.output?.toString());
+}
 
 const outputRegex =
 args.match(/\/output:"(?<path>.*?)"/) ||
