@@ -233,7 +233,7 @@ function postProcessClientContent(content, outputFileWithoutExtension) {
     .replaceAll('Types.unknown', 'unknown')
     .replaceAll('Types.any', 'any')
     .replaceAll('Types.Record', 'Record')
-    .replaceAll('Types.\{', '{')
+    .replaceAll('Types.{', '{')
     .replaceAll(/([a-zA-Z0-9_]*?)\.fromJS\(/g, 'Types.$1.fromJS(')
     ;
   content = `import * as Types from '../${outputFileWithoutExtension}';\n${content}`;

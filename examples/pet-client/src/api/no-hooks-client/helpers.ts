@@ -58,8 +58,8 @@ let _fetchFactory = () => <any>window;
 /*
   Returns currently used factory for fetch
 */
-export function getFetchFactory(): () => { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }  {
-  return _fetchFactory;
+export function getFetch(): { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }  {
+  return _fetchFactory?.() ?? { fetch };
 }
 /*
   Sets currently used factory for fetch

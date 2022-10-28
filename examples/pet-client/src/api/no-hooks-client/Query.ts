@@ -1,4 +1,4 @@
-import type * as Types from '../no-hooks-client';
+import * as Types from '../no-hooks-client';
 
 import { Client as ClientClass } from '../no-hooks-client';
 import { createClient, getBaseUrl } from './helpers';
@@ -40,7 +40,7 @@ function Client() {
                         
 
 export function findPetsByStatusUrl(status: Types.Status[]): string {
-  let url_ = baseUrl() + "/pet/findByStatus?";
+  let url_ = getBaseUrl() + "/pet/findByStatus?";
   if (status === undefined || status === null)
     throw new Error("The parameter 'status' must be defined and cannot be null.");
   else
@@ -52,7 +52,7 @@ export function findPetsByStatusUrl(status: Types.Status[]): string {
                         
 
 export function findPetsByTagsUrl(tags: string[]): string {
-  let url_ = baseUrl() + "/pet/findByTags?";
+  let url_ = getBaseUrl() + "/pet/findByTags?";
   if (tags === undefined || tags === null)
     throw new Error("The parameter 'tags' must be defined and cannot be null.");
   else
@@ -64,7 +64,7 @@ export function findPetsByTagsUrl(tags: string[]): string {
                         
 
 export function getPetByIdUrl(petId: number): string {
-  let url_ = baseUrl() + "/pet/{petId}";
+  let url_ = getBaseUrl() + "/pet/{petId}";
 
 if (petId === undefined || petId === null)
   throw new Error("The parameter 'petId' must be defined.");
@@ -76,7 +76,7 @@ url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
                                     
 
 export function getOrderByIdUrl(orderId: number): string {
-  let url_ = baseUrl() + "/store/order/{orderId}";
+  let url_ = getBaseUrl() + "/store/order/{orderId}";
 
 if (orderId === undefined || orderId === null)
   throw new Error("The parameter 'orderId' must be defined.");
@@ -88,7 +88,7 @@ url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
                             
 
 export function getInventoryUrl(): string {
-  let url_ = baseUrl() + "/store/inventory";
+  let url_ = getBaseUrl() + "/store/inventory";
   url_ = url_.replace(/[?&]$/, "");
   return url_;
 }
@@ -96,7 +96,7 @@ export function getInventoryUrl(): string {
                                 
 
 export function getUserByNameUrl(username: string): string {
-  let url_ = baseUrl() + "/user/{username}";
+  let url_ = getBaseUrl() + "/user/{username}";
 
 if (username === undefined || username === null)
   throw new Error("The parameter 'username' must be defined.");
@@ -108,7 +108,7 @@ url_ = url_.replace("{username}", encodeURIComponent("" + username));
                                 
 
 export function loginUserUrl(username: string, password: string): string {
-  let url_ = baseUrl() + "/user/login?";
+  let url_ = getBaseUrl() + "/user/login?";
   if (username === undefined || username === null)
     throw new Error("The parameter 'username' must be defined and cannot be null.");
   else
@@ -124,7 +124,7 @@ export function loginUserUrl(username: string, password: string): string {
                         
 
 export function logoutUserUrl(): string {
-  let url_ = baseUrl() + "/user/logout";
+  let url_ = getBaseUrl() + "/user/logout";
   url_ = url_.replace(/[?&]$/, "");
   return url_;
 }

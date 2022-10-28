@@ -5,7 +5,7 @@ const originalAxiosClient = fs.readFileSync('src/templates/original/AxiosClient.
 const axiosClientLiquid = await fetch(
   'https://raw.githubusercontent.com/RicoSuter/NSwag/master/src/NSwag.CodeGeneration.TypeScript/Templates/AxiosClient.liquid',
 ).then((x) => x.text());
-if (originalAxiosClient !== axiosClientLiquid) {
+if (originalAxiosClient != axiosClientLiquid) {
   // if file was updated in NSwag, we should update our copy as well
   fs.writeFileSync('src/templates/modules/AxiosClient.liquid', axiosClientLiquid);
 }
@@ -15,7 +15,7 @@ const originalFetchClient = fs.readFileSync('src/templates/original/FetchClient.
 const fetchClientLiquid = await fetch(
   'https://raw.githubusercontent.com/RicoSuter/NSwag/master/src/NSwag.CodeGeneration.TypeScript/Templates/FetchClient.liquid',
 ).then((x) => x.text());
-if (originalFetchClient !== axiosClientLiquid) {
+if (originalFetchClient != fetchClientLiquid) {
   // if file was updated in NSwag, we should update our copy as well
   fs.writeFileSync('src/templates/modules/FetchClient.liquid', fetchClientLiquid);
 }
