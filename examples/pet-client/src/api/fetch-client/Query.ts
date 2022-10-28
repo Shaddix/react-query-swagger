@@ -68,13 +68,14 @@ export function uploadFileMutationKey(petId: number): MutationKey {
       petId as any,
     ]);
 }
-    /**
-     * uploads an image
-     * @param petId ID of pet to update
-     * @param additionalMetadata (optional) Additional data to pass to server
-     * @param file (optional) file to upload
-     * @return successful operation
-     */
+
+/**
+ * uploads an image
+ * @param petId ID of pet to update
+ * @param additionalMetadata (optional) Additional data to pass to server
+ * @param file (optional) file to upload
+ * @return successful operation
+ */
 export function useUploadFileMutation<TContext>(petId: number, options?: Omit<UseMutationOptions<Types.ApiResponse, unknown, UploadFileMutationParameters, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<Types.ApiResponse, unknown, UploadFileMutationParameters, TContext> {
   const key = uploadFileMutationKey(petId);
   
@@ -97,10 +98,11 @@ export function addPetMutationKey(): MutationKey {
       'addPet',
     ]);
 }
-    /**
-     * Add a new pet to the store
-     * @param body Pet object that needs to be added to the store
-     */
+
+/**
+ * Add a new pet to the store
+ * @param body Pet object that needs to be added to the store
+ */
 export function useAddPetMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.Pet, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, Types.Pet, TContext> {
   const key = addPetMutationKey();
   
@@ -123,10 +125,11 @@ export function updatePetMutationKey(): MutationKey {
       'updatePet',
     ]);
 }
-    /**
-     * Update an existing pet
-     * @param body Pet object that needs to be added to the store
-     */
+
+/**
+ * Update an existing pet
+ * @param body Pet object that needs to be added to the store
+ */
 export function useUpdatePetMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.Pet, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, Types.Pet, TContext> {
   const key = updatePetMutationKey();
   
@@ -179,12 +182,12 @@ function findPetsByStatus(context: QueryFunctionContext) {
       context.queryKey[2] as Types.Status[]    );
 }
 
-    export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unknown>(dto: FindPetsByStatusQueryParameters, options?: UseQueryOptions<Types.Pet[], TError, TSelectData>): UseQueryResult<TSelectData, TError>;
-    /**
-     * Finds Pets by status
-     * @param status Status values that need to be considered for filter
-     * @return successful operation
-     */
+export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unknown>(dto: FindPetsByStatusQueryParameters, options?: UseQueryOptions<Types.Pet[], TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+/**
+ * Finds Pets by status
+ * @param status Status values that need to be considered for filter
+ * @return successful operation
+ */
 export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unknown>(status: Types.Status[], options?: UseQueryOptions<Types.Pet[], TError, TSelectData>): UseQueryResult<TSelectData, TError>;
 export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<Types.Pet[], TError, TSelectData> | undefined = undefined;
@@ -272,13 +275,13 @@ function findPetsByTags(context: QueryFunctionContext) {
       context.queryKey[2] as string[]    );
 }
 
-    export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unknown>(dto: FindPetsByTagsQueryParameters, options?: UseQueryOptions<Types.Pet[], TError, TSelectData>): UseQueryResult<TSelectData, TError>;
-    /**
-     * Finds Pets by tags
-     * @param tags Tags to filter by
-     * @return successful operation
-     * @deprecated
-     */
+export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unknown>(dto: FindPetsByTagsQueryParameters, options?: UseQueryOptions<Types.Pet[], TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+/**
+ * Finds Pets by tags
+ * @param tags Tags to filter by
+ * @return successful operation
+ * @deprecated
+ */
 export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unknown>(tags: string[], options?: UseQueryOptions<Types.Pet[], TError, TSelectData>): UseQueryResult<TSelectData, TError>;
 export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<Types.Pet[], TError, TSelectData> | undefined = undefined;
@@ -368,12 +371,12 @@ function getPetById(context: QueryFunctionContext) {
       context.queryKey[2] as number    );
 }
 
-    export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(dto: GetPetByIdQueryParameters, options?: UseQueryOptions<Types.Pet, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
-    /**
-     * Find pet by ID
-     * @param petId ID of pet to return
-     * @return successful operation
-     */
+export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(dto: GetPetByIdQueryParameters, options?: UseQueryOptions<Types.Pet, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+/**
+ * Find pet by ID
+ * @param petId ID of pet to return
+ * @return successful operation
+ */
 export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(petId: number, options?: UseQueryOptions<Types.Pet, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
 export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<Types.Pet, TError, TSelectData> | undefined = undefined;
@@ -436,12 +439,13 @@ export function updatePetWithFormMutationKey(petId: number): MutationKey {
       petId as any,
     ]);
 }
-    /**
-     * Updates a pet in the store with form data
-     * @param petId ID of pet that needs to be updated
-     * @param name (optional) Updated name of the pet
-     * @param status (optional) Updated status of the pet
-     */
+
+/**
+ * Updates a pet in the store with form data
+ * @param petId ID of pet that needs to be updated
+ * @param name (optional) Updated name of the pet
+ * @param status (optional) Updated status of the pet
+ */
 export function useUpdatePetWithFormMutation<TContext>(petId: number, options?: Omit<UseMutationOptions<void, unknown, UpdatePetWithFormMutationParameters, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, UpdatePetWithFormMutationParameters, TContext> {
   const key = updatePetWithFormMutationKey(petId);
   
@@ -469,11 +473,12 @@ export function deletePetMutationKey(petId: number): MutationKey {
       petId as any,
     ]);
 }
-    /**
-     * Deletes a pet
-     * @param petId Pet id to delete
-     * @param api_key (optional) 
-     */
+
+/**
+ * Deletes a pet
+ * @param petId Pet id to delete
+ * @param api_key (optional) 
+ */
 export function useDeletePetMutation<TContext>(petId: number, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, void, TContext> {
   const key = deletePetMutationKey(petId);
   
@@ -496,11 +501,12 @@ export function placeOrderMutationKey(): MutationKey {
       'placeOrder',
     ]);
 }
-    /**
-     * Place an order for a pet
-     * @param body order placed for purchasing the pet
-     * @return successful operation
-     */
+
+/**
+ * Place an order for a pet
+ * @param body order placed for purchasing the pet
+ * @return successful operation
+ */
 export function usePlaceOrderMutation<TContext>(options?: Omit<UseMutationOptions<Types.Order, unknown, Types.Order, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<Types.Order, unknown, Types.Order, TContext> {
   const key = placeOrderMutationKey();
   
@@ -553,12 +559,12 @@ function getOrderById(context: QueryFunctionContext) {
       context.queryKey[2] as number    );
 }
 
-    export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown>(dto: GetOrderByIdQueryParameters, options?: UseQueryOptions<Types.Order, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
-    /**
-     * Find purchase order by ID
-     * @param orderId ID of pet that needs to be fetched
-     * @return successful operation
-     */
+export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown>(dto: GetOrderByIdQueryParameters, options?: UseQueryOptions<Types.Order, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+/**
+ * Find purchase order by ID
+ * @param orderId ID of pet that needs to be fetched
+ * @return successful operation
+ */
 export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown>(orderId: number, options?: UseQueryOptions<Types.Order, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
 export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<Types.Order, TError, TSelectData> | undefined = undefined;
@@ -621,10 +627,11 @@ export function deleteOrderMutationKey(orderId: number): MutationKey {
       orderId as any,
     ]);
 }
-    /**
-     * Delete purchase order by ID
-     * @param orderId ID of the order that needs to be deleted
-     */
+
+/**
+ * Delete purchase order by ID
+ * @param orderId ID of the order that needs to be deleted
+ */
 export function useDeleteOrderMutation<TContext>(orderId: number, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, void, TContext> {
   const key = deleteOrderMutationKey(orderId);
   
@@ -662,10 +669,10 @@ function getInventory() {
     );
 }
 
-    /**
-     * Returns pet inventories by status
-     * @return successful operation
-     */
+/**
+ * Returns pet inventories by status
+ * @return successful operation
+ */
 export function useGetInventoryQuery<TSelectData = { [key: string]: number; }, TError = unknown>(options?: UseQueryOptions<{ [key: string]: number; }, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
 export function useGetInventoryQuery<TSelectData = { [key: string]: number; }, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<{ [key: string]: number; }, TError, TSelectData> | undefined = undefined;
@@ -714,11 +721,12 @@ export function createUsersWithArrayInputMutationKey(): MutationKey {
       'createUsersWithArrayInput',
     ]);
 }
-    /**
-     * Creates list of users with given input array
-     * @param body List of user object
-     * @return successful operation
-     */
+
+/**
+ * Creates list of users with given input array
+ * @param body List of user object
+ * @return successful operation
+ */
 export function useCreateUsersWithArrayInputMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.User[], TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, Types.User[], TContext> {
   const key = createUsersWithArrayInputMutationKey();
   
@@ -741,11 +749,12 @@ export function createUsersWithListInputMutationKey(): MutationKey {
       'createUsersWithListInput',
     ]);
 }
-    /**
-     * Creates list of users with given input array
-     * @param body List of user object
-     * @return successful operation
-     */
+
+/**
+ * Creates list of users with given input array
+ * @param body List of user object
+ * @return successful operation
+ */
 export function useCreateUsersWithListInputMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.User[], TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, Types.User[], TContext> {
   const key = createUsersWithListInputMutationKey();
   
@@ -798,12 +807,12 @@ function getUserByName(context: QueryFunctionContext) {
       context.queryKey[2] as string    );
 }
 
-    export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown>(dto: GetUserByNameQueryParameters, options?: UseQueryOptions<Types.User, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
-    /**
-     * Get user by user name
-     * @param username The name that needs to be fetched. Use user1 for testing.
-     * @return successful operation
-     */
+export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown>(dto: GetUserByNameQueryParameters, options?: UseQueryOptions<Types.User, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+/**
+ * Get user by user name
+ * @param username The name that needs to be fetched. Use user1 for testing.
+ * @return successful operation
+ */
 export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown>(username: string, options?: UseQueryOptions<Types.User, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
 export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<Types.User, TError, TSelectData> | undefined = undefined;
@@ -866,11 +875,12 @@ export function updateUserMutationKey(username: string): MutationKey {
       username as any,
     ]);
 }
-    /**
-     * Updated user
-     * @param username name that need to be updated
-     * @param body Updated user object
-     */
+
+/**
+ * Updated user
+ * @param username name that need to be updated
+ * @param body Updated user object
+ */
 export function useUpdateUserMutation<TContext>(username: string, options?: Omit<UseMutationOptions<void, unknown, Types.User, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, Types.User, TContext> {
   const key = updateUserMutationKey(username);
   
@@ -898,10 +908,11 @@ export function deleteUserMutationKey(username: string): MutationKey {
       username as any,
     ]);
 }
-    /**
-     * Delete user
-     * @param username The name that needs to be deleted
-     */
+
+/**
+ * Delete user
+ * @param username The name that needs to be deleted
+ */
 export function useDeleteUserMutation<TContext>(username: string, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, void, TContext> {
   const key = deleteUserMutationKey(username);
   
@@ -960,13 +971,13 @@ function loginUser(context: QueryFunctionContext) {
       context.queryKey[2] as string,       context.queryKey[3] as string    );
 }
 
-    export function useLoginUserQuery<TSelectData = string, TError = unknown>(dto: LoginUserQueryParameters, options?: UseQueryOptions<string, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
-    /**
-     * Logs user into the system
-     * @param username The user name for login
-     * @param password The password for login in clear text
-     * @return successful operation
-     */
+export function useLoginUserQuery<TSelectData = string, TError = unknown>(dto: LoginUserQueryParameters, options?: UseQueryOptions<string, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+/**
+ * Logs user into the system
+ * @param username The user name for login
+ * @param password The password for login in clear text
+ * @return successful operation
+ */
 export function useLoginUserQuery<TSelectData = string, TError = unknown>(username: string, password: string, options?: UseQueryOptions<string, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
 export function useLoginUserQuery<TSelectData = string, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<string, TError, TSelectData> | undefined = undefined;
@@ -1042,10 +1053,10 @@ function logoutUser() {
     );
 }
 
-    /**
-     * Logs out current logged in user session
-     * @return successful operation
-     */
+/**
+ * Logs out current logged in user session
+ * @return successful operation
+ */
 export function useLogoutUserQuery<TSelectData = void, TError = unknown>(options?: UseQueryOptions<void, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
 export function useLogoutUserQuery<TSelectData = void, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<void, TError, TSelectData> | undefined = undefined;
@@ -1094,11 +1105,12 @@ export function createUserMutationKey(): MutationKey {
       'createUser',
     ]);
 }
-    /**
-     * Create user
-     * @param body Created user object
-     * @return successful operation
-     */
+
+/**
+ * Create user
+ * @param body Created user object
+ * @return successful operation
+ */
 export function useCreateUserMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.User, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, Types.User, TContext> {
   const key = createUserMutationKey();
   
