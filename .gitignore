@@ -434,3 +434,15 @@ MigrationBackup/
 FodyWeavers.xsd
 /src/README.md
 /src/dist/
+src/templates/_AxiosClient.liquid
+src/templates/_FetchClient.liquid
+src/templates/Client.ProcessResponse.Return.liquid
+src/templates/Client.ProcessResponse.HandleStatusCode.liquid
+src/templates_v3/_AxiosClient.liquid
+src/templates_v3/_FetchClient.liquid
+src/templates_v3/Client.ProcessResponse.Return.liquid
+src/templates_v3/Client.ProcessResponse.HandleStatusCode.liquid
+src/templates_no_hooks/_AxiosClient.liquid
+src/templates_no_hooks/_FetchClient.liquid
+src/templates_no_hooks/Client.ProcessResponse.Return.liquid
+src/templates_no_hooks/Client.ProcessResponse.HandleStatusCode.liquid

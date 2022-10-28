@@ -16,9 +16,10 @@ async function downloadAndPostProcess(file, postProcess) {
   let content = await fetch(
     `https://raw.githubusercontent.com/RicoSuter/NSwag/master/src/NSwag.CodeGeneration.TypeScript/Templates/${file}`,
   ).then((x) => x.text());
-  const previousOriginalContent = fs.readFileSync(`src/templates/original/${file}`);
-  if (previousOriginalContent != content) {
+  // const previousOriginalContent = fs.readFileSync(`src/templates/original/${file}`);
+  // if (previousOriginalContent != content) {
     content = postProcess(content)
     fs.writeFileSync(`src/templates/modules/${file}`, content);
-  }  
+    fs.writeFileSync(`src/templates/original/${file}`, content);
+  // }  
 }
