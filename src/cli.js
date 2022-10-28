@@ -85,8 +85,11 @@ if (isClientsAsModules) {
   }
 }
 
-copyFileSync(join(pathToTemplates, isClientsAsModules ? 'modules' : 'original', 'AxiosClient.liquid'), join(pathToTemplates, '_AxiosClient.liquid'));
-copyFileSync(join(pathToTemplates, isClientsAsModules ? 'modules' : 'original', 'FetchClient.liquid'), join(pathToTemplates, '_FetchClient.liquid'));
+const sourceFolder = isClientsAsModules ? 'modules' : 'original';
+copyFileSync(join(pathToTemplates, sourceFolder, 'AxiosClient.liquid'), join(pathToTemplates, '_AxiosClient.liquid'));
+copyFileSync(join(pathToTemplates, sourceFolder, 'FetchClient.liquid'), join(pathToTemplates, '_FetchClient.liquid'));
+copyFileSync(join(pathToTemplates, sourceFolder, 'Client.ProcessResponse.Return.liquid'), join(pathToTemplates, 'Client.ProcessResponse.Return.liquid'));
+copyFileSync(join(pathToTemplates, sourceFolder, 'Client.ProcessResponse.HandleStatusCode.liquid'), join(pathToTemplates, 'Client.ProcessResponse.HandleStatusCode.liquid'));
 
 
 const isYarn = process.env.npm_execpath.includes('yarn');
@@ -238,4 +241,9 @@ function postProcessClientContent(content, outputFileWithoutExtension) {
     ;
   content = `import * as Types from '../${outputFileWithoutExtension}';\n${content}`;
 return content;
+}
+
+function copyFromOriginalOrModules(pathToTemplates, isClientsAsModules, sourceFileName, destinationFileName) {
+  destinationFileName = destinationFileName ?? sourceFileName;
+  copyFileSync(join(pathToTemplates, isClientsAsModules ? 'modules' : 'original', fileName), join(pathToTemplates, destinationFileName));   
 }
