@@ -170,7 +170,6 @@ export function findPetsByStatusQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-
 function __findPetsByStatus(context: QueryFunctionContext) {
   return Client().findPetsByStatus(
       context.queryKey[2] as Types.Status[]    );
@@ -263,7 +262,6 @@ export function findPetsByTagsQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-
 function __findPetsByTags(context: QueryFunctionContext) {
   return Client().findPetsByTags(
       context.queryKey[2] as string[]    );
@@ -359,7 +357,6 @@ export function getPetByIdQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-
 function __getPetById(context: QueryFunctionContext) {
   return Client().getPetById(
       context.queryKey[2] as number    );
@@ -548,7 +545,6 @@ export function getOrderByIdQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-
 function __getOrderById(context: QueryFunctionContext) {
   return Client().getOrderById(
       context.queryKey[2] as number    );
@@ -658,7 +654,6 @@ export function getInventoryQueryKey(...params: any[]): QueryKey {
       'getInventory',
     ]);
 }
-
 function __getInventory() {
   return Client().getInventory(
     );
@@ -796,7 +791,6 @@ export function getUserByNameQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-
 function __getUserByName(context: QueryFunctionContext) {
   return Client().getUserByName(
       context.queryKey[2] as string    );
@@ -960,7 +954,6 @@ export function loginUserQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-
 function __loginUser(context: QueryFunctionContext) {
   return Client().loginUser(
       context.queryKey[2] as string,       context.queryKey[3] as string    );
@@ -1042,7 +1035,6 @@ export function logoutUserQueryKey(...params: any[]): QueryKey {
       'logoutUser',
     ]);
 }
-
 function __logoutUser() {
   return Client().logoutUser(
     );
