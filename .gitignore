@@ -468,3 +468,7 @@ src/templates_no_hooks/original/Client.ProcessResponse.Return.liquid
 src/templates_no_hooks/original/Client.ProcessResponse.HandleStatusCode.liquid
 src/templates_no_hooks/modules/Client.ProcessResponse.Return.liquid
 src/templates_no_hooks/modules/Client.ProcessResponse.HandleStatusCode.liquid
+src/templates_v3/modules/AxiosClient.liquid
+src/templates_v3/modules/FetchClient.liquid
+src/templates_v3/original/AxiosClient.liquid
+src/templates_v3/original/FetchClient.liquid
