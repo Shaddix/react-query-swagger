@@ -460,3 +460,11 @@ src/templates_no_hooks/modules/ReactQuery.GetClientFunction.liquid
 src/templates_no_hooks/original/ReactQuery.GetClientFunction.liquid
 src/templates_v3/modules/ReactQuery.GetClientFunction.liquid
 src/templates_v3/original/ReactQuery.GetClientFunction.liquid
+src/templates_v3/original/Client.ProcessResponse.Return.liquid
+src/templates_v3/original/Client.ProcessResponse.HandleStatusCode.liquid
+src/templates_v3/modules/Client.ProcessResponse.Return.liquid
+src/templates_v3/modules/Client.ProcessResponse.HandleStatusCode.liquid
+src/templates_no_hooks/original/Client.ProcessResponse.Return.liquid
+src/templates_no_hooks/original/Client.ProcessResponse.HandleStatusCode.liquid
+src/templates_no_hooks/modules/Client.ProcessResponse.Return.liquid
+src/templates_no_hooks/modules/Client.ProcessResponse.HandleStatusCode.liquid
