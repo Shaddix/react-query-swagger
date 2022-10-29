@@ -488,3 +488,7 @@ src/templates_no_hooks/Client.ProcessResponse.HandleStatusCode.liquid
 src/templates_no_hooks/ReactQuery.GetClientFunction.liquid
 src/templates_no_hooks/modules/ReactQuery.GetClientFactory.liquid
 src/templates_no_hooks/original/ReactQuery.GetClientFactory.liquid
+src/templates_no_hooks/_File.liquid
+src/templates_no_hooks/PersistorHydrator.File.liquid
+src/templates_no_hooks/PersistorHydrator.Header.liquid
+src/templates_no_hooks/PersistorHydrator.liquid
