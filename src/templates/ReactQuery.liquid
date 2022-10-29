@@ -80,9 +80,9 @@ type {{ parameterClassName }} = {
       options = addMetaToOptions(options, metaContext);
       
       {%- if operation.FormParameters.size > 0 -%}
-      return useMutation(({{TVariableName}}: {{TVariableType}}) => {{ QueryClassName }}.Client.{{ operation.ActualOperationName }}({%- for parameter in operation.PathParameters -%}{{ parameter.VariableName }}{{ parameter.TypePostfix }}, {% endfor -%}{%- for parameter in operation.FormParameters -%}{{TVariableName}}.{{parameter.VariableName}}{% unless forloop.last %}, {% endunless -%}{%endfor-%}), {...options, mutationKey: key});
+      return useMutation(({{TVariableName}}: {{TVariableType}}) => {{ QueryClassName }}.Client.{{ operation.ActualOperationName }}({%- for parameter in operation.PathParameters -%}{{ parameter.VariableName }}, {% endfor -%}{%- for parameter in operation.FormParameters -%}{{TVariableName}}.{{parameter.VariableName}}{% unless forloop.last %}, {% endunless -%}{%endfor-%}), {...options, mutationKey: key});
       {%- else -%}
-      return useMutation(({% if operation.HasBody %}{{TVariableName}}: {{TVariableType}}{% endif %}) => {{ QueryClassName }}.Client.{{ operation.ActualOperationName }}({%- for parameter in NonBodyParameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{{ parameter.TypePostfix }}, {% endfor -%}{{TVariableName}}), {...options, mutationKey: key});
+      return useMutation(({% if operation.HasBody %}{{TVariableName}}: {{TVariableType}}{% endif %}) => {{ QueryClassName }}.Client.{{ operation.ActualOperationName }}({%- for parameter in NonBodyParameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}, {% endfor -%}{{TVariableName}}), {...options, mutationKey: key});
       {%- endif -%}
     }
 {%- endif -%}
