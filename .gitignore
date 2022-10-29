@@ -472,3 +472,12 @@ src/templates_v3/modules/AxiosClient.liquid
 src/templates_v3/modules/FetchClient.liquid
 src/templates_v3/original/AxiosClient.liquid
 src/templates_v3/original/FetchClient.liquid
+src/templates_v3/_File.liquid
+src/templates_v3/Client.RequestUrl.liquid
+src/templates_v3/ClientFileHeader.liquid
+src/templates_v3/ConvertToClass.liquid
+src/templates_v3/PersistorHydrator.File.liquid
+src/templates_v3/PersistorHydrator.Header.liquid
+src/templates_v3/PersistorHydrator.liquid
+src/templates_v3/ReactQuery.liquid
+src/templates_v3/ReactQueryFile.liquid
