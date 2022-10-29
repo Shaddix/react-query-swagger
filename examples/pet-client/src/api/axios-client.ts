@@ -1643,7 +1643,7 @@ export class Query{
     }
   
     
-    deletePetUrl(petId: number): string {
+    deletePetUrl(petId: number, api_key?: string | null | undefined): string {
       let url_ = this.baseUrl + "/pet/{petId}";
 
     if (petId === undefined || petId === null)
@@ -1653,11 +1653,12 @@ export class Query{
       return url_;
     }
 
-    public static deletePetMutationKey(petId: number): MutationKey {
+    public static deletePetMutationKey(petId: number, api_key?: string | null | undefined): MutationKey {
       return trimArrayEnd([
           'Client',
           'deletePet',
           petId as any,
+          api_key as any,
         ]);
     }
     /**
@@ -1665,13 +1666,13 @@ export class Query{
      * @param petId Pet id to delete
      * @param api_key (optional) 
      */
-    static useDeletePetMutation<TContext>(petId: number, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, void, TContext> {
-      const key = Query.deletePetMutationKey(petId);
+    static useDeletePetMutation<TContext>(petId: number, api_key?: string | null | undefined, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, void, TContext> {
+      const key = Query.deletePetMutationKey(petId, api_key);
       
       const metaContext = useContext(QueryMetaContext);
       options = addMetaToOptions(options, metaContext);
       
-      return useMutation(() => Query.Client.deletePet(petId, ), {...options, mutationKey: key});
+      return useMutation(() => Query.Client.deletePet(petId, api_key), {...options, mutationKey: key});
     }
   
     
@@ -1816,7 +1817,7 @@ export class Query{
       const metaContext = useContext(QueryMetaContext);
       options = addMetaToOptions(options, metaContext);
       
-      return useMutation(() => Query.Client.deleteOrder(orderId, ), {...options, mutationKey: key});
+      return useMutation(() => Query.Client.deleteOrder(orderId), {...options, mutationKey: key});
     }
   
     
@@ -2081,7 +2082,7 @@ export class Query{
       const metaContext = useContext(QueryMetaContext);
       options = addMetaToOptions(options, metaContext);
       
-      return useMutation(() => Query.Client.deleteUser(username, ), {...options, mutationKey: key});
+      return useMutation(() => Query.Client.deleteUser(username), {...options, mutationKey: key});
     }
   
     
