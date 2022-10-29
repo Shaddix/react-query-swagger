@@ -4,7 +4,7 @@ import { getAxios, getBaseUrl, getJsonParseReviver } from './helpers';
 {% for operation in Operations %}
 
 {% template Client.Method.Documentation %}
-export function {{ operation.ActualOperationName }}{%if operation.ActualOperationName == 'delete'%}_{%endif%}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type | prepend: 'Types.' }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %} {% if operation.Parameters.size > 0 %},{%endif%} cancelToken?: CancelToken | undefined): Promise<{{ operation.ResultType | prepend: 'Types.' }}> {
+export function {% template OperationNameSafe %}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type | prepend: 'Types.' }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %} {% if operation.Parameters.size > 0 %},{%endif%} cancelToken?: CancelToken | undefined): Promise<{{ operation.ResultType | prepend: 'Types.' }}> {
     {% template Client.RequestUrl %}
 
 {%     if operation.HasBody -%}

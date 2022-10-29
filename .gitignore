@@ -501,3 +501,10 @@ src/templates_v3/ReactQuery.GetClientCall.liquid
 src/templates_v3/modules/ReactQuery.GetClientCall.liquid
 src/templates_v3/original/ReactQuery.GetClientCall.liquid
 src/templates/ReactQuery.GetClientCall.liquid
+src/templates/OperationNameSafe.liquid
+src/templates_no_hooks/OperationNameSafe.liquid
+src/templates_no_hooks/modules/OperationNameSafe.liquid
+src/templates_no_hooks/original/OperationNameSafe.liquid
+src/templates_v3/OperationNameSafe.liquid
+src/templates_v3/modules/OperationNameSafe.liquid
+src/templates_v3/original/OperationNameSafe.liquid

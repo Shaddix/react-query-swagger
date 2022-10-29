@@ -2,7 +2,7 @@
 'use strict';
 const { execSync } = require('child_process');
 const { dirname, join, parse } = require('path');
-const { readFileSync, writeFileSync, existsSync, rmSync, mkdirSync, copyFileSync } = require('fs');
+const { readFileSync, writeFileSync, existsSync, rmSync, mkdirSync, copyFileSync, readdirSync } = require('fs');
 let args = process.argv.splice(2).join(' ');
 const isV4 = args.includes('/tanstack');
 // this one might be useful if you only want to have
@@ -91,11 +91,11 @@ if (isClientsAsModules) {
 const sourceFolder = isClientsAsModules ? 'modules' : 'original';
 copyFileSync(join(pathToTemplates, sourceFolder, 'AxiosClient.liquid'), join(pathToTemplates, '_AxiosClient.liquid'));
 copyFileSync(join(pathToTemplates, sourceFolder, 'FetchClient.liquid'), join(pathToTemplates, '_FetchClient.liquid'));
-copyFileSync(join(pathToTemplates, sourceFolder, 'Client.ProcessResponse.Return.liquid'), join(pathToTemplates, 'Client.ProcessResponse.Return.liquid'));
-copyFileSync(join(pathToTemplates, sourceFolder, 'Client.ProcessResponse.HandleStatusCode.liquid'), join(pathToTemplates, 'Client.ProcessResponse.HandleStatusCode.liquid'));
-copyFileSync(join(pathToTemplates, sourceFolder, 'ReactQuery.GetClientFunction.liquid'), join(pathToTemplates, 'ReactQuery.GetClientFunction.liquid'));
-copyFileSync(join(pathToTemplates, sourceFolder, 'ReactQuery.GetClientFactory.liquid'), join(pathToTemplates, 'ReactQuery.GetClientFactory.liquid'));
-copyFileSync(join(pathToTemplates, sourceFolder, 'ReactQuery.GetClientCall.liquid'), join(pathToTemplates, 'ReactQuery.GetClientCall.liquid'));
+readdirSync(join(pathToTemplates, sourceFolder))
+  .filter(fileName => fileName !== 'AxiosClient.liquid' && fileName !== 'FetchClient.liquid')
+  .forEach(fileName => {
+    copyFileSync(join(pathToTemplates, sourceFolder, fileName), join(pathToTemplates, fileName));
+  });
 
 
 const isYarn = process.env.npm_execpath.includes('yarn');
