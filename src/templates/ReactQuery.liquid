@@ -39,7 +39,7 @@ export type {{ parameterClassName }} = {
 {% assign ResultType = operation.ResultType | prepend: 'Types.' %}
 {%- assign firstLetter = operation.ActualOperationName | slice: 0, 1 | upcase -%}
     {% assign NonBodyParameters = operation.PathParameters | concat: operation.QueryParameters | concat: operation.HeaderParameters %}
-    {{ operation.ActualOperationName }}Url({% for parameter in NonBodyParameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type | prepend: 'Types.' }}{{ parameter.TypePostfix }}{% unless forloop.last %}, {% endunless -%}{% endfor %}): string {
+export function {{ operation.ActualOperationName }}Url({% for parameter in NonBodyParameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type | prepend: 'Types.' }}{{ parameter.TypePostfix }}{% unless forloop.last %}, {% endunless -%}{% endfor %}): string {
   {% template Client.RequestUrl %}
   return url_;
 }
