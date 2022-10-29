@@ -3,8 +3,9 @@ import * as Types from '../fetch-client';
 import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, useMutation, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from '@tanstack/react-query';
 import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
 import { useContext } from 'react';
-import { addMetaToOptions, createClient, trimArrayEnd, isParameterObject, getBaseUrl, getClientFactory } from './helpers';
+import { addMetaToOptions,  trimArrayEnd, isParameterObject, getBaseUrl } from './helpers';
 import { Client as ClientClass } from '../fetch-client';
+import { createClient, getClientFactory } from './helpers';
 
 export const Client = () => getClientFactory()(ClientClass);
 
