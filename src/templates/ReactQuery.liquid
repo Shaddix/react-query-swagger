@@ -71,7 +71,7 @@ export function {{ operation.MethodAccessModifier }}use{{ operation.ActualOperat
   options = addMetaToOptions(options, metaContext);
   
   {%- if operation.FormParameters.size > 0 -%}
-      return useMutation(({{TVariableName}}: {{TVariableType}}) => Client().{{ operation.ActualOperationName }}({%- for parameter in operation.Parameters -%}
+      return useMutation(({{TVariableName}}: {{TVariableType}}) => Client().{{ operation.ActualOperationName }}{%if operation.ActualOperationName == 'delete'%}_{%endif%}({%- for parameter in operation.Parameters -%}
       {%- assign isForm = false -%}
       {%- for formParameter in operation.FormParameters -%}
         {%- if parameter.Name == formParameter.Name -%}
@@ -80,7 +80,7 @@ export function {{ operation.MethodAccessModifier }}use{{ operation.ActualOperat
       {%- endfor -%}
       {%- if isForm %}{{TVariableName}}.{{parameter.VariableName}}{% else %}{{ parameter.VariableName }}{% endif %}{% unless forloop.last %}, {% endunless -%}{% endfor -%}), {...options, mutationKey: key});
   {%- else -%}
-      return useMutation(({% if operation.HasBody %}{{TVariableName}}: {{TVariableType}}{% endif %}) => Client().{{ operation.ActualOperationName }}({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% unless forloop.last %}, {% endunless -%}{% endfor -%}), {...options, mutationKey: key});
+      return useMutation(({% if operation.HasBody %}{{TVariableName}}: {{TVariableType}}{% endif %}) => Client().{{ operation.ActualOperationName }}{%if operation.ActualOperationName == 'delete'%}_{%endif%}({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% unless forloop.last %}, {% endunless -%}{% endfor -%}), {...options, mutationKey: key});
   {%- endif -%}
 }
 {%- endif -%}

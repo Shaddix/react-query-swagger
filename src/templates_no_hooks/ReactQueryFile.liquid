@@ -1,4 +1,9 @@
 export { setBaseUrl } from './helpers';
+{% if Framework.IsAxios -%}
+export { setAxiosFactory, getAxios } from './helpers';
+{% elsif Framework.IsFetchOrAurelia -%}
+export { setFetchFactory, getFetch } from './helpers';
+{% endif %}
 //-----ReactQueryFile-----
 
 {%- template ReactQuery.GetClientFactory -%}

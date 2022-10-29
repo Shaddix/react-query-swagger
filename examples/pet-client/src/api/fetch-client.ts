@@ -1310,6 +1310,7 @@ function throwException(message: string, status: number, response: string, heade
 
 import { addResultTypeFactory } from './fetch-client/helpers';
 export { setBaseUrl } from './fetch-client/helpers';
+export { setFetchFactory, getFetch } from './fetch-client/helpers';
 
 
 //-----PersistorHydrator.File-----

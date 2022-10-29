@@ -1,5 +1,10 @@
 import { addResultTypeFactory } from './helpers';
 export { setBaseUrl } from './helpers';
+{%- if Framework.IsAxios -%}
+export { setAxiosFactory, getAxios } from './helpers';
+{%- elsif Framework.IsFetchOrAurelia -%}
+export { setFetchFactory, getFetch } from './helpers';
+{%- endif -%}
 //-----ReactQueryFile-----
 import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, useMutation, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from '@tanstack/react-query';
 import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
