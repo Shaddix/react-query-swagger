@@ -197,6 +197,7 @@ if (isClientsAsModules) {
   apiClient = apiClient
     .replace('function throwException', 'export function throwException')
     .replace('function isAxiosError', 'export function isAxiosError')
+    .replace('function formatDate', 'export function formatDate')
     ;
   writeFileSync(outputPath, apiClient);
 }

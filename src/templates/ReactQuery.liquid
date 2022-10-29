@@ -2,6 +2,7 @@ import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryC
 import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
 import { useContext } from 'react';
 import { addMetaToOptions,  trimArrayEnd, isParameterObject, getBaseUrl } from './helpers';
+import { formatDate } from '../client';
 {% template ReactQuery.GetClientFunction %}
 
 {%- if HasOperations -%}
