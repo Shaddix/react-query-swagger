@@ -22,7 +22,7 @@ type {{ parameterClassName }} = {
 {%- assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: MutationClassName | append: 'Parameters' -%}
 type {{ parameterClassName }} = {
   {%- for parameter in operation.FormParameters -%}
-  {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }};
+  {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }} ; {% comment %}space before the ';' is important, so that 'undefined' here is not replaced with null{% endcomment %}
   {%- endfor -%}
 };
 
