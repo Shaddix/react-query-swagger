@@ -24,7 +24,7 @@ if (noHooks) {
 if (args.includes('/use-recommended-configuration')) {
   // otherwise optional parameters are generated as mandatory
   // E.g.:
-  // -true: deletePet(petId: number, api_key?: string | null | undefined)
+  // -true:  deletePet(petId: number, api_key?: string | null | undefined)
   // -false: deletePet(petId: number, api_key: string | null | undefined)
   args += ' /generateOptionalParameters:true';
 
