@@ -124,7 +124,7 @@ export function {{ operation.ActualOperationName }}QueryKey(...params: any[]): Q
   }
     {%- endif -%}
 }
-
+{% comment %} Why add __ to the function name? see below where it's used {% endcomment %}
 function __{{ operation.ActualOperationName }}({% if operation.Parameters.size > 0 %}context: QueryFunctionContext{% endif %}) {
   return {% template ReactQuery.GetClientCall %}.{{ operation.ActualOperationName }}(
   {%- for parameter in operation.Parameters -%}
@@ -160,6 +160,7 @@ export function use{{ operation.ActualOperationName | capitalize }}Query<TSelect
   options = addMetaToOptions(options, metaContext);
 
   return useQuery<{{ ResultType }}, TError, TSelectData>({
+    {% comment %} We add __ to the function name to avoid name clashing with parameters of this function {% endcomment %}
     queryFn: __{{ operation.ActualOperationName }},
     queryKey: {{ operation.ActualOperationName }}QueryKey({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% unless forloop.last %}, {% endunless -%}{% endfor %}),
     ...{{ operation.ActualOperationName }}DefaultOptions as unknown as UseQueryOptions<{{ ResultType }}, TError, TSelectData>,
