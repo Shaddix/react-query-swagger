@@ -125,7 +125,7 @@ export function {{ operation.ActualOperationName }}QueryKey(...params: any[]): Q
     {%- endif -%}
 }
 
-function {{ operation.ActualOperationName }}({% if operation.Parameters.size > 0 %}context: QueryFunctionContext{% endif %}) {
+function __{{ operation.ActualOperationName }}({% if operation.Parameters.size > 0 %}context: QueryFunctionContext{% endif %}) {
   return {% template ReactQuery.GetClientCall %}.{{ operation.ActualOperationName }}(
   {%- for parameter in operation.Parameters -%}
 {%- assign ParameterType = parameter.Type | prepend: 'Types.' -%}
@@ -160,7 +160,7 @@ export function use{{ operation.ActualOperationName | capitalize }}Query<TSelect
   options = addMetaToOptions(options, metaContext);
 
   return useQuery<{{ ResultType }}, TError, TSelectData>({
-    queryFn: {{ operation.ActualOperationName }},
+    queryFn: __{{ operation.ActualOperationName }},
     queryKey: {{ operation.ActualOperationName }}QueryKey({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% unless forloop.last %}, {% endunless -%}{% endfor %}),
     ...{{ operation.ActualOperationName }}DefaultOptions as unknown as UseQueryOptions<{{ ResultType }}, TError, TSelectData>,
     ...options,

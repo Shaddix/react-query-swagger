@@ -167,7 +167,7 @@ export function findPetsByStatusQueryKey(...params: any[]): QueryKey {
   }
 }
 
-function findPetsByStatus(context: QueryFunctionContext) {
+function __findPetsByStatus(context: QueryFunctionContext) {
   return Types.Client.findPetsByStatus(
       context.queryKey[2] as Types.Status[]    );
 }
@@ -196,7 +196,7 @@ export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unk
   options = addMetaToOptions(options, metaContext);
 
   return useQuery<Types.Pet[], TError, TSelectData>({
-    queryFn: findPetsByStatus,
+    queryFn: __findPetsByStatus,
     queryKey: findPetsByStatusQueryKey(status),
     ...findPetsByStatusDefaultOptions as unknown as UseQueryOptions<Types.Pet[], TError, TSelectData>,
     ...options,
@@ -260,7 +260,7 @@ export function findPetsByTagsQueryKey(...params: any[]): QueryKey {
   }
 }
 
-function findPetsByTags(context: QueryFunctionContext) {
+function __findPetsByTags(context: QueryFunctionContext) {
   return Types.Client.findPetsByTags(
       context.queryKey[2] as string[]    );
 }
@@ -290,7 +290,7 @@ export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unkno
   options = addMetaToOptions(options, metaContext);
 
   return useQuery<Types.Pet[], TError, TSelectData>({
-    queryFn: findPetsByTags,
+    queryFn: __findPetsByTags,
     queryKey: findPetsByTagsQueryKey(tags),
     ...findPetsByTagsDefaultOptions as unknown as UseQueryOptions<Types.Pet[], TError, TSelectData>,
     ...options,
@@ -356,7 +356,7 @@ export function getPetByIdQueryKey(...params: any[]): QueryKey {
   }
 }
 
-function getPetById(context: QueryFunctionContext) {
+function __getPetById(context: QueryFunctionContext) {
   return Types.Client.getPetById(
       context.queryKey[2] as number    );
 }
@@ -385,7 +385,7 @@ export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(..
   options = addMetaToOptions(options, metaContext);
 
   return useQuery<Types.Pet, TError, TSelectData>({
-    queryFn: getPetById,
+    queryFn: __getPetById,
     queryKey: getPetByIdQueryKey(petId),
     ...getPetByIdDefaultOptions as unknown as UseQueryOptions<Types.Pet, TError, TSelectData>,
     ...options,
@@ -545,7 +545,7 @@ export function getOrderByIdQueryKey(...params: any[]): QueryKey {
   }
 }
 
-function getOrderById(context: QueryFunctionContext) {
+function __getOrderById(context: QueryFunctionContext) {
   return Types.Client.getOrderById(
       context.queryKey[2] as number    );
 }
@@ -574,7 +574,7 @@ export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown
   options = addMetaToOptions(options, metaContext);
 
   return useQuery<Types.Order, TError, TSelectData>({
-    queryFn: getOrderById,
+    queryFn: __getOrderById,
     queryKey: getOrderByIdQueryKey(orderId),
     ...getOrderByIdDefaultOptions as unknown as UseQueryOptions<Types.Order, TError, TSelectData>,
     ...options,
@@ -655,7 +655,7 @@ export function getInventoryQueryKey(...params: any[]): QueryKey {
     ]);
 }
 
-function getInventory() {
+function __getInventory() {
   return Types.Client.getInventory(
     );
 }
@@ -675,7 +675,7 @@ export function useGetInventoryQuery<TSelectData = { [key: string]: number; }, T
   options = addMetaToOptions(options, metaContext);
 
   return useQuery<{ [key: string]: number; }, TError, TSelectData>({
-    queryFn: getInventory,
+    queryFn: __getInventory,
     queryKey: getInventoryQueryKey(),
     ...getInventoryDefaultOptions as unknown as UseQueryOptions<{ [key: string]: number; }, TError, TSelectData>,
     ...options,
@@ -793,7 +793,7 @@ export function getUserByNameQueryKey(...params: any[]): QueryKey {
   }
 }
 
-function getUserByName(context: QueryFunctionContext) {
+function __getUserByName(context: QueryFunctionContext) {
   return Types.Client.getUserByName(
       context.queryKey[2] as string    );
 }
@@ -822,7 +822,7 @@ export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown
   options = addMetaToOptions(options, metaContext);
 
   return useQuery<Types.User, TError, TSelectData>({
-    queryFn: getUserByName,
+    queryFn: __getUserByName,
     queryKey: getUserByNameQueryKey(username),
     ...getUserByNameDefaultOptions as unknown as UseQueryOptions<Types.User, TError, TSelectData>,
     ...options,
@@ -957,7 +957,7 @@ export function loginUserQueryKey(...params: any[]): QueryKey {
   }
 }
 
-function loginUser(context: QueryFunctionContext) {
+function __loginUser(context: QueryFunctionContext) {
   return Types.Client.loginUser(
       context.queryKey[2] as string,       context.queryKey[3] as string    );
 }
@@ -988,7 +988,7 @@ export function useLoginUserQuery<TSelectData = string, TError = unknown>(...par
   options = addMetaToOptions(options, metaContext);
 
   return useQuery<string, TError, TSelectData>({
-    queryFn: loginUser,
+    queryFn: __loginUser,
     queryKey: loginUserQueryKey(username, password),
     ...loginUserDefaultOptions as unknown as UseQueryOptions<string, TError, TSelectData>,
     ...options,
@@ -1039,7 +1039,7 @@ export function logoutUserQueryKey(...params: any[]): QueryKey {
     ]);
 }
 
-function logoutUser() {
+function __logoutUser() {
   return Types.Client.logoutUser(
     );
 }
@@ -1059,7 +1059,7 @@ export function useLogoutUserQuery<TSelectData = void, TError = unknown>(...para
   options = addMetaToOptions(options, metaContext);
 
   return useQuery<void, TError, TSelectData>({
-    queryFn: logoutUser,
+    queryFn: __logoutUser,
     queryKey: logoutUserQueryKey(),
     ...logoutUserDefaultOptions as unknown as UseQueryOptions<void, TError, TSelectData>,
     ...options,
