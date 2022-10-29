@@ -481,3 +481,10 @@ src/templates_v3/PersistorHydrator.Header.liquid
 src/templates_v3/PersistorHydrator.liquid
 src/templates_v3/ReactQuery.liquid
 src/templates_v3/ReactQueryFile.liquid
+src/templates_no_hooks/Client.RequestUrl.liquid
+src/templates_no_hooks/ClientFileHeader.liquid
+src/templates_no_hooks/ConvertToClass.liquid
+src/templates_no_hooks/modules/AxiosClient.liquid
+src/templates_no_hooks/modules/FetchClient.liquid
+src/templates_no_hooks/original/AxiosClient.liquid
+src/templates_no_hooks/original/FetchClient.liquid
