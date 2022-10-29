@@ -10,7 +10,7 @@ import { getFetch, getBaseUrl, getJsonParseReviver } from './helpers';
  * @param file (optional) file to upload
  * @return successful operation
  */
-export function uploadFile(petId: number, additionalMetadata?: string | null | undefined, file?: Types.FileParameter | null | undefined): Promise<ApiResponse> {
+export function uploadFile(petId: number, additionalMetadata?: string | null | undefined, file?: Types.FileParameter | null | undefined): Promise<Types.ApiResponse> {
     let url_ = getBaseUrl() + "/pet/{petId}/uploadImage";
 
     if (petId === undefined || petId === null)
@@ -144,7 +144,7 @@ function processUpdatePet(response: Response): Promise<void> {
  * @param status Status values that need to be considered for filter
  * @return successful operation
  */
-export function findPetsByStatus(status: Types.Status[]): Promise<Pet[]> {
+export function findPetsByStatus(status: Types.Status[]): Promise<Types.Pet[]> {
     let url_ = getBaseUrl() + "/pet/findByStatus?";
       if (status === undefined || status === null)
         throw new Error("The parameter 'status' must be defined and cannot be null.");
@@ -199,7 +199,7 @@ function processFindPetsByStatus(response: Response): Promise<Types.Pet[]> {
  * @return successful operation
  * @deprecated
  */
-export function findPetsByTags(tags: string[]): Promise<Pet[]> {
+export function findPetsByTags(tags: string[]): Promise<Types.Pet[]> {
     let url_ = getBaseUrl() + "/pet/findByTags?";
       if (tags === undefined || tags === null)
         throw new Error("The parameter 'tags' must be defined and cannot be null.");
@@ -253,7 +253,7 @@ function processFindPetsByTags(response: Response): Promise<Types.Pet[]> {
  * @param petId ID of pet to return
  * @return successful operation
  */
-export function getPetById(petId: number): Promise<Pet> {
+export function getPetById(petId: number): Promise<Types.Pet> {
     let url_ = getBaseUrl() + "/pet/{petId}";
 
     if (petId === undefined || petId === null)
@@ -397,7 +397,7 @@ function processDeletePet(response: Response): Promise<void> {
  * @param body order placed for purchasing the pet
  * @return successful operation
  */
-export function placeOrder(body: Types.Order): Promise<Order> {
+export function placeOrder(body: Types.Order): Promise<Types.Order> {
     let url_ = getBaseUrl() + "/store/order";
       url_ = url_.replace(/[?&]$/, "");
 
@@ -444,7 +444,7 @@ function processPlaceOrder(response: Response): Promise<Types.Order> {
  * @param orderId ID of pet that needs to be fetched
  * @return successful operation
  */
-export function getOrderById(orderId: number): Promise<Order> {
+export function getOrderById(orderId: number): Promise<Types.Order> {
     let url_ = getBaseUrl() + "/store/order/{orderId}";
 
     if (orderId === undefined || orderId === null)
@@ -652,7 +652,7 @@ function processCreateUsersWithListInput(response: Response): Promise<void> {
  * @param username The name that needs to be fetched. Use user1 for testing.
  * @return successful operation
  */
-export function getUserByName(username: string): Promise<User> {
+export function getUserByName(username: string): Promise<Types.User> {
     let url_ = getBaseUrl() + "/user/{username}";
 
     if (username === undefined || username === null)
