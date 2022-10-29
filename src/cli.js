@@ -106,7 +106,7 @@ try {
     console.log(stdout);
   });
 } catch (e) {
-  console.log(e?.output?.toString());
+  throw new Error(e?.output?.toString());
 }
 
 const outputRegex =
