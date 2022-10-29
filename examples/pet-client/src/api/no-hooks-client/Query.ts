@@ -32,8 +32,6 @@ function baseUrl() {
   return getBaseUrl() ?? '' + '/v2';
 }
 
-export const Client = () => Types.Client;
-
                         
 
 export function findPetsByStatusUrl(status: Types.Status[]): string {

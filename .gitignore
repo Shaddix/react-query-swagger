@@ -494,3 +494,10 @@ src/templates_no_hooks/PersistorHydrator.Header.liquid
 src/templates_no_hooks/PersistorHydrator.liquid
 src/templates_no_hooks/JsonParseReviver.liquid
 src/templates_v3/JsonParseReviver.liquid
+src/templates_no_hooks/ReactQuery.GetClientCall.liquid
+src/templates_no_hooks/modules/ReactQuery.GetClientCall.liquid
+src/templates_no_hooks/original/ReactQuery.GetClientCall.liquid
+src/templates_v3/ReactQuery.GetClientCall.liquid
+src/templates_v3/modules/ReactQuery.GetClientCall.liquid
+src/templates_v3/original/ReactQuery.GetClientCall.liquid
+src/templates/ReactQuery.GetClientCall.liquid

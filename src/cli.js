@@ -95,6 +95,7 @@ copyFileSync(join(pathToTemplates, sourceFolder, 'Client.ProcessResponse.Return.
 copyFileSync(join(pathToTemplates, sourceFolder, 'Client.ProcessResponse.HandleStatusCode.liquid'), join(pathToTemplates, 'Client.ProcessResponse.HandleStatusCode.liquid'));
 copyFileSync(join(pathToTemplates, sourceFolder, 'ReactQuery.GetClientFunction.liquid'), join(pathToTemplates, 'ReactQuery.GetClientFunction.liquid'));
 copyFileSync(join(pathToTemplates, sourceFolder, 'ReactQuery.GetClientFactory.liquid'), join(pathToTemplates, 'ReactQuery.GetClientFactory.liquid'));
+copyFileSync(join(pathToTemplates, sourceFolder, 'ReactQuery.GetClientCall.liquid'), join(pathToTemplates, 'ReactQuery.GetClientCall.liquid'));
 
 
 const isYarn = process.env.npm_execpath.includes('yarn');
