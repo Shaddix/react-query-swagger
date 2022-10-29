@@ -1208,8 +1208,8 @@ export class Client {
     }
 }
 type UploadFileMutationParameters = {
-  additionalMetadata?: string | null | undefined;
-  file?: FileParameter | null | undefined;
+  additionalMetadata?: string | null | undefined ; 
+  file?: FileParameter | null | undefined ; 
 };
 
 type FindPetsByStatusQueryParameters = {
@@ -1225,8 +1225,8 @@ type GetPetByIdQueryParameters = {
 };
 
 type UpdatePetWithFormMutationParameters = {
-  name?: string | null | undefined;
-  status?: string | null | undefined;
+  name?: string | null | undefined ; 
+  status?: string | null | undefined ; 
 };
 
 type GetOrderByIdQueryParameters = {
