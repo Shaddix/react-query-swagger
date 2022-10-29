@@ -1,5 +1,5 @@
 import { throwException, isAxiosError } from '../client';
-import { {% if Framework.IsAxios -%}getAxios{%else%}getFetch{%endif%}, getBaseUrl } from './helpers';
+import { getAxios, getBaseUrl, getJsonParseReviver } from './helpers';
 
 {% for operation in Operations %}
 

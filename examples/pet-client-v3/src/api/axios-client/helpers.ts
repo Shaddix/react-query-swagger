@@ -28,6 +28,12 @@ export function getClientFactory() {
 */
 export function createClient<T>(type: (new () => T)) {
   return _clientFactoryFunction(type);
+}let _jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+export function getJsonParseReviver() {
+  return _jsonParseReviver;
+}
+export function setJsonParseReviver(value: ((key: string, value: any) => any) | undefined) {
+  _jsonParseReviver = value;
 }
 const _resultTypesByQueryKey: Record<string, () => { init(data: any): void }> = {};
 export function addResultTypeFactory(typeName: string, factory: () => { init(data: any): void }) {
@@ -47,6 +53,17 @@ export function trimArrayEnd<T>(arr: T[]): T[] {
         }
     }
     return lastDefinedValueIndex === arr.length - 1 ? arr : arr.slice(0, lastDefinedValueIndex + 1);
+}
+
+export function addMetaToOptions<T extends {meta?: QueryMeta | MutationMeta | undefined}>(options: T | undefined, metaContext: QueryMetaContextValue): T | undefined {
+  if (metaContext.metaFn) {
+    options = options ?? { } as any;
+    options!.meta = {
+      ...metaContext.metaFn(),
+      ...options!.meta,
+    };
+  }
+  return options;
 }
 
 /*
@@ -92,14 +109,4 @@ export function setAxiosFactory(factory: () => AxiosInstance) {
   _axiosFactory = factory;
 }
 
-export function addMetaToOptions<T extends {meta?: QueryMeta | MutationMeta | undefined}>(options: T | undefined, metaContext: QueryMetaContextValue): T | undefined {
-  if (metaContext.metaFn) {
-    options = options ?? { } as any;
-    options!.meta = {
-      ...metaContext.metaFn(),
-      ...options!.meta,
-    };
-  }
-  return options;
-}
 //-----/ReactQueryFile----

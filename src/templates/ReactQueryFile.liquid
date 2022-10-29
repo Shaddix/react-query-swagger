@@ -9,6 +9,7 @@ import axios, { AxiosInstance }  from 'axios';
 {%         endif -%}
 
 {%- template ReactQuery.GetClientFactory -%}
+{%- template JsonParseReviver -%}
 
 const _resultTypesByQueryKey: Record<string, () => { init(data: any): void }> = {};
 export function addResultTypeFactory(typeName: string, factory: () => { init(data: any): void }) {
@@ -30,6 +31,17 @@ export function trimArrayEnd<T>(arr: T[]): T[] {
     return lastDefinedValueIndex === arr.length - 1 ? arr : arr.slice(0, lastDefinedValueIndex + 1);
 }
 
+
+export function addMetaToOptions<T extends {meta?: QueryMeta | MutationMeta | undefined}>(options: T | undefined, metaContext: QueryMetaContextValue): T | undefined {
+  if (metaContext.metaFn) {
+    options = options ?? { } as any;
+    options!.meta = {
+      ...metaContext.metaFn(),
+      ...options!.meta,
+    };
+  }
+  return options;
+}
 
 /*
   Determines if first parameter of useSomethingQuery is an object with query parameters, or it's a regular parameter
@@ -91,14 +103,4 @@ export function setFetchFactory(factory: () => { fetch(url: RequestInfo, init?: 
 }
 {%         endif -%}
 
-export function addMetaToOptions<T extends {meta?: QueryMeta | MutationMeta | undefined}>(options: T | undefined, metaContext: QueryMetaContextValue): T | undefined {
-  if (metaContext.metaFn) {
-    options = options ?? { } as any;
-    options!.meta = {
-      ...metaContext.metaFn(),
-      ...options!.meta,
-    };
-  }
-  return options;
-}
 //-----/ReactQueryFile----

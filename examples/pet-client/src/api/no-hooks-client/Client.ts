@@ -1,5 +1,8 @@
 import * as Types from '../no-hooks-client';
 
+import { throwException, isAxiosError } from '../no-hooks-client';
+import { getFetch, getBaseUrl, getJsonParseReviver } from './helpers';
+
 /**
  * uploads an image
  * @param petId ID of pet to update
@@ -40,7 +43,7 @@ function processUploadFile(response: Response): Promise<Types.ApiResponse> {
     if (status === 200) {
         return response.text().then((_responseText) => {
         let result200: any = null;
-        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, getJsonParseReviver());
         result200 = Types.ApiResponse.fromJS(resultData200);
         return result200;
         });
@@ -167,7 +170,7 @@ function processFindPetsByStatus(response: Response): Promise<Types.Pet[]> {
     if (status === 200) {
         return response.text().then((_responseText) => {
         let result200: any = null;
-        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, getJsonParseReviver());
         if (Array.isArray(resultData200)) {
             result200 = [] as any;
             for (let item of resultData200)
@@ -222,7 +225,7 @@ function processFindPetsByTags(response: Response): Promise<Types.Pet[]> {
     if (status === 200) {
         return response.text().then((_responseText) => {
         let result200: any = null;
-        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, getJsonParseReviver());
         if (Array.isArray(resultData200)) {
             result200 = [] as any;
             for (let item of resultData200)
@@ -276,7 +279,7 @@ function processGetPetById(response: Response): Promise<Types.Pet> {
     if (status === 200) {
         return response.text().then((_responseText) => {
         let result200: any = null;
-        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, getJsonParseReviver());
         result200 = Types.Pet.fromJS(resultData200);
         return result200;
         });
@@ -420,7 +423,7 @@ function processPlaceOrder(response: Response): Promise<Types.Order> {
     if (status === 200) {
         return response.text().then((_responseText) => {
         let result200: any = null;
-        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, getJsonParseReviver());
         result200 = Types.Order.fromJS(resultData200);
         return result200;
         });
@@ -467,7 +470,7 @@ function processGetOrderById(response: Response): Promise<Types.Order> {
     if (status === 200) {
         return response.text().then((_responseText) => {
         let result200: any = null;
-        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, getJsonParseReviver());
         result200 = Types.Order.fromJS(resultData200);
         return result200;
         });
@@ -555,7 +558,7 @@ function processGetInventory(response: Response): Promise<{ [key: string]: numbe
     if (status === 200) {
         return response.text().then((_responseText) => {
         let result200: any = null;
-        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, getJsonParseReviver());
         if (resultData200) {
             result200 = {} as any;
             for (let key in resultData200) {
@@ -675,7 +678,7 @@ function processGetUserByName(response: Response): Promise<Types.User> {
     if (status === 200) {
         return response.text().then((_responseText) => {
         let result200: any = null;
-        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, getJsonParseReviver());
         result200 = Types.User.fromJS(resultData200);
         return result200;
         });
@@ -820,7 +823,7 @@ function processLoginUser(response: Response): Promise<string> {
     if (status === 200) {
         return response.text().then((_responseText) => {
         let result200: any = null;
-        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, getJsonParseReviver());
             result200 = resultData200 !== undefined ? resultData200 : <any>null;
     
         return result200;

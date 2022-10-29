@@ -1,7 +1,7 @@
 import * as Types from '../no-hooks-client';
 
 import { Client as ClientClass } from '../no-hooks-client';
-import { createClient, getBaseUrl } from './helpers';
+import { getBaseUrl } from './helpers';
 
 type FindPetsByStatusQueryParameters = {
     status: Types.Status[];
@@ -32,10 +32,7 @@ function baseUrl() {
   return getBaseUrl() ?? '' + '/v2';
 }
 
-function Client() {
-  const client = createClient(ClientClass);
-  return client;
-}
+export const Client = () => Types.Client;
 
                         
 

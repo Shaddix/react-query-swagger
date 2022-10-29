@@ -1,5 +1,12 @@
 //-----ReactQueryFile-----
 
+let _jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+export function getJsonParseReviver() {
+  return _jsonParseReviver;
+}
+export function setJsonParseReviver(value: ((key: string, value: any) => any) | undefined) {
+  _jsonParseReviver = value;
+}
 /*
   Determines if first parameter of useSomethingQuery is an object with query parameters, or it's a regular parameter
   Returns true if parameter is Object

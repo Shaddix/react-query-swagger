@@ -13,6 +13,9 @@ let pathToTemplates = process.mainModule.filename
   .replace('cli.js', 'templates')
   .replace('.bin/react-query-swagger', 'react-query-swagger/templates');
 if (noHooks) {
+  if (isV4) {
+    throw new Error('/no-hooks option is incompatible with /tanstack');
+  }
   pathToTemplates = pathToTemplates.replace(/templates$/, 'templates_no_hooks');
 } else if (!isV4) {
   pathToTemplates = pathToTemplates.replace(/templates$/, 'templates_v3');
@@ -234,6 +237,7 @@ function postProcessClientContent(content, outputFileWithoutExtension) {
   content = content
     .replaceAll(` from '../client';`, ` from '../${outputFileWithoutExtension}';`)
     .replaceAll('this.baseUrl +', 'getBaseUrl() +')
+    .replaceAll('this.jsonParseReviver', 'getJsonParseReviver()')
     .replaceAll('Types.string', 'string')
     .replaceAll('Types.number', 'number')
     .replaceAll('Types.boolean', 'boolean')

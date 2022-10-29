@@ -32,6 +32,7 @@
     "generate-axios": "react-query-swagger /tanstack /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/axios-client.ts /template:Axios /serviceHost:. /use-recommended-configuration",
     "generate-axios-date-only-test": "react-query-swagger /tanstack /fix-null-undefined-serialization /input:https://localhost:58627/swagger/v1/swagger.json /output:app/api/api-client.ts /template:Axios /serviceHost:. /generateConstructorInterface:true /use-recommended-configuration && yarn replace \"this\\.(\\w*?)\\.toISOString\\(\\) : <any>undefined\" \"this.$1.toISOString() : this.$1\" app/api/api-client.ts && yarn replace \"\\| undefined;\" \"| null;\" app/api/api-client.ts",
     "generate-fetch": "react-query-swagger /tanstack /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/fetch-client.ts /template:Fetch /serviceHost:. /generateConstructorInterface:true /markOptionalProperties:true /generateOptionalParameters:true /nullValue:undefined",
+    "generate-no-hooks-no-modules": "react-query-swagger /no-hooks /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/fetch-client.ts /template:Fetch /serviceHost:. /generateConstructorInterface:true /markOptionalProperties:true /generateOptionalParameters:true /nullValue:undefined",
     "generate-no-hooks": "react-query-swagger /no-hooks /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/no-hooks-client.ts /template:Fetch /serviceHost:. /use-recommended-configuration",
     "start": "react-scripts start",
     "build": "react-scripts build",

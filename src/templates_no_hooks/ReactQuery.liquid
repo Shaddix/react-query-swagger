@@ -1,5 +1,5 @@
 import { {{ Class }} as {{ Class }}Class } from '../client';
-import { createClient, getBaseUrl } from './helpers';
+import { getBaseUrl } from './helpers';
 
 {%- if HasOperations -%}
     {%- assign QueryClassName = Class | prepend: 'Qqqqqq' | slice: 0, Class.size | append: "Query" | slice: 6, 1000 -%}
@@ -24,10 +24,7 @@ function baseUrl() {
   return getBaseUrl() ?? '' + '{{ BaseUrl }}';
 }
 
-function Client() {
-  const client = createClient({{ Class }}Class);
-  return client;
-}
+{% template ReactQuery.GetClientFunction %}
 
     {%- for operation in Operations -%}
         {%- if operation.HttpMethodUpper == 'Get' -%}

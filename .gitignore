@@ -492,3 +492,5 @@ src/templates_no_hooks/_File.liquid
 src/templates_no_hooks/PersistorHydrator.File.liquid
 src/templates_no_hooks/PersistorHydrator.Header.liquid
 src/templates_no_hooks/PersistorHydrator.liquid
+src/templates_no_hooks/JsonParseReviver.liquid
+src/templates_v3/JsonParseReviver.liquid

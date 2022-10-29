@@ -12,7 +12,7 @@ import * as Types from '../axios-client';
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
 import { throwException, isAxiosError } from '../axios-client';
-import { getAxios, getBaseUrl } from './helpers';
+import { getAxios, getBaseUrl, getJsonParseReviver } from './helpers';
 
 /**
  * uploads an image
