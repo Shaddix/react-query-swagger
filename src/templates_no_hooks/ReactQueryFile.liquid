@@ -5,7 +5,7 @@ export { setAxiosFactory, getAxios } from './helpers';
 export { setFetchFactory, getFetch } from './helpers';
 {% endif %}
 //-----ReactQueryFile-----
-
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 {%- template ReactQuery.GetClientFactory -%}
 {%- template JsonParseReviver -%}
 

@@ -1,5 +1,5 @@
 //-----ReactQueryFile-----
-
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 let _jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 export function getJsonParseReviver() {
   return _jsonParseReviver;
