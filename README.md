@@ -132,7 +132,7 @@ You could use `setBaseUrl` and `setAxiosFactory`/`setFetchFactory` methods to co
 ### /no-hooks
 Use this flag to disable generating react-query hooks.
 
-You might want this flag if you want to use [/clients-as-modules](#/clients-as-modules), but you are not using react-query and don't need the generated hooks.
+You might want this flag if you want to use [/clients-as-modules](#clients-as-modules), but you are not using react-query and don't need the generated hooks.
 
 ### /fix-null-undefined-serialization
 This flag executes few regex replaces over the generated code.
@@ -259,7 +259,7 @@ There are some of breaking changes introduced in v15, because in v15 queries/mut
 1. Getting/Setting default query properties is now done via functions (not via properties like it was before). So, instead of using `AxiosQuery.Query.findPetsByStatusDefaultOptions` property you'd need to use `AxiosQuery.Query.getFindPetsByStatusDefaultOptions()` and `AxiosQuery.Query.setFindPetsByStatusDefaultOptions({/* options here */})`.
 1. If you used `Client` property from the Query class to access POST/PUT methods (e.g. `QueryFactory.Query.Client.addPet(...)`), you'd be better off using `QueryFactory.Client` (together with `/clients-as-modules` flag), or `QueryFactory.Query.Client()` if you want to continue using Classes instead of Modules.
 
-Also in V15 it's possible to alter NSwag Clients to use [plain functions instead of Classes](#/clients-as-modules). It makes treeshaking work for your Clients, thus significantly reducing the bundle size if you use only a few API methods. Use either `/clients-as-modules` flag directly, or `/use-recommended-configuration` which includes it.
+Also in V15 it's possible to alter NSwag Clients to use [plain functions instead of Classes](#clients-as-modules). It makes treeshaking work for your Clients, thus significantly reducing the bundle size if you use only a few API methods. Use either `/clients-as-modules` flag directly, or `/use-recommended-configuration` which includes it.
 
 ## How does it work
 Under the cover it's just a couple of template files for [NSwag](https://github.com/RicoSuter/NSwag) and a small script to easily use them.
