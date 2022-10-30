@@ -10,7 +10,7 @@ import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryC
 import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
 import { useContext } from 'react';
 {%         if Framework.IsAxios -%}
-import axios, { AxiosInstance }  from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 {%         endif -%}
 
 {%- template ReactQuery.GetClientFactory -%}
