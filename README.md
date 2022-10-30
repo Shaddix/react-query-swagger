@@ -7,7 +7,7 @@
 
 This projects autogenerates [@tanstack/query](https://tanstack.com/query) hooks based on Swagger API definitions.
 
-So, given that you have a [petstore-like API definition](https://petstore.swagger.io/), you could autogenerate a list of [react-query hooks](https://github.com/Shaddix/nswag-react-query/blob/master/examples/pet-client/src/api/axios-client.ts#L1151), to call GET methods from the API (queries). Mutations (POST/PUT/PATCH/DELETE methods) are not supported yet.
+So, given that you have a [petstore-like API definition](https://petstore.swagger.io/), you could autogenerate a list of [react-query hooks](https://github.com/Shaddix/nswag-react-query/blob/master/examples/pet-client/src/api/axios-client.ts#L1151), to call GET methods from the API (queries). or POST/PUT/PATCH/DELETE methods (mutations).
 
 ## How to add
 Install the package into your project using yarn/npm (as a dev-dependency). You'll also need to add react-query (which you probably already have if you are interested in this library).
@@ -41,12 +41,20 @@ yarn react-query-swagger /tanstack /input:https://petstore.swagger.io/v2/swagger
 
 You could check a [pet-client example](https://github.com/Shaddix/react-query-swagger/tree/master/examples/pet-client), which shows the list of pets.
 It's a standard react-query setup, to query some pet data you just need to write:
-```
-  const petsQuery = AxiosQuery.ClientQuery.useFindPetsByStatusQuery([
+```ts
+  const petsQuery = ClientQuery.useFindPetsByStatusQuery([
     Status.Available,
     Status.Pending,
     Status.Sold,
   ]);
+// then just use usual query properties
+console.log('isLoading', petsQuery.petsQuery.data?.length)
+```
+to perform some mutation you could call
+```ts
+const addPetMutation = ClientQuery.useAddPetMutation();
+// and later when submitting the form
+addPetMutation.mutate(new Pet({name: 'blablabla', photoUrls:[]}));
 ```
 ## Configuration
 ##### setBaseUrl(baseUrl: string)
