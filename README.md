@@ -41,12 +41,20 @@ yarn react-query-swagger /tanstack /input:https://petstore.swagger.io/v2/swagger
 
 You could check a [pet-client example](https://github.com/Shaddix/react-query-swagger/tree/master/examples/pet-client), which shows the list of pets.
 It's a standard react-query setup, to query some pet data you just need to write:
-```
+```ts
   const petsQuery = ClientQuery.useFindPetsByStatusQuery([
     Status.Available,
     Status.Pending,
     Status.Sold,
   ]);
+// then just use usual query properties
+console.log('isLoading', petsQuery.petsQuery.data?.length)
+```
+to perform some mutation you could call
+```ts
+const addPetMutation = ClientQuery.useAddPetMutation();
+// and later when submitting the form
+addPetMutation.mutate(new Pet({name: 'blablabla', photoUrls:[]}));
 ```
 ## Configuration
 ##### setBaseUrl(baseUrl: string)
