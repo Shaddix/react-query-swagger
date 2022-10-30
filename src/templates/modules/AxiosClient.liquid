@@ -1,6 +1,12 @@
 import { throwException, isAxiosError } from '../client';
 import { getAxios, getBaseUrl, getJsonParseReviver } from './helpers';
-
+{%- if GenerateClientInterfaces -%}
+{% if ExportTypes %}export {% endif %}interface I{{ Class }} {
+{%     for operation in Operations -%}
+    {% template Client.Method.Documentation %}
+    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): Promise<{{ operation.ResultType }}>;
+{%-     endfor -%}}
+{%- endif -%}
 {% for operation in Operations %}
 
 {% template Client.Method.Documentation %}

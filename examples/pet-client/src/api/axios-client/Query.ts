@@ -4,6 +4,7 @@ import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryC
 import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
 import { useContext } from 'react';
 import { addMetaToOptions,  trimArrayEnd, isParameterObject, getBaseUrl } from './helpers';
+export const Client = Types.Client;
 
 export type UploadFileMutationParameters = {
   additionalMetadata?: string | null | undefined ; 
