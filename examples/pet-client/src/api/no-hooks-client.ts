@@ -10,7 +10,7 @@
 
 export * as Client from './no-hooks-client/Client';
 
-export * as Query from './no-hooks-client/Query';
+
 
 export class ApiResponse implements IApiResponse {
     code?: number | null;

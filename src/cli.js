@@ -213,12 +213,13 @@ if (true) {
     const foundText = queryClass[0];
     const fileName = join(queryDir, `${name}.ts`);
 
-    
-    apiClient = apiClient.replace(foundText, `export * as ${name} from './${queryFolderName}/${name}';`)
-
     content = postProcessClientContent(content, outputFileWithoutExtension);
-   
-    writeFileSync(fileName, content);
+    if (content) {
+      writeFileSync(fileName, content);
+      apiClient = apiClient.replace(foundText, `export * as ${name} from './${queryFolderName}/${name}';`)
+    } else {
+      apiClient = apiClient.replace(foundText, ``)
+    }
   }
 
   apiClient = apiClient.replaceAll(`from './helpers';`, `from './${queryFolderName}/helpers';`)
@@ -236,6 +237,8 @@ function extractQueryHelperFunctions(apiClient, queryDir) {
 }
 
 function postProcessClientContent(content, outputFileWithoutExtension) {
+  if (!content.trim())
+    return '';
   content = content
     .replaceAll(` from '../client';`, ` from '../${outputFileWithoutExtension}';`)
     .replaceAll('this.baseUrl +', 'getBaseUrl() +')
