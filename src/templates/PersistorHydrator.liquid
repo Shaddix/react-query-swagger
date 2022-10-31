@@ -1,4 +1,5 @@
-﻿{% for operation in Operations -%}
+﻿//-----PersistorHydrator-----
+{%- for operation in Operations -%}
 {%- if operation.HttpMethodUpper == 'Get' and operation.HasResultType -%}
   {%- assign lastSymbol = operation.UnwrappedResultType | slice: -1 -%}
   {%- if lastSymbol != '}' -%}
@@ -7,8 +8,9 @@
       {%- assign typeWithoutBrackets = operation.UnwrappedResultType |  prepend: '  ' | slice: 0, operation.UnwrappedResultType.size | lstrip -%}
     {%- endif -%}
     {%- if typeWithoutBrackets != 'string' and typeWithoutBrackets != 'number' and typeWithoutBrackets != 'boolean' and typeWithoutBrackets != 'FileResponse' -%}
-resultTypesByQueryKey['{{ Class }}___{{ operation.ActualOperationName }}'] = () => new {{ typeWithoutBrackets }}();
+  addResultTypeFactory('{{ Class }}___{{ operation.ActualOperationName }}', () => new {{ typeWithoutBrackets }}());
     {%- endif -%}
   {%- endif -%}
 {% endif -%}
-{% endfor -%}
+{%- endfor -%}
+//-----/PersistorHydrator-----

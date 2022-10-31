@@ -1,0 +1,112 @@
+{% if operation.CanRequestBlobs and response.IsFile -%}
+{%     if Framework.IsAngularJS -%}
+const contentDisposition = response.headers ? response.headers("content-disposition") : undefined;
+{%     elsif Framework.IsAxios -%}
+const contentDisposition = response.headers ? response.headers["content-disposition"] : undefined;
+{%     else -%}
+const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+{%     endif -%}
+let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
+let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
+if (fileName) {
+    fileName = decodeURIComponent(fileName);
+} else {
+    fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+    fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+}
+{%     if operation.WrapResponse -%}
+{%         if Framework.IsAngular -%}
+return {{ Framework.RxJs.ObservableOfMethod }}(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: {% if Framework.Angular.UseHttpClient %}responseBlob as any{% else %}response.blob() as any{% endif %}, status: status, headers: _headers }));
+{%         elsif Framework.IsAngularJS -%}
+return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers }));
+{%         elsif Framework.IsAxios -%}
+return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, status: status, data: new Blob([response.data], { type: response.headers["content-type"] }), headers: _headers }));
+{%         else -%}
+return response.blob().then(blob => { return new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: blob, status: status, headers: _headers }); });
+{%         endif -%}
+{%     else -%}
+{%         if Framework.IsAngular -%}
+return {{ Framework.RxJs.ObservableOfMethod }}({ fileName: fileName, data: {% if Framework.Angular.UseHttpClient %}responseBlob as any{% else %}response.blob() as any{% endif %}, status: status, headers: _headers });
+{%         elsif Framework.IsAngularJS -%}
+return this.q.resolve({ fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers });
+{%         elsif Framework.IsAxios -%}
+return Promise.resolve({ fileName: fileName, status: status, data: new Blob([response.data], { type: response.headers["content-type"] }), headers: _headers });
+{%         else -%}
+return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+{%         endif -%}
+{%     endif -%}
+{% else -%}
+{% template Client.ProcessResponse.ReadBodyStart %}
+{%     if response.HasType -%}
+let result{{ response.StatusCode }}: any = null;
+{%         if Framework.IsAxios -%}
+let resultData{{ response.StatusCode }}  = _responseText;
+{%             if response.UseDtoClass -%}
+{{ response.DataConversionCode }}
+{%             else -%}
+result{{ response.StatusCode }} = {% unless response.IsPlainText %}JSON.parse({% endunless %}resultData{{ response.StatusCode }}{% unless response.IsPlainText %}){% endunless %};
+{%             endif -%}
+{%         else -%}
+{%              if response.UseDtoClass or response.IsDateOrDateTime -%}
+let resultData{{ response.StatusCode }} = _responseText === "" ? null : {% if response.IsPlainText %}_responseText{% else %}{% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver){% endif %};
+{{ response.DataConversionCode }}
+{%              else -%}
+result{{ response.StatusCode }} = _responseText === "" ? null : {% if response.IsPlainText %}_responseText{% else %}{% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver){% endif %} as {{ response.Type }};
+{%              endif -%}
+{%         endif -%}
+{%         if response.IsSuccess -%}
+{%             if operation.WrapResponse -%}
+{%                 if Framework.IsAngular -%}
+return {{ Framework.RxJs.ObservableOfMethod }}(new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
+{%                 elsif Framework.IsAngularJS -%}
+return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
+{%                 elsif Framework.IsAxios -%}
+return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResultType }}(status, _headers, result{{ response.StatusCode }}));
+{%                 else -%}
+return new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }});
+{%                 endif -%}
+{%             else -%}
+{%                 if Framework.IsAngular -%}
+return {{ Framework.RxJs.ObservableOfMethod }}(result{{ response.StatusCode }});
+{%                 elsif Framework.IsAngularJS -%}
+return this.q.resolve(result{{ response.StatusCode }});
+{%                 elsif Framework.IsAxios -%}
+return Promise.resolve<{{ operation.ResultType }}>(result{{ response.StatusCode }});
+{%                 else -%}
+return result{{ response.StatusCode }};
+{%                 endif -%}
+{%             endif -%}
+{%         else -%}
+return throwException({% if Framework.IsAngularJS %}this.q, {% endif %}"{{ response.ExceptionDescription }}", status, _responseText, _headers, result{{ response.StatusCode }});
+{%         endif -%}
+{%     elsif response.IsSuccess -%}
+{%         if operation.WrapResponse -%}
+{%             if Framework.IsAngular -%}
+return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, null as any));
+{%             elsif Framework.IsAngularJS -%}
+return this.q.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, null as any));
+{%             elsif Framework.IsAxios -%}
+return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResultType }}(status, _headers, null as any));
+{%             else -%}
+return new {{ operation.ResponseClass }}(status, _headers, null as any);
+{%             endif -%}
+{%         else -%}
+{%             if Framework.IsAngular -%}
+{%                 if Framework.UseRxJs7 -%}
+return {{ Framework.RxJs.ObservableOfMethod }}(null as any);
+{%                 else -%}
+return {{ Framework.RxJs.ObservableOfMethod }}<{{operation.ResultType}}>(null as any);
+{%                 endif -%}
+{%             elsif Framework.IsAngularJS -%}
+return this.q.resolve<{{ operation.ResultType }}>(null as any);
+{%             elsif Framework.IsAxios -%}
+return Promise.resolve<{{ operation.ResultType }}>(null as any);
+{%             else -%}
+return{% if operation.HasResultType %} null{% endif %};
+{%             endif -%}
+{%         endif -%}
+{%     else -%}
+return throwException({% if Framework.IsAngularJS %}this.q, {% endif %}"{{ response.ExceptionDescription }}", status, _responseText, _headers);
+{%     endif -%}
+{% template Client.ProcessResponse.ReadBodyEnd %}
+{% endif -%}
