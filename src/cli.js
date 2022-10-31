@@ -203,6 +203,7 @@ if (isClientsAsModules) {
 }
 
 if (true) {
+  // split react-query Controller per file
   let apiClient = readFileSync(outputPath, 'utf-8');
 
   apiClient = extractQueryHelperFunctions(apiClient, queryDir);
@@ -229,6 +230,17 @@ if (true) {
 function extractQueryHelperFunctions(apiClient, queryDir) {
   const helperFunctionsMatch = apiClient.match(/\/\/-----ReactQueryFile-----(?<content>[\s\S]*?)\/\/-----\/ReactQueryFile----/gims)
   const foundText = helperFunctionsMatch[0];
+
+  const addResultTypeFactories = apiClient.matchAll(/\/\/-----PersistorHydrator-----(?<content>[\s\S]*?)\/\/-----\/PersistorHydrator-----/gims)
+  let addResultTypeFactoryText = '';
+  for (let addResultTypeFactory of addResultTypeFactories) {
+    let {content} = addResultTypeFactory.groups;
+    addResultTypeFactoryText = addResultTypeFactoryText + content + '\n';
+    apiClient = apiClient.replace(addResultTypeFactory[0], ``)
+  }
+  apiClient = apiClient.replace('/*--addResultTypeFactory-placeholder--*/', addResultTypeFactoryText);
+
+
   const fileName = join(queryDir, `helpers.ts`);
 
   writeFileSync(fileName, foundText);

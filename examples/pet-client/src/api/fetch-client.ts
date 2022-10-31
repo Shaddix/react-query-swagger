@@ -923,11 +923,7 @@ export class Client {
 
 export * as Query from './fetch-client/Query';
 
-addResultTypeFactory('Client___findPetsByStatus', () => new Pet());
-addResultTypeFactory('Client___findPetsByTags', () => new Pet());
-addResultTypeFactory('Client___getPetById', () => new Pet());
-addResultTypeFactory('Client___getOrderById', () => new Order());
-addResultTypeFactory('Client___getUserByName', () => new User());
+
 
 export class ApiResponse implements IApiResponse {
     code?: number | undefined;
@@ -1382,5 +1378,16 @@ export function getResultTypeClassKey(queryKey: QueryKey): string {
 
   // We actually should never reach this point :)
   return queryKey.join('___');
+}
+
+export function initPersistor() {
+  
+  addResultTypeFactory('Client___findPetsByStatus', () => new Pet());
+  addResultTypeFactory('Client___findPetsByTags', () => new Pet());
+  addResultTypeFactory('Client___getPetById', () => new Pet());
+  addResultTypeFactory('Client___getOrderById', () => new Order());
+  addResultTypeFactory('Client___getUserByName', () => new User());
+
+
 }
 //-----/PersistorHydrator.File----
