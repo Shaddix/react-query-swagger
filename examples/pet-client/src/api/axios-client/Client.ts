@@ -9,10 +9,10 @@ import * as Types from '../axios-client';
 /* tslint:disable */
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
+import { AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
 import { throwException, isAxiosError } from '../axios-client';
-import { getAxios, getBaseUrl, getJsonParseReviver } from './helpers';
+import { getAxios, getBaseUrl } from './helpers';
 
 /**
  * uploads an image

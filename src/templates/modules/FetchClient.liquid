@@ -1,5 +1,5 @@
 import { throwException } from '../client';
-import { getFetch, getBaseUrl, getJsonParseReviver } from './helpers';
+import { getFetch, getBaseUrl{% unless Framework.IsAxios -%}, getJsonParseReviver{% endunless %} } from './helpers';
 
 {% for operation in Operations %}
 

@@ -1,6 +1,7 @@
 ﻿{%- if HasOperations -%}
 //-----ClientClass--{{Class}}---
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
+{% template ClientFileHeader %}
+import { AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
 {% template _AxiosClient %}
 //-----/ClientClass----

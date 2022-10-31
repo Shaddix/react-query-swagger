@@ -1,5 +1,5 @@
 import { throwException, isAxiosError } from '../client';
-import { getAxios, getBaseUrl, getJsonParseReviver } from './helpers';
+import { getAxios, getBaseUrl } from './helpers';
 {%- if GenerateClientInterfaces -%}
 {% if ExportTypes %}export {% endif %}interface I{{ Class }} {
 {%     for operation in Operations -%}

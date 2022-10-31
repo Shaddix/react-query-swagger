@@ -4,13 +4,6 @@ import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
 import { useContext } from 'react';
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
-let _jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-export function getJsonParseReviver() {
-  return _jsonParseReviver;
-}
-export function setJsonParseReviver(value: ((key: string, value: any) => any) | undefined) {
-  _jsonParseReviver = value;
-}
 const _resultTypesByQueryKey: Record<string, () => { init(data: any): void }> = {};
 export function addResultTypeFactory(typeName: string, factory: () => { init(data: any): void }) {
   _resultTypesByQueryKey[typeName] = factory;

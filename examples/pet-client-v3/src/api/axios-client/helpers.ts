@@ -28,12 +28,6 @@ export function getClientFactory() {
 */
 export function createClient<T>(type: (new () => T)) {
   return _clientFactoryFunction(type);
-}let _jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-export function getJsonParseReviver() {
-  return _jsonParseReviver;
-}
-export function setJsonParseReviver(value: ((key: string, value: any) => any) | undefined) {
-  _jsonParseReviver = value;
 }
 const _resultTypesByQueryKey: Record<string, () => { init(data: any): void }> = {};
 export function addResultTypeFactory(typeName: string, factory: () => { init(data: any): void }) {
