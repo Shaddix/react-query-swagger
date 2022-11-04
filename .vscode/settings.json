@@ -8,5 +8,6 @@
   "eslint.format.enable": true,
   "eslint.packageManager": "yarn",
   "eslint.run": "onSave",
-
+  "git.pullTags": false,
+  "git.rebaseWhenSync": true
 }
