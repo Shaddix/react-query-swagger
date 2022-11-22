@@ -1,5 +1,4 @@
 import * as Types from '../no-hooks-client';
-
 import { throwException } from '../no-hooks-client';
 import { getFetch, getBaseUrl, getJsonParseReviver } from './helpers';
 

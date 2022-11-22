@@ -267,8 +267,9 @@ function postProcessClientContent(content, outputFileWithoutExtension) {
     .replaceAll('formatDate(', 'Types.formatDate(')
     .replaceAll(/([a-zA-Z0-9_]*?)\.fromJS\(/g, 'Types.$1.fromJS(')
     ;
-  content = `import * as Types from '../${outputFileWithoutExtension}';\n${content}`;
-return content;
+  const additionalImport = `import * as Types from '../${outputFileWithoutExtension}';\n`;
+  content = content.replace('import', additionalImport + 'import').trim();
+  return content;
 }
 
 function copyFromOriginalOrModules(pathToTemplates, isClientsAsModules, sourceFileName, destinationFileName) {
