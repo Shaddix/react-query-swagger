@@ -440,7 +440,7 @@ export function deserializeClassesInQueryData(client: PersistedClient) {
  * Pass this function as `deserialize` option to createSyncStoragePersister/createAsyncStoragePersister
  * to correctly deserialize your DTOs (including Dates)
  */
-export function persistorDeserialize(cache: string): PersistedClient {
+export function persisterDeserialize(cache: string): PersistedClient {
   const client: PersistedClient = JSON.parse(cache);
   deserializeClassesInQueryData(client);
   deserializeDatesInQueryKeys(client);
@@ -475,7 +475,7 @@ export function getResultTypeClassKey(queryKey: QueryKey): string {
   return queryKey.join('___');
 }
 
-export function initPersistor() {
+export function initPersister() {
   
   addResultTypeFactory('Client___findPetsByStatus', () => new Pet());
   addResultTypeFactory('Client___findPetsByTags', () => new Pet());

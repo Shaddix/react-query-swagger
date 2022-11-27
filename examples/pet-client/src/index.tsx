@@ -7,12 +7,13 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AxiosQuery } from './api';
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
 import { persistQueryClient } from '@tanstack/react-query-persist-client';
-import { persistorDeserialize } from './api/axios-client';
+import { initPersister, persisterDeserialize } from './api/axios-client';
 
 const queryClient = new QueryClient();
+initPersister();
 const storagePersister = createSyncStoragePersister({
   storage: window.localStorage,
-  deserialize: persistorDeserialize,
+  deserialize: persisterDeserialize,
 });
 persistQueryClient({
   queryClient,
