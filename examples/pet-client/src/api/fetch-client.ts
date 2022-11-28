@@ -1311,7 +1311,7 @@ export { setFetchFactory, getFetch } from './fetch-client/helpers';
 
 //-----PersistorHydrator.File-----
 import type { PersistedClient } from '@tanstack/react-query-persist-client';
-import type { QueryKey } from '@tanstack/react-query'
+import type { DehydratedState, QueryKey } from '@tanstack/react-query'
 import { getResultTypeFactory } from './fetch-client/helpers';
 
 /*
@@ -1319,27 +1319,33 @@ import { getResultTypeFactory } from './fetch-client/helpers';
  * (otherwise they are deserialized as strings by default, and your queries are broken).
  */
 export function deserializeDate(str: unknown) {
-  const date = new Date(str as string);
-  const isDate = date instanceof Date && !isNaN(date as any) && date.toISOString() === str;
+  if (!str || typeof str !== 'string') return str;
+  if (!/^\d\d\d\d\-\d\d\-\d\d/.test(str)) return str;
+  
+  const date = new Date(str);
+  const isDate = date instanceof Date && !isNaN(date as any);
+  
   return isDate ? date : str;
 }
-
-export function deserializeDatesInQueryKeys(client: PersistedClient) {
-  client.clientState.queries.forEach((query) => {
-    const data: any = query.state.data;
-    query.queryKey = query.queryKey.map(x => deserializeDate(x));
-  });
+type DehydratedQuery = DehydratedState['queries'][number]
+export function deserializeDatesInQueryKeys(query: DehydratedQuery) {
+  const data: any = query.state.data;
+  query.queryKey = query.queryKey
+    // We need to replace `null` with `undefined` in query key, because
+    // `undefined` is serialized as `null`.
+    // And most probably if we have `null` in QueryKey it actually means `undefined`.
+    // We can't keep nulls, because they have a different meaning, and e.g. boolean parameters are not allowed to be null.
+    .map(x => (x === null ? undefined : x))
+    .map(x => deserializeDate(x));
 }
 
-export function deserializeClassesInQueryData(client: PersistedClient) {
-  client.clientState.queries.forEach((query) => {
-    const data: any = query.state.data;
-    if (Array.isArray(data)) {
-      query.state.data = data.map(elem => constructDtoClass(query.queryKey, elem));
-    } else {
-      query.state.data = constructDtoClass(query.queryKey, data);
-    }
-  });
+export function deserializeClassesInQueryData(query: DehydratedQuery) {
+  const data: any = query.state.data;
+  if (Array.isArray(data)) {
+    query.state.data = data.map(elem => constructDtoClass(query.queryKey, elem));
+  } else {
+    query.state.data = constructDtoClass(query.queryKey, data);
+  }
 }
 /*
  * Pass this function as `deserialize` option to createSyncStoragePersister/createAsyncStoragePersister
@@ -1347,8 +1353,10 @@ export function deserializeClassesInQueryData(client: PersistedClient) {
  */
 export function persisterDeserialize(cache: string): PersistedClient {
   const client: PersistedClient = JSON.parse(cache);
-  deserializeClassesInQueryData(client);
-  deserializeDatesInQueryKeys(client);
+  client.clientState.queries.forEach((query) => {
+    deserializeClassesInQueryData(query);
+    deserializeDatesInQueryKeys(query);
+  });
 
   return client;
 }
