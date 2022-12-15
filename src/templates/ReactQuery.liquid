@@ -87,7 +87,9 @@ export function {{ operation.MethodAccessModifier }}use{{ operation.ActualOperat
 {%- endif -%}
 {%- if operation.HttpMethodUpper == 'Get' -%}
     {%- assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: QueryClassName | append: 'Parameters' -%}
-let {{ operation.ActualOperationName }}DefaultOptions: UseQueryOptions<{{ ResultType }}, unknown, {{ ResultType }}> = {};
+let {{ operation.ActualOperationName }}DefaultOptions: UseQueryOptions<{{ ResultType }}, unknown, {{ ResultType }}> = {
+  queryFn: __{{ operation.ActualOperationName }},
+};
 export function get{{ operation.ActualOperationName | capitalize }}DefaultOptions(): UseQueryOptions<{{ ResultType }}, unknown, {{ ResultType }}> {
   return {{ operation.ActualOperationName }}DefaultOptions;
 };
@@ -162,7 +164,6 @@ export function use{{ operation.ActualOperationName | capitalize }}Query<TSelect
 
   return useQuery<{{ ResultType }}, TError, TSelectData>({
     {%- comment -%} We add __ to the function name to avoid name clashing with parameters of this function {%- endcomment -%}
-    queryFn: __{{ operation.ActualOperationName }},
     queryKey: {{ operation.ActualOperationName }}QueryKey({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% unless forloop.last %}, {% endunless -%}{% endfor %}),
     ...{{ operation.ActualOperationName }}DefaultOptions as unknown as UseQueryOptions<{{ ResultType }}, TError, TSelectData>,
     ...options,
