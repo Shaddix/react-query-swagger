@@ -105,6 +105,8 @@ const localStoragePersister = createSyncStoragePersister({
 });
 ```
 
+For `useInfiniteQuery` the queryKey parameter should start with 2 same items as the underlying 'normal' query ([see details](https://github.com/Shaddix/react-query-swagger/issues/11#issuecomment-1356787807)).
+
 ### QueryMetaProvider
 
 Injects `meta` option to all queries in children components. Might be useful if e.g. you want to refetch all queries in certain part of your app.
