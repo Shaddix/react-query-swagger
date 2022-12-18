@@ -513,3 +513,4 @@ src/templates_no_hooks/original/OperationNameSafe.liquid
 !/src/templates_vue/ReactQueryFile.liquid
 !/src/templates_vue/File.liquid
 !/src/templates_vue/AxiosClient.liquid
+!/src/templates_vue/ReactQuery.MetaFile.liquid

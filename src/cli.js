@@ -213,6 +213,14 @@ if (isVue) {
     /@tanstack\/react-query/gim,
     '@tanstack/vue-query',
   );
+  apiClient = apiClient.replaceAll(
+    /\s+const metaContext = useContext\(QueryMetaContext\);/gim,
+    '',
+  );
+  apiClient = apiClient.replaceAll(
+    /\s+options = addMetaToOptions\(options, metaContext\);/gim,
+    '',
+  );
 
   writeFileSync(outputPath, apiClient);
 }

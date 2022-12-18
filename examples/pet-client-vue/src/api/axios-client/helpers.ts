@@ -1,21 +1,18 @@
 //-----ReactQueryFile-----
+import { useQuery, useMutation } from '@tanstack/vue-query';
 import type {
-  useQuery,
   UseQueryResult,
   QueryFunctionContext,
   UseQueryOptions,
   QueryClient,
   QueryKey,
-  useMutation,
   MutationKey,
   UseMutationOptions,
+  UseMutationResult,
   QueryMeta,
   MutationMeta,
 } from '@tanstack/vue-query';
-import type {
-  QueryMetaContext,
-  QueryMetaContextValue,
-} from 'react-query-swagger';
+
 import { useContext } from 'react';
 import axios, {
   AxiosError,

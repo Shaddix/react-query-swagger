@@ -1,7 +1,7 @@
 ﻿{%- if HasOperations -%}
 //-----ClientClass--{{Class}}---
 {% template ClientFileHeader %}
-import type { AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
+import { AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
 {% template _AxiosClient %}
 //-----/ClientClass----
@@ -13,5 +13,3 @@ import type { AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 {% template ReactQuery %}
 //-----/ReactQueryClass----
 {% endif %}
-
-{%- template PersistorHydrator -%}

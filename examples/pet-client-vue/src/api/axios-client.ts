@@ -8,13 +8,11 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
-import type { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
 export * as Client from './axios-client/Client';
 
 export * as Query from './axios-client/Query';
-
-
 
 export class ApiResponse implements IApiResponse {
     code?: number | undefined;
@@ -399,6 +397,6 @@ export function isAxiosError(obj: any | undefined): obj is AxiosError {
     return obj && obj.isAxiosError === true;
 }
 
+import { addResultTypeFactory } from './axios-client/helpers';
 export { setBaseUrl } from './axios-client/helpers';
 export { setAxiosFactory, getAxios } from './axios-client/helpers';
-
