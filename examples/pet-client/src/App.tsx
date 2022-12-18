@@ -5,6 +5,7 @@ import { IPet, Pet, Status } from './api/axios-client';
 import { PetsList } from './components/PetsList';
 import { QueryMetaProvider } from 'react-query-swagger';
 import { QueryObserver, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Infinite } from './Infinite';
 
 function App() {
   const queryClient = useQueryClient();
@@ -51,6 +52,7 @@ function App() {
         e.preventDefault();
         addPetMutation.mutate(new Pet({name: addPetName, photoUrls:[]}));
       }}><input name="name" value={addPetName} onChange={(e)=>setAddPetName(e.target.value)} /><input type="submit" value="Add"/></form>
+      <Infinite />
       <div
         style={{
           display: 'flex',

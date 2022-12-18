@@ -1327,10 +1327,9 @@ export function deserializeDate(str: unknown) {
   
   return isDate ? date : str;
 }
-type DehydratedQuery = DehydratedState['queries'][number]
-export function deserializeDatesInQueryKeys(query: DehydratedQuery) {
-  const data: any = query.state.data;
-  query.queryKey = query.queryKey
+
+export function deserializeDatesInQueryKeys(queryKey: QueryKey) {
+  return queryKey
     // We need to replace `null` with `undefined` in query key, because
     // `undefined` is serialized as `null`.
     // And most probably if we have `null` in QueryKey it actually means `undefined`.
@@ -1339,14 +1338,19 @@ export function deserializeDatesInQueryKeys(query: DehydratedQuery) {
     .map(x => deserializeDate(x));
 }
 
-export function deserializeClassesInQueryData(query: DehydratedQuery) {
-  const data: any = query.state.data;
-  if (Array.isArray(data)) {
-    query.state.data = data.map(elem => constructDtoClass(query.queryKey, elem));
+export function deserializeClassesInQueryData(queryKey: QueryKey, data: any) {
+  if (!data) {
+    return data;
+  } else if ('pages' in data && 'pageParams' in data && Array.isArray(data.pages) && Array.isArray(data.pageParams)) {
+    // infinite query
+    data.pages = data.pages.map((page:any) => deserializeClassesInQueryData(queryKey, page));
+  } else if (Array.isArray(data)) {
+    return data.map(elem => constructDtoClass(queryKey, elem));
   } else {
-    query.state.data = constructDtoClass(query.queryKey, data);
+    return constructDtoClass(queryKey, data);
   }
 }
+
 /*
  * Pass this function as `deserialize` option to createSyncStoragePersister/createAsyncStoragePersister
  * to correctly deserialize your DTOs (including Dates)
@@ -1354,8 +1358,8 @@ export function deserializeClassesInQueryData(query: DehydratedQuery) {
 export function persisterDeserialize(cache: string): PersistedClient {
   const client: PersistedClient = JSON.parse(cache);
   client.clientState.queries.forEach((query) => {
-    deserializeClassesInQueryData(query);
-    deserializeDatesInQueryKeys(query);
+    query.state.data = deserializeClassesInQueryData(query.queryKey, query.state.data);
+    query.queryKey = deserializeDatesInQueryKeys(query.queryKey);
   });
 
   return client;
