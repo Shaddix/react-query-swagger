@@ -2,9 +2,21 @@
 'use strict';
 const { execSync } = require('child_process');
 const { dirname, join, parse } = require('path');
-const { readFileSync, writeFileSync, existsSync, rmSync, mkdirSync, copyFileSync, readdirSync } = require('fs');
+const {
+  readFileSync,
+  writeFileSync,
+  existsSync,
+  rmSync,
+  mkdirSync,
+  copyFileSync,
+  readdirSync,
+} = require('fs');
 let args = process.argv.splice(2).join(' ');
-const isV4 = args.includes('/tanstack');
+
+const isVue = args.includes('/vue');
+const isSolid = args.includes('/solid');
+const isSvelte = args.includes('/svelte');
+const isV4 = isVue || isSolid || isSvelte || args.includes('/tanstack');
 // this one might be useful if you only want to have
 // to initialize Axios and baseUrl from a single place
 const noHooks = args.includes('/no-hooks');
@@ -12,8 +24,18 @@ const noHooks = args.includes('/no-hooks');
 let pathToTemplates = process.mainModule.filename
   .replace('cli.js', 'templates')
   .replace('.bin/react-query-swagger', 'react-query-swagger/templates');
+
+if (isVue) {
+  pathToTemplates = pathToTemplates.replace(/templates$/, 'templates_vue');
+}
 if (noHooks) {
-  if (isV4) {
+  if (isVue) {
+    throw new Error('/no-hooks option is incompatible with /vue');
+  } else if (isSolid) {
+    throw new Error('/no-hooks option is incompatible with /solid');
+  } else if (isSvelte) {
+    throw new Error('/no-hooks option is incompatible with /svelte');
+  } else if (isV4) {
     throw new Error('/no-hooks option is incompatible with /tanstack');
   }
   pathToTemplates = pathToTemplates.replace(/templates$/, 'templates_no_hooks');
@@ -77,26 +99,45 @@ if (args.includes('/use-recommended-configuration')) {
    * This makes clients tree-shakable, since the bundler could remove functions that are not actually used in code.
    * This flag is incompatible with /clientBaseClass and /generateClientInterfaces
    */
-  args += ' /clients-as-modules';
+  args += ' /modules';
 }
 
-const isClientsAsModules = args.includes('/clients-as-modules');
+const isClientsAsModules =
+  args.includes('/modules') || args.includes('/clients-as-modules');
 if (isClientsAsModules) {
-  if (args.includes('/clientBaseClass') || args.includes('/generateClientInterfaces')) {
-    console.error('/clients-as-modules flag is incompatible with /clientBaseClass and /generateClientInterfaces');
-    throw new Error('/clients-as-modules flag is incompatible with /clientBaseClass and /generateClientInterfaces');
+  if (
+    args.includes('/clientBaseClass') ||
+    args.includes('/generateClientInterfaces')
+  ) {
+    console.error(
+      '/clients-as-modules flag is incompatible with /clientBaseClass and /generateClientInterfaces',
+    );
+    throw new Error(
+      '/clients-as-modules flag is incompatible with /clientBaseClass and /generateClientInterfaces',
+    );
   }
 }
 
 const sourceFolder = isClientsAsModules ? 'modules' : 'original';
-copyFileSync(join(pathToTemplates, sourceFolder, 'AxiosClient.liquid'), join(pathToTemplates, '_AxiosClient.liquid'));
-copyFileSync(join(pathToTemplates, sourceFolder, 'FetchClient.liquid'), join(pathToTemplates, '_FetchClient.liquid'));
+copyFileSync(
+  join(pathToTemplates, sourceFolder, 'AxiosClient.liquid'),
+  join(pathToTemplates, '_AxiosClient.liquid'),
+);
+copyFileSync(
+  join(pathToTemplates, sourceFolder, 'FetchClient.liquid'),
+  join(pathToTemplates, '_FetchClient.liquid'),
+);
 readdirSync(join(pathToTemplates, sourceFolder))
-  .filter(fileName => fileName !== 'AxiosClient.liquid' && fileName !== 'FetchClient.liquid')
-  .forEach(fileName => {
-    copyFileSync(join(pathToTemplates, sourceFolder, fileName), join(pathToTemplates, fileName));
+  .filter(
+    (fileName) =>
+      fileName !== 'AxiosClient.liquid' && fileName !== 'FetchClient.liquid',
+  )
+  .forEach((fileName) => {
+    copyFileSync(
+      join(pathToTemplates, sourceFolder, fileName),
+      join(pathToTemplates, fileName),
+    );
   });
-
 
 const isYarn = process.env.npm_execpath.includes('yarn');
 const cliExecutor = isYarn ? 'yarn' : 'npx';
@@ -110,8 +151,7 @@ try {
 }
 
 const outputRegex =
-args.match(/\/output:"(?<path>.*?)"/) ||
-args.match(/\/output:(?<path>\S*)/);
+  args.match(/\/output:"(?<path>.*?)"/) || args.match(/\/output:(?<path>\S*)/);
 const outputPath = outputRegex?.groups?.['path'];
 if (!outputPath) {
   throw new Error('Unable to parse "/output" option from command line args');
@@ -120,7 +160,6 @@ const outputDir = dirname(outputPath);
 const outputFileWithoutExtension = parse(outputPath).name;
 
 if (args.includes('/fix-null-undefined-serialization')) {
-
   let apiClient = readFileSync(outputPath, 'utf-8');
 
   // Replace DTO type definitions:
@@ -167,38 +206,50 @@ if (args.includes('/fix-null-undefined-serialization')) {
 
   writeFileSync(outputPath, apiClient);
 }
+if (isVue) {
+  let apiClient = readFileSync(outputPath, 'utf-8');
+
+  apiClient = apiClient.replaceAll(
+    /@tanstack\/react-query/gim,
+    '@tanstack/vue-query',
+  );
+
+  writeFileSync(outputPath, apiClient);
+}
 
 // we will extract every Controller into separate file.
 // these files will be put in `queryFolderName` directory (with the same name as the output file)
-const queryFolderName = outputFileWithoutExtension
+const queryFolderName = outputFileWithoutExtension;
 const queryDir = join(outputDir, queryFolderName);
-if (existsSync(queryDir)){
+if (existsSync(queryDir)) {
   rmSync(queryDir, { recursive: true, force: true });
 }
 mkdirSync(queryDir);
 
-  
-
 if (isClientsAsModules) {
   let apiClient = readFileSync(outputPath, 'utf-8');
 
-  const clientClasses = apiClient.matchAll(/\/\/-----ClientClass--(?<name>[^-]*)---(?<content>[\s\S]*?)\/\/-----\/ClientClass----/gims)
+  const clientClasses = apiClient.matchAll(
+    /\/\/-----ClientClass--(?<name>[^-]*)---(?<content>[\s\S]*?)\/\/-----\/ClientClass----/gims,
+  );
   for (let clientClass of clientClasses) {
-    let {name, content} = clientClass.groups;
+    let { name, content } = clientClass.groups;
     const foundText = clientClass[0];
     const fileName = join(queryDir, `${name}.ts`);
 
-    apiClient = apiClient.replace(foundText, `export * as ${name} from './${queryFolderName}/${name}';`)
+    apiClient = apiClient.replace(
+      foundText,
+      `export * as ${name} from './${queryFolderName}/${name}';`,
+    );
     content = postProcessClientContent(content, outputFileWithoutExtension);
 
     writeFileSync(fileName, content);
   }
-  
+
   apiClient = apiClient
     .replace('function throwException', 'export function throwException')
     .replace('function isAxiosError', 'export function isAxiosError')
-    .replace('function formatDate', 'export function formatDate')
-    ;
+    .replace('function formatDate', 'export function formatDate');
   writeFileSync(outputPath, apiClient);
 }
 
@@ -208,51 +259,67 @@ if (true) {
 
   apiClient = extractQueryHelperFunctions(apiClient, queryDir);
 
-  const queryClasses = apiClient.matchAll(/\/\/-----ReactQueryClass--(?<name>[^-]*)---(?<content>[\s\S]*?)\/\/-----\/ReactQueryClass----/gims)
+  const queryClasses = apiClient.matchAll(
+    /\/\/-----ReactQueryClass--(?<name>[^-]*)---(?<content>[\s\S]*?)\/\/-----\/ReactQueryClass----/gims,
+  );
   for (let queryClass of queryClasses) {
-    let {name, content} = queryClass.groups;
+    let { name, content } = queryClass.groups;
     const foundText = queryClass[0];
     const fileName = join(queryDir, `${name}.ts`);
 
     content = postProcessClientContent(content, outputFileWithoutExtension);
     if (content) {
       writeFileSync(fileName, content);
-      apiClient = apiClient.replace(foundText, `export * as ${name} from './${queryFolderName}/${name}';`)
+      apiClient = apiClient.replace(
+        foundText,
+        `export * as ${name} from './${queryFolderName}/${name}';`,
+      );
     } else {
-      apiClient = apiClient.replace(foundText, ``)
+      apiClient = apiClient.replace(foundText, ``);
     }
   }
 
-  apiClient = apiClient.replaceAll(`from './helpers';`, `from './${queryFolderName}/helpers';`)
+  apiClient = apiClient.replaceAll(
+    `from './helpers';`,
+    `from './${queryFolderName}/helpers';`,
+  );
   writeFileSync(outputPath, apiClient);
 }
 
 function extractQueryHelperFunctions(apiClient, queryDir) {
-  const helperFunctionsMatch = apiClient.match(/\/\/-----ReactQueryFile-----(?<content>[\s\S]*?)\/\/-----\/ReactQueryFile----/gims)
+  const helperFunctionsMatch = apiClient.match(
+    /\/\/-----ReactQueryFile-----(?<content>[\s\S]*?)\/\/-----\/ReactQueryFile----/gims,
+  );
   const foundText = helperFunctionsMatch[0];
 
-  const addResultTypeFactories = apiClient.matchAll(/\/\/-----PersistorHydrator-----(?<content>[\s\S]*?)\/\/-----\/PersistorHydrator-----/gims)
+  const addResultTypeFactories = apiClient.matchAll(
+    /\/\/-----PersistorHydrator-----(?<content>[\s\S]*?)\/\/-----\/PersistorHydrator-----/gims,
+  );
   let addResultTypeFactoryText = '';
   for (let addResultTypeFactory of addResultTypeFactories) {
-    let {content} = addResultTypeFactory.groups;
+    let { content } = addResultTypeFactory.groups;
     addResultTypeFactoryText = addResultTypeFactoryText + content + '\n';
-    apiClient = apiClient.replace(addResultTypeFactory[0], ``)
+    apiClient = apiClient.replace(addResultTypeFactory[0], ``);
   }
-  apiClient = apiClient.replace('/*--addResultTypeFactory-placeholder--*/', addResultTypeFactoryText);
-
+  apiClient = apiClient.replace(
+    '/*--addResultTypeFactory-placeholder--*/',
+    addResultTypeFactoryText,
+  );
 
   const fileName = join(queryDir, `helpers.ts`);
 
   writeFileSync(fileName, foundText);
   apiClient = apiClient.replace(foundText, '');
-  return apiClient
+  return apiClient;
 }
 
 function postProcessClientContent(content, outputFileWithoutExtension) {
-  if (!content.trim())
-    return '';
+  if (!content.trim()) return '';
   content = content
-    .replaceAll(` from '../client';`, ` from '../${outputFileWithoutExtension}';`)
+    .replaceAll(
+      ` from '../client';`,
+      ` from '../${outputFileWithoutExtension}';`,
+    )
     .replaceAll('this.baseUrl +', 'getBaseUrl() +')
     .replaceAll('this.jsonParseReviver', 'getJsonParseReviver()')
     .replaceAll(/Types.string(?![a-zA-Z0-9_])/g, 'string')
@@ -265,14 +332,25 @@ function postProcessClientContent(content, outputFileWithoutExtension) {
     .replaceAll(/Types.Record(?![a-zA-Z0-9_])/g, 'Record')
     .replaceAll('Types.{', '{')
     .replaceAll('formatDate(', 'Types.formatDate(')
-    .replaceAll(/([a-zA-Z0-9_]*?)\.fromJS\(/g, 'Types.$1.fromJS(')
-    ;
+    .replaceAll(/([a-zA-Z0-9_]*?)\.fromJS\(/g, 'Types.$1.fromJS(');
   const additionalImport = `import * as Types from '../${outputFileWithoutExtension}';\n`;
   content = content.replace('import', additionalImport + 'import').trim();
   return content;
 }
 
-function copyFromOriginalOrModules(pathToTemplates, isClientsAsModules, sourceFileName, destinationFileName) {
+function copyFromOriginalOrModules(
+  pathToTemplates,
+  isClientsAsModules,
+  sourceFileName,
+  destinationFileName,
+) {
   destinationFileName = destinationFileName ?? sourceFileName;
-  copyFileSync(join(pathToTemplates, isClientsAsModules ? 'modules' : 'original', fileName), join(pathToTemplates, destinationFileName));   
+  copyFileSync(
+    join(
+      pathToTemplates,
+      isClientsAsModules ? 'modules' : 'original',
+      fileName,
+    ),
+    join(pathToTemplates, destinationFileName),
+  );
 }
