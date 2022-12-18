@@ -10,7 +10,7 @@
 import * as Types from '../axios-client';
 import { useQuery, useMutation } from '@tanstack/vue-query';
 import type { UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from '@tanstack/vue-query';
-import { trimArrayEnd, isParameterObject, getBaseUrl } from './helpers';
+import { trimArrayEnd, isParameterObject, getBaseUrl, addMetaToOptions  } from './helpers';
 
 export const Client = Types.Client;
 

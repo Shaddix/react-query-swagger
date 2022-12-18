@@ -1,21 +1,17 @@
 <script setup lang="ts">
-import { useQueryClient } from '@tanstack/vue-query';
 import { AxiosQuery } from './api';
+import { Status } from './api/axios-client';
 
-// Access QueryClient instance
-const queryClient = useQueryClient();
-
-// Query
-const query = AxiosQuery.Query.useFindPetsByStatusQuery({ status: [] });
-console.log('qweqweqwe', query);
+const { isLoading, isError, data, error } =
+  AxiosQuery.Query.useFindPetsByStatusQuery({ status: [Status.Sold] });
 </script>
 
 <template>
-  <span v-if="query.isLoading">Loading...</span>
-  <span v-else-if="query.isError">Error: {{ query.error.message }}</span>
+  <span v-if="isLoading">Loading...</span>
+  <span v-else-if="isError">Error: {{ error.message }}</span>
   <!-- We can assume by this point that `isSuccess === true` -->
   <ul v-else>
-    <li v-for="pet in query.data" :key="pet.id">{{ pet.name }}</li>
+    <li v-for="pet in data ?? []">{{ pet.name }}</li>
   </ul>
 </template>
 

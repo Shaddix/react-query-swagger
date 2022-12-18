@@ -8,10 +8,12 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 import * as Types from '../fetch-client';
-import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, useMutation, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from '@tanstack/react-query';
-import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import type { UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from '@tanstack/react-query';
+import { trimArrayEnd, isParameterObject, getBaseUrl, addMetaToOptions  } from './helpers';
+import type { QueryMetaContextValue } from 'react-query-swagger';
+import { QueryMetaContext } from 'react-query-swagger';
 import { useContext } from 'react';
-import { addMetaToOptions,  trimArrayEnd, isParameterObject, getBaseUrl } from './helpers';
 import { Client as ClientClass } from '../fetch-client';
 import { createClient, getClientFactory } from './helpers';
 

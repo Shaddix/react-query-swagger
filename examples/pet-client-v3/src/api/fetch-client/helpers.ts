@@ -1,6 +1,8 @@
 //-----ReactQueryFile-----
-import { useQuery, UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, useMutation, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from 'react-query';
-import { QueryMetaContext, QueryMetaContextValue } from 'react-query-swagger';
+import { useQuery, useMutation } from 'react-query';
+import type { UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from 'react-query';
+import type { QueryMetaContextValue } from 'react-query-swagger';
+import { QueryMetaContext } from 'react-query-swagger';
 import { useContext } from 'react';
 
 type ClientFactoryFunction = <T>(type: (new (...params: any[]) => T)) => T;

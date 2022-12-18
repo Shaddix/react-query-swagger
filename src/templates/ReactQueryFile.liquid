@@ -9,7 +9,6 @@ export { setFetchFactory, getFetch } from './helpers';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import type { UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from '@tanstack/react-query';
 {% template ReactQuery.MetaFile %}
-import { useContext } from 'react';
 {%         if Framework.IsAxios -%}
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 {%         endif -%}

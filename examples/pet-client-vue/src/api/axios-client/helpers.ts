@@ -1,33 +1,11 @@
 //-----ReactQueryFile-----
 import { useQuery, useMutation } from '@tanstack/vue-query';
-import type {
-  UseQueryResult,
-  QueryFunctionContext,
-  UseQueryOptions,
-  QueryClient,
-  QueryKey,
-  MutationKey,
-  UseMutationOptions,
-  UseMutationResult,
-  QueryMeta,
-  MutationMeta,
-} from '@tanstack/vue-query';
+import type { UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from '@tanstack/vue-query';
 
-import { useContext } from 'react';
-import axios, {
-  AxiosError,
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse,
-  CancelToken,
-} from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
-const _resultTypesByQueryKey: Record<string, () => { init(data: any): void }> =
-  {};
-export function addResultTypeFactory(
-  typeName: string,
-  factory: () => { init(data: any): void },
-) {
+const _resultTypesByQueryKey: Record<string, () => { init(data: any): void }> = {};
+export function addResultTypeFactory(typeName: string, factory: () => { init(data: any): void }) {
   _resultTypesByQueryKey[typeName] = factory;
 }
 export function getResultTypeFactory(typeName: string) {
@@ -35,24 +13,20 @@ export function getResultTypeFactory(typeName: string) {
 }
 
 export function trimArrayEnd<T>(arr: T[]): T[] {
-  let lastDefinedValueIndex = arr.length - 1;
-  while (lastDefinedValueIndex >= 0) {
-    if (arr[lastDefinedValueIndex] === undefined) {
-      lastDefinedValueIndex--;
-    } else {
-      break;
+    let lastDefinedValueIndex = arr.length - 1;
+    while (lastDefinedValueIndex >= 0) {
+        if (arr[lastDefinedValueIndex] === undefined) {
+            lastDefinedValueIndex--;
+        } else {
+            break;
+        }
     }
-  }
-  return lastDefinedValueIndex === arr.length - 1
-    ? arr
-    : arr.slice(0, lastDefinedValueIndex + 1);
+    return lastDefinedValueIndex === arr.length - 1 ? arr : arr.slice(0, lastDefinedValueIndex + 1);
 }
 
-export function addMetaToOptions<
-  T extends { meta?: QueryMeta | MutationMeta | undefined },
->(options: T | undefined, metaContext: QueryMetaContextValue): T | undefined {
+export function addMetaToOptions<T extends {meta?: QueryMeta | MutationMeta | undefined}>(options: T | undefined, metaContext: QueryMetaContextValue): T | undefined {
   if (metaContext.metaFn) {
-    options = options ?? ({} as any);
+    options = options ?? { } as any;
     options!.meta = {
       ...metaContext.metaFn(),
       ...options!.meta,
@@ -67,12 +41,12 @@ export function addMetaToOptions<
   Returns false if parameter is number/string/boolean/Date or Array
 */
 export function isParameterObject(param: unknown) {
-  if (param === null || param === undefined) return false;
-  if (param instanceof Array) return false;
-  const isObject = typeof param === 'object';
-  if (!isObject) return false;
-  if (param instanceof Date) return false;
-  return true;
+    if (param === null || param === undefined) return false;
+    if (param instanceof Array) return false;
+    const isObject = typeof param === 'object';
+    if (!isObject) return false;
+    if (param instanceof Date) return false;
+    return true;
 }
 
 let _baseUrl = '';

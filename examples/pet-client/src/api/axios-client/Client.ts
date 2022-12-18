@@ -8,7 +8,7 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 import * as Types from '../axios-client';
-import { AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
+import type { AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
 import { throwException, isAxiosError } from '../axios-client';
 import { getAxios, getBaseUrl } from './helpers';

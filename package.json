@@ -7,7 +7,7 @@
   "nohoist": [],
   "scripts": {
     "do-publish": "yarn prepublish && yarn workspace react-query-swagger publish",
-    "prepublish": "yarn update-nswag && yarn copy_from_v4_to_v3 && yarn copy_to_no_hooks && yarn generate-all && yarn typecheck",
+    "prepublish": "yarn update-nswag && yarn copy_from_v4_to_v3 && yarn copy_to_no_hooks && yarn copy_from_v4_to_vue && yarn generate-all && yarn typecheck",
     "start": "yarn workspace pet-client start",
     "start-v3": "yarn workspace pet-client-v3 start",
     "typecheck": "yarn workspace react-query-swagger tsc && yarn workspace pet-client-v3 tsc && yarn workspace pet-client tsc",
