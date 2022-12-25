@@ -30,6 +30,8 @@ export function deserializeDatesInQueryKeys(queryKey: QueryKey) {
 export function deserializeClassesInQueryData(queryKey: QueryKey, data: any) {
   if (!data) {
     return data;
+  } else if (typeof data !== 'object') {
+    return data;
   } else if ('pages' in data && 'pageParams' in data && Array.isArray(data.pages) && Array.isArray(data.pageParams)) {
     // infinite query
     data.pages = data.pages.map((page:any) => deserializeClassesInQueryData(queryKey, page));
