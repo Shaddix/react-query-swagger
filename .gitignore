@@ -438,6 +438,7 @@ src/templates/_AxiosClient.liquid
 src/templates/_FetchClient.liquid
 src/templates/Client.ProcessResponse.Return.liquid
 src/templates/Client.ProcessResponse.HandleStatusCode.liquid
+src/templates/Client.RequestBody.liquid
 src/templates/ReactQuery.GetClientFunction.liquid
 src/templates/ReactQuery.GetClientFactory.liquid
 src/templates/ReactQuery.GetClientCall.liquid
@@ -446,6 +447,7 @@ src/templates_v3/_AxiosClient.liquid
 src/templates_v3/_FetchClient.liquid
 src/templates_v3/Client.ProcessResponse.Return.liquid
 src/templates_v3/Client.ProcessResponse.HandleStatusCode.liquid
+src/templates_v3/Client.RequestBody.liquid
 src/templates_v3/ReactQuery.GetClientFunction.liquid
 src/templates_v3/modules/ReactQuery.GetClientFactory.liquid
 src/templates_v3/original/ReactQuery.GetClientFactory.liquid
@@ -454,8 +456,10 @@ src/templates_v3/modules/ReactQuery.GetClientFunction.liquid
 src/templates_v3/original/ReactQuery.GetClientFunction.liquid
 src/templates_v3/original/Client.ProcessResponse.Return.liquid
 src/templates_v3/original/Client.ProcessResponse.HandleStatusCode.liquid
+src/templates_v3/original/Client.RequestBody.liquid
 src/templates_v3/modules/Client.ProcessResponse.Return.liquid
 src/templates_v3/modules/Client.ProcessResponse.HandleStatusCode.liquid
+src/templates_v3/modules/Client.RequestBody.liquid
 src/templates_v3/modules/AxiosClient.liquid
 src/templates_v3/modules/FetchClient.liquid
 src/templates_v3/original/AxiosClient.liquid
@@ -485,8 +489,10 @@ src/templates_no_hooks/original/AxiosClient.liquid
 src/templates_no_hooks/original/FetchClient.liquid
 src/templates_no_hooks/original/Client.ProcessResponse.Return.liquid
 src/templates_no_hooks/original/Client.ProcessResponse.HandleStatusCode.liquid
+src/templates_no_hooks/original/Client.RequestBody.liquid
 src/templates_no_hooks/modules/Client.ProcessResponse.Return.liquid
 src/templates_no_hooks/modules/Client.ProcessResponse.HandleStatusCode.liquid
+src/templates_no_hooks/modules/Client.RequestBody.liquid
 src/templates_no_hooks/modules/ReactQuery.GetClientFunction.liquid
 src/templates_no_hooks/original/ReactQuery.GetClientFunction.liquid
 src/templates_no_hooks/ReactQuery.GetClientFactory.liquid
@@ -494,6 +500,7 @@ src/templates_no_hooks/_AxiosClient.liquid
 src/templates_no_hooks/_FetchClient.liquid
 src/templates_no_hooks/Client.ProcessResponse.Return.liquid
 src/templates_no_hooks/Client.ProcessResponse.HandleStatusCode.liquid
+src/templates_no_hooks/Client.RequestBody.liquid
 src/templates_no_hooks/ReactQuery.GetClientFunction.liquid
 src/templates_no_hooks/modules/ReactQuery.GetClientFactory.liquid
 src/templates_no_hooks/original/ReactQuery.GetClientFactory.liquid

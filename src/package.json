@@ -31,11 +31,11 @@
     "tsdx": "0.14.1"
   },
   "dependencies": {
-    "@tanstack/react-query-persist-client": "^4.2.0",
-    "nswag": "^13.17.0"
+    "nswag": "^13.18.2"
   },
   "peerDependencies": {
     "@tanstack/react-query": "> 4.0",
+    "@tanstack/react-query-persist-client": ">4.2.0",
     "react": "17.x || 18.x",
     "react-query": ">= 3.33 < 4.0",
     "typescript": "3.x || 4.x"
