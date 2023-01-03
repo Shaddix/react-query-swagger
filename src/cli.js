@@ -330,6 +330,11 @@ function postProcessClientContent(content, outputFileWithoutExtension) {
     )
     .replaceAll('this.baseUrl +', 'getBaseUrl() +')
     .replaceAll('this.jsonParseReviver', 'getJsonParseReviver()')
+    .replaceAll(
+      /Types\.\{ \[key: ((string)|(number))]: /g,
+      '{ [key: $1]: Types.',
+    )
+    .replaceAll('Types.{', '{')
     .replaceAll(/Types.string(?![a-zA-Z0-9_])/g, 'string')
     .replaceAll(/Types.number(?![a-zA-Z0-9_])/g, 'number')
     .replaceAll(/Types.boolean(?![a-zA-Z0-9_])/g, 'boolean')
@@ -338,7 +343,6 @@ function postProcessClientContent(content, outputFileWithoutExtension) {
     .replaceAll(/Types.unknown(?![a-zA-Z0-9_])/g, 'unknown')
     .replaceAll(/Types.any(?![a-zA-Z0-9_])/g, 'any')
     .replaceAll(/Types.Record(?![a-zA-Z0-9_])/g, 'Record')
-    .replaceAll('Types.{', '{')
     .replaceAll('formatDate(', 'Types.formatDate(')
     .replaceAll(/([a-zA-Z0-9_]*?)\.fromJS\(/g, 'Types.$1.fromJS(');
   const additionalImport = `import * as Types from '../${outputFileWithoutExtension}';\n`;
