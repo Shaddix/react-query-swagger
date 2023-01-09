@@ -344,7 +344,14 @@ function postProcessClientContent(content, outputFileWithoutExtension) {
     .replaceAll(/Types.any(?![a-zA-Z0-9_])/g, 'any')
     .replaceAll(/Types.Record(?![a-zA-Z0-9_])/g, 'Record')
     .replaceAll('formatDate(', 'Types.formatDate(')
-    .replaceAll(/([a-zA-Z0-9_]*?)\.fromJS\(/g, 'Types.$1.fromJS(');
+    .replaceAll(/([a-zA-Z0-9_]*?)\.fromJS\(/g, 'Types.$1.fromJS(')
+    // this is for correctly handling HTTP actions returning Dictionary<string, MyClass>.
+    // it should correctly include the `Types.` prefix.
+    // E.g.: (<any>result200)![key] = resultData200[key] ? Types.MyClass.fromJS(resultData200[key]) : new Types.MyClass();
+    .replaceAll(
+      /Types\.([a-zA-Z0-9_]*?)\.fromJS\(resultData200\[key\]\) : new /g,
+      'Types.$1.fromJS(resultData200[key]) : new Types.',
+    );
   const additionalImport = `import * as Types from '../${outputFileWithoutExtension}';\n`;
   content = content.replace('import', additionalImport + 'import').trim();
   return content;
