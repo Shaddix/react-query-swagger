@@ -16,50 +16,6 @@ export * as Query from './axios-client/Query';
 
 
 
-export class ApiResponse implements IApiResponse {
-    code?: number | null;
-    type?: string | null;
-    message?: string | null;
-
-    constructor(data?: IApiResponse) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.code = _data["code"];
-            this.type = _data["type"];
-            this.message = _data["message"];
-        }
-    }
-
-    static fromJS(data: any): ApiResponse {
-        data = typeof data === 'object' ? data : {};
-        let result = new ApiResponse();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["code"] = this.code;
-        data["type"] = this.type;
-        data["message"] = this.message;
-        return data;
-    }
-}
-
-export interface IApiResponse {
-    code?: number | null;
-    type?: string | null;
-    message?: string | null;
-}
-
 export class Category implements ICategory {
     id?: number | null;
     name?: string | null;
@@ -215,6 +171,50 @@ export class Tag implements ITag {
 export interface ITag {
     id?: number | null;
     name?: string | null;
+}
+
+export class ApiResponse implements IApiResponse {
+    code?: number | null;
+    type?: string | null;
+    message?: string | null;
+
+    constructor(data?: IApiResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.code = _data["code"];
+            this.type = _data["type"];
+            this.message = _data["message"];
+        }
+    }
+
+    static fromJS(data: any): ApiResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new ApiResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["type"] = this.type;
+        data["message"] = this.message;
+        return data;
+    }
+}
+
+export interface IApiResponse {
+    code?: number | null;
+    type?: string | null;
+    message?: string | null;
 }
 
 export class Order implements IOrder {
@@ -491,9 +491,9 @@ export function getResultTypeClassKey(queryKey: QueryKey): string {
 
 export function initPersister() {
   
+  addResultTypeFactory('Client___getPetById', () => new Pet());
   addResultTypeFactory('Client___findPetsByStatus', () => new Pet());
   addResultTypeFactory('Client___findPetsByTags', () => new Pet());
-  addResultTypeFactory('Client___getPetById', () => new Pet());
   addResultTypeFactory('Client___getOrderById', () => new Order());
   addResultTypeFactory('Client___getUserByName', () => new User());
 

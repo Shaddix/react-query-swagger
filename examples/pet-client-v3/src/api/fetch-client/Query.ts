@@ -19,6 +19,15 @@ import { createClient, getClientFactory } from './helpers';
 
 export const Client = () => getClientFactory()(ClientClass);
 
+export type GetPetByIdQueryParameters = {
+  petId: number;
+};
+
+export type UpdatePetWithFormMutationParameters = {
+  name?: string | null | undefined ; 
+  status?: string | null | undefined ; 
+};
+
 export type UploadFileMutationParameters = {
   additionalMetadata?: string | null | undefined ; 
   file?: Types.FileParameter | null | undefined ; 
@@ -30,15 +39,6 @@ export type FindPetsByStatusQueryParameters = {
 
 export type FindPetsByTagsQueryParameters = {
   tags: string[];
-};
-
-export type GetPetByIdQueryParameters = {
-  petId: number;
-};
-
-export type UpdatePetWithFormMutationParameters = {
-  name?: string | null | undefined ; 
-  status?: string | null | undefined ; 
 };
 
 export type GetOrderByIdQueryParameters = {
@@ -54,6 +54,168 @@ export type LoginUserQueryParameters = {
   password: string;
 };
 
+    
+export function getPetByIdUrl(petId: number): string {
+  let url_ = getBaseUrl() + "/pet/{petId}";
+
+if (petId === undefined || petId === null)
+  throw new Error("The parameter 'petId' must be defined.");
+url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
+  url_ = url_.replace(/[?&]$/, "");
+  return url_;
+}
+
+let getPetByIdDefaultOptions: UseQueryOptions<Types.Pet, unknown, Types.Pet> = {
+  queryFn: __getPetById,
+};
+export function getGetPetByIdDefaultOptions(): UseQueryOptions<Types.Pet, unknown, Types.Pet> {
+  return getPetByIdDefaultOptions;
+};
+export function setGetPetByIdDefaultOptions(options: UseQueryOptions<Types.Pet, unknown, Types.Pet>) {
+  getPetByIdDefaultOptions = options;
+}
+
+export function getPetByIdQueryKey(petId: number): QueryKey;
+export function getPetByIdQueryKey(...params: any[]): QueryKey {
+  if (params.length === 1 && isParameterObject(params[0])) {
+    const { petId,  } = params[0] as GetPetByIdQueryParameters;
+
+    return trimArrayEnd([
+        'Client',
+        'getPetById',
+        petId as any,
+      ]);
+  } else {
+    return trimArrayEnd([
+        'Client',
+        'getPetById',
+        ...params
+      ]);
+  }
+}
+function __getPetById(context: QueryFunctionContext) {
+  return Client().getPetById(
+      context.queryKey[2] as number    );
+}
+
+export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(dto: GetPetByIdQueryParameters, options?: UseQueryOptions<Types.Pet, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+/**
+ * Find pet by ID
+ * @param petId ID of pet to return
+ * @return successful operation
+ */
+export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(petId: number, options?: UseQueryOptions<Types.Pet, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+  let options: UseQueryOptions<Types.Pet, TError, TSelectData> | undefined = undefined;
+  let petId: any = undefined;
+  
+  if (params.length > 0) {
+    if (isParameterObject(params[0])) {
+      ({ petId,  } = params[0] as GetPetByIdQueryParameters);
+      options = params[1];
+    } else {
+      [petId,  options] = params;
+    }
+  }
+
+  const metaContext = useContext(QueryMetaContext);
+  options = addMetaToOptions(options, metaContext);
+
+  return useQuery<Types.Pet, TError, TSelectData>({
+    queryFn: __getPetById,
+    queryKey: getPetByIdQueryKey(petId),
+    ...getPetByIdDefaultOptions as unknown as UseQueryOptions<Types.Pet, TError, TSelectData>,
+    ...options,
+  });
+}
+/**
+ * Find pet by ID
+ * @param petId ID of pet to return
+ * @return successful operation
+ */
+export function setGetPetByIdData(queryClient: QueryClient, updater: (data: Types.Pet | undefined) => Types.Pet, petId: number) {
+  queryClient.setQueryData(getPetByIdQueryKey(petId),
+    updater
+  );
+}
+
+/**
+ * Find pet by ID
+ * @param petId ID of pet to return
+ * @return successful operation
+ */
+export function setGetPetByIdDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: Types.Pet | undefined) => Types.Pet) {
+  queryClient.setQueryData(queryKey, updater);
+}
+    
+    
+export function updatePetWithFormUrl(petId: number): string {
+  let url_ = getBaseUrl() + "/pet/{petId}";
+
+if (petId === undefined || petId === null)
+  throw new Error("The parameter 'petId' must be defined.");
+url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
+  url_ = url_.replace(/[?&]$/, "");
+  return url_;
+}
+
+export function updatePetWithFormMutationKey(petId: number): MutationKey {
+  return trimArrayEnd([
+      'Client',
+      'updatePetWithForm',
+      petId as any,
+    ]);
+}
+
+/**
+ * Updates a pet in the store with form data
+ * @param petId ID of pet that needs to be updated
+ * @param name (optional) Updated name of the pet
+ * @param status (optional) Updated status of the pet
+ */
+export function useUpdatePetWithFormMutation<TContext>(petId: number, options?: Omit<UseMutationOptions<void, unknown, UpdatePetWithFormMutationParameters, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, UpdatePetWithFormMutationParameters, TContext> {
+  const key = updatePetWithFormMutationKey(petId);
+  
+  const metaContext = useContext(QueryMetaContext);
+  options = addMetaToOptions(options, metaContext);
+  
+      return useMutation((updatePetWithFormMutationParameters: UpdatePetWithFormMutationParameters) => Client().updatePetWithForm(petId, updatePetWithFormMutationParameters.name, updatePetWithFormMutationParameters.status), {...options, mutationKey: key});
+}
+  
+    
+export function deletePetUrl(petId: number, api_key?: string | null | undefined): string {
+  let url_ = getBaseUrl() + "/pet/{petId}";
+
+if (petId === undefined || petId === null)
+  throw new Error("The parameter 'petId' must be defined.");
+url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
+  url_ = url_.replace(/[?&]$/, "");
+  return url_;
+}
+
+export function deletePetMutationKey(petId: number, api_key?: string | null | undefined): MutationKey {
+  return trimArrayEnd([
+      'Client',
+      'deletePet',
+      petId as any,
+      api_key as any,
+    ]);
+}
+
+/**
+ * Deletes a pet
+ * @param petId Pet id to delete
+ * @param api_key (optional) 
+ */
+export function useDeletePetMutation<TContext>(petId: number, api_key?: string | null | undefined, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, void, TContext> {
+  const key = deletePetMutationKey(petId, api_key);
+  
+  const metaContext = useContext(QueryMetaContext);
+  options = addMetaToOptions(options, metaContext);
+  
+      return useMutation(() => Client().deletePet(petId, api_key), {...options, mutationKey: key});
+}
+  
     
 export function uploadFileUrl(petId: number): string {
   let url_ = getBaseUrl() + "/pet/{petId}/uploadImage";
@@ -335,168 +497,6 @@ export function setFindPetsByTagsDataByQueryId(queryClient: QueryClient, queryKe
 }
     
     
-export function getPetByIdUrl(petId: number): string {
-  let url_ = getBaseUrl() + "/pet/{petId}";
-
-if (petId === undefined || petId === null)
-  throw new Error("The parameter 'petId' must be defined.");
-url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
-  url_ = url_.replace(/[?&]$/, "");
-  return url_;
-}
-
-let getPetByIdDefaultOptions: UseQueryOptions<Types.Pet, unknown, Types.Pet> = {
-  queryFn: __getPetById,
-};
-export function getGetPetByIdDefaultOptions(): UseQueryOptions<Types.Pet, unknown, Types.Pet> {
-  return getPetByIdDefaultOptions;
-};
-export function setGetPetByIdDefaultOptions(options: UseQueryOptions<Types.Pet, unknown, Types.Pet>) {
-  getPetByIdDefaultOptions = options;
-}
-
-export function getPetByIdQueryKey(petId: number): QueryKey;
-export function getPetByIdQueryKey(...params: any[]): QueryKey {
-  if (params.length === 1 && isParameterObject(params[0])) {
-    const { petId,  } = params[0] as GetPetByIdQueryParameters;
-
-    return trimArrayEnd([
-        'Client',
-        'getPetById',
-        petId as any,
-      ]);
-  } else {
-    return trimArrayEnd([
-        'Client',
-        'getPetById',
-        ...params
-      ]);
-  }
-}
-function __getPetById(context: QueryFunctionContext) {
-  return Client().getPetById(
-      context.queryKey[2] as number    );
-}
-
-export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(dto: GetPetByIdQueryParameters, options?: UseQueryOptions<Types.Pet, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
-/**
- * Find pet by ID
- * @param petId ID of pet to return
- * @return successful operation
- */
-export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(petId: number, options?: UseQueryOptions<Types.Pet, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
-export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
-  let options: UseQueryOptions<Types.Pet, TError, TSelectData> | undefined = undefined;
-  let petId: any = undefined;
-  
-  if (params.length > 0) {
-    if (isParameterObject(params[0])) {
-      ({ petId,  } = params[0] as GetPetByIdQueryParameters);
-      options = params[1];
-    } else {
-      [petId,  options] = params;
-    }
-  }
-
-  const metaContext = useContext(QueryMetaContext);
-  options = addMetaToOptions(options, metaContext);
-
-  return useQuery<Types.Pet, TError, TSelectData>({
-    queryFn: __getPetById,
-    queryKey: getPetByIdQueryKey(petId),
-    ...getPetByIdDefaultOptions as unknown as UseQueryOptions<Types.Pet, TError, TSelectData>,
-    ...options,
-  });
-}
-/**
- * Find pet by ID
- * @param petId ID of pet to return
- * @return successful operation
- */
-export function setGetPetByIdData(queryClient: QueryClient, updater: (data: Types.Pet | undefined) => Types.Pet, petId: number) {
-  queryClient.setQueryData(getPetByIdQueryKey(petId),
-    updater
-  );
-}
-
-/**
- * Find pet by ID
- * @param petId ID of pet to return
- * @return successful operation
- */
-export function setGetPetByIdDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: Types.Pet | undefined) => Types.Pet) {
-  queryClient.setQueryData(queryKey, updater);
-}
-    
-    
-export function updatePetWithFormUrl(petId: number): string {
-  let url_ = getBaseUrl() + "/pet/{petId}";
-
-if (petId === undefined || petId === null)
-  throw new Error("The parameter 'petId' must be defined.");
-url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
-  url_ = url_.replace(/[?&]$/, "");
-  return url_;
-}
-
-export function updatePetWithFormMutationKey(petId: number): MutationKey {
-  return trimArrayEnd([
-      'Client',
-      'updatePetWithForm',
-      petId as any,
-    ]);
-}
-
-/**
- * Updates a pet in the store with form data
- * @param petId ID of pet that needs to be updated
- * @param name (optional) Updated name of the pet
- * @param status (optional) Updated status of the pet
- */
-export function useUpdatePetWithFormMutation<TContext>(petId: number, options?: Omit<UseMutationOptions<void, unknown, UpdatePetWithFormMutationParameters, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, UpdatePetWithFormMutationParameters, TContext> {
-  const key = updatePetWithFormMutationKey(petId);
-  
-  const metaContext = useContext(QueryMetaContext);
-  options = addMetaToOptions(options, metaContext);
-  
-      return useMutation((updatePetWithFormMutationParameters: UpdatePetWithFormMutationParameters) => Client().updatePetWithForm(petId, updatePetWithFormMutationParameters.name, updatePetWithFormMutationParameters.status), {...options, mutationKey: key});
-}
-  
-    
-export function deletePetUrl(petId: number, api_key?: string | null | undefined): string {
-  let url_ = getBaseUrl() + "/pet/{petId}";
-
-if (petId === undefined || petId === null)
-  throw new Error("The parameter 'petId' must be defined.");
-url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
-  url_ = url_.replace(/[?&]$/, "");
-  return url_;
-}
-
-export function deletePetMutationKey(petId: number, api_key?: string | null | undefined): MutationKey {
-  return trimArrayEnd([
-      'Client',
-      'deletePet',
-      petId as any,
-      api_key as any,
-    ]);
-}
-
-/**
- * Deletes a pet
- * @param petId Pet id to delete
- * @param api_key (optional) 
- */
-export function useDeletePetMutation<TContext>(petId: number, api_key?: string | null | undefined, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, void, TContext> {
-  const key = deletePetMutationKey(petId, api_key);
-  
-  const metaContext = useContext(QueryMetaContext);
-  options = addMetaToOptions(options, metaContext);
-  
-      return useMutation(() => Client().deletePet(petId, api_key), {...options, mutationKey: key});
-}
-  
-    
 export function placeOrderUrl(): string {
   let url_ = getBaseUrl() + "/store/order";
   url_ = url_.replace(/[?&]$/, "");
@@ -718,62 +718,6 @@ export function setGetInventoryDataByQueryId(queryClient: QueryClient, queryKey:
   queryClient.setQueryData(queryKey, updater);
 }
     
-    
-export function createUsersWithArrayInputUrl(): string {
-  let url_ = getBaseUrl() + "/user/createWithArray";
-  url_ = url_.replace(/[?&]$/, "");
-  return url_;
-}
-
-export function createUsersWithArrayInputMutationKey(): MutationKey {
-  return trimArrayEnd([
-      'Client',
-      'createUsersWithArrayInput',
-    ]);
-}
-
-/**
- * Creates list of users with given input array
- * @param body List of user object
- * @return successful operation
- */
-export function useCreateUsersWithArrayInputMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.User[], TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, Types.User[], TContext> {
-  const key = createUsersWithArrayInputMutationKey();
-  
-  const metaContext = useContext(QueryMetaContext);
-  options = addMetaToOptions(options, metaContext);
-  
-      return useMutation((body: Types.User[]) => Client().createUsersWithArrayInput(body), {...options, mutationKey: key});
-}
-  
-    
-export function createUsersWithListInputUrl(): string {
-  let url_ = getBaseUrl() + "/user/createWithList";
-  url_ = url_.replace(/[?&]$/, "");
-  return url_;
-}
-
-export function createUsersWithListInputMutationKey(): MutationKey {
-  return trimArrayEnd([
-      'Client',
-      'createUsersWithListInput',
-    ]);
-}
-
-/**
- * Creates list of users with given input array
- * @param body List of user object
- * @return successful operation
- */
-export function useCreateUsersWithListInputMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.User[], TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, Types.User[], TContext> {
-  const key = createUsersWithListInputMutationKey();
-  
-  const metaContext = useContext(QueryMetaContext);
-  options = addMetaToOptions(options, metaContext);
-  
-      return useMutation((body: Types.User[]) => Client().createUsersWithListInput(body), {...options, mutationKey: key});
-}
-  
     
 export function getUserByNameUrl(username: string): string {
   let url_ = getBaseUrl() + "/user/{username}";
@@ -1105,6 +1049,62 @@ export function setLogoutUserDataByQueryId(queryClient: QueryClient, queryKey: Q
   queryClient.setQueryData(queryKey, updater);
 }
     
+    
+export function createUsersWithArrayInputUrl(): string {
+  let url_ = getBaseUrl() + "/user/createWithArray";
+  url_ = url_.replace(/[?&]$/, "");
+  return url_;
+}
+
+export function createUsersWithArrayInputMutationKey(): MutationKey {
+  return trimArrayEnd([
+      'Client',
+      'createUsersWithArrayInput',
+    ]);
+}
+
+/**
+ * Creates list of users with given input array
+ * @param body List of user object
+ * @return successful operation
+ */
+export function useCreateUsersWithArrayInputMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.User[], TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, Types.User[], TContext> {
+  const key = createUsersWithArrayInputMutationKey();
+  
+  const metaContext = useContext(QueryMetaContext);
+  options = addMetaToOptions(options, metaContext);
+  
+      return useMutation((body: Types.User[]) => Client().createUsersWithArrayInput(body), {...options, mutationKey: key});
+}
+  
+    
+export function createUsersWithListInputUrl(): string {
+  let url_ = getBaseUrl() + "/user/createWithList";
+  url_ = url_.replace(/[?&]$/, "");
+  return url_;
+}
+
+export function createUsersWithListInputMutationKey(): MutationKey {
+  return trimArrayEnd([
+      'Client',
+      'createUsersWithListInput',
+    ]);
+}
+
+/**
+ * Creates list of users with given input array
+ * @param body List of user object
+ * @return successful operation
+ */
+export function useCreateUsersWithListInputMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.User[], TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, Types.User[], TContext> {
+  const key = createUsersWithListInputMutationKey();
+  
+  const metaContext = useContext(QueryMetaContext);
+  options = addMetaToOptions(options, metaContext);
+  
+      return useMutation((body: Types.User[]) => Client().createUsersWithListInput(body), {...options, mutationKey: key});
+}
+  
     
 export function createUserUrl(): string {
   let url_ = getBaseUrl() + "/user";

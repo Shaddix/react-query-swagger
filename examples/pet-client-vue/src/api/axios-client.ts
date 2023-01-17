@@ -14,50 +14,6 @@ export * as Client from './axios-client/Client';
 
 export * as Query from './axios-client/Query';
 
-export class ApiResponse implements IApiResponse {
-    code?: number | undefined;
-    type?: string | undefined;
-    message?: string | undefined;
-
-    constructor(data?: IApiResponse) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.code = _data["code"];
-            this.type = _data["type"];
-            this.message = _data["message"];
-        }
-    }
-
-    static fromJS(data: any): ApiResponse {
-        data = typeof data === 'object' ? data : {};
-        let result = new ApiResponse();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["code"] = this.code;
-        data["type"] = this.type;
-        data["message"] = this.message;
-        return data;
-    }
-}
-
-export interface IApiResponse {
-    code?: number | undefined;
-    type?: string | undefined;
-    message?: string | undefined;
-}
-
 export class Category implements ICategory {
     id?: number | undefined;
     name?: string | undefined;
@@ -213,6 +169,50 @@ export class Tag implements ITag {
 export interface ITag {
     id?: number | undefined;
     name?: string | undefined;
+}
+
+export class ApiResponse implements IApiResponse {
+    code?: number | undefined;
+    type?: string | undefined;
+    message?: string | undefined;
+
+    constructor(data?: IApiResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.code = _data["code"];
+            this.type = _data["type"];
+            this.message = _data["message"];
+        }
+    }
+
+    static fromJS(data: any): ApiResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new ApiResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["type"] = this.type;
+        data["message"] = this.message;
+        return data;
+    }
+}
+
+export interface IApiResponse {
+    code?: number | undefined;
+    type?: string | undefined;
+    message?: string | undefined;
 }
 
 export class Order implements IOrder {

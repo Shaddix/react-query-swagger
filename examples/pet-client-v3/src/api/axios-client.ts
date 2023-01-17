@@ -25,6 +25,192 @@ export class Client {
     }
 
     /**
+     * Find pet by ID
+     * @param petId ID of pet to return
+     * @return successful operation
+     */
+    getPetById(petId: number , cancelToken?: CancelToken | undefined): Promise<Pet> {
+        let url_ = this.baseUrl + "/pet/{petId}";
+
+        if (petId === undefined || petId === null)
+          throw new Error("The parameter 'petId' must be defined.");
+        url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
+          url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetPetById(_response);
+        });
+    }
+
+    protected processGetPetById(response: AxiosResponse): Promise<Pet> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = Pet.fromJS(resultData200);
+            return Promise.resolve<Pet>(result200);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            return throwException("Invalid ID supplied", status, _responseText, _headers);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            return throwException("Pet not found", status, _responseText, _headers);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<Pet>(null as any);
+    }
+
+    /**
+     * Updates a pet in the store with form data
+     * @param petId ID of pet that needs to be updated
+     * @param name (optional) Updated name of the pet
+     * @param status (optional) Updated status of the pet
+     */
+    updatePetWithForm(petId: number, name?: string | null | undefined, status?: string | null | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/pet/{petId}";
+
+        if (petId === undefined || petId === null)
+          throw new Error("The parameter 'petId' must be defined.");
+        url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
+          url_ = url_.replace(/[?&]$/, "");
+
+        let content_ = "";
+        if (name !== undefined)
+            content_ += encodeURIComponent("name") + "=" + encodeURIComponent("" + name) + "&";
+        if (status !== undefined)
+            content_ += encodeURIComponent("status") + "=" + encodeURIComponent("" + status) + "&";
+        content_ = content_.replace(/&$/, "");
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processUpdatePetWithForm(_response);
+        });
+    }
+
+    protected processUpdatePetWithForm(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 405) {
+            const _responseText = response.data;
+            return throwException("Invalid input", status, _responseText, _headers);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * Deletes a pet
+     * @param petId Pet id to delete
+     * @param api_key (optional) 
+     */
+    deletePet(petId: number, api_key?: string | null | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/pet/{petId}";
+
+        if (petId === undefined || petId === null)
+          throw new Error("The parameter 'petId' must be defined.");
+        url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
+          url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "DELETE",
+            url: url_,
+            headers: {
+                "api_key": api_key !== undefined && api_key !== null ? "" + api_key : "",
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processDeletePet(_response);
+        });
+    }
+
+    protected processDeletePet(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 400) {
+            const _responseText = response.data;
+            return throwException("Invalid ID supplied", status, _responseText, _headers);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            return throwException("Pet not found", status, _responseText, _headers);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
      * uploads an image
      * @param petId ID of pet to update
      * @param additionalMetadata (optional) Additional data to pass to server
@@ -340,192 +526,6 @@ export class Client {
     }
 
     /**
-     * Find pet by ID
-     * @param petId ID of pet to return
-     * @return successful operation
-     */
-    getPetById(petId: number , cancelToken?: CancelToken | undefined): Promise<Pet> {
-        let url_ = this.baseUrl + "/pet/{petId}";
-
-        if (petId === undefined || petId === null)
-          throw new Error("The parameter 'petId' must be defined.");
-        url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
-          url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "GET",
-            url: url_,
-            headers: {
-                "Accept": "application/json"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processGetPetById(_response);
-        });
-    }
-
-    protected processGetPetById(response: AxiosResponse): Promise<Pet> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = Pet.fromJS(resultData200);
-            return Promise.resolve<Pet>(result200);
-
-        } else if (status === 400) {
-            const _responseText = response.data;
-            return throwException("Invalid ID supplied", status, _responseText, _headers);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            return throwException("Pet not found", status, _responseText, _headers);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<Pet>(null as any);
-    }
-
-    /**
-     * Updates a pet in the store with form data
-     * @param petId ID of pet that needs to be updated
-     * @param name (optional) Updated name of the pet
-     * @param status (optional) Updated status of the pet
-     */
-    updatePetWithForm(petId: number, name?: string | null | undefined, status?: string | null | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/pet/{petId}";
-
-        if (petId === undefined || petId === null)
-          throw new Error("The parameter 'petId' must be defined.");
-        url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
-          url_ = url_.replace(/[?&]$/, "");
-
-        let content_ = "";
-        if (name !== undefined)
-            content_ += encodeURIComponent("name") + "=" + encodeURIComponent("" + name) + "&";
-        if (status !== undefined)
-            content_ += encodeURIComponent("status") + "=" + encodeURIComponent("" + status) + "&";
-        content_ = content_.replace(/&$/, "");
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "POST",
-            url: url_,
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processUpdatePetWithForm(_response);
-        });
-    }
-
-    protected processUpdatePetWithForm(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 405) {
-            const _responseText = response.data;
-            return throwException("Invalid input", status, _responseText, _headers);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<void>(null as any);
-    }
-
-    /**
-     * Deletes a pet
-     * @param petId Pet id to delete
-     * @param api_key (optional) 
-     */
-    deletePet(petId: number, api_key?: string | null | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/pet/{petId}";
-
-        if (petId === undefined || petId === null)
-          throw new Error("The parameter 'petId' must be defined.");
-        url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
-          url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "DELETE",
-            url: url_,
-            headers: {
-                "api_key": api_key !== undefined && api_key !== null ? "" + api_key : "",
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processDeletePet(_response);
-        });
-    }
-
-    protected processDeletePet(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 400) {
-            const _responseText = response.data;
-            return throwException("Invalid ID supplied", status, _responseText, _headers);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            return throwException("Pet not found", status, _responseText, _headers);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<void>(null as any);
-    }
-
-    /**
      * Place an order for a pet
      * @param body order placed for purchasing the pet
      * @return successful operation
@@ -766,104 +766,6 @@ export class Client {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
         return Promise.resolve<{ [key: string]: number; }>(null as any);
-    }
-
-    /**
-     * Creates list of users with given input array
-     * @param body List of user object
-     * @return successful operation
-     */
-    createUsersWithArrayInput(body: User[] , cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/user/createWithArray";
-          url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "POST",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processCreateUsersWithArrayInput(_response);
-        });
-    }
-
-    protected processCreateUsersWithArrayInput(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        }
-    }
-
-    /**
-     * Creates list of users with given input array
-     * @param body List of user object
-     * @return successful operation
-     */
-    createUsersWithListInput(body: User[] , cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/user/createWithList";
-          url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "POST",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processCreateUsersWithListInput(_response);
-        });
-    }
-
-    protected processCreateUsersWithListInput(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        }
     }
 
     /**
@@ -1160,6 +1062,104 @@ export class Client {
     }
 
     /**
+     * Creates list of users with given input array
+     * @param body List of user object
+     * @return successful operation
+     */
+    createUsersWithArrayInput(body: User[] , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/user/createWithArray";
+          url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processCreateUsersWithArrayInput(_response);
+        });
+    }
+
+    protected processCreateUsersWithArrayInput(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        {
+            const _responseText = response.data;
+            return Promise.resolve<void>(null as any);
+
+        }
+    }
+
+    /**
+     * Creates list of users with given input array
+     * @param body List of user object
+     * @return successful operation
+     */
+    createUsersWithListInput(body: User[] , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/user/createWithList";
+          url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processCreateUsersWithListInput(_response);
+        });
+    }
+
+    protected processCreateUsersWithListInput(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        {
+            const _responseText = response.data;
+            return Promise.resolve<void>(null as any);
+
+        }
+    }
+
+    /**
      * Create user
      * @param body Created user object
      * @return successful operation
@@ -1211,50 +1211,6 @@ export class Client {
 //-----/ClientClass----
 
 export * as Query from './axios-client/Query';
-
-export class ApiResponse implements IApiResponse {
-    code?: number | undefined;
-    type?: string | undefined;
-    message?: string | undefined;
-
-    constructor(data?: IApiResponse) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.code = _data["code"];
-            this.type = _data["type"];
-            this.message = _data["message"];
-        }
-    }
-
-    static fromJS(data: any): ApiResponse {
-        data = typeof data === 'object' ? data : {};
-        let result = new ApiResponse();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["code"] = this.code;
-        data["type"] = this.type;
-        data["message"] = this.message;
-        return data;
-    }
-}
-
-export interface IApiResponse {
-    code?: number | undefined;
-    type?: string | undefined;
-    message?: string | undefined;
-}
 
 export class Category implements ICategory {
     id?: number | undefined;
@@ -1411,6 +1367,50 @@ export class Tag implements ITag {
 export interface ITag {
     id?: number | undefined;
     name?: string | undefined;
+}
+
+export class ApiResponse implements IApiResponse {
+    code?: number | undefined;
+    type?: string | undefined;
+    message?: string | undefined;
+
+    constructor(data?: IApiResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.code = _data["code"];
+            this.type = _data["type"];
+            this.message = _data["message"];
+        }
+    }
+
+    static fromJS(data: any): ApiResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new ApiResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["type"] = this.type;
+        data["message"] = this.message;
+        return data;
+    }
+}
+
+export interface IApiResponse {
+    code?: number | undefined;
+    type?: string | undefined;
+    message?: string | undefined;
 }
 
 export class Order implements IOrder {
