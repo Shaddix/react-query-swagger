@@ -6,6 +6,7 @@ export { setAxiosFactory, getAxios } from './helpers';
 export { setFetchFactory, getFetch } from './helpers';
 {%- endif -%}
 //-----ReactQueryFile-----
+import { isRef } from 'vue';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import type { UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from '@tanstack/react-query';
 {% template ReactQuery.MetaFile %}
@@ -51,7 +52,7 @@ export function isParameterObject(param: unknown) {
     const isObject = typeof param === 'object';
     if (!isObject) return false;
     if (param instanceof Date) return false;
-    return true;
+    return !isRef(param);
 }
 
 let _baseUrl = '';
