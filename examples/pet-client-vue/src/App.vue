@@ -8,7 +8,7 @@ const { isLoading, isError, data, error } =
 
 <template>
   <span v-if="isLoading">Loading...</span>
-  <span v-else-if="isError">Error: {{ error.message }}</span>
+  <span v-else-if="isError">Error: {{ (error as any).message }}</span>
   <!-- We can assume by this point that `isSuccess === true` -->
   <ul v-else>
     <li v-for="pet in data ?? []">{{ pet.name }}</li>

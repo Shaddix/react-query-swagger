@@ -66,7 +66,6 @@ export function addMetaToOptions<T extends {meta?: QueryMeta | MutationMeta | un
   }
   return options;
 }
-
 /*
   Determines if first parameter of useSomethingQuery is an object with query parameters, or it's a regular parameter
   Returns true if parameter is Object

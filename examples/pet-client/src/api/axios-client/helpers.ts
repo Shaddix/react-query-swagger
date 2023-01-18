@@ -4,7 +4,8 @@ import type { UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient
 import type { QueryMetaContextValue } from 'react-query-swagger';
 import { QueryMetaContext } from 'react-query-swagger';
 import { useContext } from 'react';
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
+import axios from 'axios';
+import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
 const _resultTypesByQueryKey: Record<string, () => { init(data: any): void }> = {};
 export function addResultTypeFactory(typeName: string, factory: () => { init(data: any): void }) {
@@ -36,7 +37,6 @@ export function addMetaToOptions<T extends {meta?: QueryMeta | MutationMeta | un
   }
   return options;
 }
-
 /*
   Determines if first parameter of useSomethingQuery is an object with query parameters, or it's a regular parameter
   Returns true if parameter is Object

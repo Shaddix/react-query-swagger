@@ -521,4 +521,7 @@ src/templates_no_hooks/original/OperationNameSafe.liquid
 !/src/templates_vue/File.liquid
 !/src/templates_vue/AxiosClient.liquid
 !/src/templates_vue/ReactQuery.MetaFile.liquid
+!/src/templates_vue/ReactQuery.MetaFileFunctions.liquid
 src/templates_vue/ReactQuery.liquid
+src/templates_no_hooks/ReactQuery.MetaFileFunctions.liquid
+src/templates_v3/ReactQuery.MetaFileFunctions.liquid

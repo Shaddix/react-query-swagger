@@ -1,5 +1,6 @@
 //-----ReactQueryFile-----
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
+import axios from 'axios';
+import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 type ClientFactoryFunction = <T>(type: (new (...params: any[]) => T)) => T;
 let _clientFactoryFunction: ClientFactoryFunction = <T>(type: (new (...params: any[]) => T)) => {
   const params = [_baseUrl, _fetchFactory()];

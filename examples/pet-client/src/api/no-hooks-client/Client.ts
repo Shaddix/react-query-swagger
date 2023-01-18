@@ -3,150 +3,6 @@ import { throwException } from '../no-hooks-client';
 import { getFetch, getBaseUrl, getJsonParseReviver } from './helpers';
 
 /**
- * Find pet by ID
- * @param petId ID of pet to return
- * @return successful operation
- */
-export function getPetById(petId: number): Promise<Types.Pet> {
-    let url_ = getBaseUrl() + "/pet/{petId}";
-
-    if (petId === undefined || petId === null)
-      throw new Error("The parameter 'petId' must be defined.");
-    url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
-      url_ = url_.replace(/[?&]$/, "");
-
-    let options_: RequestInit = {
-        method: "GET",
-        headers: {
-            "Accept": "application/json"
-        }
-    };
-
-    return getFetch().fetch(url_, options_).then((_response: Response) => {
-        return processGetPetById(_response);
-    });
-}
-
-function processGetPetById(response: Response): Promise<Types.Pet> {
-    const status = response.status;
-    let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-    if (status === 200) {
-        return response.text().then((_responseText) => {
-        let result200: any = null;
-        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, getJsonParseReviver());
-        result200 = Types.Pet.fromJS(resultData200);
-        return result200;
-        });
-    } else if (status === 400) {
-        return response.text().then((_responseText) => {
-        return throwException("Invalid ID supplied", status, _responseText, _headers);
-        });
-    } else if (status === 404) {
-        return response.text().then((_responseText) => {
-        return throwException("Pet not found", status, _responseText, _headers);
-        });
-    } else if (status !== 200 && status !== 204) {
-        return response.text().then((_responseText) => {
-        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        });
-    }
-    return Promise.resolve<Types.Pet>(null as any);
-}
-
-/**
- * Updates a pet in the store with form data
- * @param petId ID of pet that needs to be updated
- * @param name (optional) Updated name of the pet
- * @param status (optional) Updated status of the pet
- */
-export function updatePetWithForm(petId: number, name?: string | null | undefined, status?: string | null | undefined): Promise<void> {
-    let url_ = getBaseUrl() + "/pet/{petId}";
-
-    if (petId === undefined || petId === null)
-      throw new Error("The parameter 'petId' must be defined.");
-    url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
-      url_ = url_.replace(/[?&]$/, "");
-
-    let content_ = "";
-    if (name !== undefined)
-        content_ += encodeURIComponent("name") + "=" + encodeURIComponent("" + name) + "&";
-    if (status !== undefined)
-        content_ += encodeURIComponent("status") + "=" + encodeURIComponent("" + status) + "&";
-    content_ = content_.replace(/&$/, "");
-
-    let options_: RequestInit = {
-        body: content_,
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-        }
-    };
-
-    return getFetch().fetch(url_, options_).then((_response: Response) => {
-        return processUpdatePetWithForm(_response);
-    });
-}
-
-function processUpdatePetWithForm(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-    if (status === 405) {
-        return response.text().then((_responseText) => {
-        return throwException("Invalid input", status, _responseText, _headers);
-        });
-    } else if (status !== 200 && status !== 204) {
-        return response.text().then((_responseText) => {
-        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        });
-    }
-    return Promise.resolve<void>(null as any);
-}
-
-/**
- * Deletes a pet
- * @param petId Pet id to delete
- * @param api_key (optional) 
- */
-export function deletePet(petId: number, api_key?: string | null | undefined): Promise<void> {
-    let url_ = getBaseUrl() + "/pet/{petId}";
-
-    if (petId === undefined || petId === null)
-      throw new Error("The parameter 'petId' must be defined.");
-    url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
-      url_ = url_.replace(/[?&]$/, "");
-
-    let options_: RequestInit = {
-        method: "DELETE",
-        headers: {
-            "api_key": api_key !== undefined && api_key !== null ? "" + api_key : "",
-        }
-    };
-
-    return getFetch().fetch(url_, options_).then((_response: Response) => {
-        return processDeletePet(_response);
-    });
-}
-
-function processDeletePet(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-    if (status === 400) {
-        return response.text().then((_responseText) => {
-        return throwException("Invalid ID supplied", status, _responseText, _headers);
-        });
-    } else if (status === 404) {
-        return response.text().then((_responseText) => {
-        return throwException("Pet not found", status, _responseText, _headers);
-        });
-    } else if (status !== 200 && status !== 204) {
-        return response.text().then((_responseText) => {
-        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        });
-    }
-    return Promise.resolve<void>(null as any);
-}
-
-/**
  * uploads an image
  * @param petId ID of pet to update
  * @param additionalMetadata (optional) Additional data to pass to server
@@ -392,6 +248,150 @@ function processFindPetsByTags(response: Response): Promise<Types.Pet[]> {
 }
 
 /**
+ * Find pet by ID
+ * @param petId ID of pet to return
+ * @return successful operation
+ */
+export function getPetById(petId: number): Promise<Types.Pet> {
+    let url_ = getBaseUrl() + "/pet/{petId}";
+
+    if (petId === undefined || petId === null)
+      throw new Error("The parameter 'petId' must be defined.");
+    url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
+      url_ = url_.replace(/[?&]$/, "");
+
+    let options_: RequestInit = {
+        method: "GET",
+        headers: {
+            "Accept": "application/json"
+        }
+    };
+
+    return getFetch().fetch(url_, options_).then((_response: Response) => {
+        return processGetPetById(_response);
+    });
+}
+
+function processGetPetById(response: Response): Promise<Types.Pet> {
+    const status = response.status;
+    let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+    if (status === 200) {
+        return response.text().then((_responseText) => {
+        let result200: any = null;
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, getJsonParseReviver());
+        result200 = Types.Pet.fromJS(resultData200);
+        return result200;
+        });
+    } else if (status === 400) {
+        return response.text().then((_responseText) => {
+        return throwException("Invalid ID supplied", status, _responseText, _headers);
+        });
+    } else if (status === 404) {
+        return response.text().then((_responseText) => {
+        return throwException("Pet not found", status, _responseText, _headers);
+        });
+    } else if (status !== 200 && status !== 204) {
+        return response.text().then((_responseText) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        });
+    }
+    return Promise.resolve<Types.Pet>(null as any);
+}
+
+/**
+ * Updates a pet in the store with form data
+ * @param petId ID of pet that needs to be updated
+ * @param name (optional) Updated name of the pet
+ * @param status (optional) Updated status of the pet
+ */
+export function updatePetWithForm(petId: number, name?: string | null | undefined, status?: string | null | undefined): Promise<void> {
+    let url_ = getBaseUrl() + "/pet/{petId}";
+
+    if (petId === undefined || petId === null)
+      throw new Error("The parameter 'petId' must be defined.");
+    url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
+      url_ = url_.replace(/[?&]$/, "");
+
+    let content_ = "";
+    if (name !== undefined)
+        content_ += encodeURIComponent("name") + "=" + encodeURIComponent("" + name) + "&";
+    if (status !== undefined)
+        content_ += encodeURIComponent("status") + "=" + encodeURIComponent("" + status) + "&";
+    content_ = content_.replace(/&$/, "");
+
+    let options_: RequestInit = {
+        body: content_,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        }
+    };
+
+    return getFetch().fetch(url_, options_).then((_response: Response) => {
+        return processUpdatePetWithForm(_response);
+    });
+}
+
+function processUpdatePetWithForm(response: Response): Promise<void> {
+    const status = response.status;
+    let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+    if (status === 405) {
+        return response.text().then((_responseText) => {
+        return throwException("Invalid input", status, _responseText, _headers);
+        });
+    } else if (status !== 200 && status !== 204) {
+        return response.text().then((_responseText) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        });
+    }
+    return Promise.resolve<void>(null as any);
+}
+
+/**
+ * Deletes a pet
+ * @param petId Pet id to delete
+ * @param api_key (optional) 
+ */
+export function deletePet(petId: number, api_key?: string | null | undefined): Promise<void> {
+    let url_ = getBaseUrl() + "/pet/{petId}";
+
+    if (petId === undefined || petId === null)
+      throw new Error("The parameter 'petId' must be defined.");
+    url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
+      url_ = url_.replace(/[?&]$/, "");
+
+    let options_: RequestInit = {
+        method: "DELETE",
+        headers: {
+            "api_key": api_key !== undefined && api_key !== null ? "" + api_key : "",
+        }
+    };
+
+    return getFetch().fetch(url_, options_).then((_response: Response) => {
+        return processDeletePet(_response);
+    });
+}
+
+function processDeletePet(response: Response): Promise<void> {
+    const status = response.status;
+    let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+    if (status === 400) {
+        return response.text().then((_responseText) => {
+        return throwException("Invalid ID supplied", status, _responseText, _headers);
+        });
+    } else if (status === 404) {
+        return response.text().then((_responseText) => {
+        return throwException("Pet not found", status, _responseText, _headers);
+        });
+    } else if (status !== 200 && status !== 204) {
+        return response.text().then((_responseText) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        });
+    }
+    return Promise.resolve<void>(null as any);
+}
+
+/**
  * Place an order for a pet
  * @param body order placed for purchasing the pet
  * @return successful operation
@@ -576,6 +576,74 @@ function processGetInventory(response: Response): Promise<{ [key: string]: numbe
         });
     }
     return Promise.resolve<{ [key: string]: number; }>(null as any);
+}
+
+/**
+ * Creates list of users with given input array
+ * @param body List of user object
+ * @return successful operation
+ */
+export function createUsersWithArrayInput(body: Types.User[]): Promise<void> {
+    let url_ = getBaseUrl() + "/user/createWithArray";
+      url_ = url_.replace(/[?&]$/, "");
+
+    const content_ = JSON.stringify(body);
+
+    let options_: RequestInit = {
+        body: content_,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    };
+
+    return getFetch().fetch(url_, options_).then((_response: Response) => {
+        return processCreateUsersWithArrayInput(_response);
+    });
+}
+
+function processCreateUsersWithArrayInput(response: Response): Promise<void> {
+    const status = response.status;
+    let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+    {
+        return response.text().then((_responseText) => {
+        return;
+        });
+    }
+}
+
+/**
+ * Creates list of users with given input array
+ * @param body List of user object
+ * @return successful operation
+ */
+export function createUsersWithListInput(body: Types.User[]): Promise<void> {
+    let url_ = getBaseUrl() + "/user/createWithList";
+      url_ = url_.replace(/[?&]$/, "");
+
+    const content_ = JSON.stringify(body);
+
+    let options_: RequestInit = {
+        body: content_,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    };
+
+    return getFetch().fetch(url_, options_).then((_response: Response) => {
+        return processCreateUsersWithListInput(_response);
+    });
+}
+
+function processCreateUsersWithListInput(response: Response): Promise<void> {
+    const status = response.status;
+    let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+    {
+        return response.text().then((_responseText) => {
+        return;
+        });
+    }
 }
 
 /**
@@ -791,74 +859,6 @@ export function logoutUser(): Promise<void> {
 }
 
 function processLogoutUser(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-    {
-        return response.text().then((_responseText) => {
-        return;
-        });
-    }
-}
-
-/**
- * Creates list of users with given input array
- * @param body List of user object
- * @return successful operation
- */
-export function createUsersWithArrayInput(body: Types.User[]): Promise<void> {
-    let url_ = getBaseUrl() + "/user/createWithArray";
-      url_ = url_.replace(/[?&]$/, "");
-
-    const content_ = JSON.stringify(body);
-
-    let options_: RequestInit = {
-        body: content_,
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    };
-
-    return getFetch().fetch(url_, options_).then((_response: Response) => {
-        return processCreateUsersWithArrayInput(_response);
-    });
-}
-
-function processCreateUsersWithArrayInput(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-    {
-        return response.text().then((_responseText) => {
-        return;
-        });
-    }
-}
-
-/**
- * Creates list of users with given input array
- * @param body List of user object
- * @return successful operation
- */
-export function createUsersWithListInput(body: Types.User[]): Promise<void> {
-    let url_ = getBaseUrl() + "/user/createWithList";
-      url_ = url_.replace(/[?&]$/, "");
-
-    const content_ = JSON.stringify(body);
-
-    let options_: RequestInit = {
-        body: content_,
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    };
-
-    return getFetch().fetch(url_, options_).then((_response: Response) => {
-        return processCreateUsersWithListInput(_response);
-    });
-}
-
-function processCreateUsersWithListInput(response: Response): Promise<void> {
     const status = response.status;
     let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
     {

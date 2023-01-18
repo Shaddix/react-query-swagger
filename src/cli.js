@@ -141,7 +141,7 @@ readdirSync(join(pathToTemplates, sourceFolder))
 
 const isYarn = process.env.npm_execpath.includes('yarn');
 const cliExecutor = isYarn ? 'yarn' : 'npx';
-const toExecute = `${cliExecutor} nswag openapi2tsclient /templateDirectory:"${pathToTemplates}" ${args}`;
+const toExecute = `${cliExecutor} nswag openapi2tsclient /templateDirectory:"${pathToTemplates}" /typeScriptVersion:"4" ${args}`;
 try {
   execSync(toExecute, function (e, stdout, stderr) {
     console.log(stdout);
@@ -222,6 +222,10 @@ if (isVue) {
     '',
   );
 
+  apiClient = apiClient
+    .replaceAll(/UseQueryResult/gim, 'UseQueryReturnType')
+    .replaceAll(/UseMutationResult/gim, 'UseMutationReturnType');
+
   writeFileSync(outputPath, apiClient);
 }
 
@@ -257,7 +261,11 @@ if (isClientsAsModules) {
   apiClient = apiClient
     .replace('function throwException', 'export function throwException')
     .replace('function isAxiosError', 'export function isAxiosError')
-    .replace('function formatDate', 'export function formatDate');
+    .replace('function formatDate', 'export function formatDate')
+    .replace(
+      "import axios, { AxiosError } from 'axios';",
+      "import type { AxiosError } from 'axios';",
+    );
   writeFileSync(outputPath, apiClient);
 }
 

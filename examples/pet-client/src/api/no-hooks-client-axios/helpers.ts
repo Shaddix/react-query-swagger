@@ -1,5 +1,6 @@
 //-----ReactQueryFile-----
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
+import axios from 'axios';
+import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
 /*
   Determines if first parameter of useSomethingQuery is an object with query parameters, or it's a regular parameter

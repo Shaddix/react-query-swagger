@@ -2429,11 +2429,6 @@
   dependencies:
     "@tanstack/query-persist-client-core" "4.20.4"
 
-"@tanstack/react-query-persist-client@^4.2.0":
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query-persist-client/-/react-query-persist-client-4.2.1.tgz#a4b054a1453c6cdc4a0491c917d1bf0a9bef27ad"
-  integrity sha512-5z3oo6S8stiPTFK7hmv4O04ZTMgdCrhgV+cq+z0t2NJwd5eeKPLrAUSBM+ah9eEhUlzs5ZEhaYeSwtPopOjYdg==
-
 "@tanstack/react-query@4.20.4":
   version "4.20.4"
   resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.20.4.tgz#562b34fb919adea884eccaba2b5be50e8ba7fb16"
@@ -9713,10 +9708,10 @@ npm-run-path@^4.0.0, npm-run-path@^4.0.1:
   dependencies:
     path-key "^3.0.0"
 
-nswag@^13.17.0:
-  version "13.17.0"
-  resolved "https://registry.yarnpkg.com/nswag/-/nswag-13.17.0.tgz#9f27177e899bce6f9951ea96074311dc4ed07a1c"
-  integrity sha512-Av1qcXZEhTYnF9KXcv0NybvpYxZH/HtEB//Nes/IEAd0HSWkpdSYlZcx7Q1+mi0yFAI95sSlxSEI30SRib7RgA==
+nswag@^13.18.2:
+  version "13.18.2"
+  resolved "https://registry.yarnpkg.com/nswag/-/nswag-13.18.2.tgz#40ab582f54cf6679c8f57bd19baa20842a0eb347"
+  integrity sha512-7OpG9WkrZUO2+9I7hgQsaAHujsP/tCaIs7ML2B4wUuFLjSsG6lHucyrREyVO/h9l3MM/Cw4RlEGFBbluWhgeYg==
 
 nth-check@^1.0.2:
   version "1.0.2"
@@ -11036,10 +11031,9 @@ react-is@^17.0.1:
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
 "react-query-swagger@link:src":
-  version "15.1.1"
+  version "15.2.7"
   dependencies:
-    "@tanstack/react-query-persist-client" "^4.2.0"
-    nswag "^13.17.0"
+    nswag "^13.18.2"
 
 react-query@3.39.1:
   version "3.39.1"

@@ -10,7 +10,8 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import type { UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from '@tanstack/react-query';
 {% template ReactQuery.MetaFile %}
 {%         if Framework.IsAxios -%}
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
+import axios from 'axios';
+import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 {%         endif -%}
 
 {%- template ReactQuery.GetClientFactory -%}
@@ -38,18 +39,7 @@ export function trimArrayEnd<T>(arr: T[]): T[] {
     return lastDefinedValueIndex === arr.length - 1 ? arr : arr.slice(0, lastDefinedValueIndex + 1);
 }
 
-
-export function addMetaToOptions<T extends {meta?: QueryMeta | MutationMeta | undefined}>(options: T | undefined, metaContext: QueryMetaContextValue): T | undefined {
-  if (metaContext.metaFn) {
-    options = options ?? { } as any;
-    options!.meta = {
-      ...metaContext.metaFn(),
-      ...options!.meta,
-    };
-  }
-  return options;
-}
-
+{% template ReactQuery.MetaFileFunctions %}
 /*
   Determines if first parameter of useSomethingQuery is an object with query parameters, or it's a regular parameter
   Returns true if parameter is Object

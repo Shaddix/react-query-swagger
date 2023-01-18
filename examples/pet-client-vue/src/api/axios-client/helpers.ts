@@ -1,8 +1,9 @@
 //-----ReactQueryFile-----
 import { useQuery, useMutation } from '@tanstack/vue-query';
-import type { UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from '@tanstack/vue-query';
+import type { UseQueryReturnType, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, MutationKey, UseMutationOptions, UseMutationReturnType, QueryMeta, MutationMeta } from '@tanstack/vue-query';
 
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
+import axios from 'axios';
+import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
 const _resultTypesByQueryKey: Record<string, () => { init(data: any): void }> = {};
 export function addResultTypeFactory(typeName: string, factory: () => { init(data: any): void }) {
@@ -24,17 +25,8 @@ export function trimArrayEnd<T>(arr: T[]): T[] {
     return lastDefinedValueIndex === arr.length - 1 ? arr : arr.slice(0, lastDefinedValueIndex + 1);
 }
 
-export function addMetaToOptions<T extends {meta?: QueryMeta | MutationMeta | undefined}>(options: T | undefined, metaContext: QueryMetaContextValue): T | undefined {
-  if (metaContext.metaFn) {
-    options = options ?? { } as any;
-    options!.meta = {
-      ...metaContext.metaFn(),
-      ...options!.meta,
-    };
-  }
-  return options;
+export function addMetaToOptions() {
 }
-
 /*
   Determines if first parameter of useSomethingQuery is an object with query parameters, or it's a regular parameter
   Returns true if parameter is Object
