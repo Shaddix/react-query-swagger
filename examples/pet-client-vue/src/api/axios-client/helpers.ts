@@ -1,7 +1,7 @@
 //-----ReactQueryFile-----
 import { useQuery, useMutation } from '@tanstack/vue-query';
 import type { UseQueryReturnType, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, MutationKey, UseMutationOptions, UseMutationReturnType, QueryMeta, MutationMeta } from '@tanstack/vue-query';
-
+import type { Ref } from 'vue';
 import axios from 'axios';
 import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 

@@ -11,7 +11,7 @@ import * as Types from '../axios-client';
 import { useQuery, useMutation } from '@tanstack/vue-query';
 import type { UseQueryReturnType, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, MutationKey, UseMutationOptions, UseMutationReturnType, QueryMeta, MutationMeta } from '@tanstack/vue-query';
 import { trimArrayEnd, isParameterObject, getBaseUrl, addMetaToOptions  } from './helpers';
-
+import type { Ref } from 'vue';
 export const Client = Types.Client;
 
 export type UploadFileMutationParameters = {
@@ -20,15 +20,15 @@ export type UploadFileMutationParameters = {
 };
 
 export type FindPetsByStatusQueryParameters = {
-  status: Types.Status[];
+  status: Types.Status[] | Ref<Types.Status[]>;
 };
 
 export type FindPetsByTagsQueryParameters = {
-  tags: string[];
+  tags: string[] | Ref<string[]>;
 };
 
 export type GetPetByIdQueryParameters = {
-  petId: number;
+  petId: number | Ref<number>;
 };
 
 export type UpdatePetWithFormMutationParameters = {
@@ -37,16 +37,16 @@ export type UpdatePetWithFormMutationParameters = {
 };
 
 export type GetOrderByIdQueryParameters = {
-  orderId: number;
+  orderId: number | Ref<number>;
 };
 
 export type GetUserByNameQueryParameters = {
-  username: string;
+  username: string | Ref<string>;
 };
 
 export type LoginUserQueryParameters = {
-  username: string;
-  password: string;
+  username: string | Ref<string>;
+  password: string | Ref<string>;
 };
 
     
