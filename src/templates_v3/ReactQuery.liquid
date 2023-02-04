@@ -4,6 +4,9 @@ import type { UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient
 import { trimArrayEnd, isParameterObject, getBaseUrl, addMetaToOptions  } from './helpers';
 {% template ReactQuery.MetaFile %}
 {% template ReactQuery.GetClientFunction %}
+{%- if Framework.IsAxios -%}
+import type { AxiosRequestConfig } from 'axios';
+{%- endif -%}
 
 {%- if HasOperations -%}
 {%- assign QueryClassName = Class | prepend: 'Qqqqqq' | slice: 0, Class.size | append: "Query" | slice: 6, 1000 -%}
@@ -138,12 +141,15 @@ function __{{ operation.ActualOperationName }}({% if operation.Parameters.size >
 }
 
     {%- if operation.Parameters.size > 0 -%}
-export function {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Query<TSelectData = {{ ResultType }}, TError = unknown>(dto: {{ parameterClassName }}, options?: UseQueryOptions<{{ ResultType }}, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+export function {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Query<TSelectData = {{ ResultType }}, TError = unknown>(dto: {{ parameterClassName }}, options?: UseQueryOptions<{{ ResultType }}, TError, TSelectData>{%- if Framework.IsAxios %}, axiosConfig?: Partial<AxiosRequestConfig>{% endif %}): UseQueryResult<TSelectData, TError>;
     {%- endif -%}
 {% template Client.Method.Documentation %}
-export function {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Query<TSelectData = {{ ResultType }}, TError = unknown>({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type | prepend: 'Types.' -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}, {% endfor %}options?: UseQueryOptions<{{ ResultType }}, TError, TSelectData>): UseQueryResult<TSelectData, TError>;
+export function {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Query<TSelectData = {{ ResultType }}, TError = unknown>({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type | prepend: 'Types.' -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}, {% endfor %}options?: UseQueryOptions<{{ ResultType }}, TError, TSelectData>{%- if Framework.IsAxios %}, axiosConfig?: Partial<AxiosRequestConfig>{% endif %}): UseQueryResult<TSelectData, TError>;
 export function use{{ operation.ActualOperationName | capitalize }}Query<TSelectData = {{ ResultType }}, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<{{ ResultType }}, TError, TSelectData> | undefined = undefined;
+  {%- if Framework.IsAxios -%}
+  let axiosConfig: AxiosRequestConfig |undefined;
+  {%- endif -%}
   {% for parameter in operation.Parameters %}let {{ parameter.VariableName }}: any = undefined;
   {% endfor %}
 {%- if operation.Parameters.size > 0 -%}
@@ -151,16 +157,27 @@ export function use{{ operation.ActualOperationName | capitalize }}Query<TSelect
     if (isParameterObject(params[0])) {
       ({ {% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %} } = params[0] as {{ parameterClassName  }});
       options = params[1];
+      {%- if Framework.IsAxios -%}
+      axiosConfig = params[2];
+      {%- endif -%}
     } else {
-      [{% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %} options] = params;
+      [{% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}options{%- if Framework.IsAxios %}, axiosConfig{% endif %}] = params;
     }
   }
 {% else %}
   options = params[0] as any;
-{% endif %}
+  {%- if Framework.IsAxios -%}
+  axiosConfig = params[1] as any;
+  {%- endif -%}
+{%- endif -%}
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
+  {%- if Framework.IsAxios -%}
+  if (options) {
+    options.meta = { ...options.meta, axiosConfig };
+  }
+  {%- endif -%}
 
   return useQuery<{{ ResultType }}, TError, TSelectData>({
     {%- comment -%} We add __ to the function name to avoid name clashing with parameters of this function {%- endcomment -%}

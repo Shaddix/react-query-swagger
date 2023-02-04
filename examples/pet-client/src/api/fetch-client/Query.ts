@@ -203,7 +203,7 @@ export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unk
       ({ status,  } = params[0] as FindPetsByStatusQueryParameters);
       options = params[1];
     } else {
-      [status,  options] = params;
+      [status, options] = params;
     }
   }
 
@@ -298,7 +298,7 @@ export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unkno
       ({ tags,  } = params[0] as FindPetsByTagsQueryParameters);
       options = params[1];
     } else {
-      [tags,  options] = params;
+      [tags, options] = params;
     }
   }
 
@@ -394,7 +394,7 @@ export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(..
       ({ petId,  } = params[0] as GetPetByIdQueryParameters);
       options = params[1];
     } else {
-      [petId,  options] = params;
+      [petId, options] = params;
     }
   }
 
@@ -584,7 +584,7 @@ export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown
       ({ orderId,  } = params[0] as GetOrderByIdQueryParameters);
       options = params[1];
     } else {
-      [orderId,  options] = params;
+      [orderId, options] = params;
     }
   }
 
@@ -834,7 +834,7 @@ export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown
       ({ username,  } = params[0] as GetUserByNameQueryParameters);
       options = params[1];
     } else {
-      [username,  options] = params;
+      [username, options] = params;
     }
   }
 
@@ -1001,7 +1001,7 @@ export function useLoginUserQuery<TSelectData = string, TError = unknown>(...par
       ({ username, password,  } = params[0] as LoginUserQueryParameters);
       options = params[1];
     } else {
-      [username, password,  options] = params;
+      [username, password, options] = params;
     }
   }
 

@@ -4,13 +4,19 @@ import { AxiosQuery } from './api';
 import { IPet, Pet, Status } from './api/axios-client';
 import { PetsList } from './components/PetsList';
 import { QueryMetaProvider } from 'react-query-swagger';
-import { QueryObserver, useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  QueryObserver,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { Infinite } from './Infinite';
 
 function App() {
   const queryClient = useQueryClient();
   const addPetMutation = AxiosQuery.Query.useAddPetMutation({
-    onSuccess:()=>{setAddPetName('');}
+    onSuccess: () => {
+      setAddPetName('');
+    },
   });
 
   const pets1Query = AxiosQuery.Query.useFindPetsByStatusQuery({
@@ -48,10 +54,19 @@ function App() {
   const [addPetName, setAddPetName] = useState('');
   return (
     <div className="App">
-      <form onSubmit={(e)=>{
-        e.preventDefault();
-        addPetMutation.mutate(new Pet({name: addPetName, photoUrls:[]}));
-      }}><input name="name" value={addPetName} onChange={(e)=>setAddPetName(e.target.value)} /><input type="submit" value="Add"/></form>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          addPetMutation.mutate(new Pet({ name: addPetName, photoUrls: [] }));
+        }}
+      >
+        <input
+          name="name"
+          value={addPetName}
+          onChange={(e) => setAddPetName(e.target.value)}
+        />
+        <input type="submit" value="Add" />
+      </form>
       <Infinite />
       <div
         style={{
