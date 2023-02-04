@@ -1217,221 +1217,221 @@ function processCreateUser(response: AxiosResponse): Promise<void> {
     }
 }
 let _requestConfigUploadFile: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigUploadFile() {
+export function getUploadFileRequestConfig() {
   return _requestConfigUploadFile;
 }
-export function setRequestConfigUploadFile(value: Partial<AxiosRequestConfig>) {
+export function setUploadFileRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigUploadFile = value;
 }
-export function patchRequestConfigUploadFile(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchUploadFileRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigUploadFile = patch(_requestConfigUploadFile ?? {});
 }
 
 let _requestConfigAddPet: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigAddPet() {
+export function getAddPetRequestConfig() {
   return _requestConfigAddPet;
 }
-export function setRequestConfigAddPet(value: Partial<AxiosRequestConfig>) {
+export function setAddPetRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigAddPet = value;
 }
-export function patchRequestConfigAddPet(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchAddPetRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigAddPet = patch(_requestConfigAddPet ?? {});
 }
 
 let _requestConfigUpdatePet: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigUpdatePet() {
+export function getUpdatePetRequestConfig() {
   return _requestConfigUpdatePet;
 }
-export function setRequestConfigUpdatePet(value: Partial<AxiosRequestConfig>) {
+export function setUpdatePetRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigUpdatePet = value;
 }
-export function patchRequestConfigUpdatePet(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchUpdatePetRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigUpdatePet = patch(_requestConfigUpdatePet ?? {});
 }
 
 let _requestConfigFindPetsByStatus: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigFindPetsByStatus() {
+export function getFindPetsByStatusRequestConfig() {
   return _requestConfigFindPetsByStatus;
 }
-export function setRequestConfigFindPetsByStatus(value: Partial<AxiosRequestConfig>) {
+export function setFindPetsByStatusRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigFindPetsByStatus = value;
 }
-export function patchRequestConfigFindPetsByStatus(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchFindPetsByStatusRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigFindPetsByStatus = patch(_requestConfigFindPetsByStatus ?? {});
 }
 
 let _requestConfigFindPetsByTags: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigFindPetsByTags() {
+export function getFindPetsByTagsRequestConfig() {
   return _requestConfigFindPetsByTags;
 }
-export function setRequestConfigFindPetsByTags(value: Partial<AxiosRequestConfig>) {
+export function setFindPetsByTagsRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigFindPetsByTags = value;
 }
-export function patchRequestConfigFindPetsByTags(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchFindPetsByTagsRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigFindPetsByTags = patch(_requestConfigFindPetsByTags ?? {});
 }
 
 let _requestConfigGetPetById: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigGetPetById() {
+export function getGetPetByIdRequestConfig() {
   return _requestConfigGetPetById;
 }
-export function setRequestConfigGetPetById(value: Partial<AxiosRequestConfig>) {
+export function setGetPetByIdRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigGetPetById = value;
 }
-export function patchRequestConfigGetPetById(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchGetPetByIdRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigGetPetById = patch(_requestConfigGetPetById ?? {});
 }
 
 let _requestConfigUpdatePetWithForm: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigUpdatePetWithForm() {
+export function getUpdatePetWithFormRequestConfig() {
   return _requestConfigUpdatePetWithForm;
 }
-export function setRequestConfigUpdatePetWithForm(value: Partial<AxiosRequestConfig>) {
+export function setUpdatePetWithFormRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigUpdatePetWithForm = value;
 }
-export function patchRequestConfigUpdatePetWithForm(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchUpdatePetWithFormRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigUpdatePetWithForm = patch(_requestConfigUpdatePetWithForm ?? {});
 }
 
 let _requestConfigDeletePet: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigDeletePet() {
+export function getDeletePetRequestConfig() {
   return _requestConfigDeletePet;
 }
-export function setRequestConfigDeletePet(value: Partial<AxiosRequestConfig>) {
+export function setDeletePetRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigDeletePet = value;
 }
-export function patchRequestConfigDeletePet(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchDeletePetRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigDeletePet = patch(_requestConfigDeletePet ?? {});
 }
 
 let _requestConfigPlaceOrder: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigPlaceOrder() {
+export function getPlaceOrderRequestConfig() {
   return _requestConfigPlaceOrder;
 }
-export function setRequestConfigPlaceOrder(value: Partial<AxiosRequestConfig>) {
+export function setPlaceOrderRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigPlaceOrder = value;
 }
-export function patchRequestConfigPlaceOrder(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchPlaceOrderRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigPlaceOrder = patch(_requestConfigPlaceOrder ?? {});
 }
 
 let _requestConfigGetOrderById: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigGetOrderById() {
+export function getGetOrderByIdRequestConfig() {
   return _requestConfigGetOrderById;
 }
-export function setRequestConfigGetOrderById(value: Partial<AxiosRequestConfig>) {
+export function setGetOrderByIdRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigGetOrderById = value;
 }
-export function patchRequestConfigGetOrderById(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchGetOrderByIdRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigGetOrderById = patch(_requestConfigGetOrderById ?? {});
 }
 
 let _requestConfigDeleteOrder: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigDeleteOrder() {
+export function getDeleteOrderRequestConfig() {
   return _requestConfigDeleteOrder;
 }
-export function setRequestConfigDeleteOrder(value: Partial<AxiosRequestConfig>) {
+export function setDeleteOrderRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigDeleteOrder = value;
 }
-export function patchRequestConfigDeleteOrder(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchDeleteOrderRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigDeleteOrder = patch(_requestConfigDeleteOrder ?? {});
 }
 
 let _requestConfigGetInventory: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigGetInventory() {
+export function getGetInventoryRequestConfig() {
   return _requestConfigGetInventory;
 }
-export function setRequestConfigGetInventory(value: Partial<AxiosRequestConfig>) {
+export function setGetInventoryRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigGetInventory = value;
 }
-export function patchRequestConfigGetInventory(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchGetInventoryRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigGetInventory = patch(_requestConfigGetInventory ?? {});
 }
 
 let _requestConfigCreateUsersWithArrayInput: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigCreateUsersWithArrayInput() {
+export function getCreateUsersWithArrayInputRequestConfig() {
   return _requestConfigCreateUsersWithArrayInput;
 }
-export function setRequestConfigCreateUsersWithArrayInput(value: Partial<AxiosRequestConfig>) {
+export function setCreateUsersWithArrayInputRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigCreateUsersWithArrayInput = value;
 }
-export function patchRequestConfigCreateUsersWithArrayInput(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchCreateUsersWithArrayInputRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigCreateUsersWithArrayInput = patch(_requestConfigCreateUsersWithArrayInput ?? {});
 }
 
 let _requestConfigCreateUsersWithListInput: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigCreateUsersWithListInput() {
+export function getCreateUsersWithListInputRequestConfig() {
   return _requestConfigCreateUsersWithListInput;
 }
-export function setRequestConfigCreateUsersWithListInput(value: Partial<AxiosRequestConfig>) {
+export function setCreateUsersWithListInputRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigCreateUsersWithListInput = value;
 }
-export function patchRequestConfigCreateUsersWithListInput(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchCreateUsersWithListInputRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigCreateUsersWithListInput = patch(_requestConfigCreateUsersWithListInput ?? {});
 }
 
 let _requestConfigGetUserByName: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigGetUserByName() {
+export function getGetUserByNameRequestConfig() {
   return _requestConfigGetUserByName;
 }
-export function setRequestConfigGetUserByName(value: Partial<AxiosRequestConfig>) {
+export function setGetUserByNameRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigGetUserByName = value;
 }
-export function patchRequestConfigGetUserByName(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchGetUserByNameRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigGetUserByName = patch(_requestConfigGetUserByName ?? {});
 }
 
 let _requestConfigUpdateUser: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigUpdateUser() {
+export function getUpdateUserRequestConfig() {
   return _requestConfigUpdateUser;
 }
-export function setRequestConfigUpdateUser(value: Partial<AxiosRequestConfig>) {
+export function setUpdateUserRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigUpdateUser = value;
 }
-export function patchRequestConfigUpdateUser(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchUpdateUserRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigUpdateUser = patch(_requestConfigUpdateUser ?? {});
 }
 
 let _requestConfigDeleteUser: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigDeleteUser() {
+export function getDeleteUserRequestConfig() {
   return _requestConfigDeleteUser;
 }
-export function setRequestConfigDeleteUser(value: Partial<AxiosRequestConfig>) {
+export function setDeleteUserRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigDeleteUser = value;
 }
-export function patchRequestConfigDeleteUser(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchDeleteUserRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigDeleteUser = patch(_requestConfigDeleteUser ?? {});
 }
 
 let _requestConfigLoginUser: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigLoginUser() {
+export function getLoginUserRequestConfig() {
   return _requestConfigLoginUser;
 }
-export function setRequestConfigLoginUser(value: Partial<AxiosRequestConfig>) {
+export function setLoginUserRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigLoginUser = value;
 }
-export function patchRequestConfigLoginUser(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchLoginUserRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigLoginUser = patch(_requestConfigLoginUser ?? {});
 }
 
 let _requestConfigLogoutUser: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigLogoutUser() {
+export function getLogoutUserRequestConfig() {
   return _requestConfigLogoutUser;
 }
-export function setRequestConfigLogoutUser(value: Partial<AxiosRequestConfig>) {
+export function setLogoutUserRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigLogoutUser = value;
 }
-export function patchRequestConfigLogoutUser(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchLogoutUserRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigLogoutUser = patch(_requestConfigLogoutUser ?? {});
 }
 
 let _requestConfigCreateUser: Partial<AxiosRequestConfig> | null;
-export function getRequestConfigCreateUser() {
+export function getCreateUserRequestConfig() {
   return _requestConfigCreateUser;
 }
-export function setRequestConfigCreateUser(value: Partial<AxiosRequestConfig>) {
+export function setCreateUserRequestConfig(value: Partial<AxiosRequestConfig>) {
   _requestConfigCreateUser = value;
 }
-export function patchRequestConfigCreateUser(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+export function patchCreateUserRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigCreateUser = patch(_requestConfigCreateUser ?? {});
 }

@@ -82,13 +82,25 @@ Sets the function to return the `fetch`function to be used in http request. By d
 
 ### Configure query options
 
-You could define additional `UseQueryOptions` for each query by setting `*queryName*DefaultOptions`
+You could define additional `UseQueryOptions` for each query by calling `set*QueryName*DefaultOptions`
 
 ```
-AxiosQuery.ClientQuery.findPetsByStatusDefaultOptions = {
+AxiosQuery.ClientQuery.setFindPetsByStatusDefaultOptions({
   cacheTime: 10000
-}
+});
 ```
+
+### Configure Axios options
+
+If you use Axios, you could adjust AxiosRequestConfig per endpoint by using `set*QueryName*RequestConfig`
+
+```
+AxiosQuery.ClientQuery.setFindPetsByStatusRequestConfig({
+  timeout: 10000
+});
+```
+
+`get*QueryName*RequestConfig` and `patch*QueryName*RequestConfig` are also available.
 
 ### persistQueryClient support
 
