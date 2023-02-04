@@ -66,6 +66,18 @@ const addPetMutation = ClientQuery.useAddPetMutation();
 addPetMutation.mutate(new Pet({ name: 'blablabla', photoUrls: [] }));
 ```
 
+### Pass AxiosRequestConfig to a query (for axios users)
+
+You could pass `AxiosRequestConfig` parameters for each request via the last parameter of `useQuery`. E.g.:
+
+```ts
+const petsQuery = ClientQuery.useFindPetsByStatusQuery(
+  [Status.Available, Status.Pending, Status.Sold],
+  queryParams,
+  { timeout: 1000 } /** this param accepts AxiosRequestConfig **/,
+);
+```
+
 ## Configuration
 
 ##### setBaseUrl(baseUrl: string)
@@ -90,7 +102,7 @@ AxiosQuery.ClientQuery.setFindPetsByStatusDefaultOptions({
 });
 ```
 
-### Configure Axios options
+### Configure global Axios options
 
 If you use Axios, you could adjust AxiosRequestConfig per endpoint by using `set*QueryName*RequestConfig`
 
