@@ -174,8 +174,9 @@ export function use{{ operation.ActualOperationName | capitalize }}Query<TSelect
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   {%- if Framework.IsAxios -%}
-  if (options) {
-    options.meta = { ...options.meta, axiosConfig };
+  if (axiosConfig) {
+    options = options ?? { } as any;
+    options!.meta = { ...options!.meta, axiosConfig };
   }
   {%- endif -%}
 

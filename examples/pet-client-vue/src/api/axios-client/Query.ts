@@ -195,8 +195,9 @@ export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unk
       [status, options, axiosConfig] = params;
     }
   }
-  if (options) {
-    options.meta = { ...options.meta, axiosConfig };
+  if (axiosConfig) {
+    options = options ?? { } as any;
+    options!.meta = { ...options!.meta, axiosConfig };
   }
 
   return useQuery<Types.Pet[], TError, TSelectData>({
@@ -292,8 +293,9 @@ export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unkno
       [tags, options, axiosConfig] = params;
     }
   }
-  if (options) {
-    options.meta = { ...options.meta, axiosConfig };
+  if (axiosConfig) {
+    options = options ?? { } as any;
+    options!.meta = { ...options!.meta, axiosConfig };
   }
 
   return useQuery<Types.Pet[], TError, TSelectData>({
@@ -390,8 +392,9 @@ export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(..
       [petId, options, axiosConfig] = params;
     }
   }
-  if (options) {
-    options.meta = { ...options.meta, axiosConfig };
+  if (axiosConfig) {
+    options = options ?? { } as any;
+    options!.meta = { ...options!.meta, axiosConfig };
   }
 
   return useQuery<Types.Pet, TError, TSelectData>({
@@ -573,8 +576,9 @@ export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown
       [orderId, options, axiosConfig] = params;
     }
   }
-  if (options) {
-    options.meta = { ...options.meta, axiosConfig };
+  if (axiosConfig) {
+    options = options ?? { } as any;
+    options!.meta = { ...options!.meta, axiosConfig };
   }
 
   return useQuery<Types.Order, TError, TSelectData>({
@@ -674,8 +678,9 @@ export function useGetInventoryQuery<TSelectData = { [key: string]: number; }, T
 
   options = params[0] as any;
   axiosConfig = params[1] as any;
-  if (options) {
-    options.meta = { ...options.meta, axiosConfig };
+  if (axiosConfig) {
+    options = options ?? { } as any;
+    options!.meta = { ...options!.meta, axiosConfig };
   }
 
   return useQuery<{ [key: string]: number; }, TError, TSelectData>({
@@ -818,8 +823,9 @@ export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown
       [username, options, axiosConfig] = params;
     }
   }
-  if (options) {
-    options.meta = { ...options.meta, axiosConfig };
+  if (axiosConfig) {
+    options = options ?? { } as any;
+    options!.meta = { ...options!.meta, axiosConfig };
   }
 
   return useQuery<Types.User, TError, TSelectData>({
@@ -981,8 +987,9 @@ export function useLoginUserQuery<TSelectData = string, TError = unknown>(...par
       [username, password, options, axiosConfig] = params;
     }
   }
-  if (options) {
-    options.meta = { ...options.meta, axiosConfig };
+  if (axiosConfig) {
+    options = options ?? { } as any;
+    options!.meta = { ...options!.meta, axiosConfig };
   }
 
   return useQuery<string, TError, TSelectData>({
@@ -1055,8 +1062,9 @@ export function useLogoutUserQuery<TSelectData = void, TError = unknown>(...para
 
   options = params[0] as any;
   axiosConfig = params[1] as any;
-  if (options) {
-    options.meta = { ...options.meta, axiosConfig };
+  if (axiosConfig) {
+    options = options ?? { } as any;
+    options!.meta = { ...options!.meta, axiosConfig };
   }
 
   return useQuery<void, TError, TSelectData>({

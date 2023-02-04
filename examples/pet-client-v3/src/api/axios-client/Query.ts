@@ -212,8 +212,9 @@ export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unk
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (options) {
-    options.meta = { ...options.meta, axiosConfig };
+  if (axiosConfig) {
+    options = options ?? { } as any;
+    options!.meta = { ...options!.meta, axiosConfig };
   }
 
   return useQuery<Types.Pet[], TError, TSelectData>({
@@ -312,8 +313,9 @@ export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unkno
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (options) {
-    options.meta = { ...options.meta, axiosConfig };
+  if (axiosConfig) {
+    options = options ?? { } as any;
+    options!.meta = { ...options!.meta, axiosConfig };
   }
 
   return useQuery<Types.Pet[], TError, TSelectData>({
@@ -413,8 +415,9 @@ export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(..
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (options) {
-    options.meta = { ...options.meta, axiosConfig };
+  if (axiosConfig) {
+    options = options ?? { } as any;
+    options!.meta = { ...options!.meta, axiosConfig };
   }
 
   return useQuery<Types.Pet, TError, TSelectData>({
@@ -608,8 +611,9 @@ export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (options) {
-    options.meta = { ...options.meta, axiosConfig };
+  if (axiosConfig) {
+    options = options ?? { } as any;
+    options!.meta = { ...options!.meta, axiosConfig };
   }
 
   return useQuery<Types.Order, TError, TSelectData>({
@@ -715,8 +719,9 @@ export function useGetInventoryQuery<TSelectData = { [key: string]: number; }, T
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (options) {
-    options.meta = { ...options.meta, axiosConfig };
+  if (axiosConfig) {
+    options = options ?? { } as any;
+    options!.meta = { ...options!.meta, axiosConfig };
   }
 
   return useQuery<{ [key: string]: number; }, TError, TSelectData>({
@@ -868,8 +873,9 @@ export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (options) {
-    options.meta = { ...options.meta, axiosConfig };
+  if (axiosConfig) {
+    options = options ?? { } as any;
+    options!.meta = { ...options!.meta, axiosConfig };
   }
 
   return useQuery<Types.User, TError, TSelectData>({
@@ -1040,8 +1046,9 @@ export function useLoginUserQuery<TSelectData = string, TError = unknown>(...par
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (options) {
-    options.meta = { ...options.meta, axiosConfig };
+  if (axiosConfig) {
+    options = options ?? { } as any;
+    options!.meta = { ...options!.meta, axiosConfig };
   }
 
   return useQuery<string, TError, TSelectData>({
@@ -1117,8 +1124,9 @@ export function useLogoutUserQuery<TSelectData = void, TError = unknown>(...para
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (options) {
-    options.meta = { ...options.meta, axiosConfig };
+  if (axiosConfig) {
+    options = options ?? { } as any;
+    options!.meta = { ...options!.meta, axiosConfig };
   }
 
   return useQuery<void, TError, TSelectData>({

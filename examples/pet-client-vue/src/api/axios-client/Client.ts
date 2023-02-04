@@ -20,7 +20,7 @@ import { getAxios, getBaseUrl } from './helpers';
  * @param file (optional) file to upload
  * @return successful operation
  */
-export function uploadFile(petId: number, additionalMetadata: string | null | undefined, file: Types.FileParameter | null | undefined , config?: AxiosRequestConfig | undefined): Promise<Types.ApiResponse> {
+export function uploadFile(petId: number, additionalMetadata: string | null | undefined, file: Types.FileParameter | null | undefined, config?: AxiosRequestConfig | undefined): Promise<Types.ApiResponse> {
     let url_ = getBaseUrl() + "/pet/{petId}/uploadImage";
 
     if (petId === undefined || petId === null)
@@ -84,7 +84,7 @@ function processUploadFile(response: AxiosResponse): Promise<Types.ApiResponse> 
  * Add a new pet to the store
  * @param body Pet object that needs to be added to the store
  */
-export function addPet(body: Types.Pet , config?: AxiosRequestConfig | undefined): Promise<void> {
+export function addPet(body: Types.Pet, config?: AxiosRequestConfig | undefined): Promise<void> {
     let url_ = getBaseUrl() + "/pet";
       url_ = url_.replace(/[?&]$/, "");
 
@@ -137,7 +137,7 @@ function processAddPet(response: AxiosResponse): Promise<void> {
  * Update an existing pet
  * @param body Pet object that needs to be added to the store
  */
-export function updatePet(body: Types.Pet , config?: AxiosRequestConfig | undefined): Promise<void> {
+export function updatePet(body: Types.Pet, config?: AxiosRequestConfig | undefined): Promise<void> {
     let url_ = getBaseUrl() + "/pet";
       url_ = url_.replace(/[?&]$/, "");
 
@@ -199,7 +199,7 @@ function processUpdatePet(response: AxiosResponse): Promise<void> {
  * @param status Status values that need to be considered for filter
  * @return successful operation
  */
-export function findPetsByStatus(status: Types.Status[] , config?: AxiosRequestConfig | undefined): Promise<Types.Pet[]> {
+export function findPetsByStatus(status: Types.Status[], config?: AxiosRequestConfig | undefined): Promise<Types.Pet[]> {
     let url_ = getBaseUrl() + "/pet/findByStatus?";
       if (status === undefined || status === null)
         throw new Error("The parameter 'status' must be defined and cannot be null.");
@@ -269,7 +269,7 @@ function processFindPetsByStatus(response: AxiosResponse): Promise<Types.Pet[]> 
  * @return successful operation
  * @deprecated
  */
-export function findPetsByTags(tags: string[] , config?: AxiosRequestConfig | undefined): Promise<Types.Pet[]> {
+export function findPetsByTags(tags: string[], config?: AxiosRequestConfig | undefined): Promise<Types.Pet[]> {
     let url_ = getBaseUrl() + "/pet/findByTags?";
       if (tags === undefined || tags === null)
         throw new Error("The parameter 'tags' must be defined and cannot be null.");
@@ -338,7 +338,7 @@ function processFindPetsByTags(response: AxiosResponse): Promise<Types.Pet[]> {
  * @param petId ID of pet to return
  * @return successful operation
  */
-export function getPetById(petId: number , config?: AxiosRequestConfig | undefined): Promise<Types.Pet> {
+export function getPetById(petId: number, config?: AxiosRequestConfig | undefined): Promise<Types.Pet> {
     let url_ = getBaseUrl() + "/pet/{petId}";
 
     if (petId === undefined || petId === null)
@@ -405,7 +405,7 @@ function processGetPetById(response: AxiosResponse): Promise<Types.Pet> {
  * @param name (optional) Updated name of the pet
  * @param status (optional) Updated status of the pet
  */
-export function updatePetWithForm(petId: number, name: string | null | undefined, status: string | null | undefined , config?: AxiosRequestConfig | undefined): Promise<void> {
+export function updatePetWithForm(petId: number, name: string | null | undefined, status: string | null | undefined, config?: AxiosRequestConfig | undefined): Promise<void> {
     let url_ = getBaseUrl() + "/pet/{petId}";
 
     if (petId === undefined || petId === null)
@@ -468,7 +468,7 @@ function processUpdatePetWithForm(response: AxiosResponse): Promise<void> {
  * @param api_key (optional) 
  * @param petId Pet id to delete
  */
-export function deletePet(api_key: string | null | undefined, petId: number , config?: AxiosRequestConfig | undefined): Promise<void> {
+export function deletePet(api_key: string | null | undefined, petId: number, config?: AxiosRequestConfig | undefined): Promise<void> {
     let url_ = getBaseUrl() + "/pet/{petId}";
 
     if (petId === undefined || petId === null)
@@ -527,7 +527,7 @@ function processDeletePet(response: AxiosResponse): Promise<void> {
  * @param body order placed for purchasing the pet
  * @return successful operation
  */
-export function placeOrder(body: Types.Order , config?: AxiosRequestConfig | undefined): Promise<Types.Order> {
+export function placeOrder(body: Types.Order, config?: AxiosRequestConfig | undefined): Promise<Types.Order> {
     let url_ = getBaseUrl() + "/store/order";
       url_ = url_.replace(/[?&]$/, "");
 
@@ -589,7 +589,7 @@ function processPlaceOrder(response: AxiosResponse): Promise<Types.Order> {
  * @param orderId ID of pet that needs to be fetched
  * @return successful operation
  */
-export function getOrderById(orderId: number , config?: AxiosRequestConfig | undefined): Promise<Types.Order> {
+export function getOrderById(orderId: number, config?: AxiosRequestConfig | undefined): Promise<Types.Order> {
     let url_ = getBaseUrl() + "/store/order/{orderId}";
 
     if (orderId === undefined || orderId === null)
@@ -654,7 +654,7 @@ function processGetOrderById(response: AxiosResponse): Promise<Types.Order> {
  * Delete purchase order by ID
  * @param orderId ID of the order that needs to be deleted
  */
-export function deleteOrder(orderId: number , config?: AxiosRequestConfig | undefined): Promise<void> {
+export function deleteOrder(orderId: number, config?: AxiosRequestConfig | undefined): Promise<void> {
     let url_ = getBaseUrl() + "/store/order/{orderId}";
 
     if (orderId === undefined || orderId === null)
@@ -711,7 +711,7 @@ function processDeleteOrder(response: AxiosResponse): Promise<void> {
  * Returns pet inventories by status
  * @return successful operation
  */
-export function getInventory(  config?: AxiosRequestConfig | undefined): Promise<{ [key: string]: number; }> {
+export function getInventory(config?: AxiosRequestConfig | undefined): Promise<{ [key: string]: number; }> {
     let url_ = getBaseUrl() + "/store/inventory";
       url_ = url_.replace(/[?&]$/, "");
 
@@ -774,7 +774,7 @@ function processGetInventory(response: AxiosResponse): Promise<{ [key: string]: 
  * @param body List of user object
  * @return successful operation
  */
-export function createUsersWithArrayInput(body: Types.User[] , config?: AxiosRequestConfig | undefined): Promise<void> {
+export function createUsersWithArrayInput(body: Types.User[], config?: AxiosRequestConfig | undefined): Promise<void> {
     let url_ = getBaseUrl() + "/user/createWithArray";
       url_ = url_.replace(/[?&]$/, "");
 
@@ -824,7 +824,7 @@ function processCreateUsersWithArrayInput(response: AxiosResponse): Promise<void
  * @param body List of user object
  * @return successful operation
  */
-export function createUsersWithListInput(body: Types.User[] , config?: AxiosRequestConfig | undefined): Promise<void> {
+export function createUsersWithListInput(body: Types.User[], config?: AxiosRequestConfig | undefined): Promise<void> {
     let url_ = getBaseUrl() + "/user/createWithList";
       url_ = url_.replace(/[?&]$/, "");
 
@@ -874,7 +874,7 @@ function processCreateUsersWithListInput(response: AxiosResponse): Promise<void>
  * @param username The name that needs to be fetched. Use user1 for testing.
  * @return successful operation
  */
-export function getUserByName(username: string , config?: AxiosRequestConfig | undefined): Promise<Types.User> {
+export function getUserByName(username: string, config?: AxiosRequestConfig | undefined): Promise<Types.User> {
     let url_ = getBaseUrl() + "/user/{username}";
 
     if (username === undefined || username === null)
@@ -940,7 +940,7 @@ function processGetUserByName(response: AxiosResponse): Promise<Types.User> {
  * @param username name that need to be updated
  * @param body Updated user object
  */
-export function updateUser(username: string, body: Types.User , config?: AxiosRequestConfig | undefined): Promise<void> {
+export function updateUser(username: string, body: Types.User, config?: AxiosRequestConfig | undefined): Promise<void> {
     let url_ = getBaseUrl() + "/user/{username}";
 
     if (username === undefined || username === null)
@@ -1001,7 +1001,7 @@ function processUpdateUser(response: AxiosResponse): Promise<void> {
  * Delete user
  * @param username The name that needs to be deleted
  */
-export function deleteUser(username: string , config?: AxiosRequestConfig | undefined): Promise<void> {
+export function deleteUser(username: string, config?: AxiosRequestConfig | undefined): Promise<void> {
     let url_ = getBaseUrl() + "/user/{username}";
 
     if (username === undefined || username === null)
@@ -1060,7 +1060,7 @@ function processDeleteUser(response: AxiosResponse): Promise<void> {
  * @param password The password for login in clear text
  * @return successful operation
  */
-export function loginUser(username: string, password: string , config?: AxiosRequestConfig | undefined): Promise<string> {
+export function loginUser(username: string, password: string, config?: AxiosRequestConfig | undefined): Promise<string> {
     let url_ = getBaseUrl() + "/user/login?";
       if (username === undefined || username === null)
         throw new Error("The parameter 'username' must be defined and cannot be null.");
@@ -1126,7 +1126,7 @@ function processLoginUser(response: AxiosResponse): Promise<string> {
  * Logs out current logged in user session
  * @return successful operation
  */
-export function logoutUser(  config?: AxiosRequestConfig | undefined): Promise<void> {
+export function logoutUser(config?: AxiosRequestConfig | undefined): Promise<void> {
     let url_ = getBaseUrl() + "/user/logout";
       url_ = url_.replace(/[?&]$/, "");
 
@@ -1172,7 +1172,7 @@ function processLogoutUser(response: AxiosResponse): Promise<void> {
  * @param body Created user object
  * @return successful operation
  */
-export function createUser(body: Types.User , config?: AxiosRequestConfig | undefined): Promise<void> {
+export function createUser(body: Types.User, config?: AxiosRequestConfig | undefined): Promise<void> {
     let url_ = getBaseUrl() + "/user";
       url_ = url_.replace(/[?&]$/, "");
 
