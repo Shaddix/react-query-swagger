@@ -1,0 +1,11 @@
+
+export function addMetaToOptions<T extends {meta?: QueryMeta | MutationMeta | undefined}>(options: T | undefined, metaContext: QueryMetaContextValue): T | undefined {
+  if (metaContext.metaFn) {
+    options = options ?? { } as any;
+    options!.meta = {
+      ...metaContext.metaFn(),
+      ...options!.meta,
+    };
+  }
+  return options;
+}

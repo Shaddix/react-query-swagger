@@ -18,6 +18,7 @@ export function {% template OperationNameSafe %}({% for parameter in operation.P
 
 {%     endif -%}
     let options_: AxiosRequestConfig = {
+        ..._requestConfig{{ operation.ActualOperationNameUpper }},
 {%     if operation.HasBody -%}
         data: content_,
 {%     endif -%}
@@ -45,7 +46,7 @@ export function {% template OperationNameSafe %}({% for parameter in operation.P
         return this.instance.request(transformedOptions_);
     }).catch((_error: any) => {
 {%     else -%}
-    return {% if Framework.IsAxios -%}getAxios(){%else%}getFetch(){%endif%}.request(options_).catch((_error: any) => {
+    return getAxios().request(options_).catch((_error: any) => {
 {%     endif -%}
         if (isAxiosError(_error) && _error.response) {
             return _error.response;

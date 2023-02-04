@@ -1,0 +1,12 @@
+{% for operation in Operations %}
+let _requestConfig{{ operation.ActualOperationNameUpper }}: Partial<AxiosRequestConfig> | undefined;
+export function getRequestConfig{{ operation.ActualOperationNameUpper }}() {
+  return _requestConfig{{ operation.ActualOperationNameUpper }};
+}
+export function setRequestConfig{{ operation.ActualOperationNameUpper }}(value: Partial<AxiosRequestConfig>) {
+  _requestConfig{{ operation.ActualOperationNameUpper }} = value;
+}
+export function patchRequestConfig{{ operation.ActualOperationNameUpper }}(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfig{{ operation.ActualOperationNameUpper }} = patch(_requestConfig{{ operation.ActualOperationNameUpper }} ?? {});
+}
+{%- endfor -%}

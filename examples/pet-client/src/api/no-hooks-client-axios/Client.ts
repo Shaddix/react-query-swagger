@@ -35,6 +35,7 @@ export function uploadFile(petId: number, additionalMetadata?: string | null | u
         content_.append("file", file.data, file.fileName ? file.fileName : "file");
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigUploadFile,
         data: content_,
         method: "POST",
         url: url_,
@@ -90,6 +91,7 @@ export function addPet(body: Types.Pet , cancelToken?: CancelToken | undefined):
     const content_ = JSON.stringify(body);
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigAddPet,
         data: content_,
         method: "POST",
         url: url_,
@@ -142,6 +144,7 @@ export function updatePet(body: Types.Pet , cancelToken?: CancelToken | undefine
     const content_ = JSON.stringify(body);
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigUpdatePet,
         data: content_,
         method: "PUT",
         url: url_,
@@ -205,6 +208,7 @@ export function findPetsByStatus(status: Types.Status[] , cancelToken?: CancelTo
       url_ = url_.replace(/[?&]$/, "");
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigFindPetsByStatus,
         method: "GET",
         url: url_,
         headers: {
@@ -274,6 +278,7 @@ export function findPetsByTags(tags: string[] , cancelToken?: CancelToken | unde
       url_ = url_.replace(/[?&]$/, "");
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigFindPetsByTags,
         method: "GET",
         url: url_,
         headers: {
@@ -342,6 +347,7 @@ export function getPetById(petId: number , cancelToken?: CancelToken | undefined
       url_ = url_.replace(/[?&]$/, "");
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigGetPetById,
         method: "GET",
         url: url_,
         headers: {
@@ -415,6 +421,7 @@ export function updatePetWithForm(petId: number, name?: string | null | undefine
     content_ = content_.replace(/&$/, "");
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigUpdatePetWithForm,
         data: content_,
         method: "POST",
         url: url_,
@@ -470,6 +477,7 @@ export function deletePet(petId: number, api_key?: string | null | undefined , c
       url_ = url_.replace(/[?&]$/, "");
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigDeletePet,
         method: "DELETE",
         url: url_,
         headers: {
@@ -526,6 +534,7 @@ export function placeOrder(body: Types.Order , cancelToken?: CancelToken | undef
     const content_ = JSON.stringify(body);
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigPlaceOrder,
         data: content_,
         method: "POST",
         url: url_,
@@ -589,6 +598,7 @@ export function getOrderById(orderId: number , cancelToken?: CancelToken | undef
       url_ = url_.replace(/[?&]$/, "");
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigGetOrderById,
         method: "GET",
         url: url_,
         headers: {
@@ -653,6 +663,7 @@ export function deleteOrder(orderId: number , cancelToken?: CancelToken | undefi
       url_ = url_.replace(/[?&]$/, "");
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigDeleteOrder,
         method: "DELETE",
         url: url_,
         headers: {
@@ -705,6 +716,7 @@ export function getInventory(  cancelToken?: CancelToken | undefined): Promise<{
       url_ = url_.replace(/[?&]$/, "");
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigGetInventory,
         method: "GET",
         url: url_,
         headers: {
@@ -769,6 +781,7 @@ export function createUsersWithArrayInput(body: Types.User[] , cancelToken?: Can
     const content_ = JSON.stringify(body);
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigCreateUsersWithArrayInput,
         data: content_,
         method: "POST",
         url: url_,
@@ -818,6 +831,7 @@ export function createUsersWithListInput(body: Types.User[] , cancelToken?: Canc
     const content_ = JSON.stringify(body);
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigCreateUsersWithListInput,
         data: content_,
         method: "POST",
         url: url_,
@@ -869,6 +883,7 @@ export function getUserByName(username: string , cancelToken?: CancelToken | und
       url_ = url_.replace(/[?&]$/, "");
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigGetUserByName,
         method: "GET",
         url: url_,
         headers: {
@@ -936,6 +951,7 @@ export function updateUser(username: string, body: Types.User , cancelToken?: Ca
     const content_ = JSON.stringify(body);
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigUpdateUser,
         data: content_,
         method: "PUT",
         url: url_,
@@ -994,6 +1010,7 @@ export function deleteUser(username: string , cancelToken?: CancelToken | undefi
       url_ = url_.replace(/[?&]$/, "");
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigDeleteUser,
         method: "DELETE",
         url: url_,
         headers: {
@@ -1056,6 +1073,7 @@ export function loginUser(username: string, password: string , cancelToken?: Can
       url_ = url_.replace(/[?&]$/, "");
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigLoginUser,
         method: "GET",
         url: url_,
         headers: {
@@ -1113,6 +1131,7 @@ export function logoutUser(  cancelToken?: CancelToken | undefined): Promise<voi
       url_ = url_.replace(/[?&]$/, "");
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigLogoutUser,
         method: "GET",
         url: url_,
         headers: {
@@ -1160,6 +1179,7 @@ export function createUser(body: Types.User , cancelToken?: CancelToken | undefi
     const content_ = JSON.stringify(body);
 
     let options_: AxiosRequestConfig = {
+        ..._requestConfigCreateUser,
         data: content_,
         method: "POST",
         url: url_,
@@ -1195,4 +1215,223 @@ function processCreateUser(response: AxiosResponse): Promise<void> {
         return Promise.resolve<void>(null as any);
 
     }
+}
+let _requestConfigUploadFile: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigUploadFile() {
+  return _requestConfigUploadFile;
+}
+export function setRequestConfigUploadFile(value: Partial<AxiosRequestConfig>) {
+  _requestConfigUploadFile = value;
+}
+export function patchRequestConfigUploadFile(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigUploadFile = patch(_requestConfigUploadFile ?? {});
+}
+
+let _requestConfigAddPet: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigAddPet() {
+  return _requestConfigAddPet;
+}
+export function setRequestConfigAddPet(value: Partial<AxiosRequestConfig>) {
+  _requestConfigAddPet = value;
+}
+export function patchRequestConfigAddPet(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigAddPet = patch(_requestConfigAddPet ?? {});
+}
+
+let _requestConfigUpdatePet: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigUpdatePet() {
+  return _requestConfigUpdatePet;
+}
+export function setRequestConfigUpdatePet(value: Partial<AxiosRequestConfig>) {
+  _requestConfigUpdatePet = value;
+}
+export function patchRequestConfigUpdatePet(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigUpdatePet = patch(_requestConfigUpdatePet ?? {});
+}
+
+let _requestConfigFindPetsByStatus: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigFindPetsByStatus() {
+  return _requestConfigFindPetsByStatus;
+}
+export function setRequestConfigFindPetsByStatus(value: Partial<AxiosRequestConfig>) {
+  _requestConfigFindPetsByStatus = value;
+}
+export function patchRequestConfigFindPetsByStatus(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigFindPetsByStatus = patch(_requestConfigFindPetsByStatus ?? {});
+}
+
+let _requestConfigFindPetsByTags: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigFindPetsByTags() {
+  return _requestConfigFindPetsByTags;
+}
+export function setRequestConfigFindPetsByTags(value: Partial<AxiosRequestConfig>) {
+  _requestConfigFindPetsByTags = value;
+}
+export function patchRequestConfigFindPetsByTags(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigFindPetsByTags = patch(_requestConfigFindPetsByTags ?? {});
+}
+
+let _requestConfigGetPetById: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigGetPetById() {
+  return _requestConfigGetPetById;
+}
+export function setRequestConfigGetPetById(value: Partial<AxiosRequestConfig>) {
+  _requestConfigGetPetById = value;
+}
+export function patchRequestConfigGetPetById(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigGetPetById = patch(_requestConfigGetPetById ?? {});
+}
+
+let _requestConfigUpdatePetWithForm: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigUpdatePetWithForm() {
+  return _requestConfigUpdatePetWithForm;
+}
+export function setRequestConfigUpdatePetWithForm(value: Partial<AxiosRequestConfig>) {
+  _requestConfigUpdatePetWithForm = value;
+}
+export function patchRequestConfigUpdatePetWithForm(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigUpdatePetWithForm = patch(_requestConfigUpdatePetWithForm ?? {});
+}
+
+let _requestConfigDeletePet: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigDeletePet() {
+  return _requestConfigDeletePet;
+}
+export function setRequestConfigDeletePet(value: Partial<AxiosRequestConfig>) {
+  _requestConfigDeletePet = value;
+}
+export function patchRequestConfigDeletePet(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigDeletePet = patch(_requestConfigDeletePet ?? {});
+}
+
+let _requestConfigPlaceOrder: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigPlaceOrder() {
+  return _requestConfigPlaceOrder;
+}
+export function setRequestConfigPlaceOrder(value: Partial<AxiosRequestConfig>) {
+  _requestConfigPlaceOrder = value;
+}
+export function patchRequestConfigPlaceOrder(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigPlaceOrder = patch(_requestConfigPlaceOrder ?? {});
+}
+
+let _requestConfigGetOrderById: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigGetOrderById() {
+  return _requestConfigGetOrderById;
+}
+export function setRequestConfigGetOrderById(value: Partial<AxiosRequestConfig>) {
+  _requestConfigGetOrderById = value;
+}
+export function patchRequestConfigGetOrderById(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigGetOrderById = patch(_requestConfigGetOrderById ?? {});
+}
+
+let _requestConfigDeleteOrder: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigDeleteOrder() {
+  return _requestConfigDeleteOrder;
+}
+export function setRequestConfigDeleteOrder(value: Partial<AxiosRequestConfig>) {
+  _requestConfigDeleteOrder = value;
+}
+export function patchRequestConfigDeleteOrder(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigDeleteOrder = patch(_requestConfigDeleteOrder ?? {});
+}
+
+let _requestConfigGetInventory: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigGetInventory() {
+  return _requestConfigGetInventory;
+}
+export function setRequestConfigGetInventory(value: Partial<AxiosRequestConfig>) {
+  _requestConfigGetInventory = value;
+}
+export function patchRequestConfigGetInventory(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigGetInventory = patch(_requestConfigGetInventory ?? {});
+}
+
+let _requestConfigCreateUsersWithArrayInput: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigCreateUsersWithArrayInput() {
+  return _requestConfigCreateUsersWithArrayInput;
+}
+export function setRequestConfigCreateUsersWithArrayInput(value: Partial<AxiosRequestConfig>) {
+  _requestConfigCreateUsersWithArrayInput = value;
+}
+export function patchRequestConfigCreateUsersWithArrayInput(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigCreateUsersWithArrayInput = patch(_requestConfigCreateUsersWithArrayInput ?? {});
+}
+
+let _requestConfigCreateUsersWithListInput: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigCreateUsersWithListInput() {
+  return _requestConfigCreateUsersWithListInput;
+}
+export function setRequestConfigCreateUsersWithListInput(value: Partial<AxiosRequestConfig>) {
+  _requestConfigCreateUsersWithListInput = value;
+}
+export function patchRequestConfigCreateUsersWithListInput(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigCreateUsersWithListInput = patch(_requestConfigCreateUsersWithListInput ?? {});
+}
+
+let _requestConfigGetUserByName: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigGetUserByName() {
+  return _requestConfigGetUserByName;
+}
+export function setRequestConfigGetUserByName(value: Partial<AxiosRequestConfig>) {
+  _requestConfigGetUserByName = value;
+}
+export function patchRequestConfigGetUserByName(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigGetUserByName = patch(_requestConfigGetUserByName ?? {});
+}
+
+let _requestConfigUpdateUser: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigUpdateUser() {
+  return _requestConfigUpdateUser;
+}
+export function setRequestConfigUpdateUser(value: Partial<AxiosRequestConfig>) {
+  _requestConfigUpdateUser = value;
+}
+export function patchRequestConfigUpdateUser(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigUpdateUser = patch(_requestConfigUpdateUser ?? {});
+}
+
+let _requestConfigDeleteUser: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigDeleteUser() {
+  return _requestConfigDeleteUser;
+}
+export function setRequestConfigDeleteUser(value: Partial<AxiosRequestConfig>) {
+  _requestConfigDeleteUser = value;
+}
+export function patchRequestConfigDeleteUser(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigDeleteUser = patch(_requestConfigDeleteUser ?? {});
+}
+
+let _requestConfigLoginUser: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigLoginUser() {
+  return _requestConfigLoginUser;
+}
+export function setRequestConfigLoginUser(value: Partial<AxiosRequestConfig>) {
+  _requestConfigLoginUser = value;
+}
+export function patchRequestConfigLoginUser(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigLoginUser = patch(_requestConfigLoginUser ?? {});
+}
+
+let _requestConfigLogoutUser: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigLogoutUser() {
+  return _requestConfigLogoutUser;
+}
+export function setRequestConfigLogoutUser(value: Partial<AxiosRequestConfig>) {
+  _requestConfigLogoutUser = value;
+}
+export function patchRequestConfigLogoutUser(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigLogoutUser = patch(_requestConfigLogoutUser ?? {});
+}
+
+let _requestConfigCreateUser: Partial<AxiosRequestConfig> | null;
+export function getRequestConfigCreateUser() {
+  return _requestConfigCreateUser;
+}
+export function setRequestConfigCreateUser(value: Partial<AxiosRequestConfig>) {
+  _requestConfigCreateUser = value;
+}
+export function patchRequestConfigCreateUser(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigCreateUser = patch(_requestConfigCreateUser ?? {});
 }

@@ -1209,6 +1209,7 @@ export class Client {
         }
     }
 }
+
 //-----/ClientClass----
 
 export * as Query from './axios-client/Query';
