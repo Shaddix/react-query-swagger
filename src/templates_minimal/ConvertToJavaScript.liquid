@@ -1,0 +1,35 @@
+﻿{%- if IsNewableObject -%}
+{{ Variable }} = {{ Value }} && prepareSerialize{{ Type }}({{ Value }});
+{%- elsif IsArray -%}
+{%-  if IsArrayItemNewableObject or IsArrayItemDate or IsArrayItemDateTime -%}
+if (Array.isArray({{ Value }})) {
+    {{ Variable }} = {{ Value }}.map(item => 
+{%-     if IsArrayItemNewableObject -%}
+        prepareSerialize{{ ArrayItemType }}(item)
+{%-     elsif IsArrayItemDate -%}
+        {% if UseJsDate %}formatDate(item){% else %}item.{{ DateToStringCode }}{% endif %}
+{%-     elsif IsArrayItemDateTime -%}
+        item.{{ DateTimeToStringCode }}
+{%-     endif -%}
+    );
+  }
+{%- endif -%}
+{%- elsif IsDictionary -%}
+{%-   if IsDictionaryValueNewableObject or IsDictionaryValueDate or IsDictionaryValueDateTime -%}
+if ({{ Value }}) {
+    for (let key in {{ Value }}) {
+{%-     if IsDictionaryValueNewableObject -%}
+            (<any>{{ Variable }})[key] = {{ Value }}[key] && prepareSerialize{{ DictionaryValueType }}({{ Value }}[key]);
+{%-     elsif IsDictionaryValueDate -%}
+            (<any>{{ Variable }})[key] = {{ Value }}[key] && {% if UseJsDate %}formatDate({{ Value }}[key]){% else %}{{ Value }}[key].{{ DateToStringCode }}{% endif %};
+{%-     elsif IsDictionaryValueDateTime -%}
+            (<any>{{ Variable }})[key] = {{ Value }}[key] && {{ Value }}[key].{{ DateTimeToStringCode }};
+{%-     endif -%}
+    }
+}
+{%-   endif -%}
+{%- elsif IsDate -%}
+{{ Variable }} = {{ Value }} && {% if UseJsDate %}formatDate({{ Value }}){% else %}{{ Value }}.{{ DateToStringCode }}{% endif %};
+{%- elsif IsDateTime -%}
+{{ Variable }} = {{ Value }} && {{ Value }}.{{ DateTimeToStringCode }};
+{%- endif %}
