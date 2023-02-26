@@ -407,13 +407,11 @@ function postProcessClientContent(
       /Types\.([a-zA-Z0-9_]*?)\.fromJS\(resultData200\[key\]\) : new /g,
       'Types.$1.fromJS(resultData200[key]) : new Types.',
     );
+
+  // we can't `import type * as Types`, because even in *Query files we use e.g. `Types.formatDate`
   const additionalImport = extractTypes
-    ? `import ${
-        isQuery ? 'type ' : ''
-      }* as Types from '../${outputFileWithoutExtension}.types';\n`
-    : `import ${
-        isQuery ? 'type ' : ''
-      }* as Types from '../${outputFileWithoutExtension}';\n`;
+    ? `import * as Types from '../${outputFileWithoutExtension}.types';\n`
+    : `import * as Types from '../${outputFileWithoutExtension}';\n`;
   content = content.replace('import', additionalImport + 'import').trim();
 
   return content;

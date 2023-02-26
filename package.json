@@ -6,7 +6,7 @@
   ],
   "nohoist": [],
   "scripts": {
-    "do-publish": "yarn prepublish && yarn workspace react-query-swagger publish",
+    "do-publish": "yarn prepublish && yarn workspace react-query-swagger publish --tag next",
     "prepublish": "yarn update-nswag && yarn copy_from_v4_to_v3 && yarn copy_to_no_hooks && yarn copy_from_v4_to_vue && yarn copy_to_minimal && yarn generate-all && yarn typecheck",
     "start": "yarn workspace pet-client start",
     "start-v3": "yarn workspace pet-client-v3 start",
@@ -25,7 +25,7 @@
     "copy_from_v4_to_v3": "yarn copyfiles -u 2 -e \"src/templates/File.liquid\" -e \"src/templates/AxiosClient.liquid\" -e \"src/templates/FetchClient.liquid\" src/templates/**/* src/templates_v3 && yarn replace \"from '@tanstack/react-query';\" \"from 'react-query';\" src/templates_v3/ReactQueryFile.liquid",
     "copy_from_v4_to_vue": "yarn copyfiles -u 2 -e \"src/templates/File.liquid\" -e \"src/templates/AxiosClient.liquid\" -e \"src/templates/FetchClient.liquid\" -e \"src/templates/ReactQuery.MetaFile*.liquid\" src/templates/**/* src/templates_vue && node scripts/patch-vue-templates.mjs",
     "copy_to_no_hooks": "yarn copyfiles -u 2 -e \"src/templates/File.liquid\" -e \"src/templates/AxiosClient.liquid\" -e \"src/templates/FetchClient.liquid\" -e \"**/ReactQueryFile.liquid\" -e \"**/ReactQuery.liquid\" src/templates/**/* src/templates_no_hooks",
-    "copy_to_minimal": "yarn copyfiles -u 2 -e \"src/templates/Class.liquid\" -e \"src/templates/Interface.liquid\" -e \"src/templates/File.liquid\" -e \"src/templates/ConvertToClass.liquid\" -e \"src/templates/ConvertToJavaScript.liquid\" -e \"src/templates/PersistorHydrator.AddResultTypeFactory.liquid\" src/templates/**/* src/templates_minimal"
+    "copy_to_minimal": "yarn copyfiles -u 2 -e \"src/templates/Class.liquid\" -e \"src/templates/Interface.liquid\" -e \"src/templates/File.liquid\" -e \"src/templates/ConvertToClass.liquid\" -e \"src/templates/ConvertToJavaScript.liquid\" -e \"src/templates/PersistorHydrator.AddResultTypeFactory.liquid\" -e \"src/templates/modules/Client.RequestBody.Serialize.liquid\" src/templates/**/* src/templates_minimal"
   },
   "devDependencies": {
     "copyfiles": "2.4.1",

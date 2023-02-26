@@ -477,3 +477,4 @@ src/templates/AxiosClient_RequestConfig.liquid
 !/src/templates_minimal/File.liquid
 !/src/templates_minimal/Interface.liquid
 !/src/templates_minimal/PersistorHydrator.AddResultTypeFactory.liquid
+!/src/templates_minimal/modules/Client.RequestBody.Serialize.liquid
