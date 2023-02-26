@@ -91,7 +91,8 @@ namespace {{ Namespace }} {
 
 //-----Types.File-----
 {{ Types }}
-//-----/Types.File-----
+//-----/CustomTypes.File-----
+
 
 {% if WrapResponses and GenerateResponseClasses -%}
 {%-    for responseClassName in ResponseClassNames -%}
@@ -157,6 +158,7 @@ namespace {{ Namespace }} {
 {%- endif -%}
 
 {{ ExtensionCodeBottom }}
+//-----/Types.File-----
 {% if HasNamespace -%}
 }
 {%- endif -%}

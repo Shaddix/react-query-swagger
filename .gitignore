@@ -474,4 +474,6 @@ src/templates/AxiosClient_RequestConfig.liquid
 !/src/templates_minimal/ConvertToClass.liquid
 !/src/templates_minimal/ConvertToJavaScript.liquid
 !/src/templates_minimal/Class.liquid
+!/src/templates_minimal/File.liquid
 !/src/templates_minimal/Interface.liquid
+!/src/templates_minimal/PersistorHydrator.AddResultTypeFactory.liquid

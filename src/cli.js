@@ -269,7 +269,11 @@ if (isClientsAsModules) {
       foundText,
       `export * as ${name} from './${queryFolderName}/${name}';`,
     );
-    content = postProcessClientContent(content, outputFileWithoutExtension);
+    content = postProcessClientContent(
+      content,
+      outputFileWithoutExtension,
+      false,
+    );
 
     writeFileSync(fileName, content);
   }
@@ -317,7 +321,11 @@ if (true) {
     const foundText = queryClass[0];
     const fileName = join(queryDir, `${name}.ts`);
 
-    content = postProcessClientContent(content, outputFileWithoutExtension);
+    content = postProcessClientContent(
+      content,
+      outputFileWithoutExtension,
+      true,
+    );
     if (content) {
       writeFileSync(fileName, content);
       apiClient = apiClient.replace(
@@ -329,10 +337,9 @@ if (true) {
     }
   }
 
-  apiClient = apiClient.replaceAll(
-    `from './helpers';`,
-    `from './${queryFolderName}/helpers';`,
-  );
+  apiClient = apiClient
+    .replaceAll(`from './helpers';`, `from './${queryFolderName}/helpers';`)
+    .replaceAll(/from '.\/client/g, `from '.\/${outputFileWithoutExtension}`);
   writeFileSync(outputPath, apiClient);
 }
 
@@ -363,12 +370,18 @@ function extractQueryHelperFunctions(apiClient, queryDir) {
   return apiClient;
 }
 
-function postProcessClientContent(content, outputFileWithoutExtension) {
+function postProcessClientContent(
+  content,
+  outputFileWithoutExtension,
+  isQuery,
+) {
   if (!content.trim()) return '';
   content = content
     .replaceAll(
       ` from '../client';`,
-      ` from '../${outputFileWithoutExtension}';`,
+      isMinimal
+        ? ` from '../${outputFileWithoutExtension}.types';`
+        : ` from '../${outputFileWithoutExtension}';`,
     )
     .replaceAll('this.baseUrl +', 'getBaseUrl() +')
     .replaceAll('this.jsonParseReviver', 'getJsonParseReviver()')
@@ -395,16 +408,26 @@ function postProcessClientContent(content, outputFileWithoutExtension) {
       'Types.$1.fromJS(resultData200[key]) : new Types.',
     );
   const additionalImport = extractTypes
-    ? `import * as Types from '../${outputFileWithoutExtension}.types';\n`
-    : `import * as Types from '../${outputFileWithoutExtension}';\n`;
+    ? `import ${
+        isQuery ? 'type ' : ''
+      }* as Types from '../${outputFileWithoutExtension}.types';\n`
+    : `import ${
+        isQuery ? 'type ' : ''
+      }* as Types from '../${outputFileWithoutExtension}';\n`;
   content = content.replace('import', additionalImport + 'import').trim();
 
   return content;
 }
 
 function processForMinimalApi(apiClient) {
-  apiClient = apiClient.replaceAll(/this\./gim, '_data.');
-  apiClient = apiClient.replaceAll(/implements \S+/gim, '');
+  const split = apiClient.split('//-----/CustomTypes.File-----');
+  if (split[1].includes('AxiosError')) {
+    split[1] = "import type { AxiosError } from 'axios'" + split[1];
+  }
+  apiClient =
+    split[0]
+      .replaceAll(/this\./gim, '_data.')
+      .replaceAll(/implements \S+/gim, '') + split[1];
 
   // remove empty clauses like:
   // if (_data["errors"]) {

@@ -4,10 +4,15 @@ import fetch from 'node-fetch';
 await downloadAndPostProcess(
   'File.liquid',
   (content) =>
-    content.replace(
-      /\{\{ Types \}\}/,
-      '//-----Types.File-----\n{{ Types }}\n//-----/Types.File-----',
-    ),
+    content
+      .replace(
+        /\{\{ Types \}\}/,
+        '//-----Types.File-----\n{{ Types }}\n//-----/CustomTypes.File-----\n',
+      )
+      .replace(
+        /\{\{ ExtensionCodeBottom \}\}/,
+        '{{ ExtensionCodeBottom }}\n//-----/Types.File-----',
+      ),
   '_File.liquid',
 );
 await downloadAndPostProcess('AxiosClient.liquid', (content) => content);

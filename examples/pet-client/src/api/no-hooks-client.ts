@@ -355,7 +355,7 @@ export enum OrderStatus {
     Approved = "approved",
     Delivered = "delivered",
 }
-//-----/Types.File-----
+//-----/CustomTypes.File-----
 
 export interface FileParameter {
     data: any;
@@ -392,6 +392,8 @@ export function throwException(message: string, status: number, response: string
     else
         throw new ApiException(message, status, response, headers, null);
 }
+
+//-----/Types.File-----
 
 export { setBaseUrl } from './no-hooks-client/helpers';
 export { setFetchFactory, getFetch } from './no-hooks-client/helpers';

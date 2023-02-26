@@ -36,8 +36,8 @@ export function getJsonParseReviver() {
 export function setJsonParseReviver(value: ((key: string, value: any) => any) | undefined) {
   _jsonParseReviver = value;
 }
-const _resultTypesByQueryKey: Record<string, () => { init(data: any): void }> = {};
-export function addResultTypeFactory(typeName: string, factory: () => { init(data: any): void }) {
+const _resultTypesByQueryKey: Record<string, (data: any) => any> = {};
+export function addResultTypeFactory(typeName: string, factory: (data: any) => any) {
   _resultTypesByQueryKey[typeName] = factory;
 }
 export function getResultTypeFactory(typeName: string) {

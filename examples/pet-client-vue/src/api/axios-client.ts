@@ -358,7 +358,7 @@ export enum OrderStatus {
     Approved = "approved",
     Delivered = "delivered",
 }
-//-----/Types.File-----
+//-----/CustomTypes.File-----
 
 export interface FileParameter {
     data: any;
@@ -399,6 +399,8 @@ export function throwException(message: string, status: number, response: string
 export function isAxiosError(obj: any | undefined): obj is AxiosError {
     return obj && obj.isAxiosError === true;
 }
+
+//-----/Types.File-----
 
 import { addResultTypeFactory } from './axios-client/helpers';
 export { setBaseUrl } from './axios-client/helpers';

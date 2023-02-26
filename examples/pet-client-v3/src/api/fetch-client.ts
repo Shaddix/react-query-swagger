@@ -1266,7 +1266,7 @@ export enum OrderStatus {
     Approved = "approved",
     Delivered = "delivered",
 }
-//-----/Types.File-----
+//-----/CustomTypes.File-----
 
 export interface FileParameter {
     data: any;
@@ -1303,6 +1303,8 @@ function throwException(message: string, status: number, response: string, heade
     else
         throw new ApiException(message, status, response, headers, null);
 }
+
+//-----/Types.File-----
 
 import { addResultTypeFactory } from './fetch-client/helpers';
 export { setBaseUrl } from './fetch-client/helpers';

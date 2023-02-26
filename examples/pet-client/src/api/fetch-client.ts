@@ -1268,7 +1268,7 @@ export enum OrderStatus {
     Approved = "approved",
     Delivered = "delivered",
 }
-//-----/Types.File-----
+//-----/CustomTypes.File-----
 
 export interface FileParameter {
     data: any;
@@ -1305,6 +1305,8 @@ function throwException(message: string, status: number, response: string, heade
     else
         throw new ApiException(message, status, response, headers, null);
 }
+
+//-----/Types.File-----
 
 import { addResultTypeFactory } from './fetch-client/helpers';
 export { setBaseUrl } from './fetch-client/helpers';
@@ -1376,10 +1378,7 @@ export function constructDtoClass(queryKey: QueryKey, data: any): unknown {
   if (!data || !constructorFunction)
     return data;
 
-  const dto = constructorFunction();
-  dto.init(data);
-
-  return dto;
+  return constructorFunction(data);
 }
 
 export function getResultTypeClassKey(queryKey: QueryKey): string {
@@ -1398,11 +1397,11 @@ export function getResultTypeClassKey(queryKey: QueryKey): string {
 
 export function initPersister() {
   
-  addResultTypeFactory('Client___findPetsByStatus', () => new Pet());
-  addResultTypeFactory('Client___findPetsByTags', () => new Pet());
-  addResultTypeFactory('Client___getPetById', () => new Pet());
-  addResultTypeFactory('Client___getOrderById', () => new Order());
-  addResultTypeFactory('Client___getUserByName', () => new User());
+  addResultTypeFactory('Client___findPetsByStatus', (data: any) => { const result = new Pet(); result.init(data); return result; });
+  addResultTypeFactory('Client___findPetsByTags', (data: any) => { const result = new Pet(); result.init(data); return result; });
+  addResultTypeFactory('Client___getPetById', (data: any) => { const result = new Pet(); result.init(data); return result; });
+  addResultTypeFactory('Client___getOrderById', (data: any) => { const result = new Order(); result.init(data); return result; });
+  addResultTypeFactory('Client___getUserByName', (data: any) => { const result = new User(); result.init(data); return result; });
 
 
 }

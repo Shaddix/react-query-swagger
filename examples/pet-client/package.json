@@ -29,7 +29,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "generate-axios-minimal": "react-query-swagger /tanstack /input:https://localhost:5001/swagger/v1/swagger.json /output:src/api/template-client.ts /template:Axios /serviceHost:. /use-recommended-configuration /minimal",
+    "generate-axios-minimal": "react-query-swagger /tanstack /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/axios-client-minimal.ts /template:Axios /serviceHost:. /use-recommended-configuration /minimal",
     "generate-axios": "react-query-swagger /tanstack /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/axios-client.ts /template:Axios /serviceHost:. /use-recommended-configuration",
     "generate-axios-date-only-test": "react-query-swagger /tanstack /input:https://localhost:5001/swagger/v1/swagger.json /output:app/api/api-client.ts /template:Axios /serviceHost:. /use-recommended-configuration",
     "generate-fetch": "react-query-swagger /tanstack /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/fetch-client.ts /template:Fetch /serviceHost:. /generateConstructorInterface:true /markOptionalProperties:true /generateOptionalParameters:true /nullValue:undefined",
