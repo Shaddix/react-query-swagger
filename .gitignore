@@ -470,7 +470,9 @@ src/templates/AxiosClient_RequestConfig.liquid
 !/src/templates_v3/ReactQuery.MetaFileFunctions.liquid
 !/src/templates_v3/ReactQueryFile.liquid
 
-/src/templates_minimal/**/*
+/src/templates_minimal/modules/**/*
+/src/templates_minimal/original/**/*
+/src/templates_minimal/*.liquid
 !/src/templates_minimal/ConvertToClass.liquid
 !/src/templates_minimal/ConvertToJavaScript.liquid
 !/src/templates_minimal/Class.liquid

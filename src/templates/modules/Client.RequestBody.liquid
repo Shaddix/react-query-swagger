@@ -87,7 +87,7 @@ const content_ = Object.keys({{ operation.ContentParameter.VariableName }} as an
 {%-         elsif operation.HasPlainTextBodyParameter -%}
 const content_ = {{ operation.ContentParameter.VariableName }};
 {%-         else -%}
-const content_ = JSON.stringify({{ operation.ContentParameter.VariableName }});
+{% template Client.RequestBody.Serialize %}
 {%-         endif -%}
 {%-     else -%}
 const content_ = undefined;

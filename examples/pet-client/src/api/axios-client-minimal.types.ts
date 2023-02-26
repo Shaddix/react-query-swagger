@@ -16,7 +16,7 @@ export function serializeApiResponse(_data: ApiResponse) {
   const data = prepareSerializeApiResponse(_data as ApiResponse);
   return JSON.stringify(data);
 }
-function prepareSerializeApiResponse(_data: ApiResponse): ApiResponse {
+export function prepareSerializeApiResponse(_data: ApiResponse): ApiResponse {
   const data: Record<string, any> = { ..._data };
   return data as ApiResponse;
 }
@@ -36,7 +36,7 @@ export function serializeCategory(_data: Category) {
   const data = prepareSerializeCategory(_data as Category);
   return JSON.stringify(data);
 }
-function prepareSerializeCategory(_data: Category): Category {
+export function prepareSerializeCategory(_data: Category): Category {
   const data: Record<string, any> = { ..._data };
   return data as Category;
 }
@@ -69,7 +69,7 @@ export function serializePet(_data: Pet) {
   const data = prepareSerializePet(_data as Pet);
   return JSON.stringify(data);
 }
-function prepareSerializePet(_data: Pet): Pet {
+export function prepareSerializePet(_data: Pet): Pet {
   const data: Record<string, any> = { ..._data };
   data["category"] = _data.category && prepareSerializeCategory(_data.category);
   if (Array.isArray(_data.tags)) {
@@ -95,7 +95,7 @@ export function serializeTag(_data: Tag) {
   const data = prepareSerializeTag(_data as Tag);
   return JSON.stringify(data);
 }
-function prepareSerializeTag(_data: Tag): Tag {
+export function prepareSerializeTag(_data: Tag): Tag {
   const data: Record<string, any> = { ..._data };
   return data as Tag;
 }
@@ -123,7 +123,7 @@ export function serializeOrder(_data: Order) {
   const data = prepareSerializeOrder(_data as Order);
   return JSON.stringify(data);
 }
-function prepareSerializeOrder(_data: Order): Order {
+export function prepareSerializeOrder(_data: Order): Order {
   const data: Record<string, any> = { ..._data };
   data["shipDate"] = _data.shipDate && _data.shipDate.toISOString();
   return data as Order;
@@ -151,7 +151,7 @@ export function serializeUser(_data: User) {
   const data = prepareSerializeUser(_data as User);
   return JSON.stringify(data);
 }
-function prepareSerializeUser(_data: User): User {
+export function prepareSerializeUser(_data: User): User {
   const data: Record<string, any> = { ..._data };
   return data as User;
 }

@@ -88,7 +88,7 @@ export function addPet(body: Types.Pet, config?: AxiosRequestConfig | undefined)
     let url_ = getBaseUrl() + "/pet";
       url_ = url_.replace(/[?&]$/, "");
 
-    const content_ = JSON.stringify(body);
+    const content_ = Types.serializePet(body);
 
     let options_: AxiosRequestConfig = {
         ..._requestConfigAddPet,
@@ -141,7 +141,7 @@ export function updatePet(body: Types.Pet, config?: AxiosRequestConfig | undefin
     let url_ = getBaseUrl() + "/pet";
       url_ = url_.replace(/[?&]$/, "");
 
-    const content_ = JSON.stringify(body);
+    const content_ = Types.serializePet(body);
 
     let options_: AxiosRequestConfig = {
         ..._requestConfigUpdatePet,
@@ -525,7 +525,7 @@ export function placeOrder(body: Types.Order, config?: AxiosRequestConfig | unde
     let url_ = getBaseUrl() + "/store/order";
       url_ = url_.replace(/[?&]$/, "");
 
-    const content_ = JSON.stringify(body);
+    const content_ = Types.serializeOrder(body);
 
     let options_: AxiosRequestConfig = {
         ..._requestConfigPlaceOrder,
@@ -763,6 +763,7 @@ export function createUsersWithArrayInput(body: Types.User[], config?: AxiosRequ
     let url_ = getBaseUrl() + "/user/createWithArray";
       url_ = url_.replace(/[?&]$/, "");
 
+    body = body.map(item => Types.prepareSerializeUser(item))
     const content_ = JSON.stringify(body);
 
     let options_: AxiosRequestConfig = {
@@ -813,6 +814,7 @@ export function createUsersWithListInput(body: Types.User[], config?: AxiosReque
     let url_ = getBaseUrl() + "/user/createWithList";
       url_ = url_.replace(/[?&]$/, "");
 
+    body = body.map(item => Types.prepareSerializeUser(item))
     const content_ = JSON.stringify(body);
 
     let options_: AxiosRequestConfig = {
@@ -933,7 +935,7 @@ export function updateUser(username: string, body: Types.User, config?: AxiosReq
     url_ = url_.replace("{username}", encodeURIComponent("" + username));
       url_ = url_.replace(/[?&]$/, "");
 
-    const content_ = JSON.stringify(body);
+    const content_ = Types.serializeUser(body);
 
     let options_: AxiosRequestConfig = {
         ..._requestConfigUpdateUser,
@@ -1160,7 +1162,7 @@ export function createUser(body: Types.User, config?: AxiosRequestConfig | undef
     let url_ = getBaseUrl() + "/user";
       url_ = url_.replace(/[?&]$/, "");
 
-    const content_ = JSON.stringify(body);
+    const content_ = Types.serializeUser(body);
 
     let options_: AxiosRequestConfig = {
         ..._requestConfigCreateUser,

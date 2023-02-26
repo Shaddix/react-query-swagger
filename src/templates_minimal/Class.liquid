@@ -37,7 +37,7 @@ export function serialize{{ ClassName }}(_data: {{ ClassName }}) {
   return JSON.stringify(data);
 }
 
-function prepareSerialize{{ ClassName }}(_data: {{ ClassName }}): {{ ClassName }} {
+export function prepareSerialize{{ ClassName }}(_data: {{ ClassName }}): {{ ClassName }} {
 {%- if HasInheritance -%}
   const data = prepareSerialize{{ BaseClass }}(_data as {{ ClassName }}) as Record<string, any>;
 {%- else -%}
