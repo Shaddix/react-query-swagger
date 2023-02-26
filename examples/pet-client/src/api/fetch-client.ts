@@ -925,6 +925,7 @@ export * as Query from './fetch-client/Query';
 
 
 
+//-----Types.File-----
 export class ApiResponse implements IApiResponse {
     code?: number | undefined;
     type?: string | undefined;
@@ -1267,6 +1268,7 @@ export enum OrderStatus {
     Approved = "approved",
     Delivered = "delivered",
 }
+//-----/Types.File-----
 
 export interface FileParameter {
     data: any;

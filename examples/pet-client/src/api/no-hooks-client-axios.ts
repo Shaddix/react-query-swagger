@@ -15,6 +15,7 @@ export * as Client from './no-hooks-client-axios/Client';
 
 
 
+//-----Types.File-----
 export class ApiResponse implements IApiResponse {
     code?: number | null;
     type?: string | null;
@@ -357,6 +358,7 @@ export enum OrderStatus {
     Approved = "approved",
     Delivered = "delivered",
 }
+//-----/Types.File-----
 
 export interface FileParameter {
     data: any;

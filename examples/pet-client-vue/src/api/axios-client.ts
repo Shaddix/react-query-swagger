@@ -15,6 +15,7 @@ export * as Client from './axios-client/Client';
 
 export * as Query from './axios-client/Query';
 
+//-----Types.File-----
 export class ApiResponse implements IApiResponse {
     code?: number | undefined;
     type?: string | undefined;
@@ -357,6 +358,7 @@ export enum OrderStatus {
     Approved = "approved",
     Delivered = "delivered",
 }
+//-----/Types.File-----
 
 export interface FileParameter {
     data: any;
