@@ -51,23 +51,20 @@ await downloadAndPostProcess('Client.RequestBody.liquid', (content) =>
     ),
 );
 
-// content_.append;
-
 async function downloadAndPostProcess(file, postProcess, newName) {
   let content = await fetch(
     `https://raw.githubusercontent.com/RicoSuter/NSwag/master/src/NSwag.CodeGeneration.TypeScript/Templates/${file}`,
   ).then((x) => x.text());
-  const previousOriginalContent = fs.readFileSync(
-    `src/templates/original/${file}`,
-  );
-  if (previousOriginalContent != content) {
-    fs.writeFileSync(`src/templates/original/${file}`, content);
-    content = postProcess(content);
 
-    if (newName) {
-      fs.writeFileSync(`src/templates/${newName}`, content);
-    } else {
-      fs.writeFileSync(`src/templates/modules/${file}`, content);
+  const processedContent = postProcess(content);
+  if (newName) {
+    fs.writeFileSync(`src/templates/${newName}`, processedContent);
+  } else {
+    const originalFileName = `src/templates/original/${file}`;
+    const previousOriginalContent = fs.readFileSync(originalFileName);
+    if (previousOriginalContent != content) {
+      fs.writeFileSync(originalFileName, content);
+      fs.writeFileSync(`src/templates/modules/${file}`, processedContent);
     }
   }
 }
