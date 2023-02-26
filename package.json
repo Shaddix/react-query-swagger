@@ -7,13 +7,14 @@
   "nohoist": [],
   "scripts": {
     "do-publish": "yarn prepublish && yarn workspace react-query-swagger publish --tag next",
-    "prepublish": "yarn update-nswag && yarn copy_from_v4_to_v3 && yarn copy_to_no_hooks && yarn copy_from_v4_to_vue && yarn copy_to_minimal && yarn generate-all && yarn typecheck",
+    "prepublish": "yarn update-nswag && yarn copy_from_v4_to_v3 && yarn copy_to_no_hooks && yarn copy_from_v4_to_vue && yarn copy_to_minimal && yarn copy_to_minimal_no_hooks && yarn generate-all && yarn typecheck",
     "start": "yarn workspace pet-client start",
     "start-v3": "yarn workspace pet-client-v3 start",
     "typecheck": "yarn workspace react-query-swagger tsc && yarn workspace pet-client-v3 tsc && yarn workspace pet-client tsc && yarn workspace pet-client-vue type-check",
-    "generate-all": "yarn generate-api-client-axios && yarn generate-api-client-axios-minimal && yarn generate-api-client-axios-v3 && yarn generate-api-client-fetch && yarn generate-api-client-fetch-v3 && yarn generate-api-client-no-hooks && yarn generate-api-client-no-hooks-axios && yarn generate-api-client-no-hooks-no-modules && yarn generate-api-client-axios-vue && yarn typecheck",
+    "generate-all": "yarn generate-api-client-axios && yarn generate-api-client-axios-minimal && yarn generate-api-client-axios-minimal-no-hooks && yarn generate-api-client-axios-v3 && yarn generate-api-client-fetch && yarn generate-api-client-fetch-v3 && yarn generate-api-client-no-hooks && yarn generate-api-client-no-hooks-axios && yarn generate-api-client-no-hooks-no-modules && yarn generate-api-client-axios-vue && yarn typecheck",
     "generate-api-client-axios": "yarn workspace pet-client generate-axios",
     "generate-api-client-axios-minimal": "yarn workspace pet-client generate-axios-minimal",
+    "generate-api-client-axios-minimal-no-hooks": "yarn workspace pet-client generate-axios-minimal-no-hooks",
     "generate-api-client-axios-v3": "yarn workspace pet-client-v3 generate-axios",
     "generate-api-client-axios-vue": "yarn workspace pet-client-vue generate-axios",
     "generate-api-client-fetch": "yarn workspace pet-client generate-fetch",
@@ -25,7 +26,8 @@
     "copy_from_v4_to_v3": "yarn copyfiles -u 2 -e \"src/templates/File.liquid\" -e \"src/templates/AxiosClient.liquid\" -e \"src/templates/FetchClient.liquid\" src/templates/**/* src/templates_v3 && yarn replace \"from '@tanstack/react-query';\" \"from 'react-query';\" src/templates_v3/ReactQueryFile.liquid",
     "copy_from_v4_to_vue": "yarn copyfiles -u 2 -e \"src/templates/File.liquid\" -e \"src/templates/AxiosClient.liquid\" -e \"src/templates/FetchClient.liquid\" -e \"src/templates/ReactQuery.MetaFile*.liquid\" src/templates/**/* src/templates_vue && node scripts/patch-vue-templates.mjs",
     "copy_to_no_hooks": "yarn copyfiles -u 2 -e \"src/templates/File.liquid\" -e \"src/templates/AxiosClient.liquid\" -e \"src/templates/FetchClient.liquid\" -e \"**/ReactQueryFile.liquid\" -e \"**/ReactQuery.liquid\" src/templates/**/* src/templates_no_hooks",
-    "copy_to_minimal": "yarn copyfiles -u 2 -e \"src/templates/Class.liquid\" -e \"src/templates/Interface.liquid\" -e \"src/templates/File.liquid\" -e \"src/templates/ConvertToClass.liquid\" -e \"src/templates/ConvertToJavaScript.liquid\" -e \"src/templates/PersistorHydrator.AddResultTypeFactory.liquid\" -e \"src/templates/modules/Client.RequestBody.Serialize.liquid\" src/templates/**/* src/templates_minimal"
+    "copy_to_minimal": "yarn copyfiles -u 2 -e \"src/templates/Class.liquid\" -e \"src/templates/Interface.liquid\" -e \"src/templates/File.liquid\" -e \"src/templates/ConvertToClass.liquid\" -e \"src/templates/ConvertToJavaScript.liquid\" -e \"src/templates/PersistorHydrator.AddResultTypeFactory.liquid\" -e \"src/templates/modules/Client.RequestBody.Serialize.liquid\" src/templates/**/* src/templates_minimal",
+    "copy_to_minimal_no_hooks": "yarn copyfiles -u 2 -e \"src/templates_minimal/PersistorHydrator.liquid\" -e \"src/templates_minimal/ReactQuery.liquid\" -e \"src/templates_minimal/PersistorHydrator.File.liquid\" -e \"src/templates_minimal/ReactQuery.MetaFile.liquid\" -e \"src/templates_minimal/ReactQuery.MetaFileFunctions.liquid\" -e \"src/templates_minimal/ReactQuery.MetaFile.liquid\" src/templates_minimal/**/* src/templates_minimal_no_hooks"
   },
   "devDependencies": {
     "copyfiles": "2.4.1",

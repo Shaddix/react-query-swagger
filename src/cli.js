@@ -21,6 +21,8 @@ const isV4 = isVue || isSolid || isSvelte || args.includes('/tanstack');
 // this one might be useful if you only want to have
 // to initialize Axios and baseUrl from a single place
 const noHooks = args.includes('/no-hooks');
+const useRecommendedConfiguration =
+  args.includes('/use-recommended-configuration') || isMinimal;
 
 let pathToTemplates = process.mainModule.filename
   .replace('cli.js', 'templates')
@@ -28,8 +30,6 @@ let pathToTemplates = process.mainModule.filename
 
 if (isVue) {
   pathToTemplates = pathToTemplates.replace(/templates$/, 'templates_vue');
-} else if (isMinimal) {
-  pathToTemplates = pathToTemplates.replace(/templates$/, 'templates_minimal');
 }
 if (noHooks) {
   if (isVue) {
@@ -41,12 +41,17 @@ if (noHooks) {
   } else if (isV4) {
     throw new Error('/no-hooks option is incompatible with /tanstack');
   }
-  pathToTemplates = pathToTemplates.replace(/templates$/, 'templates_no_hooks');
+  pathToTemplates = pathToTemplates.replace(
+    /templates$/,
+    isMinimal ? 'templates_minimal_no_hooks' : 'templates_no_hooks',
+  );
+} else if (isMinimal) {
+  pathToTemplates = pathToTemplates.replace(/templates$/, 'templates_minimal');
 } else if (!isV4) {
   pathToTemplates = pathToTemplates.replace(/templates$/, 'templates_v3');
 }
 
-if (args.includes('/use-recommended-configuration')) {
+if (useRecommendedConfiguration) {
   // otherwise optional parameters are generated as mandatory
   // E.g.:
   // -true:  deletePet(petId: number, api_key?: string | null | undefined)

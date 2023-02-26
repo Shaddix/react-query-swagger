@@ -480,3 +480,13 @@ src/templates/AxiosClient_RequestConfig.liquid
 !/src/templates_minimal/Interface.liquid
 !/src/templates_minimal/PersistorHydrator.AddResultTypeFactory.liquid
 !/src/templates_minimal/modules/Client.RequestBody.Serialize.liquid
+
+
+/src/templates_minimal_no_hooks/modules/**/*
+/src/templates_minimal_no_hooks/original/**/*
+/src/templates_minimal_no_hooks/*.liquid
+!/src/templates_minimal_no_hooks/PersistorHydrator.liquid
+!/src/templates_minimal_no_hooks/PersistorHydrator.File.liquid
+!/src/templates_minimal_no_hooks/ReactQuery.MetaFile.liquid
+!/src/templates_minimal_no_hooks/ReactQuery.MetaFileFunctions.liquid
+!/src/templates_minimal_no_hooks/ReactQuery.liquid
