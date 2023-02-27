@@ -1306,6 +1306,6 @@ function throwException(message: string, status: number, response: string, heade
 
 //-----/Types.File-----
 
-export { setBaseUrl } from './no-hooks-no-modules/helpers';
+export { setBaseUrl, getBaseUrl } from './no-hooks-no-modules/helpers';
 export { setFetchFactory, getFetch } from './no-hooks-no-modules/helpers';
 

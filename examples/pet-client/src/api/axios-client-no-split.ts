@@ -1615,7 +1615,7 @@ function isAxiosError(obj: any | undefined): obj is AxiosError {
 //-----/Types.File-----
 
 import { addResultTypeFactory } from './axios-client-no-split/helpers';
-export { setBaseUrl } from './axios-client-no-split/helpers';
+export { setBaseUrl, getBaseUrl } from './axios-client-no-split/helpers';
 export { setAxiosFactory, getAxios } from './axios-client-no-split/helpers';
 
 

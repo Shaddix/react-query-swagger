@@ -1307,5 +1307,5 @@ function throwException(message: string, status: number, response: string, heade
 //-----/Types.File-----
 
 import { addResultTypeFactory } from './fetch-client/helpers';
-export { setBaseUrl } from './fetch-client/helpers';
+export { setBaseUrl, getBaseUrl } from './fetch-client/helpers';
 export { setFetchFactory, getFetch } from './fetch-client/helpers';

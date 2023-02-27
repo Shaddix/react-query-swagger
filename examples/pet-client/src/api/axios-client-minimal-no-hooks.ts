@@ -21,7 +21,7 @@ export * as Client from './axios-client-minimal-no-hooks/Client';
 
 
 import { addResultTypeFactory } from './axios-client-minimal-no-hooks/helpers';
-export { setBaseUrl } from './axios-client-minimal-no-hooks/helpers';
+export { setBaseUrl, getBaseUrl } from './axios-client-minimal-no-hooks/helpers';
 export { setAxiosFactory, getAxios } from './axios-client-minimal-no-hooks/helpers';
 
 

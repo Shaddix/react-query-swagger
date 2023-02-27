@@ -23,7 +23,7 @@ export * as Query from './axios-client-minimal/Query';
 
 
 import { addResultTypeFactory } from './axios-client-minimal/helpers';
-export { setBaseUrl } from './axios-client-minimal/helpers';
+export { setBaseUrl, getBaseUrl } from './axios-client-minimal/helpers';
 export { setAxiosFactory, getAxios } from './axios-client-minimal/helpers';
 
 

@@ -402,6 +402,6 @@ export function isAxiosError(obj: any | undefined): obj is AxiosError {
 
 //-----/Types.File-----
 
-export { setBaseUrl } from './no-hooks-client-axios/helpers';
+export { setBaseUrl, getBaseUrl } from './no-hooks-client-axios/helpers';
 export { setAxiosFactory, getAxios } from './no-hooks-client-axios/helpers';
 

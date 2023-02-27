@@ -403,5 +403,5 @@ export function isAxiosError(obj: any | undefined): obj is AxiosError {
 //-----/Types.File-----
 
 import { addResultTypeFactory } from './axios-client/helpers';
-export { setBaseUrl } from './axios-client/helpers';
+export { setBaseUrl, getBaseUrl } from './axios-client/helpers';
 export { setAxiosFactory, getAxios } from './axios-client/helpers';

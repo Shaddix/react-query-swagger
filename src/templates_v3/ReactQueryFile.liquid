@@ -1,5 +1,5 @@
 import { addResultTypeFactory } from './helpers';
-export { setBaseUrl } from './helpers';
+export { setBaseUrl, getBaseUrl } from './helpers';
 {%- if Framework.IsAxios -%}
 export { setAxiosFactory, getAxios } from './helpers';
 {%- elsif Framework.IsFetchOrAurelia -%}

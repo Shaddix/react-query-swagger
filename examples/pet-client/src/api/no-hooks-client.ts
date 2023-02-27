@@ -395,6 +395,6 @@ export function throwException(message: string, status: number, response: string
 
 //-----/Types.File-----
 
-export { setBaseUrl } from './no-hooks-client/helpers';
+export { setBaseUrl, getBaseUrl } from './no-hooks-client/helpers';
 export { setFetchFactory, getFetch } from './no-hooks-client/helpers';
 
