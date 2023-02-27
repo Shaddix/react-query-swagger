@@ -2,7 +2,12 @@
 
 [![npm version](https://badge.fury.io/js/react-query-swagger.svg)](https://www.npmjs.org/package/react-query-swagger) [![npm](https://img.shields.io/npm/dt/react-query-swagger.svg)](https://www.npmjs.org/package/react-query-swagger) [![MIT](https://img.shields.io/dub/l/vibe-d.svg)](https://opensource.org/licenses/MIT) ![Types - TypeScript](https://img.shields.io/npm/types/typescript?style=flat)
 
-This projects autogenerates [@tanstack/query](https://tanstack.com/query) hooks based on Swagger API definitions.
+This projects autogenerates [@tanstack/query](https://tanstack.com/query) hooks or strongly-typed axios/fetch clients based on Swagger API definitions.
+
+**Main features**
+
+- Support for DateTime and Date (i.e. you get JS `Date` objects from HTTP client calls)
+- Everything is treeshakable
 
 So, given that you have a [petstore-like API definition](https://petstore.swagger.io/), you could autogenerate a list of [react-query hooks](https://github.com/Shaddix/nswag-react-query/blob/master/examples/pet-client/src/api/axios-client.ts#L1151), to call GET methods from the API (queries). or POST/PUT/PATCH/DELETE methods (mutations).
 
@@ -158,6 +163,12 @@ queryClient.refetchQueries({ predicate: (query) => ((query as any).observers as 
 ## Additional flags
 
 In addition to [NSwag parameters](https://github.com/RicoSuter/NJsonSchema/wiki/TypeScriptGeneratorSettings) we have 4 specific parameters:
+
+### /minimal
+
+It generates `Interfaces` instead of Classes, which minimizes the bundle size (since Interfaces are stripped off during bundling).
+
+This mode is experimental and is being tested at the moment.
 
 ### /modules
 
