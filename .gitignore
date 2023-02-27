@@ -453,6 +453,7 @@ src/templates/AxiosClient_RequestConfig.liquid
 !/src/templates_vue/AxiosClient.liquid
 !/src/templates_vue/ReactQuery.MetaFile.liquid
 !/src/templates_vue/ReactQuery.MetaFileFunctions.liquid
+!/src/templates_vue/ReactQuery.Imports.liquid
 
 !/src/templates_no_hooks/AxiosClient.liquid
 !/src/templates_no_hooks/FetchClient.liquid
@@ -469,6 +470,7 @@ src/templates/AxiosClient_RequestConfig.liquid
 !/src/templates_v3/ReactQuery.MetaFile.liquid
 !/src/templates_v3/ReactQuery.MetaFileFunctions.liquid
 !/src/templates_v3/ReactQueryFile.liquid
+!/src/templates_v3/ReactQuery.Imports.liquid
 
 /src/templates_minimal/modules/**/*
 /src/templates_minimal/original/**/*
