@@ -463,14 +463,13 @@ src/templates/AxiosClient_RequestConfig.liquid
 !/src/templates_no_hooks/ReactQuery.MetaFileFunctions.liquid
 !/src/templates_no_hooks/ReactQueryFile.liquid
 
-!/src/templates_v3/AxiosClient.liquid
-!/src/templates_v3/FetchClient.liquid
 !/src/templates_v3/File.liquid
 !/src/templates_v3/ReactQuery.liquid
 !/src/templates_v3/ReactQuery.MetaFile.liquid
 !/src/templates_v3/ReactQuery.MetaFileFunctions.liquid
 !/src/templates_v3/ReactQueryFile.liquid
 !/src/templates_v3/ReactQuery.Imports.liquid
+!/src/templates_v3/PersistorHydrator.liquid
 
 /src/templates_minimal/modules/**/*
 /src/templates_minimal/original/**/*

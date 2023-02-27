@@ -43,7 +43,7 @@ export class Client {
      * @param file (optional) file to upload
      * @return successful operation
      */
-    uploadFile(petId: number, additionalMetadata?: string | null | undefined, file?: FileParameter | null | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResponse> {
+    uploadFile(petId: number, additionalMetadata: string | null | undefined, file: FileParameter | null | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResponse> {
         let url_ = this.baseUrl + "/pet/{petId}/uploadImage";
 
         if (petId === undefined || petId === null)
@@ -422,7 +422,7 @@ export class Client {
      * @param name (optional) Updated name of the pet
      * @param status (optional) Updated status of the pet
      */
-    updatePetWithForm(petId: number, name?: string | null | undefined, status?: string | null | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+    updatePetWithForm(petId: number, name: string | null | undefined, status: string | null | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/pet/{petId}";
 
         if (petId === undefined || petId === null)
@@ -481,10 +481,10 @@ export class Client {
 
     /**
      * Deletes a pet
-     * @param petId Pet id to delete
      * @param api_key (optional) 
+     * @param petId Pet id to delete
      */
-    deletePet(petId: number, api_key?: string | null | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+    deletePet(api_key: string | null | undefined, petId: number , cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/pet/{petId}";
 
         if (petId === undefined || petId === null)
@@ -1223,7 +1223,9 @@ export class Client {
 
 //-----/ClientClass----
 
-export * as Query from './axios-client/Query';
+export * as Query from './axios-client-no-split/Query';
+
+
 
 //-----Types.File-----
 export class ApiResponse implements IApiResponse {
@@ -1612,6 +1614,101 @@ function isAxiosError(obj: any | undefined): obj is AxiosError {
 
 //-----/Types.File-----
 
-import { addResultTypeFactory } from './axios-client/helpers';
-export { setBaseUrl } from './axios-client/helpers';
-export { setAxiosFactory, getAxios } from './axios-client/helpers';
+import { addResultTypeFactory } from './axios-client-no-split/helpers';
+export { setBaseUrl } from './axios-client-no-split/helpers';
+export { setAxiosFactory, getAxios } from './axios-client-no-split/helpers';
+
+
+//-----PersistorHydrator.File-----
+import type { PersistedClient } from '@tanstack/react-query-persist-client';
+import type { DehydratedState, QueryKey } from '@tanstack/react-query'
+import { getResultTypeFactory } from './axios-client-no-split/helpers';
+
+/*
+ * If you have Dates in QueryKeys (i.e. in request parameters), you need to deserialize them to Dates correctly
+ * (otherwise they are deserialized as strings by default, and your queries are broken).
+ */
+export function deserializeDate(str: unknown) {
+  if (!str || typeof str !== 'string') return str;
+  if (!/^\d\d\d\d\-\d\d\-\d\d/.test(str)) return str;
+  
+  const date = new Date(str);
+  const isDate = date instanceof Date && !isNaN(date as any);
+  
+  return isDate ? date : str;
+}
+
+export function deserializeDatesInQueryKeys(queryKey: QueryKey) {
+  return queryKey
+    // We need to replace `null` with `undefined` in query key, because
+    // `undefined` is serialized as `null`.
+    // And most probably if we have `null` in QueryKey it actually means `undefined`.
+    // We can't keep nulls, because they have a different meaning, and e.g. boolean parameters are not allowed to be null.
+    .map(x => (x === null ? undefined : x))
+    .map(x => deserializeDate(x));
+}
+
+export function deserializeClassesInQueryData(queryKey: QueryKey, data: any) {
+  if (!data) {
+    return data;
+  } else if (typeof data !== 'object') {
+    return data;
+  } else if ('pages' in data && 'pageParams' in data && Array.isArray(data.pages) && Array.isArray(data.pageParams)) {
+    // infinite query
+    data.pages = data.pages.map((page:any) => deserializeClassesInQueryData(queryKey, page));
+  } else if (Array.isArray(data)) {
+    return data.map(elem => constructDtoClass(queryKey, elem));
+  } else {
+    return constructDtoClass(queryKey, data);
+  }
+}
+
+/*
+ * Pass this function as `deserialize` option to createSyncStoragePersister/createAsyncStoragePersister
+ * to correctly deserialize your DTOs (including Dates)
+ */
+export function persisterDeserialize(cache: string): PersistedClient {
+  const client: PersistedClient = JSON.parse(cache);
+  client.clientState.queries.forEach((query) => {
+    query.state.data = deserializeClassesInQueryData(query.queryKey, query.state.data);
+    query.queryKey = deserializeDatesInQueryKeys(query.queryKey);
+  });
+
+  return client;
+}
+
+export function constructDtoClass(queryKey: QueryKey, data: any): unknown {
+  const resultTypeKey = getResultTypeClassKey(queryKey);
+  const constructorFunction = getResultTypeFactory(resultTypeKey);
+
+  if (!data || !constructorFunction)
+    return data;
+
+  return constructorFunction(data);
+}
+
+export function getResultTypeClassKey(queryKey: QueryKey): string {
+  if (!Array.isArray(queryKey)) {
+    return queryKey as unknown as string;
+  }
+  if (queryKey.length >= 2) {
+    // We concatenate first and second elements, because they uniquely identify the query.
+    // All other QueryKey elements are query parameters
+    return `${queryKey[0]}___${queryKey[1]}`;
+  }
+
+  // We actually should never reach this point :)
+  return queryKey.join('___');
+}
+
+export function initPersister() {
+  
+  addResultTypeFactory('Client___findPetsByStatus', (data: any) => { const result = new Pet(); result.init(data); return result; });
+  addResultTypeFactory('Client___findPetsByTags', (data: any) => { const result = new Pet(); result.init(data); return result; });
+  addResultTypeFactory('Client___getPetById', (data: any) => { const result = new Pet(); result.init(data); return result; });
+  addResultTypeFactory('Client___getOrderById', (data: any) => { const result = new Order(); result.init(data); return result; });
+  addResultTypeFactory('Client___getUserByName', (data: any) => { const result = new User(); result.init(data); return result; });
+
+
+}
+//-----/PersistorHydrator.File----

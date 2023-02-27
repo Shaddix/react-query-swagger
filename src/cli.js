@@ -292,6 +292,15 @@ if (isClientsAsModules) {
       "import type { AxiosError } from 'axios';",
     );
   writeFileSync(outputPath, apiClient);
+} else {
+  let apiClient = readFileSync(outputPath, 'utf-8');
+  // remove duplicated imports from every Client file
+  apiClient = apiClient.replaceAll(
+    "import type { AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';",
+    '',
+  );
+
+  writeFileSync(outputPath, apiClient);
 }
 
 if (true) {
