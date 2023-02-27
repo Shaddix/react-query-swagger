@@ -1,0 +1,49 @@
+{%- assign StringToDateOnlyCode = StringToDateCode -%}
+{%- if UseJsDate -%}
+    {%- assign StringToDateOnlyCode = 'parseDateOnly' -%}
+{%-  endif -%}
+{% if IsNewableObject -%}
+{%   if CheckNewableObject -%}
+{{ Variable }} = {{ Value }} && Types.init{{ Type }}({{ Value }});
+{%   else -%}
+{{ Variable }} = Types.init{{ Type }}({{ Value }});
+{%   endif -%}
+{% elsif IsArray -%}
+{%  if IsArrayItemNewableObject or IsArrayItemDate or IsArrayItemDateTime -%}
+if (Array.isArray({{ Value }})) {
+      {{ Variable }} = {{ Value }}.map(item => 
+{%   if IsArrayItemNewableObject -%}
+        Types.init{{ ArrayItemType }}(item)
+{%   else -%}
+{%     if IsArrayItemDate -%}
+        {{ StringToDateOnlyCode }}(item)
+{%     elsif IsArrayItemDateTime -%}
+        {{ StringToDateCode }}(item)
+{%     endif -%}
+{%    endif -%}
+      );
+    }
+{%   endif -%}
+{% elsif IsDictionary -%}
+{% if IsDictionaryValueNewableObject or IsDictionaryValueNewableArray or IsDictionaryValueDate or IsDictionaryValueDateTime -%}
+if ({{ Value }}) {
+    for (let key in {{ Value }}) {
+{%     if IsDictionaryValueNewableObject -%}
+            (<any>{{ Variable }}){% if RequiresStrictPropertyInitialization %}!{% endif %}[key] = {{ Value }}[key] ? Types.deserialize{{ DictionaryValueType }}({{ Value }}[key]) : {% if HasDictionaryValueDefaultValue %}{{ DictionaryValueDefaultValue }}{% else %}<any>{{ NullValue }}{% endif %};
+{%     elsif IsDictionaryValueNewableArray -%}
+            (<any>{{ Variable }}){% if RequiresStrictPropertyInitialization %}!{% endif %}[key] = {{ Value }}[key] ? {{ Value }}[key].map((i: any) => Types.deserialize{{ DictionaryValueArrayItemType }}(i)) : {% if HasDictionaryValueDefaultValue %}{{ DictionaryValueDefaultValue }}{% else %}<any>{{ NullValue }}{% endif %};
+{%     elsif IsDictionaryValueDate -%}
+            (<any>{{ Variable }}){% if RequiresStrictPropertyInitialization %}!{% endif %}[key] = {{ Value }}[key] ? {{ StringToDateOnlyCode }}({{ Value }}[key].toString()) : {% if HasDictionaryValueDefaultValue %}{{ DictionaryValueDefaultValue }}{% else %}<any>{{ NullValue }}{% endif %};
+{%     elsif IsDictionaryValueDateTime -%}
+            (<any>{{ Variable }}){% if RequiresStrictPropertyInitialization %}!{% endif %}[key] = {{ Value }}[key] ? {{ StringToDateCode }}({{ Value }}[key].toString()) : {% if HasDictionaryValueDefaultValue %}{{ DictionaryValueDefaultValue }}{% else %}<any>{{ NullValue }}{% endif %};
+{%     endif -%}
+    }
+}
+{% endif -%}
+{% else -%}
+    {% if IsDate -%}
+{{ Variable }} = {{ Value }} ? {{ StringToDateOnlyCode }}({{ Value }}.toString()) : {% if HasDefaultValue %}{{ StringToDateOnlyCode }}({{ DefaultValue }}){% else %}<any>{{ NullValue }}{% endif %};
+    {% elsif IsDateTime -%}
+{{ Variable }} = {{ Value }} ? {{ StringToDateCode }}({{ Value }}.toString()) : {% if HasDefaultValue %}{{ StringToDateCode }}({{ DefaultValue }}){% else %}<any>{{ NullValue }}{% endif %};
+    {% endif -%}
+{% endif -%}

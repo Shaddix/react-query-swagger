@@ -64,10 +64,7 @@ export function constructDtoClass(queryKey: QueryKey, data: any): unknown {
   if (!data || !constructorFunction)
     return data;
 
-  const dto = constructorFunction();
-  dto.init(data);
-
-  return dto;
+  return constructorFunction(data);
 }
 
 export function getResultTypeClassKey(queryKey: QueryKey): string {

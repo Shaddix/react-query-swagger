@@ -12,6 +12,7 @@ export * as Client from './no-hooks-client/Client';
 
 
 
+//-----Types.File-----
 export class ApiResponse implements IApiResponse {
     code?: number | null;
     type?: string | null;
@@ -354,6 +355,7 @@ export enum OrderStatus {
     Approved = "approved",
     Delivered = "delivered",
 }
+//-----/CustomTypes.File-----
 
 export interface FileParameter {
     data: any;
@@ -391,6 +393,8 @@ export function throwException(message: string, status: number, response: string
         throw new ApiException(message, status, response, headers, null);
 }
 
-export { setBaseUrl } from './no-hooks-client/helpers';
+//-----/Types.File-----
+
+export { setBaseUrl, getBaseUrl } from './no-hooks-client/helpers';
 export { setFetchFactory, getFetch } from './no-hooks-client/helpers';
 

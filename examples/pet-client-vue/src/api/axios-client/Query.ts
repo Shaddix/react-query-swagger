@@ -12,7 +12,8 @@ import { useQuery, useMutation } from '@tanstack/vue-query';
 import type { UseQueryReturnType, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, MutationKey, UseMutationOptions, UseMutationReturnType, QueryMeta, MutationMeta } from '@tanstack/vue-query';
 import { trimArrayEnd, isParameterObject, getBaseUrl, addMetaToOptions  } from './helpers';
 import type { Ref } from 'vue';
-export const Client = Types.Client;
+import * as Client from './Client'
+export { Client };
 import type { AxiosRequestConfig } from 'axios';
 
 export type UploadFileMutationParameters = {
@@ -79,7 +80,7 @@ export function uploadFileMutationKey(petId: number): MutationKey {
 export function useUploadFileMutation<TContext>(petId: number, options?: Omit<UseMutationOptions<Types.ApiResponse, unknown, UploadFileMutationParameters, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<Types.ApiResponse, unknown, UploadFileMutationParameters, TContext> {
   const key = uploadFileMutationKey(petId);
   
-      return useMutation((uploadFileMutationParameters: UploadFileMutationParameters) => Types.Client.uploadFile(petId, uploadFileMutationParameters.additionalMetadata, uploadFileMutationParameters.file), {...options, mutationKey: key});
+      return useMutation((uploadFileMutationParameters: UploadFileMutationParameters) => Client.uploadFile(petId, uploadFileMutationParameters.additionalMetadata, uploadFileMutationParameters.file), {...options, mutationKey: key});
 }
   
     
@@ -103,7 +104,7 @@ export function addPetMutationKey(): MutationKey {
 export function useAddPetMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.Pet, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, Types.Pet, TContext> {
   const key = addPetMutationKey();
   
-      return useMutation((body: Types.Pet) => Types.Client.addPet(body), {...options, mutationKey: key});
+      return useMutation((body: Types.Pet) => Client.addPet(body), {...options, mutationKey: key});
 }
   
     
@@ -127,7 +128,7 @@ export function updatePetMutationKey(): MutationKey {
 export function useUpdatePetMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.Pet, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, Types.Pet, TContext> {
   const key = updatePetMutationKey();
   
-      return useMutation((body: Types.Pet) => Types.Client.updatePet(body), {...options, mutationKey: key});
+      return useMutation((body: Types.Pet) => Client.updatePet(body), {...options, mutationKey: key});
 }
   
     
@@ -170,7 +171,7 @@ export function findPetsByStatusQueryKey(...params: any[]): QueryKey {
   }
 }
 function __findPetsByStatus(context: QueryFunctionContext) {
-  return Types.Client.findPetsByStatus(
+  return Client.findPetsByStatus(
       context.queryKey[2] as Types.Status[]    );
 }
 
@@ -267,7 +268,7 @@ export function findPetsByTagsQueryKey(...params: any[]): QueryKey {
   }
 }
 function __findPetsByTags(context: QueryFunctionContext) {
-  return Types.Client.findPetsByTags(
+  return Client.findPetsByTags(
       context.queryKey[2] as string[]    );
 }
 
@@ -367,7 +368,7 @@ export function getPetByIdQueryKey(...params: any[]): QueryKey {
   }
 }
 function __getPetById(context: QueryFunctionContext) {
-  return Types.Client.getPetById(
+  return Client.getPetById(
       context.queryKey[2] as number    );
 }
 
@@ -452,7 +453,7 @@ export function updatePetWithFormMutationKey(petId: number): MutationKey {
 export function useUpdatePetWithFormMutation<TContext>(petId: number, options?: Omit<UseMutationOptions<void, unknown, UpdatePetWithFormMutationParameters, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, UpdatePetWithFormMutationParameters, TContext> {
   const key = updatePetWithFormMutationKey(petId);
   
-      return useMutation((updatePetWithFormMutationParameters: UpdatePetWithFormMutationParameters) => Types.Client.updatePetWithForm(petId, updatePetWithFormMutationParameters.name, updatePetWithFormMutationParameters.status), {...options, mutationKey: key});
+      return useMutation((updatePetWithFormMutationParameters: UpdatePetWithFormMutationParameters) => Client.updatePetWithForm(petId, updatePetWithFormMutationParameters.name, updatePetWithFormMutationParameters.status), {...options, mutationKey: key});
 }
   
     
@@ -483,7 +484,7 @@ export function deletePetMutationKey(petId: number, api_key: string | null | und
 export function useDeletePetMutation<TContext>(petId: number, api_key: string | null | undefined, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, void, TContext> {
   const key = deletePetMutationKey(petId, api_key);
   
-      return useMutation(() => Types.Client.deletePet(api_key, petId), {...options, mutationKey: key});
+      return useMutation(() => Client.deletePet(api_key, petId), {...options, mutationKey: key});
 }
   
     
@@ -508,7 +509,7 @@ export function placeOrderMutationKey(): MutationKey {
 export function usePlaceOrderMutation<TContext>(options?: Omit<UseMutationOptions<Types.Order, unknown, Types.Order, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<Types.Order, unknown, Types.Order, TContext> {
   const key = placeOrderMutationKey();
   
-      return useMutation((body: Types.Order) => Types.Client.placeOrder(body), {...options, mutationKey: key});
+      return useMutation((body: Types.Order) => Client.placeOrder(body), {...options, mutationKey: key});
 }
   
     
@@ -551,7 +552,7 @@ export function getOrderByIdQueryKey(...params: any[]): QueryKey {
   }
 }
 function __getOrderById(context: QueryFunctionContext) {
-  return Types.Client.getOrderById(
+  return Client.getOrderById(
       context.queryKey[2] as number    );
 }
 
@@ -634,7 +635,7 @@ export function deleteOrderMutationKey(orderId: number): MutationKey {
 export function useDeleteOrderMutation<TContext>(orderId: number, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, void, TContext> {
   const key = deleteOrderMutationKey(orderId);
   
-      return useMutation(() => Types.Client.deleteOrder(orderId), {...options, mutationKey: key});
+      return useMutation(() => Client.deleteOrder(orderId), {...options, mutationKey: key});
 }
   
     
@@ -662,7 +663,7 @@ export function getInventoryQueryKey(...params: any[]): QueryKey {
     ]);
 }
 function __getInventory() {
-  return Types.Client.getInventory(
+  return Client.getInventory(
     );
 }
 
@@ -730,7 +731,7 @@ export function createUsersWithArrayInputMutationKey(): MutationKey {
 export function useCreateUsersWithArrayInputMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.User[], TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, Types.User[], TContext> {
   const key = createUsersWithArrayInputMutationKey();
   
-      return useMutation((body: Types.User[]) => Types.Client.createUsersWithArrayInput(body), {...options, mutationKey: key});
+      return useMutation((body: Types.User[]) => Client.createUsersWithArrayInput(body), {...options, mutationKey: key});
 }
   
     
@@ -755,7 +756,7 @@ export function createUsersWithListInputMutationKey(): MutationKey {
 export function useCreateUsersWithListInputMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.User[], TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, Types.User[], TContext> {
   const key = createUsersWithListInputMutationKey();
   
-      return useMutation((body: Types.User[]) => Types.Client.createUsersWithListInput(body), {...options, mutationKey: key});
+      return useMutation((body: Types.User[]) => Client.createUsersWithListInput(body), {...options, mutationKey: key});
 }
   
     
@@ -798,7 +799,7 @@ export function getUserByNameQueryKey(...params: any[]): QueryKey {
   }
 }
 function __getUserByName(context: QueryFunctionContext) {
-  return Types.Client.getUserByName(
+  return Client.getUserByName(
       context.queryKey[2] as string    );
 }
 
@@ -882,7 +883,7 @@ export function updateUserMutationKey(username: string): MutationKey {
 export function useUpdateUserMutation<TContext>(username: string, options?: Omit<UseMutationOptions<void, unknown, Types.User, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, Types.User, TContext> {
   const key = updateUserMutationKey(username);
   
-      return useMutation((body: Types.User) => Types.Client.updateUser(username, body), {...options, mutationKey: key});
+      return useMutation((body: Types.User) => Client.updateUser(username, body), {...options, mutationKey: key});
 }
   
     
@@ -911,7 +912,7 @@ export function deleteUserMutationKey(username: string): MutationKey {
 export function useDeleteUserMutation<TContext>(username: string, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, void, TContext> {
   const key = deleteUserMutationKey(username);
   
-      return useMutation(() => Types.Client.deleteUser(username), {...options, mutationKey: key});
+      return useMutation(() => Client.deleteUser(username), {...options, mutationKey: key});
 }
   
     
@@ -960,7 +961,7 @@ export function loginUserQueryKey(...params: any[]): QueryKey {
   }
 }
 function __loginUser(context: QueryFunctionContext) {
-  return Types.Client.loginUser(
+  return Client.loginUser(
       context.queryKey[2] as string,       context.queryKey[3] as string    );
 }
 
@@ -1046,7 +1047,7 @@ export function logoutUserQueryKey(...params: any[]): QueryKey {
     ]);
 }
 function __logoutUser() {
-  return Types.Client.logoutUser(
+  return Client.logoutUser(
     );
 }
 
@@ -1114,5 +1115,5 @@ export function createUserMutationKey(): MutationKey {
 export function useCreateUserMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.User, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, Types.User, TContext> {
   const key = createUserMutationKey();
   
-      return useMutation((body: Types.User) => Types.Client.createUser(body), {...options, mutationKey: key});
+      return useMutation((body: Types.User) => Client.createUser(body), {...options, mutationKey: key});
 }

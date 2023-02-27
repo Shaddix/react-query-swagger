@@ -1,11 +1,20 @@
 import fs from 'fs';
 import fetch from 'node-fetch';
 
-const fileLiquid = await fetch(
-  'https://raw.githubusercontent.com/RicoSuter/NSwag/master/src/NSwag.CodeGeneration.TypeScript/Templates/File.liquid',
-).then((x) => x.text());
-fs.writeFileSync('src/templates/_File.liquid', fileLiquid);
-
+await downloadAndPostProcess(
+  'File.liquid',
+  (content) =>
+    content
+      .replace(
+        /\{\{ Types \}\}/,
+        '//-----Types.File-----\n{{ Types }}\n//-----/CustomTypes.File-----\n',
+      )
+      .replace(
+        /\{\{ ExtensionCodeBottom \}\}/,
+        '{{ ExtensionCodeBottom }}\n//-----/Types.File-----',
+      ),
+  '_File.liquid',
+);
 await downloadAndPostProcess('AxiosClient.liquid', (content) => content);
 await downloadAndPostProcess('FetchClient.liquid', (content) => content);
 
@@ -47,18 +56,20 @@ await downloadAndPostProcess('Client.RequestBody.liquid', (content) =>
     ),
 );
 
-// content_.append;
-
-async function downloadAndPostProcess(file, postProcess) {
+async function downloadAndPostProcess(file, postProcess, newName) {
   let content = await fetch(
     `https://raw.githubusercontent.com/RicoSuter/NSwag/master/src/NSwag.CodeGeneration.TypeScript/Templates/${file}`,
   ).then((x) => x.text());
-  const previousOriginalContent = fs.readFileSync(
-    `src/templates/original/${file}`,
-  );
-  if (previousOriginalContent != content) {
-    fs.writeFileSync(`src/templates/original/${file}`, content);
-    content = postProcess(content);
-    fs.writeFileSync(`src/templates/modules/${file}`, content);
+
+  const processedContent = postProcess(content);
+  if (newName) {
+    fs.writeFileSync(`src/templates/${newName}`, processedContent);
+  } else {
+    const originalFileName = `src/templates/original/${file}`;
+    const previousOriginalContent = fs.readFileSync(originalFileName);
+    if (previousOriginalContent != content) {
+      fs.writeFileSync(originalFileName, content);
+      fs.writeFileSync(`src/templates/modules/${file}`, processedContent);
+    }
   }
 }

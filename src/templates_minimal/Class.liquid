@@ -1,0 +1,52 @@
+﻿{% template Interface %}
+
+export function deserialize{{ ClassName }}(json: string): {{ ClassName }} {
+  const data = JSON.parse(json) as {{ ClassName }};
+{%   if HasBaseDiscriminator -%}
+{%     for derivedClass in DerivedClasses -%}
+  if (data["{{ BaseDiscriminator }}"] === "{{ derivedClass.Discriminator }}") {
+    return init{{ derivedClass.ClassName }}(data as {{ derivedClass.ClassName }});
+  }
+{%     endfor -%}
+{%   endif -%}
+  init{{ ClassName }}(data);
+  return data;
+}
+
+export function init{{ ClassName }}(_data: {{ ClassName }}) {
+{%- if HasInheritance -%}
+  init{{ BaseClass }}(_data);
+{%- endif -%}
+{%- if HasIndexerProperty or HasProperties -%}
+  if (_data) {
+{%-     for property in Properties -%}
+{%-       if property.Type != 'string' and property.Type != 'boolean' and property.Type != 'number'  -%}
+    {{ property.ConvertToClassCode | strip}}
+{%-       endif -%}
+{%-     endfor -%}
+  }
+{%- endif -%}
+  return _data;
+}
+
+export function serialize{{ ClassName }}(_data: {{ ClassName }}) {
+  const data = prepareSerialize{{ ClassName }}(_data as {{ ClassName }});
+{% if HasDiscriminator -%}
+  data["{{ BaseDiscriminator }}"] = "{{ DiscriminatorName }}";
+{% endif -%}
+  return JSON.stringify(data);
+}
+
+export function prepareSerialize{{ ClassName }}(_data: {{ ClassName }}): {{ ClassName }} {
+{%- if HasInheritance -%}
+  const data = prepareSerialize{{ BaseClass }}(_data as {{ ClassName }}) as Record<string, any>;
+{%- else -%}
+  const data: Record<string, any> = { ..._data };
+{%- endif -%}
+{%- for property in Properties -%}
+{%-       if property.Type != 'string' and property.Type != 'boolean' and property.Type != 'number'  -%}
+  {{ property.ConvertToJavaScriptCode | strip}}
+{%-       endif -%}
+{%- endfor -%}
+  return data as {{ ClassName }};
+}

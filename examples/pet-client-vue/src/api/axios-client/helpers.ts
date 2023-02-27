@@ -5,8 +5,8 @@ import type { Ref } from 'vue';
 import axios from 'axios';
 import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
-const _resultTypesByQueryKey: Record<string, () => { init(data: any): void }> = {};
-export function addResultTypeFactory(typeName: string, factory: () => { init(data: any): void }) {
+const _resultTypesByQueryKey: Record<string, (data: any) => any> = {};
+export function addResultTypeFactory(typeName: string, factory: (data: any) => any) {
   _resultTypesByQueryKey[typeName] = factory;
 }
 export function getResultTypeFactory(typeName: string) {

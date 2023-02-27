@@ -923,6 +923,7 @@ export class Client {
 
 export * as Query from './fetch-client/Query';
 
+//-----Types.File-----
 export class ApiResponse implements IApiResponse {
     code?: number | undefined;
     type?: string | undefined;
@@ -1265,6 +1266,7 @@ export enum OrderStatus {
     Approved = "approved",
     Delivered = "delivered",
 }
+//-----/CustomTypes.File-----
 
 export interface FileParameter {
     data: any;
@@ -1302,6 +1304,8 @@ function throwException(message: string, status: number, response: string, heade
         throw new ApiException(message, status, response, headers, null);
 }
 
+//-----/Types.File-----
+
 import { addResultTypeFactory } from './fetch-client/helpers';
-export { setBaseUrl } from './fetch-client/helpers';
+export { setBaseUrl, getBaseUrl } from './fetch-client/helpers';
 export { setFetchFactory, getFetch } from './fetch-client/helpers';

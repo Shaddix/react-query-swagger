@@ -8,7 +8,7 @@
       {%- assign typeWithoutBrackets = operation.UnwrappedResultType |  prepend: '  ' | slice: 0, operation.UnwrappedResultType.size | lstrip -%}
     {%- endif -%}
     {%- if typeWithoutBrackets != 'string' and typeWithoutBrackets != 'number' and typeWithoutBrackets != 'boolean' and typeWithoutBrackets != 'FileResponse' and typeWithoutBrackets != 'Date' and typeWithoutBrackets != 'any' -%}
-  addResultTypeFactory('{{ Class }}___{{ operation.ActualOperationName }}', () => new {{ typeWithoutBrackets }}());
+  {% template PersistorHydrator.AddResultTypeFactory %}
     {%- endif -%}
   {%- endif -%}
 {% endif -%}

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 const { execSync } = require('child_process');
+const fs = require('fs');
 const { dirname, join, parse } = require('path');
 const {
   readFileSync,
@@ -12,14 +13,16 @@ const {
   readdirSync,
 } = require('fs');
 let args = process.argv.splice(2).join(' ');
-
 const isVue = args.includes('/vue');
 const isSolid = args.includes('/solid');
 const isSvelte = args.includes('/svelte');
+const isMinimal = args.includes('/minimal');
 const isV4 = isVue || isSolid || isSvelte || args.includes('/tanstack');
 // this one might be useful if you only want to have
 // to initialize Axios and baseUrl from a single place
 const noHooks = args.includes('/no-hooks');
+const useRecommendedConfiguration =
+  args.includes('/use-recommended-configuration') || isMinimal;
 
 let pathToTemplates = process.mainModule.filename
   .replace('cli.js', 'templates')
@@ -38,12 +41,17 @@ if (noHooks) {
   } else if (isV4) {
     throw new Error('/no-hooks option is incompatible with /tanstack');
   }
-  pathToTemplates = pathToTemplates.replace(/templates$/, 'templates_no_hooks');
+  pathToTemplates = pathToTemplates.replace(
+    /templates$/,
+    isMinimal ? 'templates_minimal_no_hooks' : 'templates_no_hooks',
+  );
+} else if (isMinimal) {
+  pathToTemplates = pathToTemplates.replace(/templates$/, 'templates_minimal');
 } else if (!isV4) {
   pathToTemplates = pathToTemplates.replace(/templates$/, 'templates_v3');
 }
 
-if (args.includes('/use-recommended-configuration')) {
+if (useRecommendedConfiguration) {
   // otherwise optional parameters are generated as mandatory
   // E.g.:
   // -true:  deletePet(petId: number, api_key?: string | null | undefined)
@@ -104,6 +112,7 @@ if (args.includes('/use-recommended-configuration')) {
 
 const isClientsAsModules =
   args.includes('/modules') || args.includes('/clients-as-modules');
+const extractTypes = args.includes('/extract-types') || isMinimal;
 if (isClientsAsModules) {
   if (
     args.includes('/clientBaseClass') ||
@@ -138,6 +147,18 @@ readdirSync(join(pathToTemplates, sourceFolder))
       join(pathToTemplates, fileName),
     );
   });
+if (isMinimal) {
+  // replace
+  // const content_ = JSON.stringify({{ operation.ContentParameter.VariableName }});
+  // with
+  // const content_ = Types.serialize{{ operation.ContentParameter.ClassName }}({{ operation.ContentParameter.VariableName }});
+  patchTemplateFile(pathToTemplates, 'Client.RequestBody.liquid', (content) =>
+    content.replace(
+      'const content_ = JSON.stringify({{ operation.ContentParameter.Type }});',
+      'const content_ = Types.serialize{{ operation.ContentParameter.Type }}({{ operation.ContentParameter.VariableName }});',
+    ),
+  );
+}
 
 const isYarn = process.env.npm_execpath.includes('yarn');
 const cliExecutor = isYarn ? 'yarn' : 'npx';
@@ -253,7 +274,11 @@ if (isClientsAsModules) {
       foundText,
       `export * as ${name} from './${queryFolderName}/${name}';`,
     );
-    content = postProcessClientContent(content, outputFileWithoutExtension);
+    content = postProcessClientContent(
+      content,
+      outputFileWithoutExtension,
+      false,
+    );
 
     writeFileSync(fileName, content);
   }
@@ -267,11 +292,38 @@ if (isClientsAsModules) {
       "import type { AxiosError } from 'axios';",
     );
   writeFileSync(outputPath, apiClient);
+} else {
+  let apiClient = readFileSync(outputPath, 'utf-8');
+  // remove duplicated imports from every Client file
+  apiClient = apiClient.replaceAll(
+    "import type { AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';",
+    '',
+  );
+
+  writeFileSync(outputPath, apiClient);
 }
 
 if (true) {
   // split react-query Controller per file
   let apiClient = readFileSync(outputPath, 'utf-8');
+
+  if (isClientsAsModules && extractTypes) {
+    const types = apiClient.match(
+      /\/\/-----Types\.File-----(?<content>.*?)\/\/-----\/Types.File-----/gims,
+    );
+    apiClient = apiClient.replace(types[0], '');
+
+    let clientContent = types[0];
+    clientContent = clientContent
+      .replaceAll(/Types\.init/g, 'init')
+      .replaceAll(/Types\.deserialize/g, 'deserialize');
+    if (isMinimal) clientContent = processForMinimalApi(clientContent);
+
+    writeFileSync(
+      join(outputDir, `${outputFileWithoutExtension}.types.ts`),
+      clientContent,
+    );
+  }
 
   apiClient = extractQueryHelperFunctions(apiClient, queryDir);
 
@@ -283,7 +335,11 @@ if (true) {
     const foundText = queryClass[0];
     const fileName = join(queryDir, `${name}.ts`);
 
-    content = postProcessClientContent(content, outputFileWithoutExtension);
+    content = postProcessClientContent(
+      content,
+      outputFileWithoutExtension,
+      true,
+    );
     if (content) {
       writeFileSync(fileName, content);
       apiClient = apiClient.replace(
@@ -295,10 +351,9 @@ if (true) {
     }
   }
 
-  apiClient = apiClient.replaceAll(
-    `from './helpers';`,
-    `from './${queryFolderName}/helpers';`,
-  );
+  apiClient = apiClient
+    .replaceAll(`from './helpers';`, `from './${queryFolderName}/helpers';`)
+    .replaceAll(/from '.\/client/g, `from '.\/${outputFileWithoutExtension}`);
   writeFileSync(outputPath, apiClient);
 }
 
@@ -329,12 +384,18 @@ function extractQueryHelperFunctions(apiClient, queryDir) {
   return apiClient;
 }
 
-function postProcessClientContent(content, outputFileWithoutExtension) {
+function postProcessClientContent(
+  content,
+  outputFileWithoutExtension,
+  isQuery,
+) {
   if (!content.trim()) return '';
   content = content
     .replaceAll(
       ` from '../client';`,
-      ` from '../${outputFileWithoutExtension}';`,
+      isMinimal
+        ? ` from '../${outputFileWithoutExtension}.types';`
+        : ` from '../${outputFileWithoutExtension}';`,
     )
     .replaceAll('this.baseUrl +', 'getBaseUrl() +')
     .replaceAll('this.jsonParseReviver', 'getJsonParseReviver()')
@@ -360,9 +421,46 @@ function postProcessClientContent(content, outputFileWithoutExtension) {
       /Types\.([a-zA-Z0-9_]*?)\.fromJS\(resultData200\[key\]\) : new /g,
       'Types.$1.fromJS(resultData200[key]) : new Types.',
     );
-  const additionalImport = `import * as Types from '../${outputFileWithoutExtension}';\n`;
+
+  // we can't `import type * as Types`, because even in *Query files we use e.g. `Types.formatDate`
+  const additionalImport = extractTypes
+    ? `import * as Types from '../${outputFileWithoutExtension}.types';\n`
+    : `import * as Types from '../${outputFileWithoutExtension}';\n`;
   content = content.replace('import', additionalImport + 'import').trim();
+
   return content;
+}
+
+function processForMinimalApi(apiClient) {
+  const split = apiClient.split('//-----/CustomTypes.File-----');
+  if (split[1].includes('AxiosError')) {
+    split[1] = "import type { AxiosError } from 'axios'" + split[1];
+  }
+  apiClient =
+    split[0]
+      .replaceAll(/this\./gim, '_data.')
+      .replaceAll(/implements \S+/gim, '') + split[1];
+
+  // remove empty clauses like:
+  // if (_data["errors"]) {
+  //   for (let key in _data["errors"]) {
+  //   }
+  // }
+  apiClient = apiClient.replaceAll(
+    /if \(_data\["\S+"\]\) \{\s+for \(let key in _data\["\S+"\]\) \{\s+\}\s+\}/gim,
+    '',
+  );
+
+  // remove empty lines if line only contain spaces
+  apiClient = apiClient.replaceAll(/\r\n\s+\r\n/gim, '\r\n');
+  apiClient = apiClient.replaceAll(/\n\s+\n/gim, '\r\n');
+
+  // remove empty blocks like that:
+  // if (_data) {
+  // }
+  apiClient = apiClient.replaceAll(/if \(_data\) \{\s+\}\r?\n?/gim, '');
+
+  return apiClient;
 }
 
 function copyFromOriginalOrModules(
@@ -380,4 +478,11 @@ function copyFromOriginalOrModules(
     ),
     join(pathToTemplates, destinationFileName),
   );
+}
+
+function patchTemplateFile(pathToTemplates, file, postProcess) {
+  const fullFilePath = join(pathToTemplates, file);
+  let content = fs.readFileSync(fullFilePath).toString();
+  content = postProcess(content);
+  fs.writeFileSync(fullFilePath, content);
 }

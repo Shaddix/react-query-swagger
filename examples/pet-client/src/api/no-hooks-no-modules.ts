@@ -923,6 +923,7 @@ export class Client {
 
 
 
+//-----Types.File-----
 export class ApiResponse implements IApiResponse {
     code?: number | undefined;
     type?: string | undefined;
@@ -1265,6 +1266,7 @@ export enum OrderStatus {
     Approved = "approved",
     Delivered = "delivered",
 }
+//-----/CustomTypes.File-----
 
 export interface FileParameter {
     data: any;
@@ -1302,6 +1304,8 @@ function throwException(message: string, status: number, response: string, heade
         throw new ApiException(message, status, response, headers, null);
 }
 
-export { setBaseUrl } from './no-hooks-no-modules/helpers';
+//-----/Types.File-----
+
+export { setBaseUrl, getBaseUrl } from './no-hooks-no-modules/helpers';
 export { setFetchFactory, getFetch } from './no-hooks-no-modules/helpers';
 

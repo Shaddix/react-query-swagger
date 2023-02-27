@@ -15,6 +15,7 @@ export * as Client from './axios-client/Client';
 
 export * as Query from './axios-client/Query';
 
+//-----Types.File-----
 export class ApiResponse implements IApiResponse {
     code?: number | undefined;
     type?: string | undefined;
@@ -357,6 +358,7 @@ export enum OrderStatus {
     Approved = "approved",
     Delivered = "delivered",
 }
+//-----/CustomTypes.File-----
 
 export interface FileParameter {
     data: any;
@@ -398,6 +400,8 @@ export function isAxiosError(obj: any | undefined): obj is AxiosError {
     return obj && obj.isAxiosError === true;
 }
 
+//-----/Types.File-----
+
 import { addResultTypeFactory } from './axios-client/helpers';
-export { setBaseUrl } from './axios-client/helpers';
+export { setBaseUrl, getBaseUrl } from './axios-client/helpers';
 export { setAxiosFactory, getAxios } from './axios-client/helpers';

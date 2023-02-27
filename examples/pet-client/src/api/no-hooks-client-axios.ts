@@ -15,6 +15,7 @@ export * as Client from './no-hooks-client-axios/Client';
 
 
 
+//-----Types.File-----
 export class ApiResponse implements IApiResponse {
     code?: number | null;
     type?: string | null;
@@ -357,6 +358,7 @@ export enum OrderStatus {
     Approved = "approved",
     Delivered = "delivered",
 }
+//-----/CustomTypes.File-----
 
 export interface FileParameter {
     data: any;
@@ -398,6 +400,8 @@ export function isAxiosError(obj: any | undefined): obj is AxiosError {
     return obj && obj.isAxiosError === true;
 }
 
-export { setBaseUrl } from './no-hooks-client-axios/helpers';
+//-----/Types.File-----
+
+export { setBaseUrl, getBaseUrl } from './no-hooks-client-axios/helpers';
 export { setAxiosFactory, getAxios } from './no-hooks-client-axios/helpers';
 

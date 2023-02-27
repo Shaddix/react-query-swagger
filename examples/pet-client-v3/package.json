@@ -28,6 +28,7 @@
   },
   "scripts": {
     "generate-axios": "react-query-swagger /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/axios-client.ts /template:Axios /serviceHost:. /generateConstructorInterface:true /markOptionalProperties:true /generateOptionalParameters:true /nullValue:undefined",
+    "generate-axios-recommended": "react-query-swagger /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/axios-client-recommended.ts /template:Axios /serviceHost:. /use-recommended-configuration",
     "generate-axios-date-only-test": "react-query-swagger /input:https://localhost:58627/swagger/v1/swagger.json /output:app/api/api-client.ts /template:Axios /serviceHost:. /generateConstructorInterface:true /generateOptionalParameters:true /markOptionalProperties:true /nullValue:undefined /typeStyle:Class && yarn replace \"this\\.(\\w*?)\\.toISOString\\(\\) : <any>undefined\" \"this.$1.toISOString() : this.$1\" app/api/api-client.ts && yarn replace \"\\| undefined;\" \"| null;\" app/api/api-client.ts",
     "generate-fetch": "react-query-swagger /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/fetch-client.ts /template:Fetch /serviceHost:. /generateConstructorInterface:true /markOptionalProperties:true /generateOptionalParameters:true /nullValue:undefined",
     "start": "react-scripts start",

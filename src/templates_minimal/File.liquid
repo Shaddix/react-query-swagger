@@ -1,0 +1,11 @@
+﻿import * as Types from './client.types';
+{%- comment %}this is for backwards compatibility (previously all DTO types were exported from here. Might be removed in next major version.{% endcomment -%}
+export * from './client.types';
+
+{% template _File %}
+
+{% template ReactQueryFile %}
+
+//-----PersistorHydrator.File-----
+{% template PersistorHydrator.File %}
+//-----/PersistorHydrator.File----
