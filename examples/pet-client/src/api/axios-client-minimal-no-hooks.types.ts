@@ -57,11 +57,13 @@ export function deserializePet(json: string): Pet {
 export function initPet(_data: Pet) {
   if (_data) {
     _data.category = _data["category"] && initCategory(_data["category"]);
+    _data.photoUrls = _data["photoUrls"];
     if (Array.isArray(_data["tags"])) {
       _data.tags = _data["tags"].map(item => 
         initTag(item)
       );
     }
+    _data.status = _data["status"];
   }
   return _data;
 }
@@ -116,6 +118,7 @@ export function deserializeOrder(json: string): Order {
 export function initOrder(_data: Order) {
   if (_data) {
     _data.shipDate = _data["shipDate"] ? new Date(_data["shipDate"].toString()) : <any>null;
+    _data.status = _data["status"];
   }
   return _data;
 }

@@ -23,6 +23,8 @@ if (Array.isArray({{ Value }})) {
 {%    endif -%}
       );
     }
+{% else %}
+{{ Variable }} = {{ Value }};
 {%   endif -%}
 {% elsif IsDictionary -%}
 {% if IsDictionaryValueNewableObject or IsDictionaryValueNewableArray or IsDictionaryValueDate or IsDictionaryValueDateTime -%}
@@ -39,11 +41,15 @@ if ({{ Value }}) {
 {%     endif -%}
     }
 }
+{% else %}
+{{ Variable }} = {{ Value }};
 {% endif -%}
 {% else -%}
     {% if IsDate -%}
 {{ Variable }} = {{ Value }} ? {{ StringToDateOnlyCode }}({{ Value }}.toString()) : {% if HasDefaultValue %}{{ StringToDateOnlyCode }}({{ DefaultValue }}){% else %}<any>{{ NullValue }}{% endif %};
     {% elsif IsDateTime -%}
 {{ Variable }} = {{ Value }} ? {{ StringToDateCode }}({{ Value }}.toString()) : {% if HasDefaultValue %}{{ StringToDateCode }}({{ DefaultValue }}){% else %}<any>{{ NullValue }}{% endif %};
+    {% else %}
+{{ Variable }} = {{ Value }};
     {% endif -%}
 {% endif -%}

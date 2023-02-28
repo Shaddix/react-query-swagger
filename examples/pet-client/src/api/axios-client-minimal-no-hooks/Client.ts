@@ -744,7 +744,7 @@ function processGetInventory(response: AxiosResponse): Promise<{ [key: string]: 
         const _responseText = response.data;
         let result200: any = null;
         let resultData200  = _responseText;
-
+        result200 = resultData200;
         return Promise.resolve<{ [key: string]: number; }>(result200);
 
     } else if (status !== 200 && status !== 204) {
@@ -1094,6 +1094,8 @@ function processLoginUser(response: AxiosResponse): Promise<string> {
         const _responseText = response.data;
         let result200: any = null;
         let resultData200  = _responseText;
+    
+        result200 = resultData200;
     
         return Promise.resolve<string>(result200);
 
