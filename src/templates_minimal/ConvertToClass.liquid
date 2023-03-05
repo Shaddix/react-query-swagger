@@ -31,9 +31,9 @@ if (Array.isArray({{ Value }})) {
 if ({{ Value }}) {
     for (let key in {{ Value }}) {
 {%     if IsDictionaryValueNewableObject -%}
-            (<any>{{ Variable }}){% if RequiresStrictPropertyInitialization %}!{% endif %}[key] = {{ Value }}[key] ? Types.deserialize{{ DictionaryValueType }}({{ Value }}[key]) : {% if HasDictionaryValueDefaultValue %}{{ DictionaryValueDefaultValue }}{% else %}<any>{{ NullValue }}{% endif %};
+            (<any>{{ Variable }}){% if RequiresStrictPropertyInitialization %}!{% endif %}[key] = {{ Value }}[key] ? Types.deserialize{{ DictionaryValueType }}({{ Value }}[key]) : {{ NullValue }};
 {%     elsif IsDictionaryValueNewableArray -%}
-            (<any>{{ Variable }}){% if RequiresStrictPropertyInitialization %}!{% endif %}[key] = {{ Value }}[key] ? {{ Value }}[key].map((i: any) => Types.deserialize{{ DictionaryValueArrayItemType }}(i)) : {% if HasDictionaryValueDefaultValue %}{{ DictionaryValueDefaultValue }}{% else %}<any>{{ NullValue }}{% endif %};
+            (<any>{{ Variable }}){% if RequiresStrictPropertyInitialization %}!{% endif %}[key] = {{ Value }}[key] ? {{ Value }}[key].map((i: any) => Types.deserialize{{ DictionaryValueArrayItemType }}(i)) : {{ NullValue }};
 {%     elsif IsDictionaryValueDate -%}
             (<any>{{ Variable }}){% if RequiresStrictPropertyInitialization %}!{% endif %}[key] = {{ Value }}[key] ? {{ StringToDateOnlyCode }}({{ Value }}[key].toString()) : {% if HasDictionaryValueDefaultValue %}{{ DictionaryValueDefaultValue }}{% else %}<any>{{ NullValue }}{% endif %};
 {%     elsif IsDictionaryValueDateTime -%}

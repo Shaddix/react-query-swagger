@@ -1,0 +1,580 @@
+{
+  "x-generator": "NSwag v13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v10.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "My Title",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:7172"
+    }
+  ],
+  "paths": {
+    "/primitive/String": {
+      "get": {
+        "tags": [
+          "PrimitiveReturn"
+        ],
+        "operationId": "PrimitiveReturn_String",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/primitive/Number": {
+      "get": {
+        "tags": [
+          "PrimitiveReturn"
+        ],
+        "operationId": "PrimitiveReturn_Number",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/primitive/Bool": {
+      "get": {
+        "tags": [
+          "PrimitiveReturn"
+        ],
+        "operationId": "PrimitiveReturn_Boolean",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/primitive/DateOnly": {
+      "get": {
+        "tags": [
+          "PrimitiveReturn"
+        ],
+        "operationId": "PrimitiveReturn_DateOnly",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "date"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/primitive/DateTime": {
+      "get": {
+        "tags": [
+          "PrimitiveReturn"
+        ],
+        "operationId": "PrimitiveReturn_DateTime",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/array/String": {
+      "get": {
+        "tags": [
+          "ArrayReturn"
+        ],
+        "operationId": "ArrayReturn_String",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/array/Number": {
+      "get": {
+        "tags": [
+          "ArrayReturn"
+        ],
+        "operationId": "ArrayReturn_Number",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/array/Bool": {
+      "get": {
+        "tags": [
+          "ArrayReturn"
+        ],
+        "operationId": "ArrayReturn_Boolean",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/array/DateOnly": {
+      "get": {
+        "tags": [
+          "ArrayReturn"
+        ],
+        "operationId": "ArrayReturn_DateOnly",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/array/DateTime": {
+      "get": {
+        "tags": [
+          "ArrayReturn"
+        ],
+        "operationId": "ArrayReturn_DateTime",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/array/Dummy": {
+      "get": {
+        "tags": [
+          "ArrayReturn"
+        ],
+        "operationId": "ArrayReturn_DummyDto",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DummyDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dictionary-array/String": {
+      "get": {
+        "tags": [
+          "DictionaryArrayReturn"
+        ],
+        "operationId": "DictionaryArrayReturn_String",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dictionary-array/Number": {
+      "get": {
+        "tags": [
+          "DictionaryArrayReturn"
+        ],
+        "operationId": "DictionaryArrayReturn_Number",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "format": "int32"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dictionary-array/Bool": {
+      "get": {
+        "tags": [
+          "DictionaryArrayReturn"
+        ],
+        "operationId": "DictionaryArrayReturn_Boolean",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dictionary-array/DateOnly": {
+      "get": {
+        "tags": [
+          "DictionaryArrayReturn"
+        ],
+        "operationId": "DictionaryArrayReturn_DateOnly",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "date"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dictionary-array/DateTime": {
+      "get": {
+        "tags": [
+          "DictionaryArrayReturn"
+        ],
+        "operationId": "DictionaryArrayReturn_DateTime",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dictionary-array/Dummy": {
+      "get": {
+        "tags": [
+          "DictionaryArrayReturn"
+        ],
+        "operationId": "DictionaryArrayReturn_DummyDto",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/DummyDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dictionary/String": {
+      "get": {
+        "tags": [
+          "DictionaryReturn"
+        ],
+        "operationId": "DictionaryReturn_String",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dictionary/Number": {
+      "get": {
+        "tags": [
+          "DictionaryReturn"
+        ],
+        "operationId": "DictionaryReturn_Number",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dictionary/Bool": {
+      "get": {
+        "tags": [
+          "DictionaryReturn"
+        ],
+        "operationId": "DictionaryReturn_Boolean",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dictionary/DateOnly": {
+      "get": {
+        "tags": [
+          "DictionaryReturn"
+        ],
+        "operationId": "DictionaryReturn_DateOnly",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dictionary/DateTime": {
+      "get": {
+        "tags": [
+          "DictionaryReturn"
+        ],
+        "operationId": "DictionaryReturn_DateTime",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dictionary/Dummy": {
+      "get": {
+        "tags": [
+          "DictionaryReturn"
+        ],
+        "operationId": "DictionaryReturn_DummyDto",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/DummyDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DummyDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "test": {
+            "type": "string"
+          },
+          "dateOnly": {
+            "type": "string",
+            "format": "date"
+          },
+          "dateTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}

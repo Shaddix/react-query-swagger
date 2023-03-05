@@ -131,7 +131,7 @@ export function {{ operation.ActualOperationName }}QueryKey(...params: any[]): Q
 }
 {%- comment -%} Why add __ to the function name? see below where it's used {%- endcomment -%}
 function __{{ operation.ActualOperationName }}({% if operation.Parameters.size > 0 %}context: QueryFunctionContext{% endif %}) {
-  return {% template ReactQuery.GetClientCall %}.{{ operation.ActualOperationName }}(
+  return {% template ReactQuery.GetClientCall %}.{% template OperationNameSafe %}(
   {%- for parameter in operation.Parameters -%}
 {%- assign ParameterType = parameter.Type | prepend: 'Types.' -%}
       context.queryKey[{{ forloop.index | plus: 1  }}] as {{ ParameterType }}{{ parameter.TypePostfix }}{% unless forloop.last %}, {% endunless -%}

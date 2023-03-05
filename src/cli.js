@@ -403,6 +403,7 @@ function postProcessClientContent(
       /Types\.\{ \[key: ((string)|(number))]: /g,
       '{ [key: $1]: Types.',
     )
+    .replaceAll('parseDateOnly(', 'Types.parseDateOnly(')
     .replaceAll('Types.{', '{')
     .replaceAll(/Types.string(?![a-zA-Z0-9_])/g, 'string')
     .replaceAll(/Types.number(?![a-zA-Z0-9_])/g, 'number')
@@ -432,6 +433,11 @@ function postProcessClientContent(
 }
 
 function processForMinimalApi(apiClient) {
+  apiClient = apiClient.replaceAll(
+    /function parseDateOnly/gim,
+    'export function parseDateOnly',
+  );
+
   const split = apiClient.split('//-----/CustomTypes.File-----');
   if (split[1].includes('AxiosError')) {
     split[1] = "import type { AxiosError } from 'axios'" + split[1];
@@ -461,23 +467,6 @@ function processForMinimalApi(apiClient) {
   apiClient = apiClient.replaceAll(/if \(_data\) \{\s+\}\r?\n?/gim, '');
 
   return apiClient;
-}
-
-function copyFromOriginalOrModules(
-  pathToTemplates,
-  isClientsAsModules,
-  sourceFileName,
-  destinationFileName,
-) {
-  destinationFileName = destinationFileName ?? sourceFileName;
-  copyFileSync(
-    join(
-      pathToTemplates,
-      isClientsAsModules ? 'modules' : 'original',
-      fileName,
-    ),
-    join(pathToTemplates, destinationFileName),
-  );
 }
 
 function patchTemplateFile(pathToTemplates, file, postProcess) {
