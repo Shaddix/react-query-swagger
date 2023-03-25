@@ -295,10 +295,12 @@ if (isClientsAsModules) {
 } else {
   let apiClient = readFileSync(outputPath, 'utf-8');
   // remove duplicated imports from every Client file
-  apiClient = apiClient.replaceAll(
-    "import type { AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';",
-    '',
-  );
+  apiClient = apiClient
+    .replaceAll(
+      "import type { AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';",
+      '',
+    )
+    .replace('function formatDate', 'export function formatDate');
 
   writeFileSync(outputPath, apiClient);
 }
