@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## 15.6.1
+
+Use portable version of NSwag, so it's not required to have .NET installed anymore
+
 ## 15.5.1
 
 New `/minimal` switch is introduced.

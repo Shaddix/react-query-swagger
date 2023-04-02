@@ -162,7 +162,7 @@ if (isMinimal) {
 
 const isYarn = process.env.npm_execpath.includes('yarn');
 const cliExecutor = isYarn ? 'yarn' : 'npx';
-const toExecute = `${cliExecutor} nswag openapi2tsclient /templateDirectory:"${pathToTemplates}" /typeScriptVersion:"4" ${args}`;
+const toExecute = `${cliExecutor} nswag-portable openapi2tsclient /templateDirectory:"${pathToTemplates}" /typeScriptVersion:"4" ${args}`;
 try {
   execSync(toExecute, function (e, stdout, stderr) {
     console.log(stdout);

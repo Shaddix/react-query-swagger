@@ -33,8 +33,6 @@ yarn react-query-swagger /tanstack /input:https://petstore.swagger.io/v2/swagger
 - [Vue](https://www.npmjs.com/package/@tanstack/vue-query): please replace a `/tanstack` switch with `/vue`
 - [Solid](https://www.npmjs.com/package/@tanstack/solid-query): COMING SOON. Please +1 in the [feature request](https://github.com/Shaddix/react-query-swagger/issues/13) if you want it to be available.
 
-\***\*Note that this library requires [dotnet runtime](https://dotnet.microsoft.com/download/dotnet/6.0) installed on your machine! If you have runtime different from .NET Core 6, please add a [switch](https://github.com/RicoSuter/NSwag/tree/master/src/NSwag.Npm#change-runtime) (e.g. `/runtime:Net50`) to all commands.\*\***
-
 This will generate API clients based on Axios. If you prefer `fetch`, just use it as a template (mind the last parameter)
 
 ```
