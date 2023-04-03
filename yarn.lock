@@ -9748,10 +9748,10 @@ npm-run-path@^4.0.0, npm-run-path@^4.0.1:
   dependencies:
     path-key "^3.0.0"
 
-nswag-self-contained@13.18.3-beta.7:
-  version "13.18.3-beta.7"
-  resolved "https://registry.yarnpkg.com/nswag-self-contained/-/nswag-self-contained-13.18.3-beta.7.tgz#7569ab5de265596004344c15af4ee01f3bff02e1"
-  integrity sha512-+4atmYCB6M9icW5XFWmj3QRTarbi6y/eINS0BcGkmu4Moxa8R2IaQgA0B6YmKHvJP32qukygNDVzXlmUadajlw==
+nswag-self-contained@13.18.3-beta.8:
+  version "13.18.3-beta.8"
+  resolved "https://registry.yarnpkg.com/nswag-self-contained/-/nswag-self-contained-13.18.3-beta.8.tgz#6636504a90320b55c33df93c6fa0fc41aaf836ba"
+  integrity sha512-Bdx3b6hku4AbBXcKW538XH0tj8QZw4MVTGXKWp/gpGe5ZPKM6LsqcFYoYtLNnYhCabjU+K+O7vwqVZz/UU+zhA==
 
 nth-check@^1.0.2:
   version "1.0.2"
@@ -11071,9 +11071,9 @@ react-is@^17.0.1:
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
 "react-query-swagger@link:src":
-  version "15.5.4"
+  version "15.6.1-beta.1"
   dependencies:
-    nswag-self-contained "13.18.3-beta.7"
+    nswag-self-contained "13.18.3-beta.8"
 
 react-query@3.39.1:
   version "3.39.1"
