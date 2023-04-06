@@ -160,7 +160,7 @@ if (isMinimal) {
   );
 }
 
-const toExecute = `npx --package=nswag-self-contained nswag-portable openapi2tsclient /templateDirectory:"${pathToTemplates}" /typeScriptVersion:"4" ${args}`;
+const toExecute = `npx nswag-portable openapi2tsclient /templateDirectory:"${pathToTemplates}" /typeScriptVersion:"4" ${args}`;
 try {
   execSync(toExecute, function (e, stdout, stderr) {
     console.log(stdout);
