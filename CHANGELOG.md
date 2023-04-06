@@ -1,8 +1,10 @@
 ﻿# Changelog
 
-## 15.6.1
+## 15.6.7
 
 Use portable version of NSwag, so it's not required to have .NET installed anymore
+
+15.6.1-15.6.6 were broken, please do NOT use them.
 
 ## 15.5.1
 
