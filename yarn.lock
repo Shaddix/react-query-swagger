@@ -9748,10 +9748,10 @@ npm-run-path@^4.0.0, npm-run-path@^4.0.1:
   dependencies:
     path-key "^3.0.0"
 
-nswag-portable@13.18.1:
-  version "13.18.1"
-  resolved "https://registry.yarnpkg.com/nswag-portable/-/nswag-portable-13.18.1.tgz#bc5c97d7bd1a27c164bae572f6d8e1ffd5c80a19"
-  integrity sha512-ck4ts3MHqwc52wng5z46BQfd/jIJq13H+MyxyBbmiJrE0nF73ISLy9w3zCWAhWkA6dW/5yQrPSxA8igca7ddog==
+nswag-portable@13.18.1-v.1:
+  version "13.18.1-v.1"
+  resolved "https://registry.yarnpkg.com/nswag-portable/-/nswag-portable-13.18.1-v.1.tgz#0e0411763e1fc66923985e949e92ed1759d58400"
+  integrity sha512-FzF1GhKuAIllTtSjFmR9sk4ZoYTmJsJJ4R4LKHmkAzWo4vFF1/+ZcD+YnNKyN7hyoOq2hiLJmCU7EIoWJGNRSg==
 
 nth-check@^1.0.2:
   version "1.0.2"
@@ -11071,9 +11071,9 @@ react-is@^17.0.1:
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
 "react-query-swagger@link:src":
-  version "15.6.5"
+  version "15.6.8-beta.1"
   dependencies:
-    nswag-portable "13.18.1"
+    nswag-portable "13.18.1-v.1"
 
 react-query@3.39.1:
   version "3.39.1"
