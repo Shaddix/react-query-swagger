@@ -2,7 +2,7 @@
 
 ## 15.7.1
 
-Support JSON-serialized parameters in Query (see https://swagger.io/docs/specification/describing-parameters/, `schema vs content` chapter)
+Support JSON-serialized parameters in Query (see https://swagger.io/docs/specification/describing-parameters/#schema-vs-content)
 
 ## 15.6.7
 
