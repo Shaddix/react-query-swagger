@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## 15.7.1
+
+Support JSON-serialized parameters in Query (see https://swagger.io/docs/specification/describing-parameters/, `schema vs content` chapter)
+
 ## 15.6.7
 
 Use portable version of NSwag, so it's not required to have .NET installed anymore
