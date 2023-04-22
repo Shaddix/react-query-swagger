@@ -14,12 +14,6 @@ export * from './axios-client-minimal-sample.types';
 import type { AxiosError } from 'axios';
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
-export * as PrimitiveReturnClient from './axios-client-minimal-sample/PrimitiveReturnClient';
-
-export * as PrimitiveReturnQuery from './axios-client-minimal-sample/PrimitiveReturnQuery';
-
-
-
 export * as ArrayReturnClient from './axios-client-minimal-sample/ArrayReturnClient';
 
 export * as ArrayReturnQuery from './axios-client-minimal-sample/ArrayReturnQuery';
@@ -35,6 +29,18 @@ export * as DictionaryArrayReturnQuery from './axios-client-minimal-sample/Dicti
 export * as DictionaryReturnClient from './axios-client-minimal-sample/DictionaryReturnClient';
 
 export * as DictionaryReturnQuery from './axios-client-minimal-sample/DictionaryReturnQuery';
+
+
+
+export * as PrimitiveReturnClient from './axios-client-minimal-sample/PrimitiveReturnClient';
+
+export * as PrimitiveReturnQuery from './axios-client-minimal-sample/PrimitiveReturnQuery';
+
+
+
+export * as QueryClient from './axios-client-minimal-sample/QueryClient';
+
+export * as QueryQuery from './axios-client-minimal-sample/QueryQuery';
 
 
 
@@ -129,9 +135,11 @@ export function getResultTypeClassKey(queryKey: QueryKey): string {
 
 export function initPersister() {
   
-
-
   addResultTypeFactory('ArrayReturnClient___dummyDto', (data: any) => Types.initDummyDto(data));
+
+
+
+
 
 
 

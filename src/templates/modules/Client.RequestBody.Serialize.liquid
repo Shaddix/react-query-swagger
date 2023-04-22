@@ -1,1 +1,4 @@
+{% unless serializeParameter %}
+{%      assign serializeParameter = operation.ContentParameter %}
+{% endunless %}
 const content_ = JSON.stringify({{ operation.ContentParameter.VariableName }});

@@ -1,11 +1,14 @@
-{%- if operation.ContentParameter.IsObjectArray -%}
-{%- assign typeWithoutBrackets = operation.ContentParameter.Type |  prepend: '  ' | slice: 0, operation.ContentParameter.Type.size | lstrip -%}
-{{ operation.ContentParameter.VariableName }} = {{ operation.ContentParameter.VariableName }}.map(item => Types.prepareSerialize{{typeWithoutBrackets}}(item))
-const content_ = JSON.stringify({{ operation.ContentParameter.VariableName }});
-{%- elsif operation.ContentParameter.IsArray -%}
-const content_ = JSON.stringify({{ operation.ContentParameter.VariableName }});
-{%- elsif operation.ContentParameter.IsObject -%}
-const content_ = Types.serialize{{ operation.ContentParameter.Type }}({{ operation.ContentParameter.VariableName }});
+{% unless serializeParameter %}
+{%      assign serializeParameter = operation.ContentParameter %}
+{% endunless %}
+{%- if serializeParameter.IsObjectArray -%}
+{%- assign typeWithoutBrackets = serializeParameter.Type |  prepend: '  ' | slice: 0, serializeParameter.Type.size | lstrip -%}
+{{ serializeParameter.VariableName }} = {{ serializeParameter.VariableName }}.map(item => Types.prepareSerialize{{typeWithoutBrackets}}(item))
+const content_ = JSON.stringify({{ serializeParameter.VariableName }});
+{%- elsif serializeParameter.IsArray -%}
+const content_ = JSON.stringify({{ serializeParameter.VariableName }});
+{%- elsif serializeParameter.IsObject -%}
+const content_ = Types.serialize{{ serializeParameter.Type }}({{ serializeParameter.VariableName }});
 {%- else -%}
-const content_ = JSON.stringify({{ operation.ContentParameter.VariableName }});
+const content_ = JSON.stringify({{ serializeParameter.VariableName }});
 {%- endif -%}
