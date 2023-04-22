@@ -11,7 +11,6 @@ import { getFetch, getBaseUrl, getJsonParseReviver } from './helpers';
  */
 export function uploadFile(petId: number, additionalMetadata?: string | null | undefined, file?: Types.FileParameter | null | undefined): Promise<Types.ApiResponse> {
     let url_ = getBaseUrl() + "/pet/{petId}/uploadImage";
-
     if (petId === undefined || petId === null)
       throw new Error("The parameter 'petId' must be defined.");
     url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
@@ -254,7 +253,6 @@ function processFindPetsByTags(response: Response): Promise<Types.Pet[]> {
  */
 export function getPetById(petId: number): Promise<Types.Pet> {
     let url_ = getBaseUrl() + "/pet/{petId}";
-
     if (petId === undefined || petId === null)
       throw new Error("The parameter 'petId' must be defined.");
     url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
@@ -306,7 +304,6 @@ function processGetPetById(response: Response): Promise<Types.Pet> {
  */
 export function updatePetWithForm(petId: number, name?: string | null | undefined, status?: string | null | undefined): Promise<void> {
     let url_ = getBaseUrl() + "/pet/{petId}";
-
     if (petId === undefined || petId === null)
       throw new Error("The parameter 'petId' must be defined.");
     url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
@@ -354,7 +351,6 @@ function processUpdatePetWithForm(response: Response): Promise<void> {
  */
 export function deletePet(petId: number, api_key?: string | null | undefined): Promise<void> {
     let url_ = getBaseUrl() + "/pet/{petId}";
-
     if (petId === undefined || petId === null)
       throw new Error("The parameter 'petId' must be defined.");
     url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
@@ -445,7 +441,6 @@ function processPlaceOrder(response: Response): Promise<Types.Order> {
  */
 export function getOrderById(orderId: number): Promise<Types.Order> {
     let url_ = getBaseUrl() + "/store/order/{orderId}";
-
     if (orderId === undefined || orderId === null)
       throw new Error("The parameter 'orderId' must be defined.");
     url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
@@ -495,7 +490,6 @@ function processGetOrderById(response: Response): Promise<Types.Order> {
  */
 export function deleteOrder(orderId: number): Promise<void> {
     let url_ = getBaseUrl() + "/store/order/{orderId}";
-
     if (orderId === undefined || orderId === null)
       throw new Error("The parameter 'orderId' must be defined.");
     url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
@@ -653,7 +647,6 @@ function processCreateUsersWithListInput(response: Response): Promise<void> {
  */
 export function getUserByName(username: string): Promise<Types.User> {
     let url_ = getBaseUrl() + "/user/{username}";
-
     if (username === undefined || username === null)
       throw new Error("The parameter 'username' must be defined.");
     url_ = url_.replace("{username}", encodeURIComponent("" + username));
@@ -704,7 +697,6 @@ function processGetUserByName(response: Response): Promise<Types.User> {
  */
 export function updateUser(username: string, body: Types.User): Promise<void> {
     let url_ = getBaseUrl() + "/user/{username}";
-
     if (username === undefined || username === null)
       throw new Error("The parameter 'username' must be defined.");
     url_ = url_.replace("{username}", encodeURIComponent("" + username));
@@ -750,7 +742,6 @@ function processUpdateUser(response: Response): Promise<void> {
  */
 export function deleteUser(username: string): Promise<void> {
     let url_ = getBaseUrl() + "/user/{username}";
-
     if (username === undefined || username === null)
       throw new Error("The parameter 'username' must be defined.");
     url_ = url_.replace("{username}", encodeURIComponent("" + username));

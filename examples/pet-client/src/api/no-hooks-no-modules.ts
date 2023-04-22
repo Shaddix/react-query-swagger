@@ -28,7 +28,6 @@ export class Client {
      */
     uploadFile(petId: number, additionalMetadata?: string | null | undefined, file?: FileParameter | null | undefined): Promise<ApiResponse> {
         let url_ = this.baseUrl + "/pet/{petId}/uploadImage";
-
         if (petId === undefined || petId === null)
           throw new Error("The parameter 'petId' must be defined.");
         url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
@@ -271,7 +270,6 @@ export class Client {
      */
     getPetById(petId: number): Promise<Pet> {
         let url_ = this.baseUrl + "/pet/{petId}";
-
         if (petId === undefined || petId === null)
           throw new Error("The parameter 'petId' must be defined.");
         url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
@@ -323,7 +321,6 @@ export class Client {
      */
     updatePetWithForm(petId: number, name?: string | null | undefined, status?: string | null | undefined): Promise<void> {
         let url_ = this.baseUrl + "/pet/{petId}";
-
         if (petId === undefined || petId === null)
           throw new Error("The parameter 'petId' must be defined.");
         url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
@@ -371,7 +368,6 @@ export class Client {
      */
     deletePet(petId: number, api_key?: string | null | undefined): Promise<void> {
         let url_ = this.baseUrl + "/pet/{petId}";
-
         if (petId === undefined || petId === null)
           throw new Error("The parameter 'petId' must be defined.");
         url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
@@ -462,7 +458,6 @@ export class Client {
      */
     getOrderById(orderId: number): Promise<Order> {
         let url_ = this.baseUrl + "/store/order/{orderId}";
-
         if (orderId === undefined || orderId === null)
           throw new Error("The parameter 'orderId' must be defined.");
         url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
@@ -512,7 +507,6 @@ export class Client {
      */
     deleteOrder(orderId: number): Promise<void> {
         let url_ = this.baseUrl + "/store/order/{orderId}";
-
         if (orderId === undefined || orderId === null)
           throw new Error("The parameter 'orderId' must be defined.");
         url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
@@ -670,7 +664,6 @@ export class Client {
      */
     getUserByName(username: string): Promise<User> {
         let url_ = this.baseUrl + "/user/{username}";
-
         if (username === undefined || username === null)
           throw new Error("The parameter 'username' must be defined.");
         url_ = url_.replace("{username}", encodeURIComponent("" + username));
@@ -721,7 +714,6 @@ export class Client {
      */
     updateUser(username: string, body: User): Promise<void> {
         let url_ = this.baseUrl + "/user/{username}";
-
         if (username === undefined || username === null)
           throw new Error("The parameter 'username' must be defined.");
         url_ = url_.replace("{username}", encodeURIComponent("" + username));
@@ -767,7 +759,6 @@ export class Client {
      */
     deleteUser(username: string): Promise<void> {
         let url_ = this.baseUrl + "/user/{username}";
-
         if (username === undefined || username === null)
           throw new Error("The parameter 'username' must be defined.");
         url_ = url_.replace("{username}", encodeURIComponent("" + username));

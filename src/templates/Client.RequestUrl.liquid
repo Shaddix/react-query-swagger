@@ -1,6 +1,6 @@
 ﻿let url_ = this.baseUrl + "/{{ operation.Path }}{% if operation.HasQueryParameters %}?{% endif %}";
-{%- for parameter in operation.PathParameters -%}
-{%    if parameter.IsRequired %}
+{% for parameter in operation.PathParameters -%}
+{%    if parameter.IsRequired -%}
 if ({{ parameter.VariableName }} === undefined || {{ parameter.VariableName }} === null)
   throw new Error("The parameter '{{ parameter.VariableName }}' must be defined.");
 {%    else -%}
@@ -22,15 +22,15 @@ url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent("" + {{
 {%    if parameter.IsOptional -%}
 else
   url_ = url_.replace("/{{ "{" }}{{ parameter.Name }}}", "");
-{%-    endif -%}
-{%- endfor -%}
-{%- for parameter in operation.QueryParameters -%}
-{%-    if parameter.IsRequired -%}
-{%-        if parameter.IsNullable -%}
+{%    endif -%}
+{% endfor -%}
+{% for parameter in operation.QueryParameters -%}
+{%    if parameter.IsRequired -%}
+{%        if parameter.IsNullable -%}
 if ({{ parameter.VariableName }} === undefined)
   throw new Error("The parameter '{{ parameter.VariableName }}' must be defined.");
 else if({{ parameter.VariableName }} !== null)
-{%-        else -%}
+{%        else -%}
   if ({{ parameter.VariableName }} === undefined || {{ parameter.VariableName }} === null)
     throw new Error("The parameter '{{ parameter.VariableName }}' must be defined and cannot be null.");
   else
@@ -44,7 +44,9 @@ if ({{ parameter.VariableName }} === null)
 else if ({{ parameter.VariableName }} !== undefined)
 {%        endif -%}
 {%    endif -%}
-{%    if parameter.IsDateArray -%}
+{%    if parameter.IsContentSerializationTypeJson -%}
+    url_ += "{{ parameter.Name }}=" + JSON.stringify(item_) + "&";
+{%    elsif parameter.IsDateArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { url_ += "{{ parameter.Name }}=" + encodeURIComponent(item_ ? "" + formatDate(item_) : "null") + "&"; });
 {%    elsif parameter.IsDateOrDateTimeArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { url_ += "{{ parameter.Name }}=" + encodeURIComponent(item_ ? "" + item_.{{ parameter.GetDateTimeToString }} : "null") + "&"; });

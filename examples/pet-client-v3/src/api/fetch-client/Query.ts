@@ -57,7 +57,6 @@ export type LoginUserQueryParameters = {
     
 export function uploadFileUrl(petId: number): string {
   let url_ = getBaseUrl() + "/pet/{petId}/uploadImage";
-
 if (petId === undefined || petId === null)
   throw new Error("The parameter 'petId' must be defined.");
 url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
@@ -337,7 +336,6 @@ export function setFindPetsByTagsDataByQueryId(queryClient: QueryClient, queryKe
     
 export function getPetByIdUrl(petId: number): string {
   let url_ = getBaseUrl() + "/pet/{petId}";
-
 if (petId === undefined || petId === null)
   throw new Error("The parameter 'petId' must be defined.");
 url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
@@ -431,7 +429,6 @@ export function setGetPetByIdDataByQueryId(queryClient: QueryClient, queryKey: Q
     
 export function updatePetWithFormUrl(petId: number): string {
   let url_ = getBaseUrl() + "/pet/{petId}";
-
 if (petId === undefined || petId === null)
   throw new Error("The parameter 'petId' must be defined.");
 url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
@@ -465,7 +462,6 @@ export function useUpdatePetWithFormMutation<TContext>(petId: number, options?: 
     
 export function deletePetUrl(petId: number, api_key?: string | null | undefined): string {
   let url_ = getBaseUrl() + "/pet/{petId}";
-
 if (petId === undefined || petId === null)
   throw new Error("The parameter 'petId' must be defined.");
 url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
@@ -527,7 +523,6 @@ export function usePlaceOrderMutation<TContext>(options?: Omit<UseMutationOption
     
 export function getOrderByIdUrl(orderId: number): string {
   let url_ = getBaseUrl() + "/store/order/{orderId}";
-
 if (orderId === undefined || orderId === null)
   throw new Error("The parameter 'orderId' must be defined.");
 url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
@@ -621,7 +616,6 @@ export function setGetOrderByIdDataByQueryId(queryClient: QueryClient, queryKey:
     
 export function deleteOrderUrl(orderId: number): string {
   let url_ = getBaseUrl() + "/store/order/{orderId}";
-
 if (orderId === undefined || orderId === null)
   throw new Error("The parameter 'orderId' must be defined.");
 url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
@@ -777,7 +771,6 @@ export function useCreateUsersWithListInputMutation<TContext>(options?: Omit<Use
     
 export function getUserByNameUrl(username: string): string {
   let url_ = getBaseUrl() + "/user/{username}";
-
 if (username === undefined || username === null)
   throw new Error("The parameter 'username' must be defined.");
 url_ = url_.replace("{username}", encodeURIComponent("" + username));
@@ -871,7 +864,6 @@ export function setGetUserByNameDataByQueryId(queryClient: QueryClient, queryKey
     
 export function updateUserUrl(username: string): string {
   let url_ = getBaseUrl() + "/user/{username}";
-
 if (username === undefined || username === null)
   throw new Error("The parameter 'username' must be defined.");
 url_ = url_.replace("{username}", encodeURIComponent("" + username));
@@ -904,7 +896,6 @@ export function useUpdateUserMutation<TContext>(username: string, options?: Omit
     
 export function deleteUserUrl(username: string): string {
   let url_ = getBaseUrl() + "/user/{username}";
-
 if (username === undefined || username === null)
   throw new Error("The parameter 'username' must be defined.");
 url_ = url_.replace("{username}", encodeURIComponent("" + username));
