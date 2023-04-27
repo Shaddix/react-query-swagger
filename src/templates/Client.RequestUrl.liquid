@@ -48,7 +48,7 @@ else if ({{ parameter.VariableName }} !== undefined)
 {
     {%- assign serializeParameter = parameter -%}
     {% template Client.RequestBody.Serialize %}
-    url_ += "{{ parameter.Name }}=" + content_ + "&";
+    url_ += "{{ parameter.Name }}=" + encodeURIComponent(content_) + "&";
 }
 {%    elsif parameter.IsDateArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { url_ += "{{ parameter.Name }}=" + encodeURIComponent(item_ ? "" + formatDate(item_) : "null") + "&"; });
