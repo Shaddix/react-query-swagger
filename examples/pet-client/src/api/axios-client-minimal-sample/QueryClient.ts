@@ -18,7 +18,7 @@ export function jsonInQuery(dto?: Types.DummyDto | null | undefined, config?: Ax
     if (dto !== undefined && dto !== null)
     {
         const content_ = Types.serializeDummyDto(dto);
-        url_ += "dto=" + content_ + "&";
+        url_ += "dto=" + encodeURIComponent(content_) + "&";
     }
       url_ = url_.replace(/[?&]$/, "");
 
