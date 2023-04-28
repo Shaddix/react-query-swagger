@@ -459,7 +459,7 @@ function processForMinimalApi(apiClient) {
 
   // remove empty lines if line only contain spaces
   apiClient = apiClient.replaceAll(/\r\n\s+\r\n/gim, '\r\n');
-  apiClient = apiClient.replaceAll(/\n\s+\n/gim, '\r\n');
+  apiClient = apiClient.replaceAll(/\n\s+\n/gim, '\n');
 
   // remove empty blocks like that:
   // if (_data) {
