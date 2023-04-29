@@ -13,6 +13,10 @@ const {
   readdirSync,
 } = require('fs');
 let args = process.argv.splice(2).join(' ');
+if (args.includes('/nswag')) {
+  runNswag();
+  return;
+}
 const isVue = args.includes('/vue');
 const isSolid = args.includes('/solid');
 const isSvelte = args.includes('/svelte');
@@ -474,4 +478,19 @@ function patchTemplateFile(pathToTemplates, file, postProcess) {
   let content = fs.readFileSync(fullFilePath).toString();
   content = postProcess(content);
   fs.writeFileSync(fullFilePath, content);
+}
+
+/*
+ * Runs NSwag with all passed arguments.
+ * Useful to be able to generate C# clients without installing NSwag separately
+ */
+function runNswag() {
+  const toExecute = `npx nswag-portable ${args}`;
+  try {
+    execSync(toExecute, function (e, stdout, stderr) {
+      console.log(stdout);
+    });
+  } catch (e) {
+    throw new Error(e?.output?.toString());
+  }
 }
