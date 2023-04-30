@@ -35,7 +35,7 @@
     "@tanstack/react-query-persist-client": ">4.2.0",
     "react": "17.x || 18.x",
     "react-query": ">= 3.33 < 4.0",
-    "typescript": "3.x || 4.x"
+    "typescript": "> 3.0"
   },
   "files": [
     "templates/**/*",
