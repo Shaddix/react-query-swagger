@@ -29,12 +29,14 @@ export function init{{ ClassName }}(_data: {{ ClassName }}) {
   return _data;
 }
 
-export function serialize{{ ClassName }}(_data: {{ ClassName }}) {
-  const data = prepareSerialize{{ ClassName }}(_data as {{ ClassName }});
-{% if HasDiscriminator -%}
-  data["{{ BaseDiscriminator }}"] = "{{ DiscriminatorName }}";
-{% endif -%}
-  return JSON.stringify(data);
+export function serialize{{ ClassName }}(_data: {{ ClassName }} | undefined) {
+  if (_data) {
+    _data = prepareSerialize{{ ClassName }}(_data as {{ ClassName }});
+  {% if HasDiscriminator -%}
+    _data["{{ BaseDiscriminator }}"] = "{{ DiscriminatorName }}";
+  {% endif %}
+  }
+  return JSON.stringify(_data);
 }
 
 export function prepareSerialize{{ ClassName }}(_data: {{ ClassName }}): {{ ClassName }} {

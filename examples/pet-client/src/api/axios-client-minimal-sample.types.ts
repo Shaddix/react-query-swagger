@@ -16,9 +16,11 @@ export function initDummyDto(_data: DummyDto) {
   }
   return _data;
 }
-export function serializeDummyDto(_data: DummyDto) {
-  const data = prepareSerializeDummyDto(_data as DummyDto);
-  return JSON.stringify(data);
+export function serializeDummyDto(_data: DummyDto | undefined) {
+  if (_data) {
+    _data = prepareSerializeDummyDto(_data as DummyDto);
+  }
+  return JSON.stringify(_data);
 }
 export function prepareSerializeDummyDto(_data: DummyDto): DummyDto {
   const data: Record<string, any> = { ..._data };

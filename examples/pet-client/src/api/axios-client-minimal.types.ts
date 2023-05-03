@@ -12,9 +12,11 @@ export function deserializeApiResponse(json: string): ApiResponse {
 export function initApiResponse(_data: ApiResponse) {
     return _data;
 }
-export function serializeApiResponse(_data: ApiResponse) {
-  const data = prepareSerializeApiResponse(_data as ApiResponse);
-  return JSON.stringify(data);
+export function serializeApiResponse(_data: ApiResponse | undefined) {
+  if (_data) {
+    _data = prepareSerializeApiResponse(_data as ApiResponse);
+  }
+  return JSON.stringify(_data);
 }
 export function prepareSerializeApiResponse(_data: ApiResponse): ApiResponse {
   const data: Record<string, any> = { ..._data };
@@ -32,9 +34,11 @@ export function deserializeCategory(json: string): Category {
 export function initCategory(_data: Category) {
     return _data;
 }
-export function serializeCategory(_data: Category) {
-  const data = prepareSerializeCategory(_data as Category);
-  return JSON.stringify(data);
+export function serializeCategory(_data: Category | undefined) {
+  if (_data) {
+    _data = prepareSerializeCategory(_data as Category);
+  }
+  return JSON.stringify(_data);
 }
 export function prepareSerializeCategory(_data: Category): Category {
   const data: Record<string, any> = { ..._data };
@@ -67,9 +71,11 @@ export function initPet(_data: Pet) {
   }
   return _data;
 }
-export function serializePet(_data: Pet) {
-  const data = prepareSerializePet(_data as Pet);
-  return JSON.stringify(data);
+export function serializePet(_data: Pet | undefined) {
+  if (_data) {
+    _data = prepareSerializePet(_data as Pet);
+  }
+  return JSON.stringify(_data);
 }
 export function prepareSerializePet(_data: Pet): Pet {
   const data: Record<string, any> = { ..._data };
@@ -93,9 +99,11 @@ export function deserializeTag(json: string): Tag {
 export function initTag(_data: Tag) {
     return _data;
 }
-export function serializeTag(_data: Tag) {
-  const data = prepareSerializeTag(_data as Tag);
-  return JSON.stringify(data);
+export function serializeTag(_data: Tag | undefined) {
+  if (_data) {
+    _data = prepareSerializeTag(_data as Tag);
+  }
+  return JSON.stringify(_data);
 }
 export function prepareSerializeTag(_data: Tag): Tag {
   const data: Record<string, any> = { ..._data };
@@ -122,9 +130,11 @@ export function initOrder(_data: Order) {
   }
   return _data;
 }
-export function serializeOrder(_data: Order) {
-  const data = prepareSerializeOrder(_data as Order);
-  return JSON.stringify(data);
+export function serializeOrder(_data: Order | undefined) {
+  if (_data) {
+    _data = prepareSerializeOrder(_data as Order);
+  }
+  return JSON.stringify(_data);
 }
 export function prepareSerializeOrder(_data: Order): Order {
   const data: Record<string, any> = { ..._data };
@@ -150,9 +160,11 @@ export function deserializeUser(json: string): User {
 export function initUser(_data: User) {
     return _data;
 }
-export function serializeUser(_data: User) {
-  const data = prepareSerializeUser(_data as User);
-  return JSON.stringify(data);
+export function serializeUser(_data: User | undefined) {
+  if (_data) {
+    _data = prepareSerializeUser(_data as User);
+  }
+  return JSON.stringify(_data);
 }
 export function prepareSerializeUser(_data: User): User {
   const data: Record<string, any> = { ..._data };
