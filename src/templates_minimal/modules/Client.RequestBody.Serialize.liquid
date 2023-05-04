@@ -7,7 +7,7 @@
 const content_ = JSON.stringify({{ serializeParameter.VariableName }});
 {%- elsif serializeParameter.IsArray -%}
 const content_ = JSON.stringify({{ serializeParameter.VariableName }});
-{%- elsif serializeParameter.IsObject -%}
+{%- elsif serializeParameter.IsObject and serializeParameter.IsDictionary == false -%}
 const content_ = Types.serialize{{ serializeParameter.Type }}({{ serializeParameter.VariableName }});
 {%- else -%}
 const content_ = JSON.stringify({{ serializeParameter.VariableName }});

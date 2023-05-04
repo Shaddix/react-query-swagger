@@ -611,6 +611,39 @@
           }
         }
       }
+    },
+    "/api/v1/Answers": {
+      "get": {
+        "tags": ["Answers"],
+        "operationId": "Answers_GetAnswers",
+        "parameters": [
+          {
+            "name": "Tags",
+            "in": "query",
+            "x-position": 7,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

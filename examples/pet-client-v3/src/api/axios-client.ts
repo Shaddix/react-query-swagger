@@ -43,7 +43,7 @@ export class Client {
      * @param file (optional) file to upload
      * @return successful operation
      */
-    uploadFile(petId: number, additionalMetadata?: string | null | undefined, file?: FileParameter | null | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResponse> {
+    uploadFile(petId: number, additionalMetadata?: string | null | undefined, file?: FileParameter | null | undefined, cancelToken?: CancelToken | undefined): Promise<ApiResponse> {
         let url_ = this.baseUrl + "/pet/{petId}/uploadImage";
         if (petId === undefined || petId === null)
           throw new Error("The parameter 'petId' must be defined.");
@@ -105,7 +105,7 @@ export class Client {
      * Add a new pet to the store
      * @param body Pet object that needs to be added to the store
      */
-    addPet(body: Pet , cancelToken?: CancelToken | undefined): Promise<void> {
+    addPet(body: Pet, cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/pet";
           url_ = url_.replace(/[?&]$/, "");
 
@@ -157,7 +157,7 @@ export class Client {
      * Update an existing pet
      * @param body Pet object that needs to be added to the store
      */
-    updatePet(body: Pet , cancelToken?: CancelToken | undefined): Promise<void> {
+    updatePet(body: Pet, cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/pet";
           url_ = url_.replace(/[?&]$/, "");
 
@@ -218,7 +218,7 @@ export class Client {
      * @param status Status values that need to be considered for filter
      * @return successful operation
      */
-    findPetsByStatus(status: Status[] , cancelToken?: CancelToken | undefined): Promise<Pet[]> {
+    findPetsByStatus(status: Status[], cancelToken?: CancelToken | undefined): Promise<Pet[]> {
         let url_ = this.baseUrl + "/pet/findByStatus?";
           if (status === undefined || status === null)
             throw new Error("The parameter 'status' must be defined and cannot be null.");
@@ -287,7 +287,7 @@ export class Client {
      * @return successful operation
      * @deprecated
      */
-    findPetsByTags(tags: string[] , cancelToken?: CancelToken | undefined): Promise<Pet[]> {
+    findPetsByTags(tags: string[], cancelToken?: CancelToken | undefined): Promise<Pet[]> {
         let url_ = this.baseUrl + "/pet/findByTags?";
           if (tags === undefined || tags === null)
             throw new Error("The parameter 'tags' must be defined and cannot be null.");
@@ -355,7 +355,7 @@ export class Client {
      * @param petId ID of pet to return
      * @return successful operation
      */
-    getPetById(petId: number , cancelToken?: CancelToken | undefined): Promise<Pet> {
+    getPetById(petId: number, cancelToken?: CancelToken | undefined): Promise<Pet> {
         let url_ = this.baseUrl + "/pet/{petId}";
         if (petId === undefined || petId === null)
           throw new Error("The parameter 'petId' must be defined.");
@@ -420,7 +420,7 @@ export class Client {
      * @param name (optional) Updated name of the pet
      * @param status (optional) Updated status of the pet
      */
-    updatePetWithForm(petId: number, name?: string | null | undefined, status?: string | null | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+    updatePetWithForm(petId: number, name?: string | null | undefined, status?: string | null | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/pet/{petId}";
         if (petId === undefined || petId === null)
           throw new Error("The parameter 'petId' must be defined.");
@@ -481,7 +481,7 @@ export class Client {
      * @param petId Pet id to delete
      * @param api_key (optional) 
      */
-    deletePet(petId: number, api_key?: string | null | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+    deletePet(petId: number, api_key?: string | null | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/pet/{petId}";
         if (petId === undefined || petId === null)
           throw new Error("The parameter 'petId' must be defined.");
@@ -538,7 +538,7 @@ export class Client {
      * @param body order placed for purchasing the pet
      * @return successful operation
      */
-    placeOrder(body: Order , cancelToken?: CancelToken | undefined): Promise<Order> {
+    placeOrder(body: Order, cancelToken?: CancelToken | undefined): Promise<Order> {
         let url_ = this.baseUrl + "/store/order";
           url_ = url_.replace(/[?&]$/, "");
 
@@ -599,7 +599,7 @@ export class Client {
      * @param orderId ID of pet that needs to be fetched
      * @return successful operation
      */
-    getOrderById(orderId: number , cancelToken?: CancelToken | undefined): Promise<Order> {
+    getOrderById(orderId: number, cancelToken?: CancelToken | undefined): Promise<Order> {
         let url_ = this.baseUrl + "/store/order/{orderId}";
         if (orderId === undefined || orderId === null)
           throw new Error("The parameter 'orderId' must be defined.");
@@ -662,7 +662,7 @@ export class Client {
      * Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
-    deleteOrder(orderId: number , cancelToken?: CancelToken | undefined): Promise<void> {
+    deleteOrder(orderId: number, cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/store/order/{orderId}";
         if (orderId === undefined || orderId === null)
           throw new Error("The parameter 'orderId' must be defined.");
@@ -717,7 +717,7 @@ export class Client {
      * Returns pet inventories by status
      * @return successful operation
      */
-    getInventory(  cancelToken?: CancelToken | undefined): Promise<{ [key: string]: number; }> {
+    getInventory( cancelToken?: CancelToken | undefined): Promise<{ [key: string]: number; }> {
         let url_ = this.baseUrl + "/store/inventory";
           url_ = url_.replace(/[?&]$/, "");
 
@@ -779,7 +779,7 @@ export class Client {
      * @param body List of user object
      * @return successful operation
      */
-    createUsersWithArrayInput(body: User[] , cancelToken?: CancelToken | undefined): Promise<void> {
+    createUsersWithArrayInput(body: User[], cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/user/createWithArray";
           url_ = url_.replace(/[?&]$/, "");
 
@@ -828,7 +828,7 @@ export class Client {
      * @param body List of user object
      * @return successful operation
      */
-    createUsersWithListInput(body: User[] , cancelToken?: CancelToken | undefined): Promise<void> {
+    createUsersWithListInput(body: User[], cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/user/createWithList";
           url_ = url_.replace(/[?&]$/, "");
 
@@ -877,7 +877,7 @@ export class Client {
      * @param username The name that needs to be fetched. Use user1 for testing.
      * @return successful operation
      */
-    getUserByName(username: string , cancelToken?: CancelToken | undefined): Promise<User> {
+    getUserByName(username: string, cancelToken?: CancelToken | undefined): Promise<User> {
         let url_ = this.baseUrl + "/user/{username}";
         if (username === undefined || username === null)
           throw new Error("The parameter 'username' must be defined.");
@@ -941,7 +941,7 @@ export class Client {
      * @param username name that need to be updated
      * @param body Updated user object
      */
-    updateUser(username: string, body: User , cancelToken?: CancelToken | undefined): Promise<void> {
+    updateUser(username: string, body: User, cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/user/{username}";
         if (username === undefined || username === null)
           throw new Error("The parameter 'username' must be defined.");
@@ -1000,7 +1000,7 @@ export class Client {
      * Delete user
      * @param username The name that needs to be deleted
      */
-    deleteUser(username: string , cancelToken?: CancelToken | undefined): Promise<void> {
+    deleteUser(username: string, cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/user/{username}";
         if (username === undefined || username === null)
           throw new Error("The parameter 'username' must be defined.");
@@ -1057,7 +1057,7 @@ export class Client {
      * @param password The password for login in clear text
      * @return successful operation
      */
-    loginUser(username: string, password: string , cancelToken?: CancelToken | undefined): Promise<string> {
+    loginUser(username: string, password: string, cancelToken?: CancelToken | undefined): Promise<string> {
         let url_ = this.baseUrl + "/user/login?";
           if (username === undefined || username === null)
             throw new Error("The parameter 'username' must be defined and cannot be null.");
@@ -1122,7 +1122,7 @@ export class Client {
      * Logs out current logged in user session
      * @return successful operation
      */
-    logoutUser(  cancelToken?: CancelToken | undefined): Promise<void> {
+    logoutUser( cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/user/logout";
           url_ = url_.replace(/[?&]$/, "");
 
@@ -1167,7 +1167,7 @@ export class Client {
      * @param body Created user object
      * @return successful operation
      */
-    createUser(body: User , cancelToken?: CancelToken | undefined): Promise<void> {
+    createUser(body: User, cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/user";
           url_ = url_.replace(/[?&]$/, "");
 

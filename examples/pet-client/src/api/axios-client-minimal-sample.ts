@@ -44,6 +44,12 @@ export * as QueryQuery from './axios-client-minimal-sample/QueryQuery';
 
 
 
+export * as AnswersClient from './axios-client-minimal-sample/AnswersClient';
+
+export * as AnswersQuery from './axios-client-minimal-sample/AnswersQuery';
+
+
+
 
 
 import { addResultTypeFactory } from './axios-client-minimal-sample/helpers';
@@ -136,6 +142,8 @@ export function getResultTypeClassKey(queryKey: QueryKey): string {
 export function initPersister() {
   
   addResultTypeFactory('ArrayReturnClient___dummyDto', (data: any) => Types.initDummyDto(data));
+
+
 
 
 
