@@ -22,6 +22,10 @@ export type GetAnswersAnswersQueryParameters = {
   tags?: { [key: string]: string; } | null;
 };
 
+export type GetAnswersv2AnswersQueryParameters = {
+  tags?: { [key: string]: string; } | null;
+};
+
     
 export function getAnswersUrl(tags?: { [key: string]: string; } | undefined): string {
   let url_ = getBaseUrl() + "/api/v1/Answers?";
@@ -109,5 +113,92 @@ export function setGetAnswersData(queryClient: QueryClient, updater: (data: any 
 }
 
 export function setGetAnswersDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: any | undefined) => any) {
+  queryClient.setQueryData(queryKey, updater);
+}
+    
+    
+export function getAnswersv2Url(tags?: { [key: string]: string; } | undefined): string {
+  let url_ = getBaseUrl() + "/api/v2/Answers?";
+if (tags === null)
+    throw new Error("The parameter 'tags' cannot be null.");
+else if (tags !== undefined)
+    tags && Object.keys(tags).forEach(key => { url_ += `Tags[${key}]=` + encodeURIComponent("" + tags[key]) + "&"; });
+  url_ = url_.replace(/[?&]$/, "");
+  return url_;
+}
+
+let getAnswersv2DefaultOptions: UseQueryOptions<any, unknown, any> = {
+  queryFn: __getAnswersv2,
+};
+export function getGetAnswersv2DefaultOptions(): UseQueryOptions<any, unknown, any> {
+  return getAnswersv2DefaultOptions;
+};
+export function setGetAnswersv2DefaultOptions(options: UseQueryOptions<any, unknown, any>) {
+  getAnswersv2DefaultOptions = options;
+}
+
+export function getAnswersv2QueryKey(tags?: { [key: string]: string; } | undefined): QueryKey;
+export function getAnswersv2QueryKey(...params: any[]): QueryKey {
+  if (params.length === 1 && isParameterObject(params[0])) {
+    const { tags,  } = params[0] as GetAnswersv2AnswersQueryParameters;
+
+    return trimArrayEnd([
+        'AnswersClient',
+        'getAnswersv2',
+        tags as any,
+      ]);
+  } else {
+    return trimArrayEnd([
+        'AnswersClient',
+        'getAnswersv2',
+        ...params
+      ]);
+  }
+}
+function __getAnswersv2(context: QueryFunctionContext) {
+  return Client.getAnswersv2(
+      context.queryKey[2] as { [key: string]: string; } | undefined    );
+}
+
+export function useGetAnswersv2Query<TSelectData = any, TError = unknown>(dto: GetAnswersv2AnswersQueryParameters, options?: UseQueryOptions<any, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+
+export function useGetAnswersv2Query<TSelectData = any, TError = unknown>(tags?: { [key: string]: string; } | undefined, options?: UseQueryOptions<any, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useGetAnswersv2Query<TSelectData = any, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+  let options: UseQueryOptions<any, TError, TSelectData> | undefined = undefined;
+  let axiosConfig: AxiosRequestConfig |undefined;
+  let tags: any = undefined;
+  
+  if (params.length > 0) {
+    if (isParameterObject(params[0])) {
+      ({ tags,  } = params[0] as GetAnswersv2AnswersQueryParameters);
+      options = params[1];
+      axiosConfig = params[2];
+    } else {
+      [tags, options, axiosConfig] = params;
+    }
+  }
+
+  const metaContext = useContext(QueryMetaContext);
+  options = addMetaToOptions(options, metaContext);
+  if (axiosConfig) {
+    options = options ?? { } as any;
+    options!.meta = { ...options!.meta, axiosConfig };
+  }
+
+  return useQuery<any, TError, TSelectData>({
+    queryFn: __getAnswersv2,
+    queryKey: getAnswersv2QueryKey(tags),
+    ...getAnswersv2DefaultOptions as unknown as UseQueryOptions<any, TError, TSelectData>,
+    ...options,
+  });
+}
+
+export function setGetAnswersv2Data(queryClient: QueryClient, updater: (data: any | undefined) => any, tags?: { [key: string]: string; } | undefined) {
+  queryClient.setQueryData(getAnswersv2QueryKey(tags),
+    updater
+  );
+}
+
+export function setGetAnswersv2DataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: any | undefined) => any) {
   queryClient.setQueryData(queryKey, updater);
 }

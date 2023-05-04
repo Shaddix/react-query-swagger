@@ -644,6 +644,35 @@
           }
         }
       }
+    },
+    "/api/v2/Answers": {
+      "get": {
+        "tags": ["Answersv2"],
+        "operationId": "Answers_GetAnswersv2",
+        "parameters": [
+          {
+            "name": "Tags",
+            "in": "query",
+            "x-position": 7,
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

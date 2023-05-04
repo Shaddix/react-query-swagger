@@ -70,6 +70,61 @@ function processGetAnswers(response: AxiosResponse): Promise<any> {
     }
     return Promise.resolve<any>(null as any);
 }
+
+export function getAnswersv2(tags?: { [key: string]: string; } | undefined, config?: AxiosRequestConfig | undefined): Promise<any> {
+    let url_ = getBaseUrl() + "/api/v2/Answers?";
+    if (tags === null)
+        throw new Error("The parameter 'tags' cannot be null.");
+    else if (tags !== undefined)
+        tags && Object.keys(tags).forEach(key => { url_ += `Tags[${key}]=` + encodeURIComponent("" + tags[key]) + "&"; });
+      url_ = url_.replace(/[?&]$/, "");
+
+    let options_: AxiosRequestConfig = {
+        ..._requestConfigGetAnswersv2,
+        ...config,
+        method: "GET",
+        url: url_,
+        headers: {
+            "Accept": "application/json"
+        }
+    };
+
+    return getAxios().request(options_).catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+            return _error.response;
+        } else {
+            throw _error;
+        }
+    }).then((_response: AxiosResponse) => {
+        return processGetAnswersv2(_response);
+    });
+}
+
+function processGetAnswersv2(response: AxiosResponse): Promise<any> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && typeof response.headers === "object") {
+        for (let k in response.headers) {
+            if (response.headers.hasOwnProperty(k)) {
+                _headers[k] = response.headers[k];
+            }
+        }
+    }
+    if (status === 200) {
+        const _responseText = response.data;
+        let result200: any = null;
+        let resultData200  = _responseText;
+    
+        result200 = resultData200;
+    
+        return Promise.resolve<any>(result200);
+
+    } else if (status !== 200 && status !== 204) {
+        const _responseText = response.data;
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+    }
+    return Promise.resolve<any>(null as any);
+}
 let _requestConfigGetAnswers: Partial<AxiosRequestConfig> | null;
 export function getGetAnswersRequestConfig() {
   return _requestConfigGetAnswers;
@@ -79,4 +134,15 @@ export function setGetAnswersRequestConfig(value: Partial<AxiosRequestConfig>) {
 }
 export function patchGetAnswersRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigGetAnswers = patch(_requestConfigGetAnswers ?? {});
+}
+
+let _requestConfigGetAnswersv2: Partial<AxiosRequestConfig> | null;
+export function getGetAnswersv2RequestConfig() {
+  return _requestConfigGetAnswersv2;
+}
+export function setGetAnswersv2RequestConfig(value: Partial<AxiosRequestConfig>) {
+  _requestConfigGetAnswersv2 = value;
+}
+export function patchGetAnswersv2RequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigGetAnswersv2 = patch(_requestConfigGetAnswersv2 ?? {});
 }
