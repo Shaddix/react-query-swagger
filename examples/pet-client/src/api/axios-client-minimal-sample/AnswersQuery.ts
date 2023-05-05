@@ -122,7 +122,7 @@ export function getAnswersv2Url(tags?: { [key: string]: string; } | undefined): 
 if (tags === null)
     throw new Error("The parameter 'tags' cannot be null.");
 else if (tags !== undefined)
-    tags && Object.keys(tags).forEach(key => { url_ += `Tags[${key}]=` + encodeURIComponent("" + tags[key]) + "&"; });
+    tags && Object.keys(tags).forEach(key => { url_ += encodeURIComponent(key) +"=" + encodeURIComponent("" + tags[key]) + "&"; });
   url_ = url_.replace(/[?&]$/, "");
   return url_;
 }

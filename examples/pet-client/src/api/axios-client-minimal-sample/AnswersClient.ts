@@ -76,7 +76,7 @@ export function getAnswersv2(tags?: { [key: string]: string; } | undefined, conf
     if (tags === null)
         throw new Error("The parameter 'tags' cannot be null.");
     else if (tags !== undefined)
-        tags && Object.keys(tags).forEach(key => { url_ += `Tags[${key}]=` + encodeURIComponent("" + tags[key]) + "&"; });
+        tags && Object.keys(tags).forEach(key => { url_ += encodeURIComponent(key) +"=" + encodeURIComponent("" + tags[key]) + "&"; });
       url_ = url_.replace(/[?&]$/, "");
 
     let options_: AxiosRequestConfig = {

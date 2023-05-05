@@ -68,7 +68,7 @@ else if ({{ parameter.VariableName }} !== undefined)
 {%    elsif parameter.IsArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item => { url_ += "{{ parameter.Name }}=" + encodeURIComponent("" + item) + "&"; });
 {%    elsif parameter.IsDictionary -%}
-    {{ parameter.VariableName }} && Object.keys({{ parameter.VariableName }}).forEach(key => { url_ += `{{ parameter.Name }}[${key}]=` + encodeURIComponent("" + {{ parameter.VariableName }}[key]) + "&"; });
+    {{ parameter.VariableName }} && Object.keys({{ parameter.VariableName }}).forEach(key => { url_ += encodeURIComponent(key) +"=" + encodeURIComponent("" + {{ parameter.VariableName }}[key]) + "&"; });
 {%    else -%}
     url_ += "{{ parameter.Name }}=" + encodeURIComponent("" + {{ parameter.VariableName }}) + "&";
 {%    endif -%}
