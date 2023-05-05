@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## 15.8.1
+
+Update to NSwag 13.19.0 and NJsonSchema 11.0.0
+
 ## 15.7.1
 
 Support JSON-serialized parameters in Query (see https://swagger.io/docs/specification/describing-parameters/#schema-vs-content)
