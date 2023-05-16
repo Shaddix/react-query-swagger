@@ -11,4 +11,5 @@ app.MapGet("/", () => "Hello World!");
 app.UseOpenApi(); // serve OpenAPI/Swagger documents
 app.UseSwaggerUi3(); // serve Swagger UI
 
+app.MapControllers();
 app.Run();

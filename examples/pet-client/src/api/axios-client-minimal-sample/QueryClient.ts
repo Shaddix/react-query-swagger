@@ -178,6 +178,57 @@ function processDateTimeInQuery(response: AxiosResponse): Promise<string> {
     }
     return Promise.resolve<string>(null as any);
 }
+
+export function arrayInQuery(data?: string[] | null | undefined, config?: AxiosRequestConfig | undefined): Promise<string[]> {
+    let url_ = getBaseUrl() + "/query/ArrayInQuery?";
+    if (data !== undefined && data !== null)
+        data && data.forEach(item => { url_ += "data=" + encodeURIComponent("" + item) + "&"; });
+      url_ = url_.replace(/[?&]$/, "");
+
+    let options_: AxiosRequestConfig = {
+        ..._requestConfigArrayInQuery,
+        ...config,
+        method: "GET",
+        url: url_,
+        headers: {
+            "Accept": "application/json"
+        }
+    };
+
+    return getAxios().request(options_).catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+            return _error.response;
+        } else {
+            throw _error;
+        }
+    }).then((_response: AxiosResponse) => {
+        return processArrayInQuery(_response);
+    });
+}
+
+function processArrayInQuery(response: AxiosResponse): Promise<string[]> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && typeof response.headers === "object") {
+        for (let k in response.headers) {
+            if (response.headers.hasOwnProperty(k)) {
+                _headers[k] = response.headers[k];
+            }
+        }
+    }
+    if (status === 200) {
+        const _responseText = response.data;
+        let result200: any = null;
+        let resultData200  = _responseText;
+        result200 = resultData200;
+        return Promise.resolve<string[]>(result200);
+
+    } else if (status !== 200 && status !== 204) {
+        const _responseText = response.data;
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+    }
+    return Promise.resolve<string[]>(null as any);
+}
 let _requestConfigJsonInQuery: Partial<AxiosRequestConfig> | null;
 export function getJsonInQueryRequestConfig() {
   return _requestConfigJsonInQuery;
@@ -209,4 +260,15 @@ export function setDateTimeInQueryRequestConfig(value: Partial<AxiosRequestConfi
 }
 export function patchDateTimeInQueryRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigDateTimeInQuery = patch(_requestConfigDateTimeInQuery ?? {});
+}
+
+let _requestConfigArrayInQuery: Partial<AxiosRequestConfig> | null;
+export function getArrayInQueryRequestConfig() {
+  return _requestConfigArrayInQuery;
+}
+export function setArrayInQueryRequestConfig(value: Partial<AxiosRequestConfig>) {
+  _requestConfigArrayInQuery = value;
+}
+export function patchArrayInQueryRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigArrayInQuery = patch(_requestConfigArrayInQuery ?? {});
 }

@@ -20,7 +20,7 @@ export function init{{ ClassName }}(_data: {{ ClassName }}) {
 {%- if HasIndexerProperty or HasProperties -%}
   if (_data) {
 {%-     for property in Properties -%}
-{%-       if property.Type != 'string' and property.Type != 'boolean' and property.Type != 'number'  -%}
+{%-       if property.Type != 'string' and property.Type != 'boolean' and property.Type != 'number' and property.IsDictionary != true  -%}
     {{ property.ConvertToClassCode | strip}}
 {%-       endif -%}
 {%-     endfor -%}

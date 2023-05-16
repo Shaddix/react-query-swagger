@@ -30,6 +30,10 @@ export type DateTimeInQueryQueryQueryParameters = {
   date?: Date | null;
 };
 
+export type ArrayInQueryQueryQueryParameters = {
+  data?: string[] | null | null;
+};
+
     
 export function jsonInQueryUrl(dto?: Types.DummyDto | null | undefined): string {
   let url_ = getBaseUrl() + "/query/JsonInQuery?";
@@ -289,5 +293,90 @@ export function setDateTimeInQueryData(queryClient: QueryClient, updater: (data:
 }
 
 export function setDateTimeInQueryDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: string | undefined) => string) {
+  queryClient.setQueryData(queryKey, updater);
+}
+    
+    
+export function arrayInQueryUrl(data?: string[] | null | undefined): string {
+  let url_ = getBaseUrl() + "/query/ArrayInQuery?";
+if (data !== undefined && data !== null)
+    data && data.forEach(item => { url_ += "data=" + encodeURIComponent("" + item) + "&"; });
+  url_ = url_.replace(/[?&]$/, "");
+  return url_;
+}
+
+let arrayInQueryDefaultOptions: UseQueryOptions<string[], unknown, string[]> = {
+  queryFn: __arrayInQuery,
+};
+export function getArrayInQueryDefaultOptions(): UseQueryOptions<string[], unknown, string[]> {
+  return arrayInQueryDefaultOptions;
+};
+export function setArrayInQueryDefaultOptions(options: UseQueryOptions<string[], unknown, string[]>) {
+  arrayInQueryDefaultOptions = options;
+}
+
+export function arrayInQueryQueryKey(data?: string[] | null | undefined): QueryKey;
+export function arrayInQueryQueryKey(...params: any[]): QueryKey {
+  if (params.length === 1 && isParameterObject(params[0])) {
+    const { data,  } = params[0] as ArrayInQueryQueryQueryParameters;
+
+    return trimArrayEnd([
+        'QueryClient',
+        'arrayInQuery',
+        data as any,
+      ]);
+  } else {
+    return trimArrayEnd([
+        'QueryClient',
+        'arrayInQuery',
+        ...params
+      ]);
+  }
+}
+function __arrayInQuery(context: QueryFunctionContext) {
+  return Client.arrayInQuery(
+      context.queryKey[2] as string[] | null | undefined    );
+}
+
+export function useArrayInQueryQuery<TSelectData = string[], TError = unknown>(dto: ArrayInQueryQueryQueryParameters, options?: UseQueryOptions<string[], TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+
+export function useArrayInQueryQuery<TSelectData = string[], TError = unknown>(data?: string[] | null | undefined, options?: UseQueryOptions<string[], TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useArrayInQueryQuery<TSelectData = string[], TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+  let options: UseQueryOptions<string[], TError, TSelectData> | undefined = undefined;
+  let axiosConfig: AxiosRequestConfig |undefined;
+  let data: any = undefined;
+  
+  if (params.length > 0) {
+    if (isParameterObject(params[0])) {
+      ({ data,  } = params[0] as ArrayInQueryQueryQueryParameters);
+      options = params[1];
+      axiosConfig = params[2];
+    } else {
+      [data, options, axiosConfig] = params;
+    }
+  }
+
+  const metaContext = useContext(QueryMetaContext);
+  options = addMetaToOptions(options, metaContext);
+  if (axiosConfig) {
+    options = options ?? { } as any;
+    options!.meta = { ...options!.meta, axiosConfig };
+  }
+
+  return useQuery<string[], TError, TSelectData>({
+    queryFn: __arrayInQuery,
+    queryKey: arrayInQueryQueryKey(data),
+    ...arrayInQueryDefaultOptions as unknown as UseQueryOptions<string[], TError, TSelectData>,
+    ...options,
+  });
+}
+
+export function setArrayInQueryData(queryClient: QueryClient, updater: (data: string[] | undefined) => string[], data?: string[] | null | undefined) {
+  queryClient.setQueryData(arrayInQueryQueryKey(data),
+    updater
+  );
+}
+
+export function setArrayInQueryDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: string[] | undefined) => string[]) {
   queryClient.setQueryData(queryKey, updater);
 }

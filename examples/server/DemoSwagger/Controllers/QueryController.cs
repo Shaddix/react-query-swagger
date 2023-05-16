@@ -15,4 +15,7 @@ public class QueryController
 
     [HttpGet("DateTimeInQuery")]
     public string DateTimeInQuery(DateTime date) => "";
+
+    [HttpGet("ArrayInQuery")]
+    public string[] ArrayInQuery([FromQuery] string[] data) => data;
 }

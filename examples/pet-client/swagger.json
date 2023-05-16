@@ -673,6 +673,43 @@
           }
         }
       }
+    },
+    "/query/ArrayInQuery": {
+      "get": {
+        "tags": ["Query"],
+        "operationId": "Query_ArrayInQuery",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
