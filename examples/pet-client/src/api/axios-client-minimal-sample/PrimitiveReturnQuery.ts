@@ -10,7 +10,7 @@
 import * as Types from '../axios-client-minimal-sample.types';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import type { UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from '@tanstack/react-query';
-import { trimArrayEnd, isParameterObject, getBaseUrl, addMetaToOptions  } from './helpers';
+import { trimArrayEnd, isParameterObject, getBaseUrl, addMetaToOptions } from './helpers';
 import type { QueryMetaContextValue } from 'react-query-swagger';
 import { QueryMetaContext } from 'react-query-swagger';
 import { useContext } from 'react';
@@ -18,7 +18,8 @@ import * as Client from './PrimitiveReturnClient'
 export { Client };
 import type { AxiosRequestConfig } from 'axios';
 
-    
+
+
 export function stringUrl(): string {
   let url_ = getBaseUrl() + "/primitive/String";
   url_ = url_.replace(/[?&]$/, "");
@@ -80,7 +81,6 @@ export function setStringData(queryClient: QueryClient, updater: (data: string |
 export function setStringDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: string | undefined) => string) {
   queryClient.setQueryData(queryKey, updater);
 }
-    
     
 export function numberUrl(): string {
   let url_ = getBaseUrl() + "/primitive/Number";
@@ -144,7 +144,6 @@ export function setNumberDataByQueryId(queryClient: QueryClient, queryKey: Query
   queryClient.setQueryData(queryKey, updater);
 }
     
-    
 export function booleanUrl(): string {
   let url_ = getBaseUrl() + "/primitive/Bool";
   url_ = url_.replace(/[?&]$/, "");
@@ -207,7 +206,6 @@ export function setBooleanDataByQueryId(queryClient: QueryClient, queryKey: Quer
   queryClient.setQueryData(queryKey, updater);
 }
     
-    
 export function dateOnlyUrl(): string {
   let url_ = getBaseUrl() + "/primitive/DateOnly";
   url_ = url_.replace(/[?&]$/, "");
@@ -269,7 +267,6 @@ export function setDateOnlyData(queryClient: QueryClient, updater: (data: Date |
 export function setDateOnlyDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: Date | undefined) => Date) {
   queryClient.setQueryData(queryKey, updater);
 }
-    
     
 export function dateTimeUrl(): string {
   let url_ = getBaseUrl() + "/primitive/DateTime";

@@ -13,21 +13,23 @@ import type { AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 import { throwException, isAxiosError } from '../axios-client-minimal-sample.types';
 import { getAxios, getBaseUrl } from './helpers';
 
-export function jsonInQuery(dto?: Types.DummyDto | null | undefined, config?: AxiosRequestConfig | undefined): Promise<string> {
-    let url_ = getBaseUrl() + "/query/JsonInQuery?";
-    if (dto !== undefined && dto !== null)
-    {
-        const content_ = Types.serializeDummyDto(dto);
-        url_ += "dto=" + encodeURIComponent(content_) + "&";
-    }
+export function idInUrl(id: number, dto: Types.DummyDto, config?: AxiosRequestConfig | undefined): Promise<string> {
+    let url_ = getBaseUrl() + "/post/user/{id}";
+    if (id === undefined || id === null)
+      throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace("{id}", encodeURIComponent("" + id));
       url_ = url_.replace(/[?&]$/, "");
 
+    const content_ = Types.serializeDummyDto(dto);
+
     let options_: AxiosRequestConfig = {
-        ..._requestConfigJsonInQuery,
+        ..._requestConfigIdInUrl,
         ...config,
-        method: "GET",
+        data: content_,
+        method: "POST",
         url: url_,
         headers: {
+            "Content-Type": "application/json",
             "Accept": "application/json"
         }
     };
@@ -39,11 +41,11 @@ export function jsonInQuery(dto?: Types.DummyDto | null | undefined, config?: Ax
             throw _error;
         }
     }).then((_response: AxiosResponse) => {
-        return processJsonInQuery(_response);
+        return processIdInUrl(_response);
     });
 }
 
-function processJsonInQuery(response: AxiosResponse): Promise<string> {
+function processIdInUrl(response: AxiosResponse): Promise<string> {
     const status = response.status;
     let _headers: any = {};
     if (response.headers && typeof response.headers === "object") {
@@ -69,18 +71,14 @@ function processJsonInQuery(response: AxiosResponse): Promise<string> {
     return Promise.resolve<string>(null as any);
 }
 
-export function dateOnlyInQuery(date?: Date | undefined, config?: AxiosRequestConfig | undefined): Promise<string> {
-    let url_ = getBaseUrl() + "/query/DateOnlyInQuery?";
-    if (date === null)
-        throw new Error("The parameter 'date' cannot be null.");
-    else if (date !== undefined)
-        url_ += "date=" + encodeURIComponent(date ? "" + Types.formatDate(date) : "") + "&";
+export function noParameterNoBody(config?: AxiosRequestConfig | undefined): Promise<string> {
+    let url_ = getBaseUrl() + "/post/no-parameter/no-body";
       url_ = url_.replace(/[?&]$/, "");
 
     let options_: AxiosRequestConfig = {
-        ..._requestConfigDateOnlyInQuery,
+        ..._requestConfigNoParameterNoBody,
         ...config,
-        method: "GET",
+        method: "POST",
         url: url_,
         headers: {
             "Accept": "application/json"
@@ -94,11 +92,11 @@ export function dateOnlyInQuery(date?: Date | undefined, config?: AxiosRequestCo
             throw _error;
         }
     }).then((_response: AxiosResponse) => {
-        return processDateOnlyInQuery(_response);
+        return processNoParameterNoBody(_response);
     });
 }
 
-function processDateOnlyInQuery(response: AxiosResponse): Promise<string> {
+function processNoParameterNoBody(response: AxiosResponse): Promise<string> {
     const status = response.status;
     let _headers: any = {};
     if (response.headers && typeof response.headers === "object") {
@@ -124,20 +122,20 @@ function processDateOnlyInQuery(response: AxiosResponse): Promise<string> {
     return Promise.resolve<string>(null as any);
 }
 
-export function dateTimeInQuery(date?: Date | undefined, config?: AxiosRequestConfig | undefined): Promise<string> {
-    let url_ = getBaseUrl() + "/query/DateTimeInQuery?";
-    if (date === null)
-        throw new Error("The parameter 'date' cannot be null.");
-    else if (date !== undefined)
-        url_ += "date=" + encodeURIComponent(date ? "" + date.toISOString() : "") + "&";
+export function simpleBody(body: string, config?: AxiosRequestConfig | undefined): Promise<string> {
+    let url_ = getBaseUrl() + "/post/no-parameter/simple-body";
       url_ = url_.replace(/[?&]$/, "");
 
+    const content_ = JSON.stringify(body);
+
     let options_: AxiosRequestConfig = {
-        ..._requestConfigDateTimeInQuery,
+        ..._requestConfigSimpleBody,
         ...config,
-        method: "GET",
+        data: content_,
+        method: "POST",
         url: url_,
         headers: {
+            "Content-Type": "application/json",
             "Accept": "application/json"
         }
     };
@@ -149,11 +147,11 @@ export function dateTimeInQuery(date?: Date | undefined, config?: AxiosRequestCo
             throw _error;
         }
     }).then((_response: AxiosResponse) => {
-        return processDateTimeInQuery(_response);
+        return processSimpleBody(_response);
     });
 }
 
-function processDateTimeInQuery(response: AxiosResponse): Promise<string> {
+function processSimpleBody(response: AxiosResponse): Promise<string> {
     const status = response.status;
     let _headers: any = {};
     if (response.headers && typeof response.headers === "object") {
@@ -179,16 +177,17 @@ function processDateTimeInQuery(response: AxiosResponse): Promise<string> {
     return Promise.resolve<string>(null as any);
 }
 
-export function arrayInQuery(data?: string[] | null | undefined, config?: AxiosRequestConfig | undefined): Promise<string[]> {
-    let url_ = getBaseUrl() + "/query/ArrayInQuery?";
-    if (data !== undefined && data !== null)
-        data && data.forEach(item => { url_ += "data=" + encodeURIComponent("" + item) + "&"; });
+export function parameterInUrlNoBody(id: string | null, config?: AxiosRequestConfig | undefined): Promise<string> {
+    let url_ = getBaseUrl() + "/post/with-parameter/{id}/no-body";
+    if (id === undefined || id === null)
+      throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace("{id}", encodeURIComponent("" + id));
       url_ = url_.replace(/[?&]$/, "");
 
     let options_: AxiosRequestConfig = {
-        ..._requestConfigArrayInQuery,
+        ..._requestConfigParameterInUrlNoBody,
         ...config,
-        method: "GET",
+        method: "POST",
         url: url_,
         headers: {
             "Accept": "application/json"
@@ -202,11 +201,11 @@ export function arrayInQuery(data?: string[] | null | undefined, config?: AxiosR
             throw _error;
         }
     }).then((_response: AxiosResponse) => {
-        return processArrayInQuery(_response);
+        return processParameterInUrlNoBody(_response);
     });
 }
 
-function processArrayInQuery(response: AxiosResponse): Promise<string[]> {
+function processParameterInUrlNoBody(response: AxiosResponse): Promise<string> {
     const status = response.status;
     let _headers: any = {};
     if (response.headers && typeof response.headers === "object") {
@@ -220,28 +219,35 @@ function processArrayInQuery(response: AxiosResponse): Promise<string[]> {
         const _responseText = response.data;
         let result200: any = null;
         let resultData200  = _responseText;
+    
         result200 = resultData200;
-        return Promise.resolve<string[]>(result200);
+    
+        return Promise.resolve<string>(result200);
 
     } else if (status !== 200 && status !== 204) {
         const _responseText = response.data;
         return throwException("An unexpected server error occurred.", status, _responseText, _headers);
     }
-    return Promise.resolve<string[]>(null as any);
+    return Promise.resolve<string>(null as any);
 }
 
-export function dictionaryInQuery(data?: { [key: string]: string; } | null | undefined, config?: AxiosRequestConfig | undefined): Promise<{ [key: string]: string; }> {
-    let url_ = getBaseUrl() + "/query/DictionaryInQuery?";
-    if (data !== undefined && data !== null)
-        data && Object.keys(data).forEach(key => { url_ += encodeURIComponent(key) +"=" + encodeURIComponent("" + data[key]) + "&"; });
+export function simpleBodyWithParameter(id: number, body: string, config?: AxiosRequestConfig | undefined): Promise<string> {
+    let url_ = getBaseUrl() + "/post/with-parameter/{id}/simple-body";
+    if (id === undefined || id === null)
+      throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace("{id}", encodeURIComponent("" + id));
       url_ = url_.replace(/[?&]$/, "");
 
+    const content_ = JSON.stringify(body);
+
     let options_: AxiosRequestConfig = {
-        ..._requestConfigDictionaryInQuery,
+        ..._requestConfigSimpleBodyWithParameter,
         ...config,
-        method: "GET",
+        data: content_,
+        method: "POST",
         url: url_,
         headers: {
+            "Content-Type": "application/json",
             "Accept": "application/json"
         }
     };
@@ -253,11 +259,11 @@ export function dictionaryInQuery(data?: { [key: string]: string; } | null | und
             throw _error;
         }
     }).then((_response: AxiosResponse) => {
-        return processDictionaryInQuery(_response);
+        return processSimpleBodyWithParameter(_response);
     });
 }
 
-function processDictionaryInQuery(response: AxiosResponse): Promise<{ [key: string]: string; }> {
+function processSimpleBodyWithParameter(response: AxiosResponse): Promise<string> {
     const status = response.status;
     let _headers: any = {};
     if (response.headers && typeof response.headers === "object") {
@@ -271,31 +277,35 @@ function processDictionaryInQuery(response: AxiosResponse): Promise<{ [key: stri
         const _responseText = response.data;
         let result200: any = null;
         let resultData200  = _responseText;
+    
         result200 = resultData200;
-        return Promise.resolve<{ [key: string]: string; }>(result200);
+    
+        return Promise.resolve<string>(result200);
 
     } else if (status !== 200 && status !== 204) {
         const _responseText = response.data;
         return throwException("An unexpected server error occurred.", status, _responseText, _headers);
     }
-    return Promise.resolve<{ [key: string]: string; }>(null as any);
+    return Promise.resolve<string>(null as any);
 }
 
-export function dictionaryInJsonQuery(data?: { [key: string]: string; } | null | undefined, config?: AxiosRequestConfig | undefined): Promise<{ [key: string]: string; }> {
-    let url_ = getBaseUrl() + "/query/DictionaryInJsonQuery?";
-    if (data !== undefined && data !== null)
-    {
-        const content_ = JSON.stringify(data);
-        url_ += "data=" + encodeURIComponent(content_) + "&";
-    }
+export function simpleArrayBodyWithParameter(id: number, body: string[], config?: AxiosRequestConfig | undefined): Promise<string> {
+    let url_ = getBaseUrl() + "/post/with-parameter/{id}/simple-array-body";
+    if (id === undefined || id === null)
+      throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace("{id}", encodeURIComponent("" + id));
       url_ = url_.replace(/[?&]$/, "");
 
+    const content_ = JSON.stringify(body);
+
     let options_: AxiosRequestConfig = {
-        ..._requestConfigDictionaryInJsonQuery,
+        ..._requestConfigSimpleArrayBodyWithParameter,
         ...config,
-        method: "GET",
+        data: content_,
+        method: "POST",
         url: url_,
         headers: {
+            "Content-Type": "application/json",
             "Accept": "application/json"
         }
     };
@@ -307,11 +317,11 @@ export function dictionaryInJsonQuery(data?: { [key: string]: string; } | null |
             throw _error;
         }
     }).then((_response: AxiosResponse) => {
-        return processDictionaryInJsonQuery(_response);
+        return processSimpleArrayBodyWithParameter(_response);
     });
 }
 
-function processDictionaryInJsonQuery(response: AxiosResponse): Promise<{ [key: string]: string; }> {
+function processSimpleArrayBodyWithParameter(response: AxiosResponse): Promise<string> {
     const status = response.status;
     let _headers: any = {};
     if (response.headers && typeof response.headers === "object") {
@@ -325,77 +335,79 @@ function processDictionaryInJsonQuery(response: AxiosResponse): Promise<{ [key: 
         const _responseText = response.data;
         let result200: any = null;
         let resultData200  = _responseText;
+    
         result200 = resultData200;
-        return Promise.resolve<{ [key: string]: string; }>(result200);
+    
+        return Promise.resolve<string>(result200);
 
     } else if (status !== 200 && status !== 204) {
         const _responseText = response.data;
         return throwException("An unexpected server error occurred.", status, _responseText, _headers);
     }
-    return Promise.resolve<{ [key: string]: string; }>(null as any);
+    return Promise.resolve<string>(null as any);
 }
-let _requestConfigJsonInQuery: Partial<AxiosRequestConfig> | null;
-export function getJsonInQueryRequestConfig() {
-  return _requestConfigJsonInQuery;
+let _requestConfigIdInUrl: Partial<AxiosRequestConfig> | null;
+export function getIdInUrlRequestConfig() {
+  return _requestConfigIdInUrl;
 }
-export function setJsonInQueryRequestConfig(value: Partial<AxiosRequestConfig>) {
-  _requestConfigJsonInQuery = value;
+export function setIdInUrlRequestConfig(value: Partial<AxiosRequestConfig>) {
+  _requestConfigIdInUrl = value;
 }
-export function patchJsonInQueryRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
-  _requestConfigJsonInQuery = patch(_requestConfigJsonInQuery ?? {});
-}
-
-let _requestConfigDateOnlyInQuery: Partial<AxiosRequestConfig> | null;
-export function getDateOnlyInQueryRequestConfig() {
-  return _requestConfigDateOnlyInQuery;
-}
-export function setDateOnlyInQueryRequestConfig(value: Partial<AxiosRequestConfig>) {
-  _requestConfigDateOnlyInQuery = value;
-}
-export function patchDateOnlyInQueryRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
-  _requestConfigDateOnlyInQuery = patch(_requestConfigDateOnlyInQuery ?? {});
+export function patchIdInUrlRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigIdInUrl = patch(_requestConfigIdInUrl ?? {});
 }
 
-let _requestConfigDateTimeInQuery: Partial<AxiosRequestConfig> | null;
-export function getDateTimeInQueryRequestConfig() {
-  return _requestConfigDateTimeInQuery;
+let _requestConfigNoParameterNoBody: Partial<AxiosRequestConfig> | null;
+export function getNoParameterNoBodyRequestConfig() {
+  return _requestConfigNoParameterNoBody;
 }
-export function setDateTimeInQueryRequestConfig(value: Partial<AxiosRequestConfig>) {
-  _requestConfigDateTimeInQuery = value;
+export function setNoParameterNoBodyRequestConfig(value: Partial<AxiosRequestConfig>) {
+  _requestConfigNoParameterNoBody = value;
 }
-export function patchDateTimeInQueryRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
-  _requestConfigDateTimeInQuery = patch(_requestConfigDateTimeInQuery ?? {});
-}
-
-let _requestConfigArrayInQuery: Partial<AxiosRequestConfig> | null;
-export function getArrayInQueryRequestConfig() {
-  return _requestConfigArrayInQuery;
-}
-export function setArrayInQueryRequestConfig(value: Partial<AxiosRequestConfig>) {
-  _requestConfigArrayInQuery = value;
-}
-export function patchArrayInQueryRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
-  _requestConfigArrayInQuery = patch(_requestConfigArrayInQuery ?? {});
+export function patchNoParameterNoBodyRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigNoParameterNoBody = patch(_requestConfigNoParameterNoBody ?? {});
 }
 
-let _requestConfigDictionaryInQuery: Partial<AxiosRequestConfig> | null;
-export function getDictionaryInQueryRequestConfig() {
-  return _requestConfigDictionaryInQuery;
+let _requestConfigSimpleBody: Partial<AxiosRequestConfig> | null;
+export function getSimpleBodyRequestConfig() {
+  return _requestConfigSimpleBody;
 }
-export function setDictionaryInQueryRequestConfig(value: Partial<AxiosRequestConfig>) {
-  _requestConfigDictionaryInQuery = value;
+export function setSimpleBodyRequestConfig(value: Partial<AxiosRequestConfig>) {
+  _requestConfigSimpleBody = value;
 }
-export function patchDictionaryInQueryRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
-  _requestConfigDictionaryInQuery = patch(_requestConfigDictionaryInQuery ?? {});
+export function patchSimpleBodyRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigSimpleBody = patch(_requestConfigSimpleBody ?? {});
 }
 
-let _requestConfigDictionaryInJsonQuery: Partial<AxiosRequestConfig> | null;
-export function getDictionaryInJsonQueryRequestConfig() {
-  return _requestConfigDictionaryInJsonQuery;
+let _requestConfigParameterInUrlNoBody: Partial<AxiosRequestConfig> | null;
+export function getParameterInUrlNoBodyRequestConfig() {
+  return _requestConfigParameterInUrlNoBody;
 }
-export function setDictionaryInJsonQueryRequestConfig(value: Partial<AxiosRequestConfig>) {
-  _requestConfigDictionaryInJsonQuery = value;
+export function setParameterInUrlNoBodyRequestConfig(value: Partial<AxiosRequestConfig>) {
+  _requestConfigParameterInUrlNoBody = value;
 }
-export function patchDictionaryInJsonQueryRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
-  _requestConfigDictionaryInJsonQuery = patch(_requestConfigDictionaryInJsonQuery ?? {});
+export function patchParameterInUrlNoBodyRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigParameterInUrlNoBody = patch(_requestConfigParameterInUrlNoBody ?? {});
+}
+
+let _requestConfigSimpleBodyWithParameter: Partial<AxiosRequestConfig> | null;
+export function getSimpleBodyWithParameterRequestConfig() {
+  return _requestConfigSimpleBodyWithParameter;
+}
+export function setSimpleBodyWithParameterRequestConfig(value: Partial<AxiosRequestConfig>) {
+  _requestConfigSimpleBodyWithParameter = value;
+}
+export function patchSimpleBodyWithParameterRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigSimpleBodyWithParameter = patch(_requestConfigSimpleBodyWithParameter ?? {});
+}
+
+let _requestConfigSimpleArrayBodyWithParameter: Partial<AxiosRequestConfig> | null;
+export function getSimpleArrayBodyWithParameterRequestConfig() {
+  return _requestConfigSimpleArrayBodyWithParameter;
+}
+export function setSimpleArrayBodyWithParameterRequestConfig(value: Partial<AxiosRequestConfig>) {
+  _requestConfigSimpleArrayBodyWithParameter = value;
+}
+export function patchSimpleArrayBodyWithParameterRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigSimpleArrayBodyWithParameter = patch(_requestConfigSimpleArrayBodyWithParameter ?? {});
 }

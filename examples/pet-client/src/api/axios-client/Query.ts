@@ -10,7 +10,7 @@
 import * as Types from '../axios-client';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import type { UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from '@tanstack/react-query';
-import { trimArrayEnd, isParameterObject, getBaseUrl, addMetaToOptions  } from './helpers';
+import { trimArrayEnd, isParameterObject, getBaseUrl, addMetaToOptions } from './helpers';
 import type { QueryMetaContextValue } from 'react-query-swagger';
 import { QueryMetaContext } from 'react-query-swagger';
 import { useContext } from 'react';
@@ -18,42 +18,71 @@ import * as Client from './Client'
 export { Client };
 import type { AxiosRequestConfig } from 'axios';
 
+export type UploadFileQueryParameters = {
+  petId: number;
+  additionalMetadata?: string | null | null;
+  file?: Types.FileParameter | null | null;
+}
+
 export type UploadFileMutationParameters = {
   additionalMetadata?: string | null | undefined ; 
   file?: Types.FileParameter | null | undefined ; 
-};
+}
 
 export type FindPetsByStatusQueryParameters = {
   status: Types.Status[];
-};
+}
 
 export type FindPetsByTagsQueryParameters = {
   tags: string[];
-};
+}
 
 export type GetPetByIdQueryParameters = {
   petId: number;
-};
+}
+
+export type UpdatePetWithFormQueryParameters = {
+  petId: number;
+  name?: string | null | null;
+  status?: string | null | null;
+}
 
 export type UpdatePetWithFormMutationParameters = {
   name?: string | null | undefined ; 
   status?: string | null | undefined ; 
-};
+}
+
+export type DeletePetQueryParameters = {
+  petId: number;
+  api_key?: string | null | null;
+}
 
 export type GetOrderByIdQueryParameters = {
   orderId: number;
-};
+}
+
+export type DeleteOrderQueryParameters = {
+  orderId: number;
+}
+
 
 export type GetUserByNameQueryParameters = {
   username: string;
-};
+}
+
+export type UpdateUserQueryParameters = {
+  username: string;
+}
+
+export type DeleteUserQueryParameters = {
+  username: string;
+}
 
 export type LoginUserQueryParameters = {
   username: string;
   password: string;
-};
+}
 
-    
 export function uploadFileUrl(petId: number): string {
   let url_ = getBaseUrl() + "/pet/{petId}/uploadImage";
 if (petId === undefined || petId === null)
@@ -84,10 +113,9 @@ export function useUploadFileMutation<TContext>(petId: number, options?: Omit<Us
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-      return useMutation((uploadFileMutationParameters: UploadFileMutationParameters) => Client.uploadFile(petId, uploadFileMutationParameters.additionalMetadata, uploadFileMutationParameters.file), {...options, mutationKey: key});
+  return useMutation((uploadFileMutationParameters: UploadFileMutationParameters) => Client.uploadFile(petId, uploadFileMutationParameters.additionalMetadata, uploadFileMutationParameters.file), {...options, mutationKey: key});
 }
   
-    
 export function addPetUrl(): string {
   let url_ = getBaseUrl() + "/pet";
   url_ = url_.replace(/[?&]$/, "");
@@ -111,10 +139,9 @@ export function useAddPetMutation<TContext>(options?: Omit<UseMutationOptions<vo
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-      return useMutation((body: Types.Pet) => Client.addPet(body), {...options, mutationKey: key});
+  return useMutation((body: Types.Pet) => Client.addPet(body), {...options, mutationKey: key});
 }
   
-    
 export function updatePetUrl(): string {
   let url_ = getBaseUrl() + "/pet";
   url_ = url_.replace(/[?&]$/, "");
@@ -138,10 +165,9 @@ export function useUpdatePetMutation<TContext>(options?: Omit<UseMutationOptions
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-      return useMutation((body: Types.Pet) => Client.updatePet(body), {...options, mutationKey: key});
+  return useMutation((body: Types.Pet) => Client.updatePet(body), {...options, mutationKey: key});
 }
   
-    
 export function findPetsByStatusUrl(status: Types.Status[]): string {
   let url_ = getBaseUrl() + "/pet/findByStatus?";
   if (status === undefined || status === null)
@@ -240,7 +266,6 @@ export function setFindPetsByStatusData(queryClient: QueryClient, updater: (data
 export function setFindPetsByStatusDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: Types.Pet[] | undefined) => Types.Pet[]) {
   queryClient.setQueryData(queryKey, updater);
 }
-    
     
 export function findPetsByTagsUrl(tags: string[]): string {
   let url_ = getBaseUrl() + "/pet/findByTags?";
@@ -344,7 +369,6 @@ export function setFindPetsByTagsDataByQueryId(queryClient: QueryClient, queryKe
   queryClient.setQueryData(queryKey, updater);
 }
     
-    
 export function getPetByIdUrl(petId: number): string {
   let url_ = getBaseUrl() + "/pet/{petId}";
 if (petId === undefined || petId === null)
@@ -443,7 +467,6 @@ export function setGetPetByIdDataByQueryId(queryClient: QueryClient, queryKey: Q
   queryClient.setQueryData(queryKey, updater);
 }
     
-    
 export function updatePetWithFormUrl(petId: number): string {
   let url_ = getBaseUrl() + "/pet/{petId}";
 if (petId === undefined || petId === null)
@@ -473,10 +496,9 @@ export function useUpdatePetWithFormMutation<TContext>(petId: number, options?: 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-      return useMutation((updatePetWithFormMutationParameters: UpdatePetWithFormMutationParameters) => Client.updatePetWithForm(petId, updatePetWithFormMutationParameters.name, updatePetWithFormMutationParameters.status), {...options, mutationKey: key});
+  return useMutation((updatePetWithFormMutationParameters: UpdatePetWithFormMutationParameters) => Client.updatePetWithForm(petId, updatePetWithFormMutationParameters.name, updatePetWithFormMutationParameters.status), {...options, mutationKey: key});
 }
   
-    
 export function deletePetUrl(petId: number, api_key?: string | null | undefined): string {
   let url_ = getBaseUrl() + "/pet/{petId}";
 if (petId === undefined || petId === null)
@@ -506,10 +528,9 @@ export function useDeletePetMutation<TContext>(petId: number, api_key?: string |
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-      return useMutation(() => Client.deletePet(petId, api_key), {...options, mutationKey: key});
+  return useMutation(() => Client.deletePet(petId, api_key), {...options, mutationKey: key});
 }
   
-    
 export function placeOrderUrl(): string {
   let url_ = getBaseUrl() + "/store/order";
   url_ = url_.replace(/[?&]$/, "");
@@ -534,10 +555,9 @@ export function usePlaceOrderMutation<TContext>(options?: Omit<UseMutationOption
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-      return useMutation((body: Types.Order) => Client.placeOrder(body), {...options, mutationKey: key});
+  return useMutation((body: Types.Order) => Client.placeOrder(body), {...options, mutationKey: key});
 }
   
-    
 export function getOrderByIdUrl(orderId: number): string {
   let url_ = getBaseUrl() + "/store/order/{orderId}";
 if (orderId === undefined || orderId === null)
@@ -636,7 +656,6 @@ export function setGetOrderByIdDataByQueryId(queryClient: QueryClient, queryKey:
   queryClient.setQueryData(queryKey, updater);
 }
     
-    
 export function deleteOrderUrl(orderId: number): string {
   let url_ = getBaseUrl() + "/store/order/{orderId}";
 if (orderId === undefined || orderId === null)
@@ -664,10 +683,9 @@ export function useDeleteOrderMutation<TContext>(orderId: number, options?: Omit
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-      return useMutation(() => Client.deleteOrder(orderId), {...options, mutationKey: key});
+  return useMutation(() => Client.deleteOrder(orderId), {...options, mutationKey: key});
 }
   
-    
 export function getInventoryUrl(): string {
   let url_ = getBaseUrl() + "/store/inventory";
   url_ = url_.replace(/[?&]$/, "");
@@ -741,7 +759,6 @@ export function setGetInventoryDataByQueryId(queryClient: QueryClient, queryKey:
   queryClient.setQueryData(queryKey, updater);
 }
     
-    
 export function createUsersWithArrayInputUrl(): string {
   let url_ = getBaseUrl() + "/user/createWithArray";
   url_ = url_.replace(/[?&]$/, "");
@@ -766,10 +783,9 @@ export function useCreateUsersWithArrayInputMutation<TContext>(options?: Omit<Us
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-      return useMutation((body: Types.User[]) => Client.createUsersWithArrayInput(body), {...options, mutationKey: key});
+  return useMutation((body: Types.User[]) => Client.createUsersWithArrayInput(body), {...options, mutationKey: key});
 }
   
-    
 export function createUsersWithListInputUrl(): string {
   let url_ = getBaseUrl() + "/user/createWithList";
   url_ = url_.replace(/[?&]$/, "");
@@ -794,10 +810,9 @@ export function useCreateUsersWithListInputMutation<TContext>(options?: Omit<Use
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-      return useMutation((body: Types.User[]) => Client.createUsersWithListInput(body), {...options, mutationKey: key});
+  return useMutation((body: Types.User[]) => Client.createUsersWithListInput(body), {...options, mutationKey: key});
 }
   
-    
 export function getUserByNameUrl(username: string): string {
   let url_ = getBaseUrl() + "/user/{username}";
 if (username === undefined || username === null)
@@ -896,7 +911,6 @@ export function setGetUserByNameDataByQueryId(queryClient: QueryClient, queryKey
   queryClient.setQueryData(queryKey, updater);
 }
     
-    
 export function updateUserUrl(username: string): string {
   let url_ = getBaseUrl() + "/user/{username}";
 if (username === undefined || username === null)
@@ -925,10 +939,9 @@ export function useUpdateUserMutation<TContext>(username: string, options?: Omit
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-      return useMutation((body: Types.User) => Client.updateUser(username, body), {...options, mutationKey: key});
+  return useMutation((body: Types.User) => Client.updateUser(username, body), {...options, mutationKey: key});
 }
   
-    
 export function deleteUserUrl(username: string): string {
   let url_ = getBaseUrl() + "/user/{username}";
 if (username === undefined || username === null)
@@ -956,10 +969,9 @@ export function useDeleteUserMutation<TContext>(username: string, options?: Omit
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-      return useMutation(() => Client.deleteUser(username), {...options, mutationKey: key});
+  return useMutation(() => Client.deleteUser(username), {...options, mutationKey: key});
 }
   
-    
 export function loginUserUrl(username: string, password: string): string {
   let url_ = getBaseUrl() + "/user/login?";
   if (username === undefined || username === null)
@@ -1069,7 +1081,6 @@ export function setLoginUserDataByQueryId(queryClient: QueryClient, queryKey: Qu
   queryClient.setQueryData(queryKey, updater);
 }
     
-    
 export function logoutUserUrl(): string {
   let url_ = getBaseUrl() + "/user/logout";
   url_ = url_.replace(/[?&]$/, "");
@@ -1143,7 +1154,6 @@ export function setLogoutUserDataByQueryId(queryClient: QueryClient, queryKey: Q
   queryClient.setQueryData(queryKey, updater);
 }
     
-    
 export function createUserUrl(): string {
   let url_ = getBaseUrl() + "/user";
   url_ = url_.replace(/[?&]$/, "");
@@ -1168,5 +1178,5 @@ export function useCreateUserMutation<TContext>(options?: Omit<UseMutationOption
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-      return useMutation((body: Types.User) => Client.createUser(body), {...options, mutationKey: key});
+  return useMutation((body: Types.User) => Client.createUser(body), {...options, mutationKey: key});
 }

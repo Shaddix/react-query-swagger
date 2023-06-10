@@ -10,7 +10,7 @@
 import * as Types from '../axios-client-minimal-sample.types';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import type { UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from '@tanstack/react-query';
-import { trimArrayEnd, isParameterObject, getBaseUrl, addMetaToOptions  } from './helpers';
+import { trimArrayEnd, isParameterObject, getBaseUrl, addMetaToOptions } from './helpers';
 import type { QueryMetaContextValue } from 'react-query-swagger';
 import { QueryMetaContext } from 'react-query-swagger';
 import { useContext } from 'react';
@@ -18,7 +18,8 @@ import * as Client from './DictionaryReturnClient'
 export { Client };
 import type { AxiosRequestConfig } from 'axios';
 
-    
+
+
 export function stringUrl(): string {
   let url_ = getBaseUrl() + "/dictionary/String";
   url_ = url_.replace(/[?&]$/, "");
@@ -80,7 +81,6 @@ export function setStringData(queryClient: QueryClient, updater: (data: { [key: 
 export function setStringDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: { [key: string]: string; } | undefined) => { [key: string]: string; }) {
   queryClient.setQueryData(queryKey, updater);
 }
-    
     
 export function numberUrl(): string {
   let url_ = getBaseUrl() + "/dictionary/Number";
@@ -144,7 +144,6 @@ export function setNumberDataByQueryId(queryClient: QueryClient, queryKey: Query
   queryClient.setQueryData(queryKey, updater);
 }
     
-    
 export function booleanUrl(): string {
   let url_ = getBaseUrl() + "/dictionary/Bool";
   url_ = url_.replace(/[?&]$/, "");
@@ -206,7 +205,6 @@ export function setBooleanData(queryClient: QueryClient, updater: (data: { [key:
 export function setBooleanDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: { [key: string]: boolean; } | undefined) => { [key: string]: boolean; }) {
   queryClient.setQueryData(queryKey, updater);
 }
-    
     
 export function dateOnlyUrl(): string {
   let url_ = getBaseUrl() + "/dictionary/DateOnly";
@@ -270,7 +268,6 @@ export function setDateOnlyDataByQueryId(queryClient: QueryClient, queryKey: Que
   queryClient.setQueryData(queryKey, updater);
 }
     
-    
 export function dateTimeUrl(): string {
   let url_ = getBaseUrl() + "/dictionary/DateTime";
   url_ = url_.replace(/[?&]$/, "");
@@ -332,7 +329,6 @@ export function setDateTimeData(queryClient: QueryClient, updater: (data: { [key
 export function setDateTimeDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: { [key: string]: Date; } | undefined) => { [key: string]: Date; }) {
   queryClient.setQueryData(queryKey, updater);
 }
-    
     
 export function dummyDtoUrl(): string {
   let url_ = getBaseUrl() + "/dictionary/Dummy";

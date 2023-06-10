@@ -416,6 +416,213 @@
         }
       }
     },
+    "/post/user/{id}": {
+      "post": {
+        "tags": ["Post"],
+        "operationId": "Post_IdInUrl",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DummyDto"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/no-parameter/no-body": {
+      "post": {
+        "tags": ["Post"],
+        "operationId": "Post_NoParameterNoBody",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/no-parameter/simple-body": {
+      "post": {
+        "tags": ["Post"],
+        "operationId": "Post_SimpleBody",
+        "requestBody": {
+          "x-name": "body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/with-parameter/{id}/no-body": {
+      "post": {
+        "tags": ["Post"],
+        "operationId": "Post_ParameterInUrlNoBody",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/with-parameter/{id}/simple-body": {
+      "post": {
+        "tags": ["Post"],
+        "operationId": "Post_SimpleBodyWithParameter",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/with-parameter/{id}/simple-array-body": {
+      "post": {
+        "tags": ["Post"],
+        "operationId": "Post_SimpleArrayBodyWithParameter",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/primitive/String": {
       "get": {
         "tags": ["PrimitiveReturn"],
@@ -612,68 +819,6 @@
         }
       }
     },
-    "/api/v1/Answers": {
-      "get": {
-        "tags": ["Answers"],
-        "operationId": "Answers_GetAnswers",
-        "parameters": [
-          {
-            "name": "Tags",
-            "in": "query",
-            "x-position": 7,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v2/Answers": {
-      "get": {
-        "tags": ["Answersv2"],
-        "operationId": "Answers_GetAnswersv2",
-        "parameters": [
-          {
-            "name": "Tags",
-            "in": "query",
-            "x-position": 7,
-            "schema": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "string"
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      }
-    },
     "/query/ArrayInQuery": {
       "get": {
         "tags": ["Query"],
@@ -702,6 +847,87 @@
                 "schema": {
                   "type": "array",
                   "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/query/DictionaryInQuery": {
+      "get": {
+        "tags": ["Query"],
+        "operationId": "Query_DictionaryInQuery",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "query",
+            "schema": {
+              "type": "object",
+              "nullable": true,
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/query/DictionaryInJsonQuery": {
+      "get": {
+        "tags": ["Query"],
+        "operationId": "Query_DictionaryInJsonQuery",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "query",
+            "x-position": 1,
+            "additionalItems": {
+              "type": "object",
+              "nullable": true,
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "nullable": true,
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
                     "type": "string"
                   }
                 }

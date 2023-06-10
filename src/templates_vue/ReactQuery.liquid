@@ -1,6 +1,6 @@
 {% template ClientFileHeader %}
 {% template ReactQuery.Imports %}
-import { trimArrayEnd, isParameterObject, getBaseUrl, addMetaToOptions  } from './helpers';
+import { trimArrayEnd, isParameterObject, getBaseUrl, addMetaToOptions } from './helpers';
 {% template ReactQuery.MetaFile %}
 {% template ReactQuery.GetClientFunction %}
 {%- if Framework.IsAxios -%}
@@ -12,17 +12,18 @@ import type { AxiosRequestConfig } from 'axios';
 {%- assign MutationClassName = Class | prepend: 'Qqqqqq' | slice: 0, Class.size | append: "Mutation" | slice: 6, 1000 -%}
 
 {%- for operation in Operations -%}
-{%- if operation.HttpMethodUpper == 'Get' -%}
-{%- if operation.Parameters.size > 0 -%}
-{%- assign firstLetter = operation.ActualOperationName | slice: 0, 1 | upcase -%}
-{%- assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: QueryClassName | append: 'Parameters' -%}
+{%-   assign NonBodyParameters = operation.PathParameters | concat: operation.QueryParameters | concat: operation.HeaderParameters %}
+{%-   if NonBodyParameters.size > 0 -%}
+{%-     assign firstLetter = operation.ActualOperationName | slice: 0, 1 | upcase -%}
+{%-     assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: QueryClassName | append: 'Parameters' -%}
 export type {{ parameterClassName }} = {
-  {%- for parameter in operation.Parameters -%}
+  {%-   for parameter in operation.Parameters -%}
+  {%-       unless parameter.IsBody -%}
   {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: Types.{{ parameter.Type }}{{ parameter.TypePostfix }} | Ref<Types.{{ parameter.Type }}{{ parameter.TypePostfix }}>;
-  {%- endfor -%}
-};
+  {%-       endunless -%}
+  {%-   endfor -%}
+}
 
-{%- endif -%}
 {%- endif -%}
 {%- if operation.HttpMethodUpper <> 'Get' -%}
 {%- if operation.FormParameters.size > 0 -%}
@@ -32,16 +33,17 @@ export type {{ parameterClassName }} = {
   {%- for parameter in operation.FormParameters -%}
   {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: Types.{{ parameter.Type }}{{ parameter.TypePostfix }} ; {% comment %}space before the ';' is important, so that 'undefined' here is not replaced with null{% endcomment %}
   {%- endfor -%}
-};
+}
 
 {%- endif -%}
 {%- endif -%}
 {%- endfor -%}
-
 {%- for operation in Operations -%}
-{% assign ResultType = operation.ResultType | prepend: 'Types.' %}
-{%- assign firstLetter = operation.ActualOperationName | slice: 0, 1 | upcase -%}
-    {% assign NonBodyParameters = operation.PathParameters | concat: operation.QueryParameters | concat: operation.HeaderParameters %}
+{%-   assign firstLetter = operation.ActualOperationName | slice: 0, 1 | upcase -%}
+{%-   assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: QueryClassName | append: 'Parameters' -%}
+{%-   assign ResultType = operation.ResultType | prepend: 'Types.' -%}
+{%-   assign firstLetter = operation.ActualOperationName | slice: 0, 1 | upcase -%}
+{%-   assign NonBodyParameters = operation.PathParameters | concat: operation.QueryParameters | concat: operation.HeaderParameters %}
 export function {{ operation.ActualOperationName }}Url({% for parameter in NonBodyParameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type | prepend: 'Types.' }}{{ parameter.TypePostfix }}{% unless forloop.last %}, {% endunless -%}{% endfor %}): string {
   {% template Client.RequestUrl %}
   return url_;
@@ -74,7 +76,7 @@ export function {{ operation.MethodAccessModifier }}use{{ operation.ActualOperat
   options = addMetaToOptions(options, metaContext);
   
   {%- if operation.FormParameters.size > 0 -%}
-      return useMutation(({{TVariableName}}: {{TVariableType}}) => {% template ReactQuery.GetClientCall %}.{% template OperationNameSafe %}({%- for parameter in operation.Parameters -%}
+  return useMutation(({{TVariableName}}: {{TVariableType}}) => {% template ReactQuery.GetClientCall %}.{% template OperationNameSafe %}({%- for parameter in operation.Parameters -%}
       {%- assign isForm = false -%}
       {%- for formParameter in operation.FormParameters -%}
         {%- if parameter.Name == formParameter.Name -%}
@@ -83,7 +85,7 @@ export function {{ operation.MethodAccessModifier }}use{{ operation.ActualOperat
       {%- endfor -%}
       {%- if isForm %}{{TVariableName}}.{{parameter.VariableName}}{% else %}{{ parameter.VariableName }}{% endif %}{% unless forloop.last %}, {% endunless -%}{% endfor -%}), {...options, mutationKey: key});
   {%- else -%}
-      return useMutation(({% if operation.HasBody %}{{TVariableName}}: {{TVariableType}}{% endif %}) => {% template ReactQuery.GetClientCall %}.{% template OperationNameSafe %}({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% unless forloop.last %}, {% endunless -%}{% endfor -%}), {...options, mutationKey: key});
+  return useMutation(({% if operation.HasBody %}{{TVariableName}}: {{TVariableType}}{% endif %}) => {% template ReactQuery.GetClientCall %}.{% template OperationNameSafe %}({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% unless forloop.last %}, {% endunless -%}{% endfor -%}), {...options, mutationKey: key});
   {%- endif -%}
 }
 {%- endif -%}

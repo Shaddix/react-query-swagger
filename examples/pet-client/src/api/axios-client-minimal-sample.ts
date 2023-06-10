@@ -32,6 +32,12 @@ export * as DictionaryReturnQuery from './axios-client-minimal-sample/Dictionary
 
 
 
+export * as PostClient from './axios-client-minimal-sample/PostClient';
+
+export * as PostQuery from './axios-client-minimal-sample/PostQuery';
+
+
+
 export * as PrimitiveReturnClient from './axios-client-minimal-sample/PrimitiveReturnClient';
 
 export * as PrimitiveReturnQuery from './axios-client-minimal-sample/PrimitiveReturnQuery';
@@ -41,12 +47,6 @@ export * as PrimitiveReturnQuery from './axios-client-minimal-sample/PrimitiveRe
 export * as QueryClient from './axios-client-minimal-sample/QueryClient';
 
 export * as QueryQuery from './axios-client-minimal-sample/QueryQuery';
-
-
-
-export * as AnswersClient from './axios-client-minimal-sample/AnswersClient';
-
-export * as AnswersQuery from './axios-client-minimal-sample/AnswersQuery';
 
 
 
