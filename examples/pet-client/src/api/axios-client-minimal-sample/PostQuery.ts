@@ -34,6 +34,19 @@ export type SimpleArrayBodyWithParameterPostQueryParameters = {
   id: number;
 }
 
+export type FormParameterPostQueryParameters = {
+  id: number;
+  test?: string | null | null;
+  dateOnly?: Date | null;
+  dateTime?: Date | null;
+}
+
+export type FormParameterPostMutationParameters = {
+  test?: string | null | undefined ; 
+  dateOnly?: Date | undefined ; 
+  dateTime?: Date | undefined ; 
+}
+
 export function idInUrlUrl(id: number): string {
   let url_ = getBaseUrl() + "/post/user/{id}";
 if (id === undefined || id === null)
@@ -180,4 +193,30 @@ export function useSimpleArrayBodyWithParameterMutation<TContext>(id: number, op
   options = addMetaToOptions(options, metaContext);
   
   return useMutation((body: string[]) => Client.simpleArrayBodyWithParameter(id, body), {...options, mutationKey: key});
+}
+  
+export function formParameterUrl(id: number): string {
+  let url_ = getBaseUrl() + "/post/form-parameter/{id}";
+if (id === undefined || id === null)
+  throw new Error("The parameter 'id' must be defined.");
+url_ = url_.replace("{id}", encodeURIComponent("" + id));
+  url_ = url_.replace(/[?&]$/, "");
+  return url_;
+}
+
+export function formParameterMutationKey(id: number): MutationKey {
+  return trimArrayEnd([
+      'PostClient',
+      'formParameter',
+      id as any,
+    ]);
+}
+
+export function useFormParameterMutation<TContext>(id: number, options?: Omit<UseMutationOptions<string, unknown, FormParameterPostMutationParameters, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<string, unknown, FormParameterPostMutationParameters, TContext> {
+  const key = formParameterMutationKey(id);
+  
+  const metaContext = useContext(QueryMetaContext);
+  options = addMetaToOptions(options, metaContext);
+  
+  return useMutation((formParameterPostMutationParameters: FormParameterPostMutationParameters) => Client.formParameter(id, formParameterPostMutationParameters.test, formParameterPostMutationParameters.dateOnly, formParameterPostMutationParameters.dateTime), {...options, mutationKey: key});
 }

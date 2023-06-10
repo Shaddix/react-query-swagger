@@ -623,6 +623,58 @@
         }
       }
     },
+    "/post/form-parameter/{id}": {
+      "post": {
+        "tags": ["Post"],
+        "operationId": "Post_FormParameter",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "Test": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "DateOnly": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "DateTime": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/primitive/String": {
       "get": {
         "tags": ["PrimitiveReturn"],

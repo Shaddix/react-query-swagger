@@ -346,6 +346,73 @@ function processSimpleArrayBodyWithParameter(response: AxiosResponse): Promise<s
     }
     return Promise.resolve<string>(null as any);
 }
+
+export function formParameter(id: number, test?: string | null | undefined, dateOnly?: Date | undefined, dateTime?: Date | undefined, config?: AxiosRequestConfig | undefined): Promise<string> {
+    let url_ = getBaseUrl() + "/post/form-parameter/{id}";
+    if (id === undefined || id === null)
+      throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace("{id}", encodeURIComponent("" + id));
+      url_ = url_.replace(/[?&]$/, "");
+
+    const content_ = new FormData();
+    if (test !== null && test !== undefined)
+        content_.append("Test", test.toString());
+    if (dateOnly === null || dateOnly === undefined)
+        throw new Error("The parameter 'dateOnly' cannot be null.");
+    else
+          content_.append("DateOnly", Types.formatDate(dateOnly));
+    if (dateTime === null || dateTime === undefined)
+        throw new Error("The parameter 'dateTime' cannot be null.");
+    else
+        content_.append("DateTime", dateTime.toJSON());
+
+    let options_: AxiosRequestConfig = {
+        ..._requestConfigFormParameter,
+        ...config,
+        data: content_,
+        method: "POST",
+        url: url_,
+        headers: {
+            "Accept": "application/json"
+        }
+    };
+
+    return getAxios().request(options_).catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+            return _error.response;
+        } else {
+            throw _error;
+        }
+    }).then((_response: AxiosResponse) => {
+        return processFormParameter(_response);
+    });
+}
+
+function processFormParameter(response: AxiosResponse): Promise<string> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && typeof response.headers === "object") {
+        for (let k in response.headers) {
+            if (response.headers.hasOwnProperty(k)) {
+                _headers[k] = response.headers[k];
+            }
+        }
+    }
+    if (status === 200) {
+        const _responseText = response.data;
+        let result200: any = null;
+        let resultData200  = _responseText;
+    
+        result200 = resultData200;
+    
+        return Promise.resolve<string>(result200);
+
+    } else if (status !== 200 && status !== 204) {
+        const _responseText = response.data;
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+    }
+    return Promise.resolve<string>(null as any);
+}
 let _requestConfigIdInUrl: Partial<AxiosRequestConfig> | null;
 export function getIdInUrlRequestConfig() {
   return _requestConfigIdInUrl;
@@ -410,4 +477,15 @@ export function setSimpleArrayBodyWithParameterRequestConfig(value: Partial<Axio
 }
 export function patchSimpleArrayBodyWithParameterRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigSimpleArrayBodyWithParameter = patch(_requestConfigSimpleArrayBodyWithParameter ?? {});
+}
+
+let _requestConfigFormParameter: Partial<AxiosRequestConfig> | null;
+export function getFormParameterRequestConfig() {
+  return _requestConfigFormParameter;
+}
+export function setFormParameterRequestConfig(value: Partial<AxiosRequestConfig>) {
+  _requestConfigFormParameter = value;
+}
+export function patchFormParameterRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigFormParameter = patch(_requestConfigFormParameter ?? {});
 }

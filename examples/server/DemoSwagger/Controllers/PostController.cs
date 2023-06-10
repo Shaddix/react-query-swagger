@@ -23,4 +23,7 @@ public class PostController
 
     [HttpPost("with-parameter/{id}/simple-array-body")]
     public string SimpleArrayBodyWithParameter(int id, [FromBody] string[] body) => "";
+
+    [HttpPost("form-parameter/{id}")]
+    public string FormParameter(int id, [FromForm] DummyDto dto) => "";
 }
