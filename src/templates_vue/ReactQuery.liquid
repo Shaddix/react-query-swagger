@@ -19,7 +19,7 @@ import type { AxiosRequestConfig } from 'axios';
 export type {{ parameterClassName }} = {
   {%-   for parameter in operation.Parameters -%}
   {%-       unless parameter.IsBody -%}
-  {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: Types.{{ parameter.Type }}{{ parameter.TypePostfix }} | Ref<Types.{{ parameter.Type }}{{ parameter.TypePostfix }}>;
+  {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: MaybeRef<Types.{{ parameter.Type }}{{ parameter.TypePostfix }}> ;{% comment %}space before the ';' is important, so that 'undefined' here is not replaced with null{% endcomment %}
   {%-       endunless -%}
   {%-   endfor -%}
 }
@@ -31,7 +31,7 @@ export type {{ parameterClassName }} = {
 {%- assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: MutationClassName | append: 'Parameters' -%}
 export type {{ parameterClassName }} = {
   {%- for parameter in operation.FormParameters -%}
-  {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: Types.{{ parameter.Type }}{{ parameter.TypePostfix }} ; {% comment %}space before the ';' is important, so that 'undefined' here is not replaced with null{% endcomment %}
+  {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: Types.{{ parameter.Type }}{{ parameter.TypePostfix }} ;{% comment %}space before the ';' is important, so that 'undefined' here is not replaced with null{% endcomment %}
   {%- endfor -%}
 }
 
@@ -58,7 +58,7 @@ export function {{ operation.ActualOperationName }}Url({% for parameter in NonBo
       {%- assign TVariableType = operation.ContentParameter.Type | default: 'void' | prepend: 'Types.' -%}
       {%- assign TVariableName = operation.ContentParameter.VariableName -%}
     {%- endif -%}
-export function {{ operation.ActualOperationName }}MutationKey({%- for parameter in NonBodyParameters -%}{%- assign ParameterType = parameter.Type | prepend: 'Types.' -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}{% unless forloop.last %}, {% endunless -%}{%- endfor -%}): MutationKey {
+export function {{ operation.ActualOperationName }}MutationKey({%- for parameter in NonBodyParameters -%}{%- assign ParameterType = parameter.Type | prepend: 'Types.' -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: MaybeRef<{{ ParameterType }}{{ parameter.TypePostfix }}>{% unless forloop.last %}, {% endunless -%}{%- endfor -%}): MutationKey {
   return trimArrayEnd([
       '{{ Class }}',
       '{{ operation.ActualOperationName }}',
@@ -69,7 +69,7 @@ export function {{ operation.ActualOperationName }}MutationKey({%- for parameter
 }
 
 {% template Client.Method.Documentation %}
-export function {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Mutation<TContext>({%- for parameter in NonBodyParameters -%}{%- assign ParameterType = parameter.Type | prepend: 'Types.' -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}, {% endfor -%}options?: Omit<UseMutationOptions<{{ ResultType }}, unknown, {{ TVariableType }}, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<{{ ResultType }}, unknown, {{ TVariableType }}, TContext> {
+export function {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Mutation<TContext>({%- for parameter in NonBodyParameters -%}{%- assign ParameterType = parameter.Type | prepend: 'Types.' -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: MaybeRef<{{ ParameterType }}{{ parameter.TypePostfix }}>, {% endfor -%}options?: Omit<UseMutationOptions<{{ ResultType }}, unknown, {{ TVariableType }}, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<{{ ResultType }}, unknown, {{ TVariableType }}, TContext> {
   const key = {{ operation.ActualOperationName }}MutationKey({%- for parameter in NonBodyParameters -%}{{ parameter.VariableName }}{% unless forloop.last %}, {% endunless -%}{% endfor -%});
   
   const metaContext = useContext(QueryMetaContext);
@@ -83,11 +83,38 @@ export function {{ operation.MethodAccessModifier }}use{{ operation.ActualOperat
           {%- assign isForm = true -%}
         {%- endif -%}
       {%- endfor -%}
-      {%- if isForm %}{{TVariableName}}.{{parameter.VariableName}}{% else %}{{ parameter.VariableName }}{% endif %}{% unless forloop.last %}, {% endunless -%}{% endfor -%}), {...options, mutationKey: key});
+      {%- if isForm %}{{TVariableName}}.{{parameter.VariableName}} as any{% else %}{{ parameter.VariableName }} as any{% endif %}{% unless forloop.last %}, {% endunless -%}{% endfor -%}), {...options, mutationKey: key});
   {%- else -%}
-  return useMutation(({% if operation.HasBody %}{{TVariableName}}: {{TVariableType}}{% endif %}) => {% template ReactQuery.GetClientCall %}.{% template OperationNameSafe %}({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }}{% unless forloop.last %}, {% endunless -%}{% endfor -%}), {...options, mutationKey: key});
+  return useMutation(({% if operation.HasBody %}{{TVariableName}}: {{TVariableType}}{% endif %}) => {% template ReactQuery.GetClientCall %}.{% template OperationNameSafe %}({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }} as any{% unless forloop.last %}, {% endunless -%}{% endfor -%}), {...options, mutationKey: key});
   {%- endif -%}
 }
+{%- if NonBodyParameters.size > 0 -%}
+  {% assign TVariableTypeWithParameters = operation.ActualOperationName | capitalize | append: '__MutationParameters' %}
+type {{ TVariableTypeWithParameters }} = {{ parameterClassName }}{%- if operation.HasBody %} & {
+  {{ TVariableName }}: {{ TVariableType }};
+}{% endif %}
+
+{% template Client.Method.Documentation %}
+export function {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}MutationWithParameters<TContext>(options?: Omit<UseMutationOptions<{{ ResultType }}, unknown, NoRefObject<{{ TVariableTypeWithParameters }}>, TContext>, 'mutationKey' | 'mutationFn'> & { parameters?: {{ parameterClassName }}}): UseMutationResult<{{ ResultType }}, unknown, NoRefObject<{{ TVariableTypeWithParameters }}>, TContext> {
+  const key = {{ operation.ActualOperationName }}MutationKey({%- for parameter in NonBodyParameters -%}options?.parameters?.{{ parameter.VariableName }}! as any{% unless forloop.last %}, {% endunless -%}{% endfor -%});
+  
+  const metaContext = useContext(QueryMetaContext);
+  options = addMetaToOptions(options, metaContext);
+  
+  {%- if operation.FormParameters.size > 0 -%}
+  return useMutation((data: NoRefObject<{{ TVariableTypeWithParameters }}>) => {% template ReactQuery.GetClientCall %}.{% template OperationNameSafe %}({%- for parameter in operation.Parameters -%}
+      {%- assign isForm = false -%}
+      {%- for formParameter in operation.FormParameters -%}
+        {%- if parameter.Name == formParameter.Name -%}
+          {%- assign isForm = true -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if isForm %}data.{{parameter.VariableName}}{% else %}data.{{ parameter.VariableName }}{% endif %}{% unless forloop.last %}, {% endunless -%}{% endfor -%}), {...options, mutationKey: key});
+  {%- else -%}
+return useMutation((data: NoRefObject<{{ TVariableTypeWithParameters }}>) => {% template ReactQuery.GetClientCall %}.{% template OperationNameSafe %}({%- for parameter in operation.Parameters -%}data.{{ parameter.VariableName }}{% unless parameter.IsBody %} ?? options?.parameters?.{{ parameter.VariableName }}! as any{% endunless %}{% unless forloop.last %}, {% endunless -%}{% endfor -%}), {...options, mutationKey: key});
+  {%- endif -%}
+}
+{%- endif -%}
 {%- endif -%}
 {%- if operation.HttpMethodUpper == 'Get' -%}
     {%- assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: QueryClassName | append: 'Parameters' -%}
@@ -145,7 +172,7 @@ function __{{ operation.ActualOperationName }}({% if operation.Parameters.size >
 export function {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Query<TSelectData = {{ ResultType }}, TError = unknown>(dto: {{ parameterClassName }}, options?: UseQueryOptions<{{ ResultType }}, TError, TSelectData>{%- if Framework.IsAxios %}, axiosConfig?: Partial<AxiosRequestConfig>{% endif %}): UseQueryResult<TSelectData, TError>;
     {%- endif -%}
 {% template Client.Method.Documentation %}
-export function {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Query<TSelectData = {{ ResultType }}, TError = unknown>({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type | prepend: 'Types.' -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ ParameterType }}{{ parameter.TypePostfix }}, {% endfor %}options?: UseQueryOptions<{{ ResultType }}, TError, TSelectData>{%- if Framework.IsAxios %}, axiosConfig?: Partial<AxiosRequestConfig>{% endif %}): UseQueryResult<TSelectData, TError>;
+export function {{ operation.MethodAccessModifier }}use{{ operation.ActualOperationName | capitalize }}Query<TSelectData = {{ ResultType }}, TError = unknown>({%- for parameter in operation.Parameters -%}{%- assign ParameterType = parameter.Type | prepend: 'Types.' -%}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: MaybeRef<{{ ParameterType }}{{ parameter.TypePostfix }}>, {% endfor %}options?: UseQueryOptions<{{ ResultType }}, TError, TSelectData>{%- if Framework.IsAxios %}, axiosConfig?: Partial<AxiosRequestConfig>{% endif %}): UseQueryResult<TSelectData, TError>;
 export function use{{ operation.ActualOperationName | capitalize }}Query<TSelectData = {{ ResultType }}, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<{{ ResultType }}, TError, TSelectData> | undefined = undefined;
   {%- if Framework.IsAxios -%}

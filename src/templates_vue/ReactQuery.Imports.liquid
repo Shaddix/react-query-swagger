@@ -1,2 +1,7 @@
 import { useQuery, useMutation } from '@tanstack/vue-query';
 import type { UseQueryResult, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, MutationKey, UseMutationOptions, UseMutationResult, QueryMeta, MutationMeta } from '@tanstack/vue-query';
+type MaybeRef<T> = Ref<T> | T;
+type NoRef<C> = C extends Ref<infer T> ? T : C;
+type NoRefObject<T> = {
+  [P in keyof T]: NoRef<T[P]>;
+};

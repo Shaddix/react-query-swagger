@@ -10,6 +10,11 @@
 import * as Types from '../axios-client';
 import { useQuery, useMutation } from '@tanstack/vue-query';
 import type { UseQueryReturnType, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, MutationKey, UseMutationOptions, UseMutationReturnType, QueryMeta, MutationMeta } from '@tanstack/vue-query';
+type MaybeRef<T> = Ref<T> | T;
+type NoRef<C> = C extends Ref<infer T> ? T : C;
+type NoRefObject<T> = {
+  [P in keyof T]: NoRef<T[P]>;
+};
 import { trimArrayEnd, isParameterObject, getBaseUrl, addMetaToOptions } from './helpers';
 import type { Ref } from 'vue';
 import * as Client from './Client'
@@ -17,68 +22,68 @@ export { Client };
 import type { AxiosRequestConfig } from 'axios';
 
 export type UploadFileQueryParameters = {
-  petId: number | Ref<number>;
-  additionalMetadata: string | null | undefined | Ref<string | null | undefined>;
-  file: Types.FileParameter | null | undefined | Ref<Types.FileParameter | null | undefined>;
+  petId: MaybeRef<number> ;
+  additionalMetadata: MaybeRef<string | null | undefined> ;
+  file: MaybeRef<Types.FileParameter | null | undefined> ;
 }
 
 export type UploadFileMutationParameters = {
-  additionalMetadata: string | null | undefined ; 
-  file: Types.FileParameter | null | undefined ; 
+  additionalMetadata: string | null | undefined ;
+  file: Types.FileParameter | null | undefined ;
 }
 
 export type FindPetsByStatusQueryParameters = {
-  status: Types.Status[] | Ref<Types.Status[]>;
+  status: MaybeRef<Types.Status[]> ;
 }
 
 export type FindPetsByTagsQueryParameters = {
-  tags: string[] | Ref<string[]>;
+  tags: MaybeRef<string[]> ;
 }
 
 export type GetPetByIdQueryParameters = {
-  petId: number | Ref<number>;
+  petId: MaybeRef<number> ;
 }
 
 export type UpdatePetWithFormQueryParameters = {
-  petId: number | Ref<number>;
-  name: string | null | undefined | Ref<string | null | undefined>;
-  status: string | null | undefined | Ref<string | null | undefined>;
+  petId: MaybeRef<number> ;
+  name: MaybeRef<string | null | undefined> ;
+  status: MaybeRef<string | null | undefined> ;
 }
 
 export type UpdatePetWithFormMutationParameters = {
-  name: string | null | undefined ; 
-  status: string | null | undefined ; 
+  name: string | null | undefined ;
+  status: string | null | undefined ;
 }
 
 export type DeletePetQueryParameters = {
-  api_key: string | null | undefined | Ref<string | null | undefined>;
-  petId: number | Ref<number>;
+  api_key: MaybeRef<string | null | undefined> ;
+  petId: MaybeRef<number> ;
 }
 
 export type GetOrderByIdQueryParameters = {
-  orderId: number | Ref<number>;
+  orderId: MaybeRef<number> ;
 }
 
 export type DeleteOrderQueryParameters = {
-  orderId: number | Ref<number>;
+  orderId: MaybeRef<number> ;
 }
 
 
 export type GetUserByNameQueryParameters = {
-  username: string | Ref<string>;
+  username: MaybeRef<string> ;
 }
 
 export type UpdateUserQueryParameters = {
-  username: string | Ref<string>;
+  username: MaybeRef<string> ;
 }
 
 export type DeleteUserQueryParameters = {
-  username: string | Ref<string>;
+  username: MaybeRef<string> ;
 }
 
 export type LoginUserQueryParameters = {
-  username: string | Ref<string>;
-  password: string | Ref<string>;
+  username: MaybeRef<string> ;
+  password: MaybeRef<string> ;
 }
 
 export function uploadFileUrl(petId: number): string {
@@ -90,7 +95,7 @@ url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
   return url_;
 }
 
-export function uploadFileMutationKey(petId: number): MutationKey {
+export function uploadFileMutationKey(petId: MaybeRef<number>): MutationKey {
   return trimArrayEnd([
       'Client',
       'uploadFile',
@@ -105,10 +110,27 @@ export function uploadFileMutationKey(petId: number): MutationKey {
  * @param file (optional) file to upload
  * @return successful operation
  */
-export function useUploadFileMutation<TContext>(petId: number, options?: Omit<UseMutationOptions<Types.ApiResponse, unknown, UploadFileMutationParameters, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<Types.ApiResponse, unknown, UploadFileMutationParameters, TContext> {
+export function useUploadFileMutation<TContext>(petId: MaybeRef<number>, options?: Omit<UseMutationOptions<Types.ApiResponse, unknown, UploadFileMutationParameters, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<Types.ApiResponse, unknown, UploadFileMutationParameters, TContext> {
   const key = uploadFileMutationKey(petId);
   
-  return useMutation((uploadFileMutationParameters: UploadFileMutationParameters) => Client.uploadFile(petId, uploadFileMutationParameters.additionalMetadata, uploadFileMutationParameters.file), {...options, mutationKey: key});
+  return useMutation((uploadFileMutationParameters: UploadFileMutationParameters) => Client.uploadFile(petId as any, uploadFileMutationParameters.additionalMetadata as any, uploadFileMutationParameters.file as any), {...options, mutationKey: key});
+}
+  
+type UploadFile__MutationParameters = UploadFileQueryParameters & {
+  uploadFileMutationParameters: UploadFileMutationParameters;
+}
+
+/**
+ * uploads an image
+ * @param petId ID of pet to update
+ * @param additionalMetadata (optional) Additional data to pass to server
+ * @param file (optional) file to upload
+ * @return successful operation
+ */
+export function useUploadFileMutationWithParameters<TContext>(options?: Omit<UseMutationOptions<Types.ApiResponse, unknown, NoRefObject<UploadFile__MutationParameters>, TContext>, 'mutationKey' | 'mutationFn'> & { parameters?: UploadFileQueryParameters}): UseMutationReturnType<Types.ApiResponse, unknown, NoRefObject<UploadFile__MutationParameters>, TContext> {
+  const key = uploadFileMutationKey(options?.parameters?.petId! as any);
+  
+  return useMutation((data: NoRefObject<UploadFile__MutationParameters>) => Client.uploadFile(data.petId, data.additionalMetadata, data.file), {...options, mutationKey: key});
 }
   
 export function addPetUrl(): string {
@@ -131,7 +153,7 @@ export function addPetMutationKey(): MutationKey {
 export function useAddPetMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.Pet, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, Types.Pet, TContext> {
   const key = addPetMutationKey();
   
-  return useMutation((body: Types.Pet) => Client.addPet(body), {...options, mutationKey: key});
+  return useMutation((body: Types.Pet) => Client.addPet(body as any), {...options, mutationKey: key});
 }
   
 export function updatePetUrl(): string {
@@ -154,7 +176,7 @@ export function updatePetMutationKey(): MutationKey {
 export function useUpdatePetMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.Pet, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, Types.Pet, TContext> {
   const key = updatePetMutationKey();
   
-  return useMutation((body: Types.Pet) => Client.updatePet(body), {...options, mutationKey: key});
+  return useMutation((body: Types.Pet) => Client.updatePet(body as any), {...options, mutationKey: key});
 }
   
 export function findPetsByStatusUrl(status: Types.Status[]): string {
@@ -206,7 +228,7 @@ export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unk
  * @param status Status values that need to be considered for filter
  * @return successful operation
  */
-export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unknown>(status: Types.Status[], options?: UseQueryOptions<Types.Pet[], TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
+export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unknown>(status: MaybeRef<Types.Status[]>, options?: UseQueryOptions<Types.Pet[], TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
 export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unknown>(...params: any []): UseQueryReturnType<TSelectData, TError> {
   let options: UseQueryOptions<Types.Pet[], TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -303,7 +325,7 @@ export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unkno
  * @return successful operation
  * @deprecated
  */
-export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unknown>(tags: string[], options?: UseQueryOptions<Types.Pet[], TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
+export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unknown>(tags: MaybeRef<string[]>, options?: UseQueryOptions<Types.Pet[], TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
 export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unknown>(...params: any []): UseQueryReturnType<TSelectData, TError> {
   let options: UseQueryOptions<Types.Pet[], TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -400,7 +422,7 @@ export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(dt
  * @param petId ID of pet to return
  * @return successful operation
  */
-export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(petId: number, options?: UseQueryOptions<Types.Pet, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
+export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(petId: MaybeRef<number>, options?: UseQueryOptions<Types.Pet, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
 export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(...params: any []): UseQueryReturnType<TSelectData, TError> {
   let options: UseQueryOptions<Types.Pet, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -456,7 +478,7 @@ url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
   return url_;
 }
 
-export function updatePetWithFormMutationKey(petId: number): MutationKey {
+export function updatePetWithFormMutationKey(petId: MaybeRef<number>): MutationKey {
   return trimArrayEnd([
       'Client',
       'updatePetWithForm',
@@ -470,10 +492,26 @@ export function updatePetWithFormMutationKey(petId: number): MutationKey {
  * @param name (optional) Updated name of the pet
  * @param status (optional) Updated status of the pet
  */
-export function useUpdatePetWithFormMutation<TContext>(petId: number, options?: Omit<UseMutationOptions<void, unknown, UpdatePetWithFormMutationParameters, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, UpdatePetWithFormMutationParameters, TContext> {
+export function useUpdatePetWithFormMutation<TContext>(petId: MaybeRef<number>, options?: Omit<UseMutationOptions<void, unknown, UpdatePetWithFormMutationParameters, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, UpdatePetWithFormMutationParameters, TContext> {
   const key = updatePetWithFormMutationKey(petId);
   
-  return useMutation((updatePetWithFormMutationParameters: UpdatePetWithFormMutationParameters) => Client.updatePetWithForm(petId, updatePetWithFormMutationParameters.name, updatePetWithFormMutationParameters.status), {...options, mutationKey: key});
+  return useMutation((updatePetWithFormMutationParameters: UpdatePetWithFormMutationParameters) => Client.updatePetWithForm(petId as any, updatePetWithFormMutationParameters.name as any, updatePetWithFormMutationParameters.status as any), {...options, mutationKey: key});
+}
+  
+type UpdatePetWithForm__MutationParameters = UpdatePetWithFormQueryParameters & {
+  updatePetWithFormMutationParameters: UpdatePetWithFormMutationParameters;
+}
+
+/**
+ * Updates a pet in the store with form data
+ * @param petId ID of pet that needs to be updated
+ * @param name (optional) Updated name of the pet
+ * @param status (optional) Updated status of the pet
+ */
+export function useUpdatePetWithFormMutationWithParameters<TContext>(options?: Omit<UseMutationOptions<void, unknown, NoRefObject<UpdatePetWithForm__MutationParameters>, TContext>, 'mutationKey' | 'mutationFn'> & { parameters?: UpdatePetWithFormQueryParameters}): UseMutationReturnType<void, unknown, NoRefObject<UpdatePetWithForm__MutationParameters>, TContext> {
+  const key = updatePetWithFormMutationKey(options?.parameters?.petId! as any);
+  
+  return useMutation((data: NoRefObject<UpdatePetWithForm__MutationParameters>) => Client.updatePetWithForm(data.petId, data.name, data.status), {...options, mutationKey: key});
 }
   
 export function deletePetUrl(petId: number, api_key: string | null | undefined): string {
@@ -485,7 +523,7 @@ url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
   return url_;
 }
 
-export function deletePetMutationKey(petId: number, api_key: string | null | undefined): MutationKey {
+export function deletePetMutationKey(petId: MaybeRef<number>, api_key: MaybeRef<string | null | undefined>): MutationKey {
   return trimArrayEnd([
       'Client',
       'deletePet',
@@ -499,10 +537,23 @@ export function deletePetMutationKey(petId: number, api_key: string | null | und
  * @param api_key (optional) 
  * @param petId Pet id to delete
  */
-export function useDeletePetMutation<TContext>(petId: number, api_key: string | null | undefined, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, void, TContext> {
+export function useDeletePetMutation<TContext>(petId: MaybeRef<number>, api_key: MaybeRef<string | null | undefined>, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, void, TContext> {
   const key = deletePetMutationKey(petId, api_key);
   
-  return useMutation(() => Client.deletePet(api_key, petId), {...options, mutationKey: key});
+  return useMutation(() => Client.deletePet(api_key as any, petId as any), {...options, mutationKey: key});
+}
+  
+type DeletePet__MutationParameters = DeletePetQueryParameters
+
+/**
+ * Deletes a pet
+ * @param api_key (optional) 
+ * @param petId Pet id to delete
+ */
+export function useDeletePetMutationWithParameters<TContext>(options?: Omit<UseMutationOptions<void, unknown, NoRefObject<DeletePet__MutationParameters>, TContext>, 'mutationKey' | 'mutationFn'> & { parameters?: DeletePetQueryParameters}): UseMutationReturnType<void, unknown, NoRefObject<DeletePet__MutationParameters>, TContext> {
+  const key = deletePetMutationKey(options?.parameters?.petId! as any, options?.parameters?.api_key! as any);
+  
+return useMutation((data: NoRefObject<DeletePet__MutationParameters>) => Client.deletePet(data.api_key ?? options?.parameters?.api_key! as any, data.petId ?? options?.parameters?.petId! as any), {...options, mutationKey: key});
 }
   
 export function placeOrderUrl(): string {
@@ -526,7 +577,7 @@ export function placeOrderMutationKey(): MutationKey {
 export function usePlaceOrderMutation<TContext>(options?: Omit<UseMutationOptions<Types.Order, unknown, Types.Order, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<Types.Order, unknown, Types.Order, TContext> {
   const key = placeOrderMutationKey();
   
-  return useMutation((body: Types.Order) => Client.placeOrder(body), {...options, mutationKey: key});
+  return useMutation((body: Types.Order) => Client.placeOrder(body as any), {...options, mutationKey: key});
 }
   
 export function getOrderByIdUrl(orderId: number): string {
@@ -577,7 +628,7 @@ export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown
  * @param orderId ID of pet that needs to be fetched
  * @return successful operation
  */
-export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown>(orderId: number, options?: UseQueryOptions<Types.Order, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
+export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown>(orderId: MaybeRef<number>, options?: UseQueryOptions<Types.Order, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
 export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown>(...params: any []): UseQueryReturnType<TSelectData, TError> {
   let options: UseQueryOptions<Types.Order, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -633,7 +684,7 @@ url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
   return url_;
 }
 
-export function deleteOrderMutationKey(orderId: number): MutationKey {
+export function deleteOrderMutationKey(orderId: MaybeRef<number>): MutationKey {
   return trimArrayEnd([
       'Client',
       'deleteOrder',
@@ -645,10 +696,22 @@ export function deleteOrderMutationKey(orderId: number): MutationKey {
  * Delete purchase order by ID
  * @param orderId ID of the order that needs to be deleted
  */
-export function useDeleteOrderMutation<TContext>(orderId: number, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, void, TContext> {
+export function useDeleteOrderMutation<TContext>(orderId: MaybeRef<number>, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, void, TContext> {
   const key = deleteOrderMutationKey(orderId);
   
-  return useMutation(() => Client.deleteOrder(orderId), {...options, mutationKey: key});
+  return useMutation(() => Client.deleteOrder(orderId as any), {...options, mutationKey: key});
+}
+  
+type DeleteOrder__MutationParameters = DeleteOrderQueryParameters
+
+/**
+ * Delete purchase order by ID
+ * @param orderId ID of the order that needs to be deleted
+ */
+export function useDeleteOrderMutationWithParameters<TContext>(options?: Omit<UseMutationOptions<void, unknown, NoRefObject<DeleteOrder__MutationParameters>, TContext>, 'mutationKey' | 'mutationFn'> & { parameters?: DeleteOrderQueryParameters}): UseMutationReturnType<void, unknown, NoRefObject<DeleteOrder__MutationParameters>, TContext> {
+  const key = deleteOrderMutationKey(options?.parameters?.orderId! as any);
+  
+return useMutation((data: NoRefObject<DeleteOrder__MutationParameters>) => Client.deleteOrder(data.orderId ?? options?.parameters?.orderId! as any), {...options, mutationKey: key});
 }
   
 export function getInventoryUrl(): string {
@@ -742,7 +805,7 @@ export function createUsersWithArrayInputMutationKey(): MutationKey {
 export function useCreateUsersWithArrayInputMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.User[], TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, Types.User[], TContext> {
   const key = createUsersWithArrayInputMutationKey();
   
-  return useMutation((body: Types.User[]) => Client.createUsersWithArrayInput(body), {...options, mutationKey: key});
+  return useMutation((body: Types.User[]) => Client.createUsersWithArrayInput(body as any), {...options, mutationKey: key});
 }
   
 export function createUsersWithListInputUrl(): string {
@@ -766,7 +829,7 @@ export function createUsersWithListInputMutationKey(): MutationKey {
 export function useCreateUsersWithListInputMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.User[], TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, Types.User[], TContext> {
   const key = createUsersWithListInputMutationKey();
   
-  return useMutation((body: Types.User[]) => Client.createUsersWithListInput(body), {...options, mutationKey: key});
+  return useMutation((body: Types.User[]) => Client.createUsersWithListInput(body as any), {...options, mutationKey: key});
 }
   
 export function getUserByNameUrl(username: string): string {
@@ -817,7 +880,7 @@ export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown
  * @param username The name that needs to be fetched. Use user1 for testing.
  * @return successful operation
  */
-export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown>(username: string, options?: UseQueryOptions<Types.User, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
+export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown>(username: MaybeRef<string>, options?: UseQueryOptions<Types.User, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
 export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown>(...params: any []): UseQueryReturnType<TSelectData, TError> {
   let options: UseQueryOptions<Types.User, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -873,7 +936,7 @@ url_ = url_.replace("{username}", encodeURIComponent("" + username));
   return url_;
 }
 
-export function updateUserMutationKey(username: string): MutationKey {
+export function updateUserMutationKey(username: MaybeRef<string>): MutationKey {
   return trimArrayEnd([
       'Client',
       'updateUser',
@@ -886,10 +949,25 @@ export function updateUserMutationKey(username: string): MutationKey {
  * @param username name that need to be updated
  * @param body Updated user object
  */
-export function useUpdateUserMutation<TContext>(username: string, options?: Omit<UseMutationOptions<void, unknown, Types.User, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, Types.User, TContext> {
+export function useUpdateUserMutation<TContext>(username: MaybeRef<string>, options?: Omit<UseMutationOptions<void, unknown, Types.User, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, Types.User, TContext> {
   const key = updateUserMutationKey(username);
   
-  return useMutation((body: Types.User) => Client.updateUser(username, body), {...options, mutationKey: key});
+  return useMutation((body: Types.User) => Client.updateUser(username as any, body as any), {...options, mutationKey: key});
+}
+  
+type UpdateUser__MutationParameters = UpdateUserQueryParameters & {
+  body: Types.User;
+}
+
+/**
+ * Updated user
+ * @param username name that need to be updated
+ * @param body Updated user object
+ */
+export function useUpdateUserMutationWithParameters<TContext>(options?: Omit<UseMutationOptions<void, unknown, NoRefObject<UpdateUser__MutationParameters>, TContext>, 'mutationKey' | 'mutationFn'> & { parameters?: UpdateUserQueryParameters}): UseMutationReturnType<void, unknown, NoRefObject<UpdateUser__MutationParameters>, TContext> {
+  const key = updateUserMutationKey(options?.parameters?.username! as any);
+  
+return useMutation((data: NoRefObject<UpdateUser__MutationParameters>) => Client.updateUser(data.username ?? options?.parameters?.username! as any, data.body), {...options, mutationKey: key});
 }
   
 export function deleteUserUrl(username: string): string {
@@ -901,7 +979,7 @@ url_ = url_.replace("{username}", encodeURIComponent("" + username));
   return url_;
 }
 
-export function deleteUserMutationKey(username: string): MutationKey {
+export function deleteUserMutationKey(username: MaybeRef<string>): MutationKey {
   return trimArrayEnd([
       'Client',
       'deleteUser',
@@ -913,10 +991,22 @@ export function deleteUserMutationKey(username: string): MutationKey {
  * Delete user
  * @param username The name that needs to be deleted
  */
-export function useDeleteUserMutation<TContext>(username: string, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, void, TContext> {
+export function useDeleteUserMutation<TContext>(username: MaybeRef<string>, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, void, TContext> {
   const key = deleteUserMutationKey(username);
   
-  return useMutation(() => Client.deleteUser(username), {...options, mutationKey: key});
+  return useMutation(() => Client.deleteUser(username as any), {...options, mutationKey: key});
+}
+  
+type DeleteUser__MutationParameters = DeleteUserQueryParameters
+
+/**
+ * Delete user
+ * @param username The name that needs to be deleted
+ */
+export function useDeleteUserMutationWithParameters<TContext>(options?: Omit<UseMutationOptions<void, unknown, NoRefObject<DeleteUser__MutationParameters>, TContext>, 'mutationKey' | 'mutationFn'> & { parameters?: DeleteUserQueryParameters}): UseMutationReturnType<void, unknown, NoRefObject<DeleteUser__MutationParameters>, TContext> {
+  const key = deleteUserMutationKey(options?.parameters?.username! as any);
+  
+return useMutation((data: NoRefObject<DeleteUser__MutationParameters>) => Client.deleteUser(data.username ?? options?.parameters?.username! as any), {...options, mutationKey: key});
 }
   
 export function loginUserUrl(username: string, password: string): string {
@@ -975,7 +1065,7 @@ export function useLoginUserQuery<TSelectData = string, TError = unknown>(dto: L
  * @param password The password for login in clear text
  * @return successful operation
  */
-export function useLoginUserQuery<TSelectData = string, TError = unknown>(username: string, password: string, options?: UseQueryOptions<string, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
+export function useLoginUserQuery<TSelectData = string, TError = unknown>(username: MaybeRef<string>, password: MaybeRef<string>, options?: UseQueryOptions<string, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
 export function useLoginUserQuery<TSelectData = string, TError = unknown>(...params: any []): UseQueryReturnType<TSelectData, TError> {
   let options: UseQueryOptions<string, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -1116,5 +1206,5 @@ export function createUserMutationKey(): MutationKey {
 export function useCreateUserMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.User, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationReturnType<void, unknown, Types.User, TContext> {
   const key = createUserMutationKey();
   
-  return useMutation((body: Types.User) => Client.createUser(body), {...options, mutationKey: key});
+  return useMutation((body: Types.User) => Client.createUser(body as any), {...options, mutationKey: key});
 }

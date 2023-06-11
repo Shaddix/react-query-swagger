@@ -19,27 +19,27 @@ export { Client };
 import type { AxiosRequestConfig } from 'axios';
 
 export type JsonInQueryQueryQueryParameters = {
-  dto?: Types.DummyDto | null | null;
+  dto?: Types.DummyDto | null | undefined ;
 }
 
 export type DateOnlyInQueryQueryQueryParameters = {
-  date?: Date | null;
+  date?: Date | undefined ;
 }
 
 export type DateTimeInQueryQueryQueryParameters = {
-  date?: Date | null;
+  date?: Date | undefined ;
 }
 
 export type ArrayInQueryQueryQueryParameters = {
-  data?: string[] | null | null;
+  data?: string[] | null | undefined ;
 }
 
 export type DictionaryInQueryQueryQueryParameters = {
-  data?: { [key: string]: string; } | null | null;
+  data?: { [key: string]: string; } | null | undefined ;
 }
 
 export type DictionaryInJsonQueryQueryQueryParameters = {
-  data?: { [key: string]: string; } | null | null;
+  data?: { [key: string]: string; } | null | undefined ;
 }
 
 export function jsonInQueryUrl(dto?: Types.DummyDto | null | undefined): string {

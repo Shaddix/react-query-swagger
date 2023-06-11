@@ -1,6 +1,11 @@
 //-----ReactQueryFile-----
 import { useQuery, useMutation } from '@tanstack/vue-query';
 import type { UseQueryReturnType, QueryFunctionContext, UseQueryOptions, QueryClient, QueryKey, MutationKey, UseMutationOptions, UseMutationReturnType, QueryMeta, MutationMeta } from '@tanstack/vue-query';
+type MaybeRef<T> = Ref<T> | T;
+type NoRef<C> = C extends Ref<infer T> ? T : C;
+type NoRefObject<T> = {
+  [P in keyof T]: NoRef<T[P]>;
+};
 import type { Ref } from 'vue';
 import axios from 'axios';
 import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
