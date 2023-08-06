@@ -259,7 +259,7 @@ Here are the regex rules and rationale behind them:
 
 ### /use-recommended-configuration
 
-This option basically passes the following parameters to NSwag `/fix-null-undefined-serialization /generateOptionalParameters:true /typeStyle:Class /markOptionalProperties:true /nullValue:undefined /generateConstructorInterface:true`.
+This option basically passes the following parameters to NSwag `/modules /fix-null-undefined-serialization /generateOptionalParameters:true /typeStyle:Class /markOptionalProperties:true /nullValue:undefined /generateConstructorInterface:true`.
 
 Here's a rationale behind each of them:
 
