@@ -1,0 +1,13 @@
+{
+  "name": "test-m1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Artur Drobinskiy",
+  "license": "MIT",
+  "scripts": {
+    "generate-axios": "react-query-swagger /tanstack /input:https://petstore.swagger.io/v2/swagger.json /output:axios-client.ts /template:Axios /serviceHost:. /use-recommended-configuration"
+  },
+  "devDependencies": {
+    "react-query-swagger": "^15.9.2"
+  }
+}
