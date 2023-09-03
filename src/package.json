@@ -48,6 +48,6 @@
     "cli.js"
   ],
   "dependencies": {
-    "nswag-portable": "13.20.0-v.12"
+    "nswag-portable": "13.20.0-v.13"
   }
 }
