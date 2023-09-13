@@ -212,7 +212,7 @@ if (args.includes('/fix-null-undefined-serialization')) {
    *    }
    */
   apiClient = apiClient.replaceAll(
-    /\? this\.(.*?)\.toJSON() : <any>null/gim,
+    /\? this\.(.*?)\.toJSON\(\) : <any>null/gim,
     '? this.$1.toJSON() : this.$1',
   );
 

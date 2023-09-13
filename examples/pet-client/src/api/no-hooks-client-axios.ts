@@ -150,7 +150,7 @@ export class Pet implements IPet {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["category"] = this.category ? this.category.toJSON() : <any>null;
+        data["category"] = this.category ? this.category.toJSON() : this.category;
         data["name"] = this.name;
         if (Array.isArray(this.photoUrls)) {
             data["photoUrls"] = [];
