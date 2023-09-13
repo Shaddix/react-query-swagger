@@ -201,6 +201,21 @@ if (args.includes('/fix-null-undefined-serialization')) {
    */
   apiClient = apiClient.replaceAll(': <any>undefined', ': <any>null');
 
+  /*  We adjust `toJSON` methods, so that if some fields have `undefined` values they are NOT converted to null
+   *    toJSON(data?: any) {
+   *       data = typeof data === 'object' ? data : {};
+   *       // convert this
+   *       data["privacySettings"] = this.privacySettings ? this.privacySettings.toJSON() : <any>null;
+   *       // to this
+   *       data["privacySettings"] = this.privacySettings? this.privacySettings.toJSON() : this.privacySettings;
+   *       return data;
+   *    }
+   */
+  apiClient = apiClient.replaceAll(
+    /\? this\.(.*?)\.toJSON() : <any>null/gim,
+    '? this.$1.toJSON() : this.$1',
+  );
+
   /*
    * Perform the following change (in `toJSON()` method):
    * data["shipDate"] = this.shipDate ? this.shipDate.toISOString() : <any>null;
