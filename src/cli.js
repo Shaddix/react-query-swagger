@@ -190,7 +190,8 @@ if (args.includes('/fix-null-undefined-serialization')) {
   //   id?: number | undefined;   ->  id?: number | null;
   // }
   // Replaced because this is what server (at least .NET :)) actually returns
-  apiClient = apiClient.replaceAll('| undefined;', '| null;');
+  apiClient = apiClient.replaceAll(/\| undefined\s*;/g, '| null;');
+  apiClient = apiClient.replaceAll('| null | null;', '| null;');
 
   /* this changes `init()` function to be like:
    * this.lastChangeDateTime = _data["lastChangeDateTime"] ? new Date(_data["lastChangeDateTime"].toString()) : <any>undefined;
