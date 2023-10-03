@@ -422,6 +422,11 @@ function postProcessClientContent(
       /Types\.\{ \[key: ((string)|(number))]: /g,
       '{ [key: $1]: Types.',
     )
+    // For the case when an enum is used as keys of a dictionary
+    .replaceAll(
+        /Types\.\{ \[key in keyof typeof ([a-zA-Z0-9_]*?)]\?: /g,
+        '{ [key in keyof typeof Types.$1]: Types.',
+    )
     .replaceAll('parseDateOnly(', 'Types.parseDateOnly(')
     .replaceAll('Types.{', '{')
     .replaceAll(/Types.string(?![a-zA-Z0-9_])/g, 'string')
