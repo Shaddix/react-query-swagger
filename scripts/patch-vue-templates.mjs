@@ -19,8 +19,8 @@ await postProcess('ReactQuery.liquid', (content) => {
       'MaybeRef<{{ ParameterType }}{{ parameter.TypePostfix }}>',
     )
     .replaceAll(
-      'useMutation((data: {{ TVariableTypeWithParameters }})',
-      'useMutation((data: NoRefObject<{{ TVariableTypeWithParameters }}>)',
+      'mutationFn: (data: {{ TVariableTypeWithParameters }})',
+      'mutationFn: (data: NoRefObject<{{ TVariableTypeWithParameters }}>)',
     )
     .replace(
       'UseMutationOptions<{{ ResultType }}, unknown, {{ TVariableTypeWithParameters }}, TContext>',
@@ -31,7 +31,7 @@ await postProcess('ReactQuery.liquid', (content) => {
       'UseMutationResult<{{ ResultType }}, unknown, NoRefObject<{{ TVariableTypeWithParameters }}>, TContext>',
     )
     .replaceAll(
-      /(?<=return useMutation.*)\{%- assign ParameterType = parameter.Type -%\}\{\{ parameter.VariableName \}\}\{% unless forloop.last %\}/g,
+      /(?<=mutationFn:.*)\{%- assign ParameterType = parameter.Type -%\}\{\{ parameter.VariableName \}\}\{% unless forloop.last %\}/g,
       '{%- assign ParameterType = parameter.Type -%}{{ parameter.VariableName }} as any{% unless forloop.last %}',
     )
     .replaceAll(

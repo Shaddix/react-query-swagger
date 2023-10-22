@@ -21,7 +21,7 @@ persistQueryClient({
 });
 AxiosQuery.setBaseUrl('https://petstore.swagger.io/v2');
 AxiosQuery.Query.setFindPetsByStatusDefaultOptions({
-  cacheTime: 10000,
+  gcTime: 10000,
 });
 ReactDOM.render(
   <React.StrictMode>

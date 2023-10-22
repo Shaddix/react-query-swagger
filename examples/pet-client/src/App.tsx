@@ -26,7 +26,7 @@ function App() {
     status: [Status.Pending, Status.Sold, Status.Available],
   });
   const pets3Query = AxiosQuery.Query.useFindPetsByStatusQuery(
-    [Status.Pending, Status.Available],
+    { status: [Status.Pending, Status.Available] },
     { enabled: false },
   );
   useEffect(() => {

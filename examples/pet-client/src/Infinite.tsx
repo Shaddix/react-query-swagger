@@ -5,9 +5,10 @@ import { Pet } from './api/axios-client';
 
 export const Infinite = () => {
   const infiniteQuery = useInfiniteQuery<Pet[]>({
+    initialPageParam: 0,
     queryKey: [...AxiosQuery.Query.findPetsByStatusQueryKey([]), 'infinite'],
     queryFn: async (params) => {
-      const pageParam = params.pageParam ?? (0 as number);
+      const pageParam = (params.pageParam as number) ?? (0 as number);
       return [
         new Pet({ name: (pageParam * 3 + 1).toString(), photoUrls: [] }),
         new Pet({ name: (pageParam * 3 + 2).toString(), photoUrls: [] }),

@@ -113,7 +113,11 @@ export function useUploadFileMutation<TContext>(petId: number, options?: Omit<Us
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((uploadFileMutationParameters: UploadFileMutationParameters) => Client.uploadFile(petId, uploadFileMutationParameters.additionalMetadata, uploadFileMutationParameters.file), {...options, mutationKey: key});
+  return useMutation({
+    ...options,
+    mutationFn: (uploadFileMutationParameters: UploadFileMutationParameters) => Client.uploadFile(petId, uploadFileMutationParameters.additionalMetadata, uploadFileMutationParameters.file),
+    mutationKey: key,
+  });
 }
   
 type UploadFile__MutationParameters = UploadFileQueryParameters & {
@@ -133,7 +137,11 @@ export function useUploadFileMutationWithParameters<TContext>(options?: Omit<Use
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((data: UploadFile__MutationParameters) => Client.uploadFile(data.petId, data.additionalMetadata, data.file), {...options, mutationKey: key});
+  return useMutation({
+    ...options, 
+    mutationFn: (data: UploadFile__MutationParameters) => Client.uploadFile(data.petId, data.additionalMetadata, data.file),
+    mutationKey: key,
+  });
 }
   
 export function addPetUrl(): string {
@@ -159,7 +167,11 @@ export function useAddPetMutation<TContext>(options?: Omit<UseMutationOptions<vo
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((body: Types.Pet) => Client.addPet(body), {...options, mutationKey: key});
+  return useMutation({
+    ...options,
+    mutationFn: (body: Types.Pet) => Client.addPet(body),
+    mutationKey: key,
+  });
 }
   
 export function updatePetUrl(): string {
@@ -185,7 +197,11 @@ export function useUpdatePetMutation<TContext>(options?: Omit<UseMutationOptions
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((body: Types.Pet) => Client.updatePet(body), {...options, mutationKey: key});
+  return useMutation({
+    ...options,
+    mutationFn: (body: Types.Pet) => Client.updatePet(body),
+    mutationKey: key,
+  });
 }
   
 export function findPetsByStatusUrl(status: Types.Status[]): string {
@@ -198,13 +214,13 @@ export function findPetsByStatusUrl(status: Types.Status[]): string {
   return url_;
 }
 
-let findPetsByStatusDefaultOptions: UseQueryOptions<Types.Pet[], unknown, Types.Pet[]> = {
+let findPetsByStatusDefaultOptions: Omit<UseQueryOptions<Types.Pet[], unknown, Types.Pet[]>, 'queryKey'> = {
   queryFn: __findPetsByStatus,
 };
-export function getFindPetsByStatusDefaultOptions(): UseQueryOptions<Types.Pet[], unknown, Types.Pet[]> {
+export function getFindPetsByStatusDefaultOptions() {
   return findPetsByStatusDefaultOptions;
 };
-export function setFindPetsByStatusDefaultOptions(options: UseQueryOptions<Types.Pet[], unknown, Types.Pet[]>) {
+export function setFindPetsByStatusDefaultOptions(options: typeof findPetsByStatusDefaultOptions) {
   findPetsByStatusDefaultOptions = options;
 }
 
@@ -231,7 +247,7 @@ function __findPetsByStatus(context: QueryFunctionContext) {
       context.queryKey[2] as Types.Status[]    );
 }
 
-export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unknown>(dto: FindPetsByStatusQueryParameters, options?: UseQueryOptions<Types.Pet[], TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unknown>(dto: FindPetsByStatusQueryParameters, options?: Omit<UseQueryOptions<Types.Pet[], TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 /**
  * Finds Pets by status
  * @param status Status values that need to be considered for filter
@@ -263,7 +279,7 @@ export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unk
   return useQuery<Types.Pet[], TError, TSelectData>({
     queryFn: __findPetsByStatus,
     queryKey: findPetsByStatusQueryKey(status),
-    ...findPetsByStatusDefaultOptions as unknown as UseQueryOptions<Types.Pet[], TError, TSelectData>,
+    ...findPetsByStatusDefaultOptions as unknown as Omit<UseQueryOptions<Types.Pet[], TError, TSelectData>, 'queryKey'>,
     ...options,
   });
 }
@@ -297,13 +313,13 @@ export function findPetsByTagsUrl(tags: string[]): string {
   return url_;
 }
 
-let findPetsByTagsDefaultOptions: UseQueryOptions<Types.Pet[], unknown, Types.Pet[]> = {
+let findPetsByTagsDefaultOptions: Omit<UseQueryOptions<Types.Pet[], unknown, Types.Pet[]>, 'queryKey'> = {
   queryFn: __findPetsByTags,
 };
-export function getFindPetsByTagsDefaultOptions(): UseQueryOptions<Types.Pet[], unknown, Types.Pet[]> {
+export function getFindPetsByTagsDefaultOptions() {
   return findPetsByTagsDefaultOptions;
 };
-export function setFindPetsByTagsDefaultOptions(options: UseQueryOptions<Types.Pet[], unknown, Types.Pet[]>) {
+export function setFindPetsByTagsDefaultOptions(options: typeof findPetsByTagsDefaultOptions) {
   findPetsByTagsDefaultOptions = options;
 }
 
@@ -330,7 +346,7 @@ function __findPetsByTags(context: QueryFunctionContext) {
       context.queryKey[2] as string[]    );
 }
 
-export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unknown>(dto: FindPetsByTagsQueryParameters, options?: UseQueryOptions<Types.Pet[], TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unknown>(dto: FindPetsByTagsQueryParameters, options?: Omit<UseQueryOptions<Types.Pet[], TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 /**
  * Finds Pets by tags
  * @param tags Tags to filter by
@@ -363,7 +379,7 @@ export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unkno
   return useQuery<Types.Pet[], TError, TSelectData>({
     queryFn: __findPetsByTags,
     queryKey: findPetsByTagsQueryKey(tags),
-    ...findPetsByTagsDefaultOptions as unknown as UseQueryOptions<Types.Pet[], TError, TSelectData>,
+    ...findPetsByTagsDefaultOptions as unknown as Omit<UseQueryOptions<Types.Pet[], TError, TSelectData>, 'queryKey'>,
     ...options,
   });
 }
@@ -398,13 +414,13 @@ url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
   return url_;
 }
 
-let getPetByIdDefaultOptions: UseQueryOptions<Types.Pet, unknown, Types.Pet> = {
+let getPetByIdDefaultOptions: Omit<UseQueryOptions<Types.Pet, unknown, Types.Pet>, 'queryKey'> = {
   queryFn: __getPetById,
 };
-export function getGetPetByIdDefaultOptions(): UseQueryOptions<Types.Pet, unknown, Types.Pet> {
+export function getGetPetByIdDefaultOptions() {
   return getPetByIdDefaultOptions;
 };
-export function setGetPetByIdDefaultOptions(options: UseQueryOptions<Types.Pet, unknown, Types.Pet>) {
+export function setGetPetByIdDefaultOptions(options: typeof getPetByIdDefaultOptions) {
   getPetByIdDefaultOptions = options;
 }
 
@@ -431,7 +447,7 @@ function __getPetById(context: QueryFunctionContext) {
       context.queryKey[2] as number    );
 }
 
-export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(dto: GetPetByIdQueryParameters, options?: UseQueryOptions<Types.Pet, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(dto: GetPetByIdQueryParameters, options?: Omit<UseQueryOptions<Types.Pet, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 /**
  * Find pet by ID
  * @param petId ID of pet to return
@@ -463,7 +479,7 @@ export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(..
   return useQuery<Types.Pet, TError, TSelectData>({
     queryFn: __getPetById,
     queryKey: getPetByIdQueryKey(petId),
-    ...getPetByIdDefaultOptions as unknown as UseQueryOptions<Types.Pet, TError, TSelectData>,
+    ...getPetByIdDefaultOptions as unknown as Omit<UseQueryOptions<Types.Pet, TError, TSelectData>, 'queryKey'>,
     ...options,
   });
 }
@@ -516,7 +532,11 @@ export function useUpdatePetWithFormMutation<TContext>(petId: number, options?: 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((updatePetWithFormMutationParameters: UpdatePetWithFormMutationParameters) => Client.updatePetWithForm(petId, updatePetWithFormMutationParameters.name, updatePetWithFormMutationParameters.status), {...options, mutationKey: key});
+  return useMutation({
+    ...options,
+    mutationFn: (updatePetWithFormMutationParameters: UpdatePetWithFormMutationParameters) => Client.updatePetWithForm(petId, updatePetWithFormMutationParameters.name, updatePetWithFormMutationParameters.status),
+    mutationKey: key,
+  });
 }
   
 type UpdatePetWithForm__MutationParameters = UpdatePetWithFormQueryParameters & {
@@ -535,7 +555,11 @@ export function useUpdatePetWithFormMutationWithParameters<TContext>(options?: O
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((data: UpdatePetWithForm__MutationParameters) => Client.updatePetWithForm(data.petId, data.name, data.status), {...options, mutationKey: key});
+  return useMutation({
+    ...options, 
+    mutationFn: (data: UpdatePetWithForm__MutationParameters) => Client.updatePetWithForm(data.petId, data.name, data.status),
+    mutationKey: key,
+  });
 }
   
 export function deletePetUrl(petId: number, api_key?: string | null | undefined): string {
@@ -567,7 +591,11 @@ export function useDeletePetMutation<TContext>(petId: number, api_key?: string |
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation(() => Client.deletePet(petId, api_key), {...options, mutationKey: key});
+  return useMutation({
+    ...options,
+    mutationFn: () => Client.deletePet(petId, api_key),
+    mutationKey: key,
+  });
 }
   
 type DeletePet__MutationParameters = DeletePetQueryParameters
@@ -583,7 +611,11 @@ export function useDeletePetMutationWithParameters<TContext>(options?: Omit<UseM
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-return useMutation((data: DeletePet__MutationParameters) => Client.deletePet(data.petId ?? options?.parameters?.petId!, data.api_key ?? options?.parameters?.api_key!), {...options, mutationKey: key});
+return useMutation({
+  ...options, 
+  mutationFn: (data: DeletePet__MutationParameters) => Client.deletePet(data.petId ?? options?.parameters?.petId!, data.api_key ?? options?.parameters?.api_key!),
+  mutationKey: key,
+});
 }
   
 export function placeOrderUrl(): string {
@@ -610,7 +642,11 @@ export function usePlaceOrderMutation<TContext>(options?: Omit<UseMutationOption
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((body: Types.Order) => Client.placeOrder(body), {...options, mutationKey: key});
+  return useMutation({
+    ...options,
+    mutationFn: (body: Types.Order) => Client.placeOrder(body),
+    mutationKey: key,
+  });
 }
   
 export function getOrderByIdUrl(orderId: number): string {
@@ -622,13 +658,13 @@ url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
   return url_;
 }
 
-let getOrderByIdDefaultOptions: UseQueryOptions<Types.Order, unknown, Types.Order> = {
+let getOrderByIdDefaultOptions: Omit<UseQueryOptions<Types.Order, unknown, Types.Order>, 'queryKey'> = {
   queryFn: __getOrderById,
 };
-export function getGetOrderByIdDefaultOptions(): UseQueryOptions<Types.Order, unknown, Types.Order> {
+export function getGetOrderByIdDefaultOptions() {
   return getOrderByIdDefaultOptions;
 };
-export function setGetOrderByIdDefaultOptions(options: UseQueryOptions<Types.Order, unknown, Types.Order>) {
+export function setGetOrderByIdDefaultOptions(options: typeof getOrderByIdDefaultOptions) {
   getOrderByIdDefaultOptions = options;
 }
 
@@ -655,7 +691,7 @@ function __getOrderById(context: QueryFunctionContext) {
       context.queryKey[2] as number    );
 }
 
-export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown>(dto: GetOrderByIdQueryParameters, options?: UseQueryOptions<Types.Order, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown>(dto: GetOrderByIdQueryParameters, options?: Omit<UseQueryOptions<Types.Order, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 /**
  * Find purchase order by ID
  * @param orderId ID of pet that needs to be fetched
@@ -687,7 +723,7 @@ export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown
   return useQuery<Types.Order, TError, TSelectData>({
     queryFn: __getOrderById,
     queryKey: getOrderByIdQueryKey(orderId),
-    ...getOrderByIdDefaultOptions as unknown as UseQueryOptions<Types.Order, TError, TSelectData>,
+    ...getOrderByIdDefaultOptions as unknown as Omit<UseQueryOptions<Types.Order, TError, TSelectData>, 'queryKey'>,
     ...options,
   });
 }
@@ -738,7 +774,11 @@ export function useDeleteOrderMutation<TContext>(orderId: number, options?: Omit
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation(() => Client.deleteOrder(orderId), {...options, mutationKey: key});
+  return useMutation({
+    ...options,
+    mutationFn: () => Client.deleteOrder(orderId),
+    mutationKey: key,
+  });
 }
   
 type DeleteOrder__MutationParameters = DeleteOrderQueryParameters
@@ -753,7 +793,11 @@ export function useDeleteOrderMutationWithParameters<TContext>(options?: Omit<Us
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-return useMutation((data: DeleteOrder__MutationParameters) => Client.deleteOrder(data.orderId ?? options?.parameters?.orderId!), {...options, mutationKey: key});
+return useMutation({
+  ...options, 
+  mutationFn: (data: DeleteOrder__MutationParameters) => Client.deleteOrder(data.orderId ?? options?.parameters?.orderId!),
+  mutationKey: key,
+});
 }
   
 export function getInventoryUrl(): string {
@@ -762,13 +806,13 @@ export function getInventoryUrl(): string {
   return url_;
 }
 
-let getInventoryDefaultOptions: UseQueryOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }> = {
+let getInventoryDefaultOptions: Omit<UseQueryOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }>, 'queryKey'> = {
   queryFn: __getInventory,
 };
-export function getGetInventoryDefaultOptions(): UseQueryOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }> {
+export function getGetInventoryDefaultOptions() {
   return getInventoryDefaultOptions;
 };
-export function setGetInventoryDefaultOptions(options: UseQueryOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }>) {
+export function setGetInventoryDefaultOptions(options: typeof getInventoryDefaultOptions) {
   getInventoryDefaultOptions = options;
 }
 
@@ -807,7 +851,7 @@ export function useGetInventoryQuery<TSelectData = { [key: string]: number; }, T
   return useQuery<{ [key: string]: number; }, TError, TSelectData>({
     queryFn: __getInventory,
     queryKey: getInventoryQueryKey(),
-    ...getInventoryDefaultOptions as unknown as UseQueryOptions<{ [key: string]: number; }, TError, TSelectData>,
+    ...getInventoryDefaultOptions as unknown as Omit<UseQueryOptions<{ [key: string]: number; }, TError, TSelectData>, 'queryKey'>,
     ...options,
   });
 }
@@ -853,7 +897,11 @@ export function useCreateUsersWithArrayInputMutation<TContext>(options?: Omit<Us
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((body: Types.User[]) => Client.createUsersWithArrayInput(body), {...options, mutationKey: key});
+  return useMutation({
+    ...options,
+    mutationFn: (body: Types.User[]) => Client.createUsersWithArrayInput(body),
+    mutationKey: key,
+  });
 }
   
 export function createUsersWithListInputUrl(): string {
@@ -880,7 +928,11 @@ export function useCreateUsersWithListInputMutation<TContext>(options?: Omit<Use
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((body: Types.User[]) => Client.createUsersWithListInput(body), {...options, mutationKey: key});
+  return useMutation({
+    ...options,
+    mutationFn: (body: Types.User[]) => Client.createUsersWithListInput(body),
+    mutationKey: key,
+  });
 }
   
 export function getUserByNameUrl(username: string): string {
@@ -892,13 +944,13 @@ url_ = url_.replace("{username}", encodeURIComponent("" + username));
   return url_;
 }
 
-let getUserByNameDefaultOptions: UseQueryOptions<Types.User, unknown, Types.User> = {
+let getUserByNameDefaultOptions: Omit<UseQueryOptions<Types.User, unknown, Types.User>, 'queryKey'> = {
   queryFn: __getUserByName,
 };
-export function getGetUserByNameDefaultOptions(): UseQueryOptions<Types.User, unknown, Types.User> {
+export function getGetUserByNameDefaultOptions() {
   return getUserByNameDefaultOptions;
 };
-export function setGetUserByNameDefaultOptions(options: UseQueryOptions<Types.User, unknown, Types.User>) {
+export function setGetUserByNameDefaultOptions(options: typeof getUserByNameDefaultOptions) {
   getUserByNameDefaultOptions = options;
 }
 
@@ -925,7 +977,7 @@ function __getUserByName(context: QueryFunctionContext) {
       context.queryKey[2] as string    );
 }
 
-export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown>(dto: GetUserByNameQueryParameters, options?: UseQueryOptions<Types.User, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown>(dto: GetUserByNameQueryParameters, options?: Omit<UseQueryOptions<Types.User, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 /**
  * Get user by user name
  * @param username The name that needs to be fetched. Use user1 for testing.
@@ -957,7 +1009,7 @@ export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown
   return useQuery<Types.User, TError, TSelectData>({
     queryFn: __getUserByName,
     queryKey: getUserByNameQueryKey(username),
-    ...getUserByNameDefaultOptions as unknown as UseQueryOptions<Types.User, TError, TSelectData>,
+    ...getUserByNameDefaultOptions as unknown as Omit<UseQueryOptions<Types.User, TError, TSelectData>, 'queryKey'>,
     ...options,
   });
 }
@@ -1009,7 +1061,11 @@ export function useUpdateUserMutation<TContext>(username: string, options?: Omit
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((body: Types.User) => Client.updateUser(username, body), {...options, mutationKey: key});
+  return useMutation({
+    ...options,
+    mutationFn: (body: Types.User) => Client.updateUser(username, body),
+    mutationKey: key,
+  });
 }
   
 type UpdateUser__MutationParameters = UpdateUserQueryParameters & {
@@ -1027,7 +1083,11 @@ export function useUpdateUserMutationWithParameters<TContext>(options?: Omit<Use
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-return useMutation((data: UpdateUser__MutationParameters) => Client.updateUser(data.username ?? options?.parameters?.username!, data.body), {...options, mutationKey: key});
+return useMutation({
+  ...options, 
+  mutationFn: (data: UpdateUser__MutationParameters) => Client.updateUser(data.username ?? options?.parameters?.username!, data.body),
+  mutationKey: key,
+});
 }
   
 export function deleteUserUrl(username: string): string {
@@ -1057,7 +1117,11 @@ export function useDeleteUserMutation<TContext>(username: string, options?: Omit
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation(() => Client.deleteUser(username), {...options, mutationKey: key});
+  return useMutation({
+    ...options,
+    mutationFn: () => Client.deleteUser(username),
+    mutationKey: key,
+  });
 }
   
 type DeleteUser__MutationParameters = DeleteUserQueryParameters
@@ -1072,7 +1136,11 @@ export function useDeleteUserMutationWithParameters<TContext>(options?: Omit<Use
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-return useMutation((data: DeleteUser__MutationParameters) => Client.deleteUser(data.username ?? options?.parameters?.username!), {...options, mutationKey: key});
+return useMutation({
+  ...options, 
+  mutationFn: (data: DeleteUser__MutationParameters) => Client.deleteUser(data.username ?? options?.parameters?.username!),
+  mutationKey: key,
+});
 }
   
 export function loginUserUrl(username: string, password: string): string {
@@ -1089,13 +1157,13 @@ export function loginUserUrl(username: string, password: string): string {
   return url_;
 }
 
-let loginUserDefaultOptions: UseQueryOptions<string, unknown, string> = {
+let loginUserDefaultOptions: Omit<UseQueryOptions<string, unknown, string>, 'queryKey'> = {
   queryFn: __loginUser,
 };
-export function getLoginUserDefaultOptions(): UseQueryOptions<string, unknown, string> {
+export function getLoginUserDefaultOptions() {
   return loginUserDefaultOptions;
 };
-export function setLoginUserDefaultOptions(options: UseQueryOptions<string, unknown, string>) {
+export function setLoginUserDefaultOptions(options: typeof loginUserDefaultOptions) {
   loginUserDefaultOptions = options;
 }
 
@@ -1124,7 +1192,7 @@ function __loginUser(context: QueryFunctionContext) {
       context.queryKey[2] as string,       context.queryKey[3] as string    );
 }
 
-export function useLoginUserQuery<TSelectData = string, TError = unknown>(dto: LoginUserQueryParameters, options?: UseQueryOptions<string, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useLoginUserQuery<TSelectData = string, TError = unknown>(dto: LoginUserQueryParameters, options?: Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 /**
  * Logs user into the system
  * @param username The user name for login
@@ -1158,7 +1226,7 @@ export function useLoginUserQuery<TSelectData = string, TError = unknown>(...par
   return useQuery<string, TError, TSelectData>({
     queryFn: __loginUser,
     queryKey: loginUserQueryKey(username, password),
-    ...loginUserDefaultOptions as unknown as UseQueryOptions<string, TError, TSelectData>,
+    ...loginUserDefaultOptions as unknown as Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>,
     ...options,
   });
 }
@@ -1190,13 +1258,13 @@ export function logoutUserUrl(): string {
   return url_;
 }
 
-let logoutUserDefaultOptions: UseQueryOptions<void, unknown, void> = {
+let logoutUserDefaultOptions: Omit<UseQueryOptions<void, unknown, void>, 'queryKey'> = {
   queryFn: __logoutUser,
 };
-export function getLogoutUserDefaultOptions(): UseQueryOptions<void, unknown, void> {
+export function getLogoutUserDefaultOptions() {
   return logoutUserDefaultOptions;
 };
-export function setLogoutUserDefaultOptions(options: UseQueryOptions<void, unknown, void>) {
+export function setLogoutUserDefaultOptions(options: typeof logoutUserDefaultOptions) {
   logoutUserDefaultOptions = options;
 }
 
@@ -1235,7 +1303,7 @@ export function useLogoutUserQuery<TSelectData = void, TError = unknown>(...para
   return useQuery<void, TError, TSelectData>({
     queryFn: __logoutUser,
     queryKey: logoutUserQueryKey(),
-    ...logoutUserDefaultOptions as unknown as UseQueryOptions<void, TError, TSelectData>,
+    ...logoutUserDefaultOptions as unknown as Omit<UseQueryOptions<void, TError, TSelectData>, 'queryKey'>,
     ...options,
   });
 }
@@ -1281,5 +1349,9 @@ export function useCreateUserMutation<TContext>(options?: Omit<UseMutationOption
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((body: Types.User) => Client.createUser(body), {...options, mutationKey: key});
+  return useMutation({
+    ...options,
+    mutationFn: (body: Types.User) => Client.createUser(body),
+    mutationKey: key,
+  });
 }

@@ -70,7 +70,11 @@ export function useIdInUrlMutation<TContext>(id: number, options?: Omit<UseMutat
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((dto: Types.DummyDto) => Client.idInUrl(id, dto), {...options, mutationKey: key});
+  return useMutation({
+    ...options,
+    mutationFn: (dto: Types.DummyDto) => Client.idInUrl(id, dto),
+    mutationKey: key,
+  });
 }
   
 type IdInUrl__MutationParameters = IdInUrlPostQueryParameters & {
@@ -83,7 +87,11 @@ export function useIdInUrlMutationWithParameters<TContext>(options?: Omit<UseMut
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-return useMutation((data: IdInUrl__MutationParameters) => Client.idInUrl(data.id ?? options?.parameters?.id!, data.dto), {...options, mutationKey: key});
+return useMutation({
+  ...options, 
+  mutationFn: (data: IdInUrl__MutationParameters) => Client.idInUrl(data.id ?? options?.parameters?.id!, data.dto),
+  mutationKey: key,
+});
 }
   
 export function noParameterNoBodyUrl(): string {
@@ -105,7 +113,11 @@ export function useNoParameterNoBodyMutation<TContext>(options?: Omit<UseMutatio
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation(() => Client.noParameterNoBody(), {...options, mutationKey: key});
+  return useMutation({
+    ...options,
+    mutationFn: () => Client.noParameterNoBody(),
+    mutationKey: key,
+  });
 }
   
 export function simpleBodyUrl(): string {
@@ -127,7 +139,11 @@ export function useSimpleBodyMutation<TContext>(options?: Omit<UseMutationOption
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((body: string) => Client.simpleBody(body), {...options, mutationKey: key});
+  return useMutation({
+    ...options,
+    mutationFn: (body: string) => Client.simpleBody(body),
+    mutationKey: key,
+  });
 }
   
 export function parameterInUrlNoBodyUrl(id: string | null): string {
@@ -153,7 +169,11 @@ export function useParameterInUrlNoBodyMutation<TContext>(id: string | null, opt
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation(() => Client.parameterInUrlNoBody(id), {...options, mutationKey: key});
+  return useMutation({
+    ...options,
+    mutationFn: () => Client.parameterInUrlNoBody(id),
+    mutationKey: key,
+  });
 }
   
 type ParameterInUrlNoBody__MutationParameters = ParameterInUrlNoBodyPostQueryParameters
@@ -164,7 +184,11 @@ export function useParameterInUrlNoBodyMutationWithParameters<TContext>(options?
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-return useMutation((data: ParameterInUrlNoBody__MutationParameters) => Client.parameterInUrlNoBody(data.id ?? options?.parameters?.id!), {...options, mutationKey: key});
+return useMutation({
+  ...options, 
+  mutationFn: (data: ParameterInUrlNoBody__MutationParameters) => Client.parameterInUrlNoBody(data.id ?? options?.parameters?.id!),
+  mutationKey: key,
+});
 }
   
 export function simpleBodyWithParameterUrl(id: number): string {
@@ -190,7 +214,11 @@ export function useSimpleBodyWithParameterMutation<TContext>(id: number, options
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((body: string) => Client.simpleBodyWithParameter(id, body), {...options, mutationKey: key});
+  return useMutation({
+    ...options,
+    mutationFn: (body: string) => Client.simpleBodyWithParameter(id, body),
+    mutationKey: key,
+  });
 }
   
 type SimpleBodyWithParameter__MutationParameters = SimpleBodyWithParameterPostQueryParameters & {
@@ -203,7 +231,11 @@ export function useSimpleBodyWithParameterMutationWithParameters<TContext>(optio
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-return useMutation((data: SimpleBodyWithParameter__MutationParameters) => Client.simpleBodyWithParameter(data.id ?? options?.parameters?.id!, data.body), {...options, mutationKey: key});
+return useMutation({
+  ...options, 
+  mutationFn: (data: SimpleBodyWithParameter__MutationParameters) => Client.simpleBodyWithParameter(data.id ?? options?.parameters?.id!, data.body),
+  mutationKey: key,
+});
 }
   
 export function simpleArrayBodyWithParameterUrl(id: number): string {
@@ -229,7 +261,11 @@ export function useSimpleArrayBodyWithParameterMutation<TContext>(id: number, op
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((body: string[]) => Client.simpleArrayBodyWithParameter(id, body), {...options, mutationKey: key});
+  return useMutation({
+    ...options,
+    mutationFn: (body: string[]) => Client.simpleArrayBodyWithParameter(id, body),
+    mutationKey: key,
+  });
 }
   
 type SimpleArrayBodyWithParameter__MutationParameters = SimpleArrayBodyWithParameterPostQueryParameters & {
@@ -242,7 +278,11 @@ export function useSimpleArrayBodyWithParameterMutationWithParameters<TContext>(
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-return useMutation((data: SimpleArrayBodyWithParameter__MutationParameters) => Client.simpleArrayBodyWithParameter(data.id ?? options?.parameters?.id!, data.body), {...options, mutationKey: key});
+return useMutation({
+  ...options, 
+  mutationFn: (data: SimpleArrayBodyWithParameter__MutationParameters) => Client.simpleArrayBodyWithParameter(data.id ?? options?.parameters?.id!, data.body),
+  mutationKey: key,
+});
 }
   
 export function formParameterUrl(id: number): string {
@@ -268,7 +308,11 @@ export function useFormParameterMutation<TContext>(id: number, options?: Omit<Us
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((formParameterPostMutationParameters: FormParameterPostMutationParameters) => Client.formParameter(id, formParameterPostMutationParameters.test, formParameterPostMutationParameters.dateOnly, formParameterPostMutationParameters.dateTime), {...options, mutationKey: key});
+  return useMutation({
+    ...options,
+    mutationFn: (formParameterPostMutationParameters: FormParameterPostMutationParameters) => Client.formParameter(id, formParameterPostMutationParameters.test, formParameterPostMutationParameters.dateOnly, formParameterPostMutationParameters.dateTime),
+    mutationKey: key,
+  });
 }
   
 type FormParameter__MutationParameters = FormParameterPostQueryParameters & {
@@ -281,5 +325,9 @@ export function useFormParameterMutationWithParameters<TContext>(options?: Omit<
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
-  return useMutation((data: FormParameter__MutationParameters) => Client.formParameter(data.id, data.test, data.dateOnly, data.dateTime), {...options, mutationKey: key});
+  return useMutation({
+    ...options, 
+    mutationFn: (data: FormParameter__MutationParameters) => Client.formParameter(data.id, data.test, data.dateOnly, data.dateTime),
+    mutationKey: key,
+  });
 }

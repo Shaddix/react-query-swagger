@@ -26,13 +26,13 @@ export function stringUrl(): string {
   return url_;
 }
 
-let stringDefaultOptions: UseQueryOptions<{ [key: string]: string; }, unknown, { [key: string]: string; }> = {
+let stringDefaultOptions: Omit<UseQueryOptions<{ [key: string]: string; }, unknown, { [key: string]: string; }>, 'queryKey'> = {
   queryFn: __string,
 };
-export function getStringDefaultOptions(): UseQueryOptions<{ [key: string]: string; }, unknown, { [key: string]: string; }> {
+export function getStringDefaultOptions() {
   return stringDefaultOptions;
 };
-export function setStringDefaultOptions(options: UseQueryOptions<{ [key: string]: string; }, unknown, { [key: string]: string; }>) {
+export function setStringDefaultOptions(options: typeof stringDefaultOptions) {
   stringDefaultOptions = options;
 }
 
@@ -67,7 +67,7 @@ export function useStringQuery<TSelectData = { [key: string]: string; }, TError 
   return useQuery<{ [key: string]: string; }, TError, TSelectData>({
     queryFn: __string,
     queryKey: stringQueryKey(),
-    ...stringDefaultOptions as unknown as UseQueryOptions<{ [key: string]: string; }, TError, TSelectData>,
+    ...stringDefaultOptions as unknown as Omit<UseQueryOptions<{ [key: string]: string; }, TError, TSelectData>, 'queryKey'>,
     ...options,
   });
 }
@@ -88,13 +88,13 @@ export function numberUrl(): string {
   return url_;
 }
 
-let numberDefaultOptions: UseQueryOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }> = {
+let numberDefaultOptions: Omit<UseQueryOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }>, 'queryKey'> = {
   queryFn: __number,
 };
-export function getNumberDefaultOptions(): UseQueryOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }> {
+export function getNumberDefaultOptions() {
   return numberDefaultOptions;
 };
-export function setNumberDefaultOptions(options: UseQueryOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }>) {
+export function setNumberDefaultOptions(options: typeof numberDefaultOptions) {
   numberDefaultOptions = options;
 }
 
@@ -129,7 +129,7 @@ export function useNumberQuery<TSelectData = { [key: string]: number; }, TError 
   return useQuery<{ [key: string]: number; }, TError, TSelectData>({
     queryFn: __number,
     queryKey: numberQueryKey(),
-    ...numberDefaultOptions as unknown as UseQueryOptions<{ [key: string]: number; }, TError, TSelectData>,
+    ...numberDefaultOptions as unknown as Omit<UseQueryOptions<{ [key: string]: number; }, TError, TSelectData>, 'queryKey'>,
     ...options,
   });
 }
@@ -150,13 +150,13 @@ export function booleanUrl(): string {
   return url_;
 }
 
-let booleanDefaultOptions: UseQueryOptions<{ [key: string]: boolean; }, unknown, { [key: string]: boolean; }> = {
+let booleanDefaultOptions: Omit<UseQueryOptions<{ [key: string]: boolean; }, unknown, { [key: string]: boolean; }>, 'queryKey'> = {
   queryFn: __boolean,
 };
-export function getBooleanDefaultOptions(): UseQueryOptions<{ [key: string]: boolean; }, unknown, { [key: string]: boolean; }> {
+export function getBooleanDefaultOptions() {
   return booleanDefaultOptions;
 };
-export function setBooleanDefaultOptions(options: UseQueryOptions<{ [key: string]: boolean; }, unknown, { [key: string]: boolean; }>) {
+export function setBooleanDefaultOptions(options: typeof booleanDefaultOptions) {
   booleanDefaultOptions = options;
 }
 
@@ -191,7 +191,7 @@ export function useBooleanQuery<TSelectData = { [key: string]: boolean; }, TErro
   return useQuery<{ [key: string]: boolean; }, TError, TSelectData>({
     queryFn: __boolean,
     queryKey: booleanQueryKey(),
-    ...booleanDefaultOptions as unknown as UseQueryOptions<{ [key: string]: boolean; }, TError, TSelectData>,
+    ...booleanDefaultOptions as unknown as Omit<UseQueryOptions<{ [key: string]: boolean; }, TError, TSelectData>, 'queryKey'>,
     ...options,
   });
 }
@@ -212,13 +212,13 @@ export function dateOnlyUrl(): string {
   return url_;
 }
 
-let dateOnlyDefaultOptions: UseQueryOptions<{ [key: string]: Date; }, unknown, { [key: string]: Date; }> = {
+let dateOnlyDefaultOptions: Omit<UseQueryOptions<{ [key: string]: Date; }, unknown, { [key: string]: Date; }>, 'queryKey'> = {
   queryFn: __dateOnly,
 };
-export function getDateOnlyDefaultOptions(): UseQueryOptions<{ [key: string]: Date; }, unknown, { [key: string]: Date; }> {
+export function getDateOnlyDefaultOptions() {
   return dateOnlyDefaultOptions;
 };
-export function setDateOnlyDefaultOptions(options: UseQueryOptions<{ [key: string]: Date; }, unknown, { [key: string]: Date; }>) {
+export function setDateOnlyDefaultOptions(options: typeof dateOnlyDefaultOptions) {
   dateOnlyDefaultOptions = options;
 }
 
@@ -253,7 +253,7 @@ export function useDateOnlyQuery<TSelectData = { [key: string]: Date; }, TError 
   return useQuery<{ [key: string]: Date; }, TError, TSelectData>({
     queryFn: __dateOnly,
     queryKey: dateOnlyQueryKey(),
-    ...dateOnlyDefaultOptions as unknown as UseQueryOptions<{ [key: string]: Date; }, TError, TSelectData>,
+    ...dateOnlyDefaultOptions as unknown as Omit<UseQueryOptions<{ [key: string]: Date; }, TError, TSelectData>, 'queryKey'>,
     ...options,
   });
 }
@@ -274,13 +274,13 @@ export function dateTimeUrl(): string {
   return url_;
 }
 
-let dateTimeDefaultOptions: UseQueryOptions<{ [key: string]: Date; }, unknown, { [key: string]: Date; }> = {
+let dateTimeDefaultOptions: Omit<UseQueryOptions<{ [key: string]: Date; }, unknown, { [key: string]: Date; }>, 'queryKey'> = {
   queryFn: __dateTime,
 };
-export function getDateTimeDefaultOptions(): UseQueryOptions<{ [key: string]: Date; }, unknown, { [key: string]: Date; }> {
+export function getDateTimeDefaultOptions() {
   return dateTimeDefaultOptions;
 };
-export function setDateTimeDefaultOptions(options: UseQueryOptions<{ [key: string]: Date; }, unknown, { [key: string]: Date; }>) {
+export function setDateTimeDefaultOptions(options: typeof dateTimeDefaultOptions) {
   dateTimeDefaultOptions = options;
 }
 
@@ -315,7 +315,7 @@ export function useDateTimeQuery<TSelectData = { [key: string]: Date; }, TError 
   return useQuery<{ [key: string]: Date; }, TError, TSelectData>({
     queryFn: __dateTime,
     queryKey: dateTimeQueryKey(),
-    ...dateTimeDefaultOptions as unknown as UseQueryOptions<{ [key: string]: Date; }, TError, TSelectData>,
+    ...dateTimeDefaultOptions as unknown as Omit<UseQueryOptions<{ [key: string]: Date; }, TError, TSelectData>, 'queryKey'>,
     ...options,
   });
 }
@@ -336,13 +336,13 @@ export function dummyDtoUrl(): string {
   return url_;
 }
 
-let dummyDtoDefaultOptions: UseQueryOptions<{ [key: string]: Types.DummyDto; }, unknown, { [key: string]: Types.DummyDto; }> = {
+let dummyDtoDefaultOptions: Omit<UseQueryOptions<{ [key: string]: Types.DummyDto; }, unknown, { [key: string]: Types.DummyDto; }>, 'queryKey'> = {
   queryFn: __dummyDto,
 };
-export function getDummyDtoDefaultOptions(): UseQueryOptions<{ [key: string]: Types.DummyDto; }, unknown, { [key: string]: Types.DummyDto; }> {
+export function getDummyDtoDefaultOptions() {
   return dummyDtoDefaultOptions;
 };
-export function setDummyDtoDefaultOptions(options: UseQueryOptions<{ [key: string]: Types.DummyDto; }, unknown, { [key: string]: Types.DummyDto; }>) {
+export function setDummyDtoDefaultOptions(options: typeof dummyDtoDefaultOptions) {
   dummyDtoDefaultOptions = options;
 }
 
@@ -377,7 +377,7 @@ export function useDummyDtoQuery<TSelectData = { [key: string]: Types.DummyDto; 
   return useQuery<{ [key: string]: Types.DummyDto; }, TError, TSelectData>({
     queryFn: __dummyDto,
     queryKey: dummyDtoQueryKey(),
-    ...dummyDtoDefaultOptions as unknown as UseQueryOptions<{ [key: string]: Types.DummyDto; }, TError, TSelectData>,
+    ...dummyDtoDefaultOptions as unknown as Omit<UseQueryOptions<{ [key: string]: Types.DummyDto; }, TError, TSelectData>, 'queryKey'>,
     ...options,
   });
 }
