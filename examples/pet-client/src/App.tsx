@@ -52,6 +52,7 @@ function App() {
 
   const [petList1Show, setPetList1Show] = useState(true);
   const [addPetName, setAddPetName] = useState('');
+
   return (
     <div className="App">
       <form
@@ -79,7 +80,7 @@ function App() {
         <div style={{ flex: 1 }}>
           <h1>Pets1</h1>
           {pets1Query.isLoading && 'Loading...'}
-          {pets1Query.isError && pets1Query.error}
+          {pets1Query.isError && (pets1Query.error as any)}
           <ol>
             {pets1Query.data?.map((pet, index) => (
               <li key={index}>{pet.name}</li>
@@ -87,9 +88,9 @@ function App() {
           </ol>
         </div>
         <div style={{ flex: 1 }}>
-          <h1>Pets2</h1>
+          <h1>Pets22</h1>
           {pets2Query.isLoading && 'Loading...'}
-          {pets2Query.isError && pets2Query.error}
+          {pets2Query.isError && (pets2Query.error as any)}
           <ol>
             {pets2Query.data?.map((pet, index) => (
               <li key={index}>{pet.name}</li>
@@ -99,7 +100,7 @@ function App() {
         <div style={{ flex: 1 }}>
           <h1>Pets3</h1>
           {pets3Query.isLoading && 'Loading...'}
-          {pets3Query.isError && pets2Query.error}
+          {pets3Query.isError && (pets3Query.error as any)}
           <ol>
             {pets3Query.data?.map((pet, index) => (
               <li key={index}>{pet.name}</li>

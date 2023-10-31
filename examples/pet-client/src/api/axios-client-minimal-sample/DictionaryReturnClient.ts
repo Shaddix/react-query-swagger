@@ -23,6 +23,7 @@ export function string(config?: AxiosRequestConfig | undefined): Promise<{ [key:
         method: "GET",
         url: url_,
         headers: {
+            ..._requestConfigString?.headers,
             "Accept": "application/json"
         }
     };
@@ -72,6 +73,7 @@ export function number(config?: AxiosRequestConfig | undefined): Promise<{ [key:
         method: "GET",
         url: url_,
         headers: {
+            ..._requestConfigNumber?.headers,
             "Accept": "application/json"
         }
     };
@@ -121,6 +123,7 @@ export function boolean_(config?: AxiosRequestConfig | undefined): Promise<{ [ke
         method: "GET",
         url: url_,
         headers: {
+            ..._requestConfigBoolean?.headers,
             "Accept": "application/json"
         }
     };
@@ -170,6 +173,7 @@ export function dateOnly(config?: AxiosRequestConfig | undefined): Promise<{ [ke
         method: "GET",
         url: url_,
         headers: {
+            ..._requestConfigDateOnly?.headers,
             "Accept": "application/json"
         }
     };
@@ -223,6 +227,7 @@ export function dateTime(config?: AxiosRequestConfig | undefined): Promise<{ [ke
         method: "GET",
         url: url_,
         headers: {
+            ..._requestConfigDateTime?.headers,
             "Accept": "application/json"
         }
     };
@@ -276,6 +281,7 @@ export function dummyDto(config?: AxiosRequestConfig | undefined): Promise<{ [ke
         method: "GET",
         url: url_,
         headers: {
+            ..._requestConfigDummyDto?.headers,
             "Accept": "application/json"
         }
     };

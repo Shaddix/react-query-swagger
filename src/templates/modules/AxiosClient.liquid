@@ -29,6 +29,7 @@ export function {% template OperationNameSafe %}({% for parameter in operation.P
         method: "{{ operation.HttpMethodUpper | upcase }}",
         url: url_,
         headers: {
+            ..._requestConfig{{ operation.ActualOperationNameUpper }}?.headers,
 {%     for parameter in operation.HeaderParameters -%}
             "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "",
 {%     endfor -%}

@@ -29,6 +29,7 @@ export function idInUrl(id: number, dto: Types.DummyDto, config?: AxiosRequestCo
         method: "POST",
         url: url_,
         headers: {
+            ..._requestConfigIdInUrl?.headers,
             "Content-Type": "application/json",
             "Accept": "application/json"
         }
@@ -81,6 +82,7 @@ export function noParameterNoBody(config?: AxiosRequestConfig | undefined): Prom
         method: "POST",
         url: url_,
         headers: {
+            ..._requestConfigNoParameterNoBody?.headers,
             "Accept": "application/json"
         }
     };
@@ -135,6 +137,7 @@ export function simpleBody(body: string, config?: AxiosRequestConfig | undefined
         method: "POST",
         url: url_,
         headers: {
+            ..._requestConfigSimpleBody?.headers,
             "Content-Type": "application/json",
             "Accept": "application/json"
         }
@@ -190,6 +193,7 @@ export function parameterInUrlNoBody(id: string | null, config?: AxiosRequestCon
         method: "POST",
         url: url_,
         headers: {
+            ..._requestConfigParameterInUrlNoBody?.headers,
             "Accept": "application/json"
         }
     };
@@ -247,6 +251,7 @@ export function simpleBodyWithParameter(id: number, body: string, config?: Axios
         method: "POST",
         url: url_,
         headers: {
+            ..._requestConfigSimpleBodyWithParameter?.headers,
             "Content-Type": "application/json",
             "Accept": "application/json"
         }
@@ -305,6 +310,7 @@ export function simpleArrayBodyWithParameter(id: number, body: string[], config?
         method: "POST",
         url: url_,
         headers: {
+            ..._requestConfigSimpleArrayBodyWithParameter?.headers,
             "Content-Type": "application/json",
             "Accept": "application/json"
         }
@@ -373,6 +379,7 @@ export function formParameter(id: number, test?: string | null | undefined, date
         method: "POST",
         url: url_,
         headers: {
+            ..._requestConfigFormParameter?.headers,
             "Accept": "application/json"
         }
     };

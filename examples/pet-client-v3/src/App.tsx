@@ -54,7 +54,7 @@ function App() {
         <div style={{ flex: 1 }}>
           <h1>Pets</h1>
           {pets1Query.isLoading && 'Loading...'}
-          {pets1Query.isError && pets1Query.error}
+          {pets1Query.isError && (pets1Query.error as any)}
           <ol>
             {pets1Query.data?.map((pet, index) => (
               <li key={index}>{pet.name}</li>
@@ -64,7 +64,7 @@ function App() {
         <div style={{ flex: 1 }}>
           <h1>Pets</h1>
           {pets2Query.isLoading && 'Loading...'}
-          {pets2Query.isError && pets2Query.error}
+          {pets2Query.isError && (pets2Query.error as any)}
           <ol>
             {pets2Query.data?.map((pet, index) => (
               <li key={index}>{pet.name}</li>
@@ -74,7 +74,7 @@ function App() {
         <div style={{ flex: 1 }}>
           <h1>Pets</h1>
           {pets3Query.isLoading && 'Loading...'}
-          {pets3Query.isError && pets2Query.error}
+          {pets3Query.isError && (pets2Query.error as any)}
           <ol>
             {pets3Query.data?.map((pet, index) => (
               <li key={index}>{pet.name}</li>

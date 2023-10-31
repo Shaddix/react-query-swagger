@@ -28,6 +28,7 @@ export function jsonInQuery(dto?: Types.DummyDto | null | undefined, config?: Ax
         method: "GET",
         url: url_,
         headers: {
+            ..._requestConfigJsonInQuery?.headers,
             "Accept": "application/json"
         }
     };
@@ -83,6 +84,7 @@ export function dateOnlyInQuery(date?: Date | undefined, config?: AxiosRequestCo
         method: "GET",
         url: url_,
         headers: {
+            ..._requestConfigDateOnlyInQuery?.headers,
             "Accept": "application/json"
         }
     };
@@ -138,6 +140,7 @@ export function dateTimeInQuery(date?: Date | undefined, config?: AxiosRequestCo
         method: "GET",
         url: url_,
         headers: {
+            ..._requestConfigDateTimeInQuery?.headers,
             "Accept": "application/json"
         }
     };
@@ -191,6 +194,7 @@ export function arrayInQuery(data?: string[] | null | undefined, config?: AxiosR
         method: "GET",
         url: url_,
         headers: {
+            ..._requestConfigArrayInQuery?.headers,
             "Accept": "application/json"
         }
     };
@@ -242,6 +246,7 @@ export function dictionaryInQuery(data?: { [key: string]: string; } | null | und
         method: "GET",
         url: url_,
         headers: {
+            ..._requestConfigDictionaryInQuery?.headers,
             "Accept": "application/json"
         }
     };
@@ -296,6 +301,7 @@ export function dictionaryInJsonQuery(data?: { [key: string]: string; } | null |
         method: "GET",
         url: url_,
         headers: {
+            ..._requestConfigDictionaryInJsonQuery?.headers,
             "Accept": "application/json"
         }
     };
