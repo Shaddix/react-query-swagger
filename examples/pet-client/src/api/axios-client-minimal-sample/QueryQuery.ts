@@ -88,7 +88,7 @@ function __jsonInQuery(context: QueryFunctionContext) {
 
 export function useJsonInQueryQuery<TSelectData = string, TError = unknown>(dto: JsonInQueryQueryQueryParameters, options?: Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 
-export function useJsonInQueryQuery<TSelectData = string, TError = unknown>(dto?: Types.DummyDto | null | undefined, options?: UseQueryOptions<string, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useJsonInQueryQuery<TSelectData = string, TError = unknown>(dto?: Types.DummyDto | null | undefined, options?: Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useJsonInQueryQuery<TSelectData = string, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<string, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -174,7 +174,7 @@ function __dateOnlyInQuery(context: QueryFunctionContext) {
 
 export function useDateOnlyInQueryQuery<TSelectData = string, TError = unknown>(dto: DateOnlyInQueryQueryQueryParameters, options?: Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 
-export function useDateOnlyInQueryQuery<TSelectData = string, TError = unknown>(date?: Date | undefined, options?: UseQueryOptions<string, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useDateOnlyInQueryQuery<TSelectData = string, TError = unknown>(date?: Date | undefined, options?: Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useDateOnlyInQueryQuery<TSelectData = string, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<string, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -260,7 +260,7 @@ function __dateTimeInQuery(context: QueryFunctionContext) {
 
 export function useDateTimeInQueryQuery<TSelectData = string, TError = unknown>(dto: DateTimeInQueryQueryQueryParameters, options?: Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 
-export function useDateTimeInQueryQuery<TSelectData = string, TError = unknown>(date?: Date | undefined, options?: UseQueryOptions<string, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useDateTimeInQueryQuery<TSelectData = string, TError = unknown>(date?: Date | undefined, options?: Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useDateTimeInQueryQuery<TSelectData = string, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<string, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -344,7 +344,7 @@ function __arrayInQuery(context: QueryFunctionContext) {
 
 export function useArrayInQueryQuery<TSelectData = string[], TError = unknown>(dto: ArrayInQueryQueryQueryParameters, options?: Omit<UseQueryOptions<string[], TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 
-export function useArrayInQueryQuery<TSelectData = string[], TError = unknown>(data?: string[] | null | undefined, options?: UseQueryOptions<string[], TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useArrayInQueryQuery<TSelectData = string[], TError = unknown>(data?: string[] | null | undefined, options?: Omit<UseQueryOptions<string[], TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useArrayInQueryQuery<TSelectData = string[], TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<string[], TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -428,7 +428,7 @@ function __dictionaryInQuery(context: QueryFunctionContext) {
 
 export function useDictionaryInQueryQuery<TSelectData = { [key: string]: string; }, TError = unknown>(dto: DictionaryInQueryQueryQueryParameters, options?: Omit<UseQueryOptions<{ [key: string]: string; }, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 
-export function useDictionaryInQueryQuery<TSelectData = { [key: string]: string; }, TError = unknown>(data?: { [key: string]: string; } | null | undefined, options?: UseQueryOptions<{ [key: string]: string; }, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useDictionaryInQueryQuery<TSelectData = { [key: string]: string; }, TError = unknown>(data?: { [key: string]: string; } | null | undefined, options?: Omit<UseQueryOptions<{ [key: string]: string; }, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useDictionaryInQueryQuery<TSelectData = { [key: string]: string; }, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<{ [key: string]: string; }, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -515,7 +515,7 @@ function __dictionaryInJsonQuery(context: QueryFunctionContext) {
 
 export function useDictionaryInJsonQueryQuery<TSelectData = { [key: string]: string; }, TError = unknown>(dto: DictionaryInJsonQueryQueryQueryParameters, options?: Omit<UseQueryOptions<{ [key: string]: string; }, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 
-export function useDictionaryInJsonQueryQuery<TSelectData = { [key: string]: string; }, TError = unknown>(data?: { [key: string]: string; } | null | undefined, options?: UseQueryOptions<{ [key: string]: string; }, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useDictionaryInJsonQueryQuery<TSelectData = { [key: string]: string; }, TError = unknown>(data?: { [key: string]: string; } | null | undefined, options?: Omit<UseQueryOptions<{ [key: string]: string; }, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useDictionaryInJsonQueryQuery<TSelectData = { [key: string]: string; }, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<{ [key: string]: string; }, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;

@@ -215,7 +215,7 @@ export function findPetsByStatus(status: Types.Status[], config?: AxiosRequestCo
         method: "GET",
         url: url_,
         headers: {
-             ..._requestConfigFindPetsByStatus?.headers,
+            ..._requestConfigFindPetsByStatus?.headers,
             "Accept": "application/json"
         }
     };

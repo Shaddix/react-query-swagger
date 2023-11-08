@@ -244,7 +244,7 @@ export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unk
  * @param status Status values that need to be considered for filter
  * @return successful operation
  */
-export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unknown>(status: MaybeRef<Types.Status[]>, options?: UseQueryOptions<Types.Pet[], TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
+export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unknown>(status: MaybeRef<Types.Status[]>, options?: Omit<UseQueryOptions<Types.Pet[], TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
 export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unknown>(...params: any []): UseQueryReturnType<TSelectData, TError> {
   let options: UseQueryOptions<Types.Pet[], TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -341,7 +341,7 @@ export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unkno
  * @return successful operation
  * @deprecated
  */
-export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unknown>(tags: MaybeRef<string[]>, options?: UseQueryOptions<Types.Pet[], TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
+export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unknown>(tags: MaybeRef<string[]>, options?: Omit<UseQueryOptions<Types.Pet[], TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
 export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unknown>(...params: any []): UseQueryReturnType<TSelectData, TError> {
   let options: UseQueryOptions<Types.Pet[], TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -438,7 +438,7 @@ export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(dt
  * @param petId ID of pet to return
  * @return successful operation
  */
-export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(petId: MaybeRef<number>, options?: UseQueryOptions<Types.Pet, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
+export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(petId: MaybeRef<number>, options?: Omit<UseQueryOptions<Types.Pet, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
 export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(...params: any []): UseQueryReturnType<TSelectData, TError> {
   let options: UseQueryOptions<Types.Pet, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -664,7 +664,7 @@ export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown
  * @param orderId ID of pet that needs to be fetched
  * @return successful operation
  */
-export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown>(orderId: MaybeRef<number>, options?: UseQueryOptions<Types.Order, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
+export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown>(orderId: MaybeRef<number>, options?: Omit<UseQueryOptions<Types.Order, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
 export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown>(...params: any []): UseQueryReturnType<TSelectData, TError> {
   let options: UseQueryOptions<Types.Order, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -790,7 +790,7 @@ function __getInventory() {
  * Returns pet inventories by status
  * @return successful operation
  */
-export function useGetInventoryQuery<TSelectData = { [key: string]: number; }, TError = unknown>(options?: UseQueryOptions<{ [key: string]: number; }, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
+export function useGetInventoryQuery<TSelectData = { [key: string]: number; }, TError = unknown>(options?: Omit<UseQueryOptions<{ [key: string]: number; }, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
 export function useGetInventoryQuery<TSelectData = { [key: string]: number; }, TError = unknown>(...params: any []): UseQueryReturnType<TSelectData, TError> {
   let options: UseQueryOptions<{ [key: string]: number; }, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -932,7 +932,7 @@ export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown
  * @param username The name that needs to be fetched. Use user1 for testing.
  * @return successful operation
  */
-export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown>(username: MaybeRef<string>, options?: UseQueryOptions<Types.User, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
+export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown>(username: MaybeRef<string>, options?: Omit<UseQueryOptions<Types.User, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
 export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown>(...params: any []): UseQueryReturnType<TSelectData, TError> {
   let options: UseQueryOptions<Types.User, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -1133,7 +1133,7 @@ export function useLoginUserQuery<TSelectData = string, TError = unknown>(dto: L
  * @param password The password for login in clear text
  * @return successful operation
  */
-export function useLoginUserQuery<TSelectData = string, TError = unknown>(username: MaybeRef<string>, password: MaybeRef<string>, options?: UseQueryOptions<string, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
+export function useLoginUserQuery<TSelectData = string, TError = unknown>(username: MaybeRef<string>, password: MaybeRef<string>, options?: Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
 export function useLoginUserQuery<TSelectData = string, TError = unknown>(...params: any []): UseQueryReturnType<TSelectData, TError> {
   let options: UseQueryOptions<string, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -1215,7 +1215,7 @@ function __logoutUser() {
  * Logs out current logged in user session
  * @return successful operation
  */
-export function useLogoutUserQuery<TSelectData = void, TError = unknown>(options?: UseQueryOptions<void, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
+export function useLogoutUserQuery<TSelectData = void, TError = unknown>(options?: Omit<UseQueryOptions<void, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryReturnType<TSelectData, TError>;
 export function useLogoutUserQuery<TSelectData = void, TError = unknown>(...params: any []): UseQueryReturnType<TSelectData, TError> {
   let options: UseQueryOptions<void, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;

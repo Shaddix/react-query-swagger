@@ -48,7 +48,7 @@ function __string() {
     );
 }
 
-export function useStringQuery<TSelectData = { [key: string]: string; }, TError = unknown>(options?: UseQueryOptions<{ [key: string]: string; }, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useStringQuery<TSelectData = { [key: string]: string; }, TError = unknown>(options?: Omit<UseQueryOptions<{ [key: string]: string; }, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useStringQuery<TSelectData = { [key: string]: string; }, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<{ [key: string]: string; }, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -110,7 +110,7 @@ function __number() {
     );
 }
 
-export function useNumberQuery<TSelectData = { [key: string]: number; }, TError = unknown>(options?: UseQueryOptions<{ [key: string]: number; }, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useNumberQuery<TSelectData = { [key: string]: number; }, TError = unknown>(options?: Omit<UseQueryOptions<{ [key: string]: number; }, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useNumberQuery<TSelectData = { [key: string]: number; }, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<{ [key: string]: number; }, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -172,7 +172,7 @@ function __boolean() {
     );
 }
 
-export function useBooleanQuery<TSelectData = { [key: string]: boolean; }, TError = unknown>(options?: UseQueryOptions<{ [key: string]: boolean; }, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useBooleanQuery<TSelectData = { [key: string]: boolean; }, TError = unknown>(options?: Omit<UseQueryOptions<{ [key: string]: boolean; }, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useBooleanQuery<TSelectData = { [key: string]: boolean; }, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<{ [key: string]: boolean; }, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -234,7 +234,7 @@ function __dateOnly() {
     );
 }
 
-export function useDateOnlyQuery<TSelectData = { [key: string]: Date; }, TError = unknown>(options?: UseQueryOptions<{ [key: string]: Date; }, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useDateOnlyQuery<TSelectData = { [key: string]: Date; }, TError = unknown>(options?: Omit<UseQueryOptions<{ [key: string]: Date; }, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useDateOnlyQuery<TSelectData = { [key: string]: Date; }, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<{ [key: string]: Date; }, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -296,7 +296,7 @@ function __dateTime() {
     );
 }
 
-export function useDateTimeQuery<TSelectData = { [key: string]: Date; }, TError = unknown>(options?: UseQueryOptions<{ [key: string]: Date; }, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useDateTimeQuery<TSelectData = { [key: string]: Date; }, TError = unknown>(options?: Omit<UseQueryOptions<{ [key: string]: Date; }, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useDateTimeQuery<TSelectData = { [key: string]: Date; }, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<{ [key: string]: Date; }, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
@@ -358,7 +358,7 @@ function __dummyDto() {
     );
 }
 
-export function useDummyDtoQuery<TSelectData = { [key: string]: Types.DummyDto; }, TError = unknown>(options?: UseQueryOptions<{ [key: string]: Types.DummyDto; }, TError, TSelectData>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useDummyDtoQuery<TSelectData = { [key: string]: Types.DummyDto; }, TError = unknown>(options?: Omit<UseQueryOptions<{ [key: string]: Types.DummyDto; }, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useDummyDtoQuery<TSelectData = { [key: string]: Types.DummyDto; }, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<{ [key: string]: Types.DummyDto; }, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined;
