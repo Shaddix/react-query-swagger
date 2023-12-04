@@ -2543,39 +2543,39 @@
   resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.20.4.tgz#1f7975a2db26a8bc2f382bad8a44cd422c846b17"
   integrity sha512-lhLtGVNJDsJ/DyZXrLzekDEywQqRVykgBqTmkv0La32a/RleILXy6JMLBb7UmS3QCatg/F/0N9/5b0i5j6IKcA==
 
-"@tanstack/query-core@5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.0.0.tgz#b37a50bb3a4f54336b6131db00b72cd29e79b480"
-  integrity sha512-Y1BpiA6BblJd/UlVqxEVeAG7IACn568YJuTTItAiecBI7En+33g780kg+/8lhgl+BzcUPN7o+NjBrSRGJoemyQ==
+"@tanstack/query-core@5.8.1":
+  version "5.8.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.8.1.tgz#5215a028370d9b2f32e83787a0ea119e2f977996"
+  integrity sha512-Y0enatz2zQXBAsd7XmajlCs+WaitdR7dIFkqz9Xd7HL4KV04JOigWVreYseTmNH7YFSBSC/BJ9uuNp1MAf+GfA==
 
-"@tanstack/query-persist-client-core@5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-persist-client-core/-/query-persist-client-core-5.0.0.tgz#4409e18ae713db81cbb3ed75a9e1f5ed6363a480"
-  integrity sha512-WXzvS37iriXMb4o1ES+SJvMou0Jw+Iko7f6/VmeFgSatKQfeidfIAUBYoBqRQ/sDwVRzLVWuf9e57SQPtqankQ==
+"@tanstack/query-persist-client-core@5.8.1":
+  version "5.8.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-persist-client-core/-/query-persist-client-core-5.8.1.tgz#c69a0458f393acfccb516d2b0685a4d83b4cbd3f"
+  integrity sha512-V7Nt1V3jTgoPt2l0/XgHAHyMrbGynx4Wzo8EGkDjxv8ih/jDQt8yMvyk99ZqvtU80ch1DCElqIM8n3CHcV/KrA==
   dependencies:
-    "@tanstack/query-core" "5.0.0"
+    "@tanstack/query-core" "5.8.1"
 
-"@tanstack/query-sync-storage-persister@5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-sync-storage-persister/-/query-sync-storage-persister-5.0.0.tgz#75739390461f306a251a13a52deb845203f41958"
-  integrity sha512-5BgMqggDSJiOAPFuy6ZYL3Oursls1ZIecv0uY0xL6IQQk5PGdbcexd1n6j3sH0+nWtvhEiBCYsV5QnXMZ0QZbQ==
+"@tanstack/query-sync-storage-persister@5.8.1":
+  version "5.8.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-sync-storage-persister/-/query-sync-storage-persister-5.8.1.tgz#68c08bf588f2ddc2b3ab0e4e0248e2d8b0d41416"
+  integrity sha512-zzOgg9eFvXVUoJXEhVFYRjXlEd9KBjOoAE3uJUSFEDvL56T3jfPslOlc1W6yDM5H86k3NYZJYEDWO4v70kxCpQ==
   dependencies:
-    "@tanstack/query-core" "5.0.0"
-    "@tanstack/query-persist-client-core" "5.0.0"
+    "@tanstack/query-core" "5.8.1"
+    "@tanstack/query-persist-client-core" "5.8.1"
 
-"@tanstack/react-query-persist-client@5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query-persist-client/-/react-query-persist-client-5.0.0.tgz#3b8b1e3d4d2a78bbdba4349304f4b07a97a3cae2"
-  integrity sha512-1d0fc6bPWFchiG+K8Wb9xAPVu962GuF6QhVt/MlexV15DY/TkbwH/PqrV+8SQGCYsg3CDCZ7Dn7fU5sCtcQelw==
+"@tanstack/react-query-persist-client@5.8.1":
+  version "5.8.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-persist-client/-/react-query-persist-client-5.8.1.tgz#67b1b2e577f2692b0a7a470fb7ead89210f21f69"
+  integrity sha512-rH562Zgox1RBFu7UEaaBgNcJjETGeGwZa/T+pktul6aPdbCG0rTV6XBq0Uda227bTi4V1o/s3RLXKIBZs2j21A==
   dependencies:
-    "@tanstack/query-persist-client-core" "5.0.0"
+    "@tanstack/query-persist-client-core" "5.8.1"
 
-"@tanstack/react-query@5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.0.0.tgz#707fecb71cf53ae098f682f45520d7b1640bcaa9"
-  integrity sha512-diQoC8FNBcO5Uf5yuaJlXthTtbO1xM8kzOX+pSBUMT9n/cqQ/u1wJGCtukvhDWA+6j07WmIj4bfqNbd2KOB6jQ==
+"@tanstack/react-query@5.8.1":
+  version "5.8.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.8.1.tgz#22a122016e23a39acd90341954a895980ec21ade"
+  integrity sha512-YMagxS8iNPOLg0pK6WOjdSDlAvWKOf69udLOwQrBVmkC2SRLNLko7elo5Ro3ptlJkXvTVHidxC/h5KGi5bH1XQ==
   dependencies:
-    "@tanstack/query-core" "5.0.0"
+    "@tanstack/query-core" "5.8.1"
 
 "@tanstack/vue-query@4.20.5":
   version "4.20.5"
@@ -9975,10 +9975,10 @@ npm-run-path@^4.0.0, npm-run-path@^4.0.1:
   dependencies:
     path-key "^3.0.0"
 
-nswag-portable@13.20.0-v.13:
-  version "13.20.0-v.13"
-  resolved "https://registry.yarnpkg.com/nswag-portable/-/nswag-portable-13.20.0-v.13.tgz#61eddbd7022f49977fe3c5283cdde257154a8b61"
-  integrity sha512-vyzQPt9w0lLYyKZvHoxYU4Z5UhfONGsze6ykaUYn7k68Ga6kMIObYVAYdyBoJAoZVzdV19mQF6FzriJJ9tFXPQ==
+nswag-portable@13.20.0-v.17:
+  version "13.20.0-v.17"
+  resolved "https://registry.yarnpkg.com/nswag-portable/-/nswag-portable-13.20.0-v.17.tgz#dc25a2723ca5595f3c50999302d2a083b06c234e"
+  integrity sha512-rK1WrAGA62fEVLiyMFMI6U3oanbqIWrsvFCLS0faKrbKuPewF1FF6qZW/6eoakYoZOsNtU/U+SSG+/ktye5SWw==
 
 nth-check@^1.0.2:
   version "1.0.2"
@@ -11306,9 +11306,9 @@ react-is@^17.0.1:
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
 "react-query-swagger@link:src":
-  version "15.10.1"
+  version "15.10.3"
   dependencies:
-    nswag-portable "13.20.0-v.13"
+    nswag-portable "13.20.0-v.17"
 
 react-query@3.39.1:
   version "3.39.1"
