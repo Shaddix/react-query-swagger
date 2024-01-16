@@ -320,8 +320,13 @@ if (isClientsAsModules) {
       "import type { AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';",
       '',
     )
-    .replace('function formatDate', 'export function formatDate');
-
+    .replace('function formatDate', 'export function formatDate')
+    // .replaceAll(
+    //   'cancelToken?: CancelToken | undefined{% endif %})',
+    //   'cancelToken?: CancelToken | undefined{% endif %}, axiosConfig?: AxiosRequestConfig | undefined)',
+    // )
+    .replaceAll(',axiosConfig    )', ')')
+    .replaceAll('axiosConfig    )', ')');
   writeFileSync(outputPath, apiClient);
 }
 

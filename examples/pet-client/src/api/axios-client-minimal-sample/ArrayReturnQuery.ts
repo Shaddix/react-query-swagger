@@ -43,15 +43,15 @@ export function stringQueryKey(...params: any[]): QueryKey {
       'string',
     ]);
 }
-function __string() {
+function __string(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.string(
-    );
+axiosConfig    );
 }
 
 export function useStringQuery<TSelectData = string[], TError = unknown>(options?: Omit<UseQueryOptions<string[], TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useStringQuery<TSelectData = string[], TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<string[], TError, TSelectData> | undefined = undefined;
-  let axiosConfig: AxiosRequestConfig |undefined;
+  let axiosConfig: AxiosRequestConfig |undefined = undefined;
   
 
   options = params[0] as any;
@@ -59,13 +59,9 @@ export function useStringQuery<TSelectData = string[], TError = unknown>(...para
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (axiosConfig) {
-    options = options ?? { } as any;
-    options!.meta = { ...options!.meta, axiosConfig };
-  }
 
   return useQuery<string[], TError, TSelectData>({
-    queryFn: __string,
+    queryFn: axiosConfig ? (context) => __string(context, axiosConfig) : __string,
     queryKey: stringQueryKey(),
     ...stringDefaultOptions as unknown as Omit<UseQueryOptions<string[], TError, TSelectData>, 'queryKey'>,
     ...options,
@@ -105,15 +101,15 @@ export function numberQueryKey(...params: any[]): QueryKey {
       'number',
     ]);
 }
-function __number() {
+function __number(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.number(
-    );
+axiosConfig    );
 }
 
 export function useNumberQuery<TSelectData = number[], TError = unknown>(options?: Omit<UseQueryOptions<number[], TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useNumberQuery<TSelectData = number[], TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<number[], TError, TSelectData> | undefined = undefined;
-  let axiosConfig: AxiosRequestConfig |undefined;
+  let axiosConfig: AxiosRequestConfig |undefined = undefined;
   
 
   options = params[0] as any;
@@ -121,13 +117,9 @@ export function useNumberQuery<TSelectData = number[], TError = unknown>(...para
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (axiosConfig) {
-    options = options ?? { } as any;
-    options!.meta = { ...options!.meta, axiosConfig };
-  }
 
   return useQuery<number[], TError, TSelectData>({
-    queryFn: __number,
+    queryFn: axiosConfig ? (context) => __number(context, axiosConfig) : __number,
     queryKey: numberQueryKey(),
     ...numberDefaultOptions as unknown as Omit<UseQueryOptions<number[], TError, TSelectData>, 'queryKey'>,
     ...options,
@@ -167,15 +159,15 @@ export function booleanQueryKey(...params: any[]): QueryKey {
       'boolean',
     ]);
 }
-function __boolean() {
+function __boolean(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.boolean_(
-    );
+axiosConfig    );
 }
 
 export function useBooleanQuery<TSelectData = boolean[], TError = unknown>(options?: Omit<UseQueryOptions<boolean[], TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useBooleanQuery<TSelectData = boolean[], TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<boolean[], TError, TSelectData> | undefined = undefined;
-  let axiosConfig: AxiosRequestConfig |undefined;
+  let axiosConfig: AxiosRequestConfig |undefined = undefined;
   
 
   options = params[0] as any;
@@ -183,13 +175,9 @@ export function useBooleanQuery<TSelectData = boolean[], TError = unknown>(...pa
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (axiosConfig) {
-    options = options ?? { } as any;
-    options!.meta = { ...options!.meta, axiosConfig };
-  }
 
   return useQuery<boolean[], TError, TSelectData>({
-    queryFn: __boolean,
+    queryFn: axiosConfig ? (context) => __boolean(context, axiosConfig) : __boolean,
     queryKey: booleanQueryKey(),
     ...booleanDefaultOptions as unknown as Omit<UseQueryOptions<boolean[], TError, TSelectData>, 'queryKey'>,
     ...options,
@@ -229,15 +217,15 @@ export function dateOnlyQueryKey(...params: any[]): QueryKey {
       'dateOnly',
     ]);
 }
-function __dateOnly() {
+function __dateOnly(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.dateOnly(
-    );
+axiosConfig    );
 }
 
 export function useDateOnlyQuery<TSelectData = Date[], TError = unknown>(options?: Omit<UseQueryOptions<Date[], TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useDateOnlyQuery<TSelectData = Date[], TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<Date[], TError, TSelectData> | undefined = undefined;
-  let axiosConfig: AxiosRequestConfig |undefined;
+  let axiosConfig: AxiosRequestConfig |undefined = undefined;
   
 
   options = params[0] as any;
@@ -245,13 +233,9 @@ export function useDateOnlyQuery<TSelectData = Date[], TError = unknown>(...para
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (axiosConfig) {
-    options = options ?? { } as any;
-    options!.meta = { ...options!.meta, axiosConfig };
-  }
 
   return useQuery<Date[], TError, TSelectData>({
-    queryFn: __dateOnly,
+    queryFn: axiosConfig ? (context) => __dateOnly(context, axiosConfig) : __dateOnly,
     queryKey: dateOnlyQueryKey(),
     ...dateOnlyDefaultOptions as unknown as Omit<UseQueryOptions<Date[], TError, TSelectData>, 'queryKey'>,
     ...options,
@@ -291,15 +275,15 @@ export function dateTimeQueryKey(...params: any[]): QueryKey {
       'dateTime',
     ]);
 }
-function __dateTime() {
+function __dateTime(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.dateTime(
-    );
+axiosConfig    );
 }
 
 export function useDateTimeQuery<TSelectData = Date[], TError = unknown>(options?: Omit<UseQueryOptions<Date[], TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useDateTimeQuery<TSelectData = Date[], TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<Date[], TError, TSelectData> | undefined = undefined;
-  let axiosConfig: AxiosRequestConfig |undefined;
+  let axiosConfig: AxiosRequestConfig |undefined = undefined;
   
 
   options = params[0] as any;
@@ -307,13 +291,9 @@ export function useDateTimeQuery<TSelectData = Date[], TError = unknown>(...para
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (axiosConfig) {
-    options = options ?? { } as any;
-    options!.meta = { ...options!.meta, axiosConfig };
-  }
 
   return useQuery<Date[], TError, TSelectData>({
-    queryFn: __dateTime,
+    queryFn: axiosConfig ? (context) => __dateTime(context, axiosConfig) : __dateTime,
     queryKey: dateTimeQueryKey(),
     ...dateTimeDefaultOptions as unknown as Omit<UseQueryOptions<Date[], TError, TSelectData>, 'queryKey'>,
     ...options,
@@ -353,15 +333,15 @@ export function dummyDtoQueryKey(...params: any[]): QueryKey {
       'dummyDto',
     ]);
 }
-function __dummyDto() {
+function __dummyDto(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.dummyDto(
-    );
+axiosConfig    );
 }
 
 export function useDummyDtoQuery<TSelectData = Types.DummyDto[], TError = unknown>(options?: Omit<UseQueryOptions<Types.DummyDto[], TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useDummyDtoQuery<TSelectData = Types.DummyDto[], TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<Types.DummyDto[], TError, TSelectData> | undefined = undefined;
-  let axiosConfig: AxiosRequestConfig |undefined;
+  let axiosConfig: AxiosRequestConfig |undefined = undefined;
   
 
   options = params[0] as any;
@@ -369,13 +349,9 @@ export function useDummyDtoQuery<TSelectData = Types.DummyDto[], TError = unknow
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (axiosConfig) {
-    options = options ?? { } as any;
-    options!.meta = { ...options!.meta, axiosConfig };
-  }
 
   return useQuery<Types.DummyDto[], TError, TSelectData>({
-    queryFn: __dummyDto,
+    queryFn: axiosConfig ? (context) => __dummyDto(context, axiosConfig) : __dummyDto,
     queryKey: dummyDtoQueryKey(),
     ...dummyDtoDefaultOptions as unknown as Omit<UseQueryOptions<Types.DummyDto[], TError, TSelectData>, 'queryKey'>,
     ...options,

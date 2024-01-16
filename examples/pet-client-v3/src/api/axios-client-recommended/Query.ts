@@ -242,9 +242,9 @@ export function findPetsByStatusQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __findPetsByStatus(context: QueryFunctionContext) {
+function __findPetsByStatus(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.findPetsByStatus(
-      context.queryKey[2] as Types.Status[]    );
+      context.queryKey[2] as Types.Status[],axiosConfig    );
 }
 
 export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unknown>(dto: FindPetsByStatusQueryParameters, options?: Omit<UseQueryOptions<Types.Pet[], TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
@@ -256,7 +256,7 @@ export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unk
 export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unknown>(status: Types.Status[], options?: Omit<UseQueryOptions<Types.Pet[], TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<Types.Pet[], TError, TSelectData> | undefined = undefined;
-  let axiosConfig: AxiosRequestConfig |undefined;
+  let axiosConfig: AxiosRequestConfig |undefined = undefined;
   let status: any = undefined;
   
   if (params.length > 0) {
@@ -271,13 +271,9 @@ export function useFindPetsByStatusQuery<TSelectData = Types.Pet[], TError = unk
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (axiosConfig) {
-    options = options ?? { } as any;
-    options!.meta = { ...options!.meta, axiosConfig };
-  }
 
   return useQuery<Types.Pet[], TError, TSelectData>({
-    queryFn: __findPetsByStatus,
+    queryFn: axiosConfig ? (context) => __findPetsByStatus(context, axiosConfig) : __findPetsByStatus,
     queryKey: findPetsByStatusQueryKey(status),
     ...findPetsByStatusDefaultOptions as unknown as Omit<UseQueryOptions<Types.Pet[], TError, TSelectData>, 'queryKey'>,
     ...options,
@@ -341,9 +337,9 @@ export function findPetsByTagsQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __findPetsByTags(context: QueryFunctionContext) {
+function __findPetsByTags(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.findPetsByTags(
-      context.queryKey[2] as string[]    );
+      context.queryKey[2] as string[],axiosConfig    );
 }
 
 export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unknown>(dto: FindPetsByTagsQueryParameters, options?: Omit<UseQueryOptions<Types.Pet[], TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
@@ -356,7 +352,7 @@ export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unkno
 export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unknown>(tags: string[], options?: Omit<UseQueryOptions<Types.Pet[], TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<Types.Pet[], TError, TSelectData> | undefined = undefined;
-  let axiosConfig: AxiosRequestConfig |undefined;
+  let axiosConfig: AxiosRequestConfig |undefined = undefined;
   let tags: any = undefined;
   
   if (params.length > 0) {
@@ -371,13 +367,9 @@ export function useFindPetsByTagsQuery<TSelectData = Types.Pet[], TError = unkno
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (axiosConfig) {
-    options = options ?? { } as any;
-    options!.meta = { ...options!.meta, axiosConfig };
-  }
 
   return useQuery<Types.Pet[], TError, TSelectData>({
-    queryFn: __findPetsByTags,
+    queryFn: axiosConfig ? (context) => __findPetsByTags(context, axiosConfig) : __findPetsByTags,
     queryKey: findPetsByTagsQueryKey(tags),
     ...findPetsByTagsDefaultOptions as unknown as Omit<UseQueryOptions<Types.Pet[], TError, TSelectData>, 'queryKey'>,
     ...options,
@@ -442,9 +434,9 @@ export function getPetByIdQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __getPetById(context: QueryFunctionContext) {
+function __getPetById(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.getPetById(
-      context.queryKey[2] as number    );
+      context.queryKey[2] as number,axiosConfig    );
 }
 
 export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(dto: GetPetByIdQueryParameters, options?: Omit<UseQueryOptions<Types.Pet, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
@@ -456,7 +448,7 @@ export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(dt
 export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(petId: number, options?: Omit<UseQueryOptions<Types.Pet, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<Types.Pet, TError, TSelectData> | undefined = undefined;
-  let axiosConfig: AxiosRequestConfig |undefined;
+  let axiosConfig: AxiosRequestConfig |undefined = undefined;
   let petId: any = undefined;
   
   if (params.length > 0) {
@@ -471,13 +463,9 @@ export function useGetPetByIdQuery<TSelectData = Types.Pet, TError = unknown>(..
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (axiosConfig) {
-    options = options ?? { } as any;
-    options!.meta = { ...options!.meta, axiosConfig };
-  }
 
   return useQuery<Types.Pet, TError, TSelectData>({
-    queryFn: __getPetById,
+    queryFn: axiosConfig ? (context) => __getPetById(context, axiosConfig) : __getPetById,
     queryKey: getPetByIdQueryKey(petId),
     ...getPetByIdDefaultOptions as unknown as Omit<UseQueryOptions<Types.Pet, TError, TSelectData>, 'queryKey'>,
     ...options,
@@ -686,9 +674,9 @@ export function getOrderByIdQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __getOrderById(context: QueryFunctionContext) {
+function __getOrderById(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.getOrderById(
-      context.queryKey[2] as number    );
+      context.queryKey[2] as number,axiosConfig    );
 }
 
 export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown>(dto: GetOrderByIdQueryParameters, options?: Omit<UseQueryOptions<Types.Order, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
@@ -700,7 +688,7 @@ export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown
 export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown>(orderId: number, options?: Omit<UseQueryOptions<Types.Order, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<Types.Order, TError, TSelectData> | undefined = undefined;
-  let axiosConfig: AxiosRequestConfig |undefined;
+  let axiosConfig: AxiosRequestConfig |undefined = undefined;
   let orderId: any = undefined;
   
   if (params.length > 0) {
@@ -715,13 +703,9 @@ export function useGetOrderByIdQuery<TSelectData = Types.Order, TError = unknown
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (axiosConfig) {
-    options = options ?? { } as any;
-    options!.meta = { ...options!.meta, axiosConfig };
-  }
 
   return useQuery<Types.Order, TError, TSelectData>({
-    queryFn: __getOrderById,
+    queryFn: axiosConfig ? (context) => __getOrderById(context, axiosConfig) : __getOrderById,
     queryKey: getOrderByIdQueryKey(orderId),
     ...getOrderByIdDefaultOptions as unknown as Omit<UseQueryOptions<Types.Order, TError, TSelectData>, 'queryKey'>,
     ...options,
@@ -823,9 +807,9 @@ export function getInventoryQueryKey(...params: any[]): QueryKey {
       'getInventory',
     ]);
 }
-function __getInventory() {
+function __getInventory(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.getInventory(
-    );
+axiosConfig    );
 }
 
 /**
@@ -835,7 +819,7 @@ function __getInventory() {
 export function useGetInventoryQuery<TSelectData = { [key: string]: number; }, TError = unknown>(options?: Omit<UseQueryOptions<{ [key: string]: number; }, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useGetInventoryQuery<TSelectData = { [key: string]: number; }, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<{ [key: string]: number; }, TError, TSelectData> | undefined = undefined;
-  let axiosConfig: AxiosRequestConfig |undefined;
+  let axiosConfig: AxiosRequestConfig |undefined = undefined;
   
 
   options = params[0] as any;
@@ -843,13 +827,9 @@ export function useGetInventoryQuery<TSelectData = { [key: string]: number; }, T
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (axiosConfig) {
-    options = options ?? { } as any;
-    options!.meta = { ...options!.meta, axiosConfig };
-  }
 
   return useQuery<{ [key: string]: number; }, TError, TSelectData>({
-    queryFn: __getInventory,
+    queryFn: axiosConfig ? (context) => __getInventory(context, axiosConfig) : __getInventory,
     queryKey: getInventoryQueryKey(),
     ...getInventoryDefaultOptions as unknown as Omit<UseQueryOptions<{ [key: string]: number; }, TError, TSelectData>, 'queryKey'>,
     ...options,
@@ -972,9 +952,9 @@ export function getUserByNameQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __getUserByName(context: QueryFunctionContext) {
+function __getUserByName(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.getUserByName(
-      context.queryKey[2] as string    );
+      context.queryKey[2] as string,axiosConfig    );
 }
 
 export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown>(dto: GetUserByNameQueryParameters, options?: Omit<UseQueryOptions<Types.User, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
@@ -986,7 +966,7 @@ export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown
 export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown>(username: string, options?: Omit<UseQueryOptions<Types.User, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<Types.User, TError, TSelectData> | undefined = undefined;
-  let axiosConfig: AxiosRequestConfig |undefined;
+  let axiosConfig: AxiosRequestConfig |undefined = undefined;
   let username: any = undefined;
   
   if (params.length > 0) {
@@ -1001,13 +981,9 @@ export function useGetUserByNameQuery<TSelectData = Types.User, TError = unknown
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (axiosConfig) {
-    options = options ?? { } as any;
-    options!.meta = { ...options!.meta, axiosConfig };
-  }
 
   return useQuery<Types.User, TError, TSelectData>({
-    queryFn: __getUserByName,
+    queryFn: axiosConfig ? (context) => __getUserByName(context, axiosConfig) : __getUserByName,
     queryKey: getUserByNameQueryKey(username),
     ...getUserByNameDefaultOptions as unknown as Omit<UseQueryOptions<Types.User, TError, TSelectData>, 'queryKey'>,
     ...options,
@@ -1187,9 +1163,9 @@ export function loginUserQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __loginUser(context: QueryFunctionContext) {
+function __loginUser(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.loginUser(
-      context.queryKey[2] as string,       context.queryKey[3] as string    );
+      context.queryKey[2] as string,       context.queryKey[3] as string,axiosConfig    );
 }
 
 export function useLoginUserQuery<TSelectData = string, TError = unknown>(dto: LoginUserQueryParameters, options?: Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
@@ -1202,7 +1178,7 @@ export function useLoginUserQuery<TSelectData = string, TError = unknown>(dto: L
 export function useLoginUserQuery<TSelectData = string, TError = unknown>(username: string, password: string, options?: Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useLoginUserQuery<TSelectData = string, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<string, TError, TSelectData> | undefined = undefined;
-  let axiosConfig: AxiosRequestConfig |undefined;
+  let axiosConfig: AxiosRequestConfig |undefined = undefined;
   let username: any = undefined;
   let password: any = undefined;
   
@@ -1218,13 +1194,9 @@ export function useLoginUserQuery<TSelectData = string, TError = unknown>(...par
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (axiosConfig) {
-    options = options ?? { } as any;
-    options!.meta = { ...options!.meta, axiosConfig };
-  }
 
   return useQuery<string, TError, TSelectData>({
-    queryFn: __loginUser,
+    queryFn: axiosConfig ? (context) => __loginUser(context, axiosConfig) : __loginUser,
     queryKey: loginUserQueryKey(username, password),
     ...loginUserDefaultOptions as unknown as Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>,
     ...options,
@@ -1275,9 +1247,9 @@ export function logoutUserQueryKey(...params: any[]): QueryKey {
       'logoutUser',
     ]);
 }
-function __logoutUser() {
+function __logoutUser(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.logoutUser(
-    );
+axiosConfig    );
 }
 
 /**
@@ -1287,7 +1259,7 @@ function __logoutUser() {
 export function useLogoutUserQuery<TSelectData = void, TError = unknown>(options?: Omit<UseQueryOptions<void, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 export function useLogoutUserQuery<TSelectData = void, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
   let options: UseQueryOptions<void, TError, TSelectData> | undefined = undefined;
-  let axiosConfig: AxiosRequestConfig |undefined;
+  let axiosConfig: AxiosRequestConfig |undefined = undefined;
   
 
   options = params[0] as any;
@@ -1295,13 +1267,9 @@ export function useLogoutUserQuery<TSelectData = void, TError = unknown>(...para
 
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
-  if (axiosConfig) {
-    options = options ?? { } as any;
-    options!.meta = { ...options!.meta, axiosConfig };
-  }
 
   return useQuery<void, TError, TSelectData>({
-    queryFn: __logoutUser,
+    queryFn: axiosConfig ? (context) => __logoutUser(context, axiosConfig) : __logoutUser,
     queryKey: logoutUserQueryKey(),
     ...logoutUserDefaultOptions as unknown as Omit<UseQueryOptions<void, TError, TSelectData>, 'queryKey'>,
     ...options,

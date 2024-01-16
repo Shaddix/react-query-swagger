@@ -800,7 +800,7 @@ export function getInventoryQueryKey(...params: any[]): QueryKey {
       'getInventory',
     ]);
 }
-function __getInventory() {
+function __getInventory(context: QueryFunctionContext) {
   return Client().getInventory(
     );
 }
@@ -1234,7 +1234,7 @@ export function logoutUserQueryKey(...params: any[]): QueryKey {
       'logoutUser',
     ]);
 }
-function __logoutUser() {
+function __logoutUser(context: QueryFunctionContext) {
   return Client().logoutUser(
     );
 }

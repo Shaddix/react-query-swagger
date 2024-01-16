@@ -28,6 +28,7 @@ function App() {
   const pets3Query = AxiosQuery.Query.useFindPetsByStatusQuery(
     { status: [Status.Pending, Status.Available] },
     { enabled: false },
+    { baseURL: 'qwe' },
   );
   useEffect(() => {
     console.log(
