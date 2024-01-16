@@ -1,5 +1,19 @@
 import fs from 'fs';
 
+const args = process.argv.slice(2);
+const folder = args[0];
+
+await postProcess('AxiosClient.liquid', (content) => {
+  return content.replace('{%- template PersistorHydrator -%}', '');
+});
+
+await postProcess('File.liquid', (content) => {
+  return content
+    .replace('//-----PersistorHydrator.File-----', '')
+    .replace('{% template PersistorHydrator.File %}', '')
+    .replace('//-----/PersistorHydrator.File----', '');
+});
+
 await postProcess('ReactQuery.liquid', (content) => {
   content = content
     .replace(
@@ -47,8 +61,8 @@ await postProcess('ReactQuery.liquid', (content) => {
 });
 
 async function postProcess(file, postProcess) {
-  let content = fs.readFileSync(`src/templates_vue/${file}`, 'utf8').toString();
+  let content = fs.readFileSync(`src/${folder}/${file}`, 'utf8').toString();
   content = postProcess(content);
 
-  fs.writeFileSync(`src/templates_vue/${file}`, content);
+  fs.writeFileSync(`src/${folder}/${file}`, content);
 }

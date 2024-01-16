@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "generate-axios": "react-query-swagger /vue /modules /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/axios-client.ts /template:Axios /serviceHost:. /useRecommendedConfiguration",
+    "generate-axios-minimal": "react-query-swagger /vue /minimal /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/axios-client-minimal.ts /template:Axios /serviceHost:.",
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "build-only": "vite build",

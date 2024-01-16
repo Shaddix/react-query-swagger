@@ -51,10 +51,13 @@ if (noHooks) {
   );
 } else if (isMinimal) {
   pathToTemplates = pathToTemplates.replace(/templates$/, 'templates_minimal');
+  pathToTemplates = pathToTemplates.replace(
+    /templates_vue$/,
+    'templates_minimal_vue',
+  );
 } else if (!isV4) {
   pathToTemplates = pathToTemplates.replace(/templates$/, 'templates_v3');
 }
-
 if (useRecommendedConfiguration) {
   // otherwise optional parameters are generated as mandatory
   // E.g.:
@@ -424,8 +427,8 @@ function postProcessClientContent(
     )
     // For the case when an enum is used as keys of a dictionary
     .replaceAll(
-        /Types\.\{ \[key in keyof typeof ([a-zA-Z0-9_]*?)]\?: /g,
-        '{ [key in keyof typeof Types.$1]: Types.',
+      /Types\.\{ \[key in keyof typeof ([a-zA-Z0-9_]*?)]\?: /g,
+      '{ [key in keyof typeof Types.$1]: Types.',
     )
     .replaceAll('parseDateOnly(', 'Types.parseDateOnly(')
     .replaceAll('Types.{', '{')
