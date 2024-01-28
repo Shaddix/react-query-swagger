@@ -1,0 +1,49 @@
+{
+  "name": "pet-client-angular",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "17.1.1",
+    "@angular/common": "17.1.1",
+    "@angular/compiler": "17.1.1",
+    "@angular/core": "17.1.1",
+    "@angular/forms": "17.1.1",
+    "@angular/platform-browser": "17.1.1",
+    "@angular/router": "17.1.1",
+    "@ngneat/query": "2.0.0-beta.10",
+    "@tanstack/query-core": "5.17.19",
+    "react-query-swagger": "link:../../src",
+    "rxjs": "7.8.1",
+    "tslib": "2.6.2",
+    "zone.js": "0.14.3"
+  },
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve --port 4410",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "typecheck": "tsc --noEmit --skipLibCheck",
+    "generate-axios": "react-query-swagger /angular /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/axios-client.ts /template:Axios /serviceHost:.",
+    "e2e": "ng e2e"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "17.1.1",
+    "@angular/cli": "17.1.1",
+    "@angular/compiler-cli": "17.1.1",
+    "@types/jasmine": "5.1.4",
+    "@types/node": "20.11.8",
+    "codelyzer": "6.0.2",
+    "jasmine-core": "5.1.1",
+    "jasmine-spec-reporter": "7.0.0",
+    "karma": "6.4.2",
+    "karma-chrome-launcher": "3.2.0",
+    "karma-coverage": "2.2.1",
+    "karma-jasmine": "5.1.0",
+    "karma-jasmine-html-reporter": "2.1.0",
+    "protractor": "7.0.0",
+    "ts-node": "10.9.2",
+    "tslint": "6.1.3",
+    "typescript": "5.3.3"
+  }
+}

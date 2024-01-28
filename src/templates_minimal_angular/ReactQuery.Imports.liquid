@@ -1,0 +1,12 @@
+import { injectQuery, injectMutation, QueryClient } from '@ngneat/query';
+import { Observable } from 'rxjs';
+import type { UndefinedInitialDataOptions } from '@ngneat/query/lib/query-options';
+import type { Optional } from 'react-query-swagger';
+import type { Result } from '@ngneat/query/lib/types';
+import type { QueryFunctionContext, QueryObserverResult, DefaultError, MutationKey, MutateOptions, MutationObserver, MutationObserverOptions, MutationObserverResult, QueryKey } from '@tanstack/query-core';
+type UseQueryResult<TData, TError> = Result<QueryObserverResult<TData, TError>>;
+export type CreateMutationOptions<TData = unknown, TError = DefaultError, TVariables = void, TContext = unknown> = Omit<MutationObserverOptions<TData, TError, TVariables, TContext>, 'mutationFn'> & {
+    mutationFn?: (variables: TVariables) => Promise<TData> | Observable<TData>;
+};
+type UseMutationResultFn = ReturnType<typeof injectMutation>;
+type UseMutationResult<TData = unknown, TError = Error, TVariables = unknown, TContext = unknown> = ReturnType<UseMutationResultFn>;

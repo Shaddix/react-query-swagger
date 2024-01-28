@@ -18,10 +18,12 @@ if (args.includes('/nswag')) {
   return;
 }
 const isVue = args.includes('/vue');
+const isAngular = args.includes('/angular');
 const isSolid = args.includes('/solid');
 const isSvelte = args.includes('/svelte');
-const isMinimal = args.includes('/minimal');
-const isV4 = isVue || isSolid || isSvelte || args.includes('/tanstack');
+const isMinimal = args.includes('/minimal') || isAngular;
+const isV4 =
+  isVue || isSolid || isSvelte || isAngular || args.includes('/tanstack');
 // this one might be useful if you only want to have
 // to initialize Axios and baseUrl from a single place
 const noHooks = args.includes('/no-hooks');
@@ -34,10 +36,17 @@ let pathToTemplates = process.mainModule.filename
 
 if (isVue) {
   pathToTemplates = pathToTemplates.replace(/templates$/, 'templates_vue');
+} else if (isAngular) {
+  pathToTemplates = pathToTemplates.replace(
+    /templates$/,
+    'templates_minimal_angular',
+  );
 }
 if (noHooks) {
   if (isVue) {
     throw new Error('/no-hooks option is incompatible with /vue');
+  } else if (isAngular) {
+    throw new Error('/no-hooks option is incompatible with /angular');
   } else if (isSolid) {
     throw new Error('/no-hooks option is incompatible with /solid');
   } else if (isSvelte) {
@@ -118,7 +127,9 @@ if (useRecommendedConfiguration) {
 }
 
 const isClientsAsModules =
-  args.includes('/modules') || args.includes('/clients-as-modules');
+  isAngular ||
+  args.includes('/modules') ||
+  args.includes('/clients-as-modules');
 const extractTypes = args.includes('/extract-types') || isMinimal;
 if (isClientsAsModules) {
   if (
@@ -266,6 +277,41 @@ if (isVue) {
   apiClient = apiClient
     .replaceAll(/UseQueryResult/gim, 'UseQueryReturnType')
     .replaceAll(/UseMutationResult/gim, 'UseMutationReturnType');
+
+  writeFileSync(outputPath, apiClient);
+} else if (isAngular) {
+  let apiClient = readFileSync(outputPath, 'utf-8');
+  apiClient = apiClient.replaceAll(
+    /\s+const metaContext = useContext\(QueryMetaContext\);/gim,
+    '',
+  );
+
+  apiClient = apiClient.replaceAll(
+    /\s+options = addMetaToOptions\(options, metaContext\);/gim,
+    '',
+  );
+  apiClient = apiClient.replaceAll(
+    /addMetaToOptions \} from '.\/helpers'/gim,
+    "} from './helpers'",
+  );
+
+  apiClient = apiClient.replaceAll(
+    /UseQueryOptions<(.*?)>/gim,
+    "Optional<UndefinedInitialDataOptions<$1>, 'queryFn'>",
+  );
+  apiClient = apiClient.replaceAll(
+    /UseMutationOptions<(.*?)>/gim,
+    "Optional<CreateMutationOptions<$1>, 'mutationFn'>",
+  );
+  apiClient = apiClient.replaceAll(/: UseMutationResult<.*?>/gim, '');
+
+  apiClient = apiClient.replaceAll(
+    /export class ApiException extends Error \{\s+message: string;/gm,
+    'export class ApiException extends Error {\n',
+  );
+
+  apiClient = apiClient.replaceAll(/useQuery</gm, 'injectQuery()<');
+  apiClient = apiClient.replaceAll(/useMutation\(/gm, 'injectMutation()(');
 
   writeFileSync(outputPath, apiClient);
 }

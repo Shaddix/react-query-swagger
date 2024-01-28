@@ -444,8 +444,7 @@ src/templates/ReactQuery.GetClientFactory.liquid
 src/templates/ReactQuery.GetClientCall.liquid
 src/templates/OperationNameSafe.liquid
 src/templates/AxiosClient_RequestConfig.liquid
-/src/templates_no_hooks/**/*
-/src/templates_v3/**/*
+
 /src/templates_vue/**/*
 !/src/templates_vue/ReactQuery.liquid
 !/src/templates_vue/ReactQuery.MetaFile.liquid
@@ -454,6 +453,7 @@ src/templates/AxiosClient_RequestConfig.liquid
 
 /src/templates_minimal_vue/**/*
 
+/src/templates_no_hooks/**/*
 !/src/templates_no_hooks/AxiosClient.liquid
 !/src/templates_no_hooks/FetchClient.liquid
 !/src/templates_no_hooks/File.liquid
@@ -462,6 +462,7 @@ src/templates/AxiosClient_RequestConfig.liquid
 !/src/templates_no_hooks/ReactQuery.MetaFileFunctions.liquid
 !/src/templates_no_hooks/ReactQueryFile.liquid
 
+/src/templates_v3/**/*
 !/src/templates_v3/File.liquid
 !/src/templates_v3/ReactQuery.liquid
 !/src/templates_v3/ReactQuery.MetaFile.liquid
@@ -490,3 +491,10 @@ src/templates/AxiosClient_RequestConfig.liquid
 !/src/templates_minimal_no_hooks/ReactQuery.MetaFile.liquid
 !/src/templates_minimal_no_hooks/ReactQuery.MetaFileFunctions.liquid
 !/src/templates_minimal_no_hooks/ReactQuery.liquid
+
+/src/templates_minimal_angular/**/*
+!/src/templates_minimal_angular/PersistorHydrator.liquid
+!/src/templates_minimal_angular/PersistorHydrator.File.liquid
+!/src/templates_minimal_angular/ReactQuery.Imports.liquid
+!/src/templates_minimal_angular/ReactQuery.MetaFile.liquid
+!/src/templates_minimal_angular/ReactQuery.MetaFileFunctions.liquid

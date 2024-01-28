@@ -45,6 +45,7 @@
     "templates_minimal_vue/**/*",
     "templates_minimal/**/*",
     "templates_minimal_no_hooks/**/*",
+    "templates_minimal_angular/**/*",
     "dist",
     "cli.js"
   ],
