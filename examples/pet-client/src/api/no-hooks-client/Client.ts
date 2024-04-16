@@ -388,6 +388,53 @@ function processDeletePet(response: Response): Promise<void> {
 }
 
 /**
+ * Returns pet inventories by status
+ * @return successful operation
+ */
+export function getInventory(): Promise<{ [key: string]: number; }> {
+    let url_ = getBaseUrl() + "/store/inventory";
+      url_ = url_.replace(/[?&]$/, "");
+
+    let options_: RequestInit = {
+        method: "GET",
+        headers: {
+            "Accept": "application/json"
+        }
+    };
+
+    return getFetch().fetch(url_, options_).then((_response: Response) => {
+        return processGetInventory(_response);
+    });
+}
+
+function processGetInventory(response: Response): Promise<{ [key: string]: number; }> {
+    const status = response.status;
+    let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+    if (status === 200) {
+        return response.text().then((_responseText) => {
+        let result200: any = null;
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, getJsonParseReviver());
+        if (resultData200) {
+            result200 = {} as any;
+            for (let key in resultData200) {
+                if (resultData200.hasOwnProperty(key))
+                    (<any>result200)![key] = resultData200[key] !== undefined ? resultData200[key] : <any>null;
+            }
+        }
+        else {
+            result200 = <any>null;
+        }
+        return result200;
+        });
+    } else if (status !== 200 && status !== 204) {
+        return response.text().then((_responseText) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        });
+    }
+    return Promise.resolve<{ [key: string]: number; }>(null as any);
+}
+
+/**
  * Place an order for a pet
  * @param body order placed for purchasing the pet
  * @return successful operation
@@ -523,87 +570,6 @@ function processDeleteOrder(response: Response): Promise<void> {
         });
     }
     return Promise.resolve<void>(null as any);
-}
-
-/**
- * Returns pet inventories by status
- * @return successful operation
- */
-export function getInventory(): Promise<{ [key: string]: number; }> {
-    let url_ = getBaseUrl() + "/store/inventory";
-      url_ = url_.replace(/[?&]$/, "");
-
-    let options_: RequestInit = {
-        method: "GET",
-        headers: {
-            "Accept": "application/json"
-        }
-    };
-
-    return getFetch().fetch(url_, options_).then((_response: Response) => {
-        return processGetInventory(_response);
-    });
-}
-
-function processGetInventory(response: Response): Promise<{ [key: string]: number; }> {
-    const status = response.status;
-    let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-    if (status === 200) {
-        return response.text().then((_responseText) => {
-        let result200: any = null;
-        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, getJsonParseReviver());
-        if (resultData200) {
-            result200 = {} as any;
-            for (let key in resultData200) {
-                if (resultData200.hasOwnProperty(key))
-                    (<any>result200)![key] = resultData200[key] !== undefined ? resultData200[key] : <any>null;
-            }
-        }
-        else {
-            result200 = <any>null;
-        }
-        return result200;
-        });
-    } else if (status !== 200 && status !== 204) {
-        return response.text().then((_responseText) => {
-        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        });
-    }
-    return Promise.resolve<{ [key: string]: number; }>(null as any);
-}
-
-/**
- * Creates list of users with given input array
- * @param body List of user object
- * @return successful operation
- */
-export function createUsersWithArrayInput(body: Types.User[]): Promise<void> {
-    let url_ = getBaseUrl() + "/user/createWithArray";
-      url_ = url_.replace(/[?&]$/, "");
-
-    const content_ = JSON.stringify(body);
-
-    let options_: RequestInit = {
-        body: content_,
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    };
-
-    return getFetch().fetch(url_, options_).then((_response: Response) => {
-        return processCreateUsersWithArrayInput(_response);
-    });
-}
-
-function processCreateUsersWithArrayInput(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-    {
-        return response.text().then((_responseText) => {
-        return;
-        });
-    }
 }
 
 /**
@@ -850,6 +816,40 @@ export function logoutUser(): Promise<void> {
 }
 
 function processLogoutUser(response: Response): Promise<void> {
+    const status = response.status;
+    let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+    {
+        return response.text().then((_responseText) => {
+        return;
+        });
+    }
+}
+
+/**
+ * Creates list of users with given input array
+ * @param body List of user object
+ * @return successful operation
+ */
+export function createUsersWithArrayInput(body: Types.User[]): Promise<void> {
+    let url_ = getBaseUrl() + "/user/createWithArray";
+      url_ = url_.replace(/[?&]$/, "");
+
+    const content_ = JSON.stringify(body);
+
+    let options_: RequestInit = {
+        body: content_,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    };
+
+    return getFetch().fetch(url_, options_).then((_response: Response) => {
+        return processCreateUsersWithArrayInput(_response);
+    });
+}
+
+function processCreateUsersWithArrayInput(response: Response): Promise<void> {
     const status = response.status;
     let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
     {

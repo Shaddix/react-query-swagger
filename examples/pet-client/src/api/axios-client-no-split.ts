@@ -534,6 +534,67 @@ export class Client {
     }
 
     /**
+     * Returns pet inventories by status
+     * @return successful operation
+     */
+    getInventory( cancelToken?: CancelToken | undefined): Promise<{ [key: string]: number; }> {
+        let url_ = this.baseUrl + "/store/inventory";
+          url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetInventory(_response);
+        });
+    }
+
+    protected processGetInventory(response: AxiosResponse): Promise<{ [key: string]: number; }> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (resultData200) {
+                result200 = {} as any;
+                for (let key in resultData200) {
+                    if (resultData200.hasOwnProperty(key))
+                        (<any>result200)![key] = resultData200[key] !== undefined ? resultData200[key] : <any>null;
+                }
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<{ [key: string]: number; }>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<{ [key: string]: number; }>(null as any);
+    }
+
+    /**
      * Place an order for a pet
      * @param body order placed for purchasing the pet
      * @return successful operation
@@ -711,116 +772,6 @@ export class Client {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
         return Promise.resolve<void>(null as any);
-    }
-
-    /**
-     * Returns pet inventories by status
-     * @return successful operation
-     */
-    getInventory( cancelToken?: CancelToken | undefined): Promise<{ [key: string]: number; }> {
-        let url_ = this.baseUrl + "/store/inventory";
-          url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "GET",
-            url: url_,
-            headers: {
-                "Accept": "application/json"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processGetInventory(_response);
-        });
-    }
-
-    protected processGetInventory(response: AxiosResponse): Promise<{ [key: string]: number; }> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            if (resultData200) {
-                result200 = {} as any;
-                for (let key in resultData200) {
-                    if (resultData200.hasOwnProperty(key))
-                        (<any>result200)![key] = resultData200[key] !== undefined ? resultData200[key] : <any>null;
-                }
-            }
-            else {
-                result200 = <any>null;
-            }
-            return Promise.resolve<{ [key: string]: number; }>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<{ [key: string]: number; }>(null as any);
-    }
-
-    /**
-     * Creates list of users with given input array
-     * @param body List of user object
-     * @return successful operation
-     */
-    createUsersWithArrayInput(body: User[], cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/user/createWithArray";
-          url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "POST",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processCreateUsersWithArrayInput(_response);
-        });
-    }
-
-    protected processCreateUsersWithArrayInput(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        }
     }
 
     /**
@@ -1146,6 +1097,55 @@ export class Client {
     }
 
     protected processLogoutUser(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        {
+            const _responseText = response.data;
+            return Promise.resolve<void>(null as any);
+
+        }
+    }
+
+    /**
+     * Creates list of users with given input array
+     * @param body List of user object
+     * @return successful operation
+     */
+    createUsersWithArrayInput(body: User[], cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/user/createWithArray";
+          url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processCreateUsersWithArrayInput(_response);
+        });
+    }
+
+    protected processCreateUsersWithArrayInput(response: AxiosResponse): Promise<void> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {

@@ -521,6 +521,60 @@ function processDeletePet(response: AxiosResponse): Promise<void> {
 }
 
 /**
+ * Returns pet inventories by status
+ * @return successful operation
+ */
+export function getInventory(config?: AxiosRequestConfig | undefined): Promise<{ [key: string]: number; }> {
+    let url_ = getBaseUrl() + "/store/inventory";
+      url_ = url_.replace(/[?&]$/, "");
+
+    let options_: AxiosRequestConfig = {
+        ..._requestConfigGetInventory,
+        ...config,
+        method: "GET",
+        url: url_,
+        headers: {
+            ..._requestConfigGetInventory?.headers,
+            "Accept": "application/json"
+        }
+    };
+
+    return getAxios().request(options_).catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+            return _error.response;
+        } else {
+            throw _error;
+        }
+    }).then((_response: AxiosResponse) => {
+        return processGetInventory(_response);
+    });
+}
+
+function processGetInventory(response: AxiosResponse): Promise<{ [key: string]: number; }> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && typeof response.headers === "object") {
+        for (let k in response.headers) {
+            if (response.headers.hasOwnProperty(k)) {
+                _headers[k] = response.headers[k];
+            }
+        }
+    }
+    if (status === 200) {
+        const _responseText = response.data;
+        let result200: any = null;
+        let resultData200  = _responseText;
+        result200 = resultData200;
+        return Promise.resolve<{ [key: string]: number; }>(result200);
+
+    } else if (status !== 200 && status !== 204) {
+        const _responseText = response.data;
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+    }
+    return Promise.resolve<{ [key: string]: number; }>(null as any);
+}
+
+/**
  * Place an order for a pet
  * @param body order placed for purchasing the pet
  * @return successful operation
@@ -704,112 +758,6 @@ function processDeleteOrder(response: AxiosResponse): Promise<void> {
         return throwException("An unexpected server error occurred.", status, _responseText, _headers);
     }
     return Promise.resolve<void>(null as any);
-}
-
-/**
- * Returns pet inventories by status
- * @return successful operation
- */
-export function getInventory(config?: AxiosRequestConfig | undefined): Promise<{ [key: string]: number; }> {
-    let url_ = getBaseUrl() + "/store/inventory";
-      url_ = url_.replace(/[?&]$/, "");
-
-    let options_: AxiosRequestConfig = {
-        ..._requestConfigGetInventory,
-        ...config,
-        method: "GET",
-        url: url_,
-        headers: {
-            ..._requestConfigGetInventory?.headers,
-            "Accept": "application/json"
-        }
-    };
-
-    return getAxios().request(options_).catch((_error: any) => {
-        if (isAxiosError(_error) && _error.response) {
-            return _error.response;
-        } else {
-            throw _error;
-        }
-    }).then((_response: AxiosResponse) => {
-        return processGetInventory(_response);
-    });
-}
-
-function processGetInventory(response: AxiosResponse): Promise<{ [key: string]: number; }> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && typeof response.headers === "object") {
-        for (let k in response.headers) {
-            if (response.headers.hasOwnProperty(k)) {
-                _headers[k] = response.headers[k];
-            }
-        }
-    }
-    if (status === 200) {
-        const _responseText = response.data;
-        let result200: any = null;
-        let resultData200  = _responseText;
-        result200 = resultData200;
-        return Promise.resolve<{ [key: string]: number; }>(result200);
-
-    } else if (status !== 200 && status !== 204) {
-        const _responseText = response.data;
-        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-    }
-    return Promise.resolve<{ [key: string]: number; }>(null as any);
-}
-
-/**
- * Creates list of users with given input array
- * @param body List of user object
- * @return successful operation
- */
-export function createUsersWithArrayInput(body: Types.User[], config?: AxiosRequestConfig | undefined): Promise<void> {
-    let url_ = getBaseUrl() + "/user/createWithArray";
-      url_ = url_.replace(/[?&]$/, "");
-
-    body = body.map(item => Types.prepareSerializeUser(item))
-    const content_ = JSON.stringify(body);
-
-    let options_: AxiosRequestConfig = {
-        ..._requestConfigCreateUsersWithArrayInput,
-        ...config,
-        data: content_,
-        method: "POST",
-        url: url_,
-        headers: {
-            ..._requestConfigCreateUsersWithArrayInput?.headers,
-            "Content-Type": "application/json",
-        }
-    };
-
-    return getAxios().request(options_).catch((_error: any) => {
-        if (isAxiosError(_error) && _error.response) {
-            return _error.response;
-        } else {
-            throw _error;
-        }
-    }).then((_response: AxiosResponse) => {
-        return processCreateUsersWithArrayInput(_response);
-    });
-}
-
-function processCreateUsersWithArrayInput(response: AxiosResponse): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && typeof response.headers === "object") {
-        for (let k in response.headers) {
-            if (response.headers.hasOwnProperty(k)) {
-                _headers[k] = response.headers[k];
-            }
-        }
-    }
-    {
-        const _responseText = response.data;
-        return Promise.resolve<void>(null as any);
-
-    }
 }
 
 /**
@@ -1166,6 +1114,58 @@ function processLogoutUser(response: AxiosResponse): Promise<void> {
 }
 
 /**
+ * Creates list of users with given input array
+ * @param body List of user object
+ * @return successful operation
+ */
+export function createUsersWithArrayInput(body: Types.User[], config?: AxiosRequestConfig | undefined): Promise<void> {
+    let url_ = getBaseUrl() + "/user/createWithArray";
+      url_ = url_.replace(/[?&]$/, "");
+
+    body = body.map(item => Types.prepareSerializeUser(item))
+    const content_ = JSON.stringify(body);
+
+    let options_: AxiosRequestConfig = {
+        ..._requestConfigCreateUsersWithArrayInput,
+        ...config,
+        data: content_,
+        method: "POST",
+        url: url_,
+        headers: {
+            ..._requestConfigCreateUsersWithArrayInput?.headers,
+            "Content-Type": "application/json",
+        }
+    };
+
+    return getAxios().request(options_).catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+            return _error.response;
+        } else {
+            throw _error;
+        }
+    }).then((_response: AxiosResponse) => {
+        return processCreateUsersWithArrayInput(_response);
+    });
+}
+
+function processCreateUsersWithArrayInput(response: AxiosResponse): Promise<void> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && typeof response.headers === "object") {
+        for (let k in response.headers) {
+            if (response.headers.hasOwnProperty(k)) {
+                _headers[k] = response.headers[k];
+            }
+        }
+    }
+    {
+        const _responseText = response.data;
+        return Promise.resolve<void>(null as any);
+
+    }
+}
+
+/**
  * Create user
  * @param body Created user object
  * @return successful operation
@@ -1303,6 +1303,17 @@ export function patchDeletePetRequestConfig(patch: (value: Partial<AxiosRequestC
   _requestConfigDeletePet = patch(_requestConfigDeletePet ?? {});
 }
 
+let _requestConfigGetInventory: Partial<AxiosRequestConfig> | null;
+export function getGetInventoryRequestConfig() {
+  return _requestConfigGetInventory;
+}
+export function setGetInventoryRequestConfig(value: Partial<AxiosRequestConfig>) {
+  _requestConfigGetInventory = value;
+}
+export function patchGetInventoryRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigGetInventory = patch(_requestConfigGetInventory ?? {});
+}
+
 let _requestConfigPlaceOrder: Partial<AxiosRequestConfig> | null;
 export function getPlaceOrderRequestConfig() {
   return _requestConfigPlaceOrder;
@@ -1334,28 +1345,6 @@ export function setDeleteOrderRequestConfig(value: Partial<AxiosRequestConfig>) 
 }
 export function patchDeleteOrderRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigDeleteOrder = patch(_requestConfigDeleteOrder ?? {});
-}
-
-let _requestConfigGetInventory: Partial<AxiosRequestConfig> | null;
-export function getGetInventoryRequestConfig() {
-  return _requestConfigGetInventory;
-}
-export function setGetInventoryRequestConfig(value: Partial<AxiosRequestConfig>) {
-  _requestConfigGetInventory = value;
-}
-export function patchGetInventoryRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
-  _requestConfigGetInventory = patch(_requestConfigGetInventory ?? {});
-}
-
-let _requestConfigCreateUsersWithArrayInput: Partial<AxiosRequestConfig> | null;
-export function getCreateUsersWithArrayInputRequestConfig() {
-  return _requestConfigCreateUsersWithArrayInput;
-}
-export function setCreateUsersWithArrayInputRequestConfig(value: Partial<AxiosRequestConfig>) {
-  _requestConfigCreateUsersWithArrayInput = value;
-}
-export function patchCreateUsersWithArrayInputRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
-  _requestConfigCreateUsersWithArrayInput = patch(_requestConfigCreateUsersWithArrayInput ?? {});
 }
 
 let _requestConfigCreateUsersWithListInput: Partial<AxiosRequestConfig> | null;
@@ -1422,6 +1411,17 @@ export function setLogoutUserRequestConfig(value: Partial<AxiosRequestConfig>) {
 }
 export function patchLogoutUserRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigLogoutUser = patch(_requestConfigLogoutUser ?? {});
+}
+
+let _requestConfigCreateUsersWithArrayInput: Partial<AxiosRequestConfig> | null;
+export function getCreateUsersWithArrayInputRequestConfig() {
+  return _requestConfigCreateUsersWithArrayInput;
+}
+export function setCreateUsersWithArrayInputRequestConfig(value: Partial<AxiosRequestConfig>) {
+  _requestConfigCreateUsersWithArrayInput = value;
+}
+export function patchCreateUsersWithArrayInputRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigCreateUsersWithArrayInput = patch(_requestConfigCreateUsersWithArrayInput ?? {});
 }
 
 let _requestConfigCreateUser: Partial<AxiosRequestConfig> | null;

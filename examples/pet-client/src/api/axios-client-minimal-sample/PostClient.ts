@@ -180,7 +180,7 @@ function processSimpleBody(response: AxiosResponse): Promise<string> {
     return Promise.resolve<string>(null as any);
 }
 
-export function parameterInUrlNoBody(id: string | null, config?: AxiosRequestConfig | undefined): Promise<string> {
+export function parameterInUrlNoBody(id: string, config?: AxiosRequestConfig | undefined): Promise<string> {
     let url_ = getBaseUrl() + "/post/with-parameter/{id}/no-body";
     if (id === undefined || id === null)
       throw new Error("The parameter 'id' must be defined.");

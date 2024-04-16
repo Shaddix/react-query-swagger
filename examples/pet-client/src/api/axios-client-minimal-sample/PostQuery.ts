@@ -23,7 +23,7 @@ export type IdInUrlPostQueryParameters = {
 }
 
 export type ParameterInUrlNoBodyPostQueryParameters = {
-  id: string | null ;
+  id: string ;
 }
 
 export type SimpleBodyWithParameterPostQueryParameters = {
@@ -146,7 +146,7 @@ export function useSimpleBodyMutation<TContext>(options?: Omit<UseMutationOption
   });
 }
   
-export function parameterInUrlNoBodyUrl(id: string | null): string {
+export function parameterInUrlNoBodyUrl(id: string): string {
   let url_ = getBaseUrl() + "/post/with-parameter/{id}/no-body";
 if (id === undefined || id === null)
   throw new Error("The parameter 'id' must be defined.");
@@ -155,7 +155,7 @@ url_ = url_.replace("{id}", encodeURIComponent("" + id));
   return url_;
 }
 
-export function parameterInUrlNoBodyMutationKey(id: string | null): MutationKey {
+export function parameterInUrlNoBodyMutationKey(id: string): MutationKey {
   return trimArrayEnd([
       'PostClient',
       'parameterInUrlNoBody',
@@ -163,7 +163,7 @@ export function parameterInUrlNoBodyMutationKey(id: string | null): MutationKey 
     ]);
 }
 
-export function useParameterInUrlNoBodyMutation<TContext>(id: string | null, options?: Omit<UseMutationOptions<string, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<string, unknown, void, TContext> {
+export function useParameterInUrlNoBodyMutation<TContext>(id: string, options?: Omit<UseMutationOptions<string, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<string, unknown, void, TContext> {
   const key = parameterInUrlNoBodyMutationKey(id);
   
   const metaContext = useContext(QueryMetaContext);

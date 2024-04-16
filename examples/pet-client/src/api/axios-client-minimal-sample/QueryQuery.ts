@@ -531,3 +531,29 @@ export function setDictionaryInJsonQueryData(queryClient: QueryClient, updater: 
 export function setDictionaryInJsonQueryDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: { [key: string]: string; } | undefined) => { [key: string]: string; }) {
   queryClient.setQueryData(queryKey, updater);
 }
+    
+export function queryViaPostUrl(): string {
+  let url_ = getBaseUrl() + "/query/QueryViaPost";
+  url_ = url_.replace(/[?&]$/, "");
+  return url_;
+}
+
+export function queryViaPostMutationKey(): MutationKey {
+  return trimArrayEnd([
+      'QueryClient',
+      'queryViaPost',
+    ]);
+}
+
+export function useQueryViaPostMutation<TContext>(options?: Omit<UseMutationOptions<Types.DummyDto, unknown, Types.DummyDto, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<Types.DummyDto, unknown, Types.DummyDto, TContext> {
+  const key = queryViaPostMutationKey();
+  
+  const metaContext = useContext(QueryMetaContext);
+  options = addMetaToOptions(options, metaContext);
+  
+  return useMutation({
+    ...options,
+    mutationFn: (dto: Types.DummyDto) => Client.queryViaPost(dto),
+    mutationKey: key,
+  });
+}

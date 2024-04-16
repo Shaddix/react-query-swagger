@@ -8,7 +8,7 @@ namespace DemoSwagger;
 public class QueryController
 {
     [HttpGet("JsonInQuery")]
-    public string JsonInQuery([FromJsonQuery] DummyDto dto) => "";
+    public string JsonInQuery([FromJsonQuery] DummyDto? dto) => "";
 
     [HttpGet("DateOnlyInQuery")]
     public string DateOnlyInQuery(DateOnly date) => "";
@@ -17,15 +17,18 @@ public class QueryController
     public string DateTimeInQuery(DateTime date) => "";
 
     [HttpGet("ArrayInQuery")]
-    public string[] ArrayInQuery([FromQuery] string[] data) => data;
+    public string[] ArrayInQuery([FromQuery] string[]? data) => data ?? [];
 
     [HttpGet("DictionaryInQuery")]
     public Dictionary<string, string> DictionaryInQuery(
-        [FromQuery] Dictionary<string, string> data
-    ) => data;
+        [FromQuery] Dictionary<string, string>? data
+    ) => data ?? new Dictionary<string, string>();
 
     [HttpGet("DictionaryInJsonQuery")]
     public Dictionary<string, string> DictionaryInJsonQuery(
-        [FromJsonQuery] Dictionary<string, string> data
-    ) => data;
+        [FromJsonQuery] Dictionary<string, string>? data
+    ) => data ?? new Dictionary<string, string>();
+
+    [HttpPost("QueryViaPost")]
+    public DummyDto QueryViaPost(DummyDto dto) => dto;
 }

@@ -73,7 +73,6 @@ export type DeleteOrderQueryParameters = {
   orderId: number ;
 }
 
-
 export type GetUserByNameQueryParameters = {
   username: string ;
 }
@@ -90,6 +89,7 @@ export type LoginUserQueryParameters = {
   username: string ;
   password: string ;
 }
+
 
 export function uploadFileUrl(petId: number): string {
   let url_ = getBaseUrl() + "/pet/{petId}/uploadImage";
@@ -581,6 +581,72 @@ return injectMutation()({
 });
 }
   
+export function getInventoryUrl(): string {
+  let url_ = getBaseUrl() + "/store/inventory";
+  url_ = url_.replace(/[?&]$/, "");
+  return url_;
+}
+
+let getInventoryDefaultOptions: Omit<Optional<UndefinedInitialDataOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }>, 'queryFn'>, 'queryKey'> = {
+  queryFn: __getInventory,
+};
+export function getGetInventoryDefaultOptions() {
+  return getInventoryDefaultOptions;
+};
+export function setGetInventoryDefaultOptions(options: typeof getInventoryDefaultOptions) {
+  getInventoryDefaultOptions = options;
+}
+
+export function getInventoryQueryKey(): QueryKey;
+export function getInventoryQueryKey(...params: any[]): QueryKey {
+  return trimArrayEnd([
+      'Client',
+      'getInventory',
+    ]);
+}
+function __getInventory(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+  return Client.getInventory(
+axiosConfig    );
+}
+
+/**
+ * Returns pet inventories by status
+ * @return successful operation
+ */
+export function useGetInventoryQuery<TSelectData = { [key: string]: number; }, TError = unknown>(options?: Omit<Optional<UndefinedInitialDataOptions<{ [key: string]: number; }, TError, TSelectData>, 'queryFn'>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useGetInventoryQuery<TSelectData = { [key: string]: number; }, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+  let options: Optional<UndefinedInitialDataOptions<{ [key: string]: number; }, TError, TSelectData>, 'queryFn'> | undefined = undefined;
+  let axiosConfig: AxiosRequestConfig |undefined = undefined;
+  
+
+  options = params[0] as any;
+  axiosConfig = params[1] as any;
+
+  return injectQuery()<{ [key: string]: number; }, TError, TSelectData>({
+    queryFn: axiosConfig ? (context) => __getInventory(context, axiosConfig) : __getInventory,
+    queryKey: getInventoryQueryKey(),
+    ...getInventoryDefaultOptions as unknown as Omit<Optional<UndefinedInitialDataOptions<{ [key: string]: number; }, TError, TSelectData>, 'queryFn'>, 'queryKey'>,
+    ...options,
+  });
+}
+/**
+ * Returns pet inventories by status
+ * @return successful operation
+ */
+export function setGetInventoryData(queryClient: QueryClient, updater: (data: { [key: string]: number; } | undefined) => { [key: string]: number; }, ) {
+  queryClient.setQueryData(getInventoryQueryKey(),
+    updater
+  );
+}
+
+/**
+ * Returns pet inventories by status
+ * @return successful operation
+ */
+export function setGetInventoryDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: { [key: string]: number; } | undefined) => { [key: string]: number; }) {
+  queryClient.setQueryData(queryKey, updater);
+}
+    
 export function placeOrderUrl(): string {
   let url_ = getBaseUrl() + "/store/order";
   url_ = url_.replace(/[?&]$/, "");
@@ -745,100 +811,6 @@ return injectMutation()({
   mutationFn: (data: DeleteOrder__MutationParameters) => Client.deleteOrder(data.orderId ?? options?.parameters?.orderId!),
   mutationKey: key,
 });
-}
-  
-export function getInventoryUrl(): string {
-  let url_ = getBaseUrl() + "/store/inventory";
-  url_ = url_.replace(/[?&]$/, "");
-  return url_;
-}
-
-let getInventoryDefaultOptions: Omit<Optional<UndefinedInitialDataOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }>, 'queryFn'>, 'queryKey'> = {
-  queryFn: __getInventory,
-};
-export function getGetInventoryDefaultOptions() {
-  return getInventoryDefaultOptions;
-};
-export function setGetInventoryDefaultOptions(options: typeof getInventoryDefaultOptions) {
-  getInventoryDefaultOptions = options;
-}
-
-export function getInventoryQueryKey(): QueryKey;
-export function getInventoryQueryKey(...params: any[]): QueryKey {
-  return trimArrayEnd([
-      'Client',
-      'getInventory',
-    ]);
-}
-function __getInventory(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
-  return Client.getInventory(
-axiosConfig    );
-}
-
-/**
- * Returns pet inventories by status
- * @return successful operation
- */
-export function useGetInventoryQuery<TSelectData = { [key: string]: number; }, TError = unknown>(options?: Omit<Optional<UndefinedInitialDataOptions<{ [key: string]: number; }, TError, TSelectData>, 'queryFn'>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
-export function useGetInventoryQuery<TSelectData = { [key: string]: number; }, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
-  let options: Optional<UndefinedInitialDataOptions<{ [key: string]: number; }, TError, TSelectData>, 'queryFn'> | undefined = undefined;
-  let axiosConfig: AxiosRequestConfig |undefined = undefined;
-  
-
-  options = params[0] as any;
-  axiosConfig = params[1] as any;
-
-  return injectQuery()<{ [key: string]: number; }, TError, TSelectData>({
-    queryFn: axiosConfig ? (context) => __getInventory(context, axiosConfig) : __getInventory,
-    queryKey: getInventoryQueryKey(),
-    ...getInventoryDefaultOptions as unknown as Omit<Optional<UndefinedInitialDataOptions<{ [key: string]: number; }, TError, TSelectData>, 'queryFn'>, 'queryKey'>,
-    ...options,
-  });
-}
-/**
- * Returns pet inventories by status
- * @return successful operation
- */
-export function setGetInventoryData(queryClient: QueryClient, updater: (data: { [key: string]: number; } | undefined) => { [key: string]: number; }, ) {
-  queryClient.setQueryData(getInventoryQueryKey(),
-    updater
-  );
-}
-
-/**
- * Returns pet inventories by status
- * @return successful operation
- */
-export function setGetInventoryDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: { [key: string]: number; } | undefined) => { [key: string]: number; }) {
-  queryClient.setQueryData(queryKey, updater);
-}
-    
-export function createUsersWithArrayInputUrl(): string {
-  let url_ = getBaseUrl() + "/user/createWithArray";
-  url_ = url_.replace(/[?&]$/, "");
-  return url_;
-}
-
-export function createUsersWithArrayInputMutationKey(): MutationKey {
-  return trimArrayEnd([
-      'Client',
-      'createUsersWithArrayInput',
-    ]);
-}
-
-/**
- * Creates list of users with given input array
- * @param body List of user object
- * @return successful operation
- */
-export function useCreateUsersWithArrayInputMutation<TContext>(options?: Omit<Optional<CreateMutationOptions<void, unknown, Types.User[], TContext>, 'mutationFn'>, 'mutationKey' | 'mutationFn'>) {
-  const key = createUsersWithArrayInputMutationKey();
-  
-  return injectMutation()({
-    ...options,
-    mutationFn: (body: Types.User[]) => Client.createUsersWithArrayInput(body),
-    mutationKey: key,
-  });
 }
   
 export function createUsersWithListInputUrl(): string {
@@ -1226,6 +1198,34 @@ export function setLogoutUserDataByQueryId(queryClient: QueryClient, queryKey: Q
   queryClient.setQueryData(queryKey, updater);
 }
     
+export function createUsersWithArrayInputUrl(): string {
+  let url_ = getBaseUrl() + "/user/createWithArray";
+  url_ = url_.replace(/[?&]$/, "");
+  return url_;
+}
+
+export function createUsersWithArrayInputMutationKey(): MutationKey {
+  return trimArrayEnd([
+      'Client',
+      'createUsersWithArrayInput',
+    ]);
+}
+
+/**
+ * Creates list of users with given input array
+ * @param body List of user object
+ * @return successful operation
+ */
+export function useCreateUsersWithArrayInputMutation<TContext>(options?: Omit<Optional<CreateMutationOptions<void, unknown, Types.User[], TContext>, 'mutationFn'>, 'mutationKey' | 'mutationFn'>) {
+  const key = createUsersWithArrayInputMutationKey();
+  
+  return injectMutation()({
+    ...options,
+    mutationFn: (body: Types.User[]) => Client.createUsersWithArrayInput(body),
+    mutationKey: key,
+  });
+}
+  
 export function createUserUrl(): string {
   let url_ = getBaseUrl() + "/user";
   url_ = url_.replace(/[?&]$/, "");

@@ -340,6 +340,60 @@ function processDictionaryInJsonQuery(response: AxiosResponse): Promise<{ [key: 
     }
     return Promise.resolve<{ [key: string]: string; }>(null as any);
 }
+
+export function queryViaPost(dto: Types.DummyDto, config?: AxiosRequestConfig | undefined): Promise<Types.DummyDto> {
+    let url_ = getBaseUrl() + "/query/QueryViaPost";
+      url_ = url_.replace(/[?&]$/, "");
+
+    const content_ = Types.serializeDummyDto(dto);
+
+    let options_: AxiosRequestConfig = {
+        ..._requestConfigQueryViaPost,
+        ...config,
+        data: content_,
+        method: "POST",
+        url: url_,
+        headers: {
+            ..._requestConfigQueryViaPost?.headers,
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+    };
+
+    return getAxios().request(options_).catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+            return _error.response;
+        } else {
+            throw _error;
+        }
+    }).then((_response: AxiosResponse) => {
+        return processQueryViaPost(_response);
+    });
+}
+
+function processQueryViaPost(response: AxiosResponse): Promise<Types.DummyDto> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && typeof response.headers === "object") {
+        for (let k in response.headers) {
+            if (response.headers.hasOwnProperty(k)) {
+                _headers[k] = response.headers[k];
+            }
+        }
+    }
+    if (status === 200) {
+        const _responseText = response.data;
+        let result200: any = null;
+        let resultData200  = _responseText;
+        result200 = Types.initDummyDto(resultData200);
+        return Promise.resolve<Types.DummyDto>(result200);
+
+    } else if (status !== 200 && status !== 204) {
+        const _responseText = response.data;
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+    }
+    return Promise.resolve<Types.DummyDto>(null as any);
+}
 let _requestConfigJsonInQuery: Partial<AxiosRequestConfig> | null;
 export function getJsonInQueryRequestConfig() {
   return _requestConfigJsonInQuery;
@@ -404,4 +458,15 @@ export function setDictionaryInJsonQueryRequestConfig(value: Partial<AxiosReques
 }
 export function patchDictionaryInJsonQueryRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigDictionaryInJsonQuery = patch(_requestConfigDictionaryInJsonQuery ?? {});
+}
+
+let _requestConfigQueryViaPost: Partial<AxiosRequestConfig> | null;
+export function getQueryViaPostRequestConfig() {
+  return _requestConfigQueryViaPost;
+}
+export function setQueryViaPostRequestConfig(value: Partial<AxiosRequestConfig>) {
+  _requestConfigQueryViaPost = value;
+}
+export function patchQueryViaPostRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigQueryViaPost = patch(_requestConfigQueryViaPost ?? {});
 }
