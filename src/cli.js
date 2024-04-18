@@ -30,9 +30,18 @@ const noHooks = args.includes('/no-hooks');
 const useRecommendedConfiguration =
   args.includes('/use-recommended-configuration') || isMinimal;
 
+  
 let pathToTemplates = process.mainModule.filename
   .replace('cli.js', 'templates')
   .replace('.bin/react-query-swagger', 'react-query-swagger/templates');
+  
+//if the user specified a template directory, use that instead
+const templateDirRegex = args.match(/\/templateDirectory:"(?<path>.*?)"/) || args.match(/\/templateDirectory:(?<path>\S*)/);
+const templateDir = templateDirRegex?.groups?.['path'];
+console.log('TEMPLATE DIRECTORY: ' + templateDir);
+if (templateDir) {
+  pathToTemplates = templateDir;
+}
 
 if (isVue) {
   pathToTemplates = pathToTemplates.replace(/templates$/, 'templates_vue');
