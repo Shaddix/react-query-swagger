@@ -532,28 +532,54 @@ export function setDictionaryInJsonQueryDataByQueryId(queryClient: QueryClient, 
   queryClient.setQueryData(queryKey, updater);
 }
     
-export function queryViaPostUrl(): string {
-  let url_ = getBaseUrl() + "/query/QueryViaPost";
+export function getViaPostUrl(): string {
+  let url_ = getBaseUrl() + "/query/GetViaPost";
   url_ = url_.replace(/[?&]$/, "");
   return url_;
 }
 
-export function queryViaPostMutationKey(): MutationKey {
+export function getViaPostMutationKey(): MutationKey {
   return trimArrayEnd([
       'QueryClient',
-      'queryViaPost',
+      'getViaPost',
     ]);
 }
 
-export function useQueryViaPostMutation<TContext>(options?: Omit<UseMutationOptions<Types.DummyDto, unknown, Types.DummyDto, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<Types.DummyDto, unknown, Types.DummyDto, TContext> {
-  const key = queryViaPostMutationKey();
+export function useGetViaPostMutation<TContext>(options?: Omit<UseMutationOptions<Types.DummyDto, unknown, Types.DummyDto, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<Types.DummyDto, unknown, Types.DummyDto, TContext> {
+  const key = getViaPostMutationKey();
   
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
   
   return useMutation({
     ...options,
-    mutationFn: (dto: Types.DummyDto) => Client.queryViaPost(dto),
+    mutationFn: (dto: Types.DummyDto) => Client.getViaPost(dto),
+    mutationKey: key,
+  });
+}
+  
+export function nonGetViaPostUrl(): string {
+  let url_ = getBaseUrl() + "/query/NonGetViaPost";
+  url_ = url_.replace(/[?&]$/, "");
+  return url_;
+}
+
+export function nonGetViaPostMutationKey(): MutationKey {
+  return trimArrayEnd([
+      'QueryClient',
+      'nonGetViaPost',
+    ]);
+}
+
+export function useNonGetViaPostMutation<TContext>(options?: Omit<UseMutationOptions<Types.DummyDto, unknown, Types.DummyDto, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<Types.DummyDto, unknown, Types.DummyDto, TContext> {
+  const key = nonGetViaPostMutationKey();
+  
+  const metaContext = useContext(QueryMetaContext);
+  options = addMetaToOptions(options, metaContext);
+  
+  return useMutation({
+    ...options,
+    mutationFn: (dto: Types.DummyDto) => Client.nonGetViaPost(dto),
     mutationKey: key,
   });
 }

@@ -341,20 +341,20 @@ function processDictionaryInJsonQuery(response: AxiosResponse): Promise<{ [key: 
     return Promise.resolve<{ [key: string]: string; }>(null as any);
 }
 
-export function queryViaPost(dto: Types.DummyDto, config?: AxiosRequestConfig | undefined): Promise<Types.DummyDto> {
-    let url_ = getBaseUrl() + "/query/QueryViaPost";
+export function getViaPost(dto: Types.DummyDto, config?: AxiosRequestConfig | undefined): Promise<Types.DummyDto> {
+    let url_ = getBaseUrl() + "/query/GetViaPost";
       url_ = url_.replace(/[?&]$/, "");
 
     const content_ = Types.serializeDummyDto(dto);
 
     let options_: AxiosRequestConfig = {
-        ..._requestConfigQueryViaPost,
+        ..._requestConfigGetViaPost,
         ...config,
         data: content_,
         method: "POST",
         url: url_,
         headers: {
-            ..._requestConfigQueryViaPost?.headers,
+            ..._requestConfigGetViaPost?.headers,
             "Content-Type": "application/json",
             "Accept": "application/json"
         }
@@ -367,11 +367,65 @@ export function queryViaPost(dto: Types.DummyDto, config?: AxiosRequestConfig | 
             throw _error;
         }
     }).then((_response: AxiosResponse) => {
-        return processQueryViaPost(_response);
+        return processGetViaPost(_response);
     });
 }
 
-function processQueryViaPost(response: AxiosResponse): Promise<Types.DummyDto> {
+function processGetViaPost(response: AxiosResponse): Promise<Types.DummyDto> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && typeof response.headers === "object") {
+        for (let k in response.headers) {
+            if (response.headers.hasOwnProperty(k)) {
+                _headers[k] = response.headers[k];
+            }
+        }
+    }
+    if (status === 200) {
+        const _responseText = response.data;
+        let result200: any = null;
+        let resultData200  = _responseText;
+        result200 = Types.initDummyDto(resultData200);
+        return Promise.resolve<Types.DummyDto>(result200);
+
+    } else if (status !== 200 && status !== 204) {
+        const _responseText = response.data;
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+    }
+    return Promise.resolve<Types.DummyDto>(null as any);
+}
+
+export function nonGetViaPost(dto: Types.DummyDto, config?: AxiosRequestConfig | undefined): Promise<Types.DummyDto> {
+    let url_ = getBaseUrl() + "/query/NonGetViaPost";
+      url_ = url_.replace(/[?&]$/, "");
+
+    const content_ = Types.serializeDummyDto(dto);
+
+    let options_: AxiosRequestConfig = {
+        ..._requestConfigNonGetViaPost,
+        ...config,
+        data: content_,
+        method: "POST",
+        url: url_,
+        headers: {
+            ..._requestConfigNonGetViaPost?.headers,
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+    };
+
+    return getAxios().request(options_).catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+            return _error.response;
+        } else {
+            throw _error;
+        }
+    }).then((_response: AxiosResponse) => {
+        return processNonGetViaPost(_response);
+    });
+}
+
+function processNonGetViaPost(response: AxiosResponse): Promise<Types.DummyDto> {
     const status = response.status;
     let _headers: any = {};
     if (response.headers && typeof response.headers === "object") {
@@ -460,13 +514,24 @@ export function patchDictionaryInJsonQueryRequestConfig(patch: (value: Partial<A
   _requestConfigDictionaryInJsonQuery = patch(_requestConfigDictionaryInJsonQuery ?? {});
 }
 
-let _requestConfigQueryViaPost: Partial<AxiosRequestConfig> | null;
-export function getQueryViaPostRequestConfig() {
-  return _requestConfigQueryViaPost;
+let _requestConfigGetViaPost: Partial<AxiosRequestConfig> | null;
+export function getGetViaPostRequestConfig() {
+  return _requestConfigGetViaPost;
 }
-export function setQueryViaPostRequestConfig(value: Partial<AxiosRequestConfig>) {
-  _requestConfigQueryViaPost = value;
+export function setGetViaPostRequestConfig(value: Partial<AxiosRequestConfig>) {
+  _requestConfigGetViaPost = value;
 }
-export function patchQueryViaPostRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
-  _requestConfigQueryViaPost = patch(_requestConfigQueryViaPost ?? {});
+export function patchGetViaPostRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigGetViaPost = patch(_requestConfigGetViaPost ?? {});
+}
+
+let _requestConfigNonGetViaPost: Partial<AxiosRequestConfig> | null;
+export function getNonGetViaPostRequestConfig() {
+  return _requestConfigNonGetViaPost;
+}
+export function setNonGetViaPostRequestConfig(value: Partial<AxiosRequestConfig>) {
+  _requestConfigNonGetViaPost = value;
+}
+export function patchNonGetViaPostRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigNonGetViaPost = patch(_requestConfigNonGetViaPost ?? {});
 }
