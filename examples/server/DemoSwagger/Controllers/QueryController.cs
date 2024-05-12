@@ -29,6 +29,15 @@ public class QueryController
         [FromJsonQuery] Dictionary<string, string>? data
     ) => data ?? new Dictionary<string, string>();
 
-    [HttpPost("QueryViaPost")]
-    public DummyDto QueryViaPost(DummyDto dto) => dto;
+    /// <summary>
+    /// This will have the useQuery generated, since the name starts with Get
+    /// </summary>
+    [HttpPost("GetViaPost")]
+    public DummyDto GetViaPost(DummyDto dto) => dto;
+
+    /// <summary>
+    /// However this will not (<see cref="GetViaPost"/>).
+    /// </summary>
+    [HttpPost("NonGetViaPost")]
+    public DummyDto NonGetViaPost(DummyDto dto) => dto;
 }

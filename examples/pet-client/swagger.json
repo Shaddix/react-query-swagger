@@ -988,10 +988,40 @@
         }
       }
     },
-    "/query/QueryViaPost": {
+    "/query/GetViaPost": {
       "post": {
         "tags": ["Query"],
-        "operationId": "Query_QueryViaPost",
+        "operationId": "Query_GetViaPost",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DummyDto"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DummyDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/query/NonGetViaPost": {
+      "post": {
+        "tags": ["Query"],
+        "operationId": "Query_NonGetViaPost",
         "requestBody": {
           "x-name": "dto",
           "content": {
