@@ -27,15 +27,34 @@ const isV4 =
 // this one might be useful if you only want to have
 // to initialize Axios and baseUrl from a single place
 const noHooks = args.includes('/no-hooks');
+
 const useRecommendedConfiguration =
   args.includes('/use-recommended-configuration') || isMinimal;
 
 let pathToTemplates = process.mainModule.filename
   .replace('cli.js', 'templates')
   .replace('.bin/react-query-swagger', 'react-query-swagger/templates');
-  
+
 //if the user specified a template directory, use that instead
-const templateDirRegex = args.match(/\/templateDirectory:"(?<path>.*?)"/) || args.match(/\/templateDirectory:(?<path>\S*)/);
+const queryForNonGetOperationsConditionRegex = args.match(
+  /\/non-get-query-condition:"(?<condition>.*?)"/,
+);
+let queryForNonGetOperationsCondition =
+  queryForNonGetOperationsConditionRegex?.groups?.['condition'];
+const addQueryForPostRequestsStartingWithGetKeyword = args.includes(
+  '/post-queries-start-with-get',
+);
+if (addQueryForPostRequestsStartingWithGetKeyword) {
+  queryForNonGetOperationsCondition =
+    "operation.ActualOperationName | downcase | slice: 0, 3 | replace: 'get', 'true'";
+}
+if (!queryForNonGetOperationsCondition)
+  queryForNonGetOperationsCondition = "'false'";
+
+//if the user specified a template directory, use that instead
+const templateDirRegex =
+  args.match(/\/templateDirectory:"(?<path>.*?)"/) ||
+  args.match(/\/templateDirectory:(?<path>\S*)/);
 const templateDir = templateDirRegex?.groups?.['path'];
 if (templateDir) {
   pathToTemplates = templateDir;
@@ -181,6 +200,14 @@ if (isMinimal) {
     content.replace(
       'const content_ = JSON.stringify({{ operation.ContentParameter.Type }});',
       'const content_ = Types.serialize{{ operation.ContentParameter.Type }}({{ operation.ContentParameter.VariableName }});',
+    ),
+  );
+}
+if (queryForNonGetOperationsCondition) {
+  patchTemplateFile(pathToTemplates, 'ReactQuery.liquid', (content) =>
+    content.replaceAll(
+      /\{%- assign AddQueryForNonGetOperationCondition.*?%\}/gims,
+      `{%- assign AddQueryForNonGetOperationCondition = ${queryForNonGetOperationsCondition} -%}`,
     ),
   );
 }

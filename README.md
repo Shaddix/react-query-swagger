@@ -321,6 +321,12 @@ Here's a rationale behind each of them:
 
   We need this to be able to use both `undefined` and `null` as values in PATCH requests
 
+### /post-queries-start-with-get (or /non-get-query-condition)
+
+By default we generate `useQuery` hooks for GET requests only. Though, sometimes backend uses POST queries to actually get the data (e.g. if request parameters are big and require HTTP BODY to send it). In this case if the name of your POST endpoints start with `get`, you could use `/post-queries-start-with-get` parameter, and we will generate `useQuery` hooks for them as well.
+
+Alternatively, you could specify another flag `/non-get-query-condition:CONDITION_HERE` to determine which operations (beside GET) should be treated as GET (and thus have `useQuery` functions generated). Example of the condition: `operation.ActualOperationName | downcase | slice: 0, 3 | replace: 'get', 'true'` (it is actually used by default). Liquid template syntax is used here.
+
 ## Upgrading instructions
 
 ### From v14 to v15

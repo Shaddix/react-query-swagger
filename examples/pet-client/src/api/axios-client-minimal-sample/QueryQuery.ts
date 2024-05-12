@@ -42,6 +42,10 @@ export type DictionaryInJsonQueryQueryQueryParameters = {
   data?: { [key: string]: string; } | null | undefined ;
 }
 
+export type GetViaPostQueryQueryParameters = {
+  dto: Types.DummyDto ;
+}
+
 export function jsonInQueryUrl(dto?: Types.DummyDto | null | undefined): string {
   let url_ = getBaseUrl() + "/query/JsonInQuery?";
 if (dto !== undefined && dto !== null)
@@ -557,7 +561,78 @@ export function useGetViaPostMutation<TContext>(options?: Omit<UseMutationOption
     mutationKey: key,
   });
 }
+let getViaPostDefaultOptions: Omit<UseQueryOptions<Types.DummyDto, unknown, Types.DummyDto>, 'queryKey'> = {
+  queryFn: __getViaPost,
+};
+export function getGetViaPostDefaultOptions() {
+  return getViaPostDefaultOptions;
+};
+export function setGetViaPostDefaultOptions(options: typeof getViaPostDefaultOptions) {
+  getViaPostDefaultOptions = options;
+}
+
+export function getViaPostQueryKey(dto: Types.DummyDto): QueryKey;
+export function getViaPostQueryKey(...params: any[]): QueryKey {
+  if (params.length === 1 && isParameterObject(params[0])) {
+    const { dto,  } = params[0] as GetViaPostQueryQueryParameters;
+
+    return trimArrayEnd([
+        'QueryClient',
+        'getViaPost',
+        dto as any,
+      ]);
+  } else {
+    return trimArrayEnd([
+        'QueryClient',
+        'getViaPost',
+        ...params
+      ]);
+  }
+}
+function __getViaPost(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+  return Client.getViaPost(
+      context.queryKey[2] as Types.DummyDto,axiosConfig    );
+}
+
+export function useGetViaPostQuery<TSelectData = Types.DummyDto, TError = unknown>(dto: GetViaPostQueryQueryParameters, options?: Omit<UseQueryOptions<Types.DummyDto, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+
+export function useGetViaPostQuery<TSelectData = Types.DummyDto, TError = unknown>(dto: Types.DummyDto, options?: Omit<UseQueryOptions<Types.DummyDto, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useGetViaPostQuery<TSelectData = Types.DummyDto, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+  let options: UseQueryOptions<Types.DummyDto, TError, TSelectData> | undefined = undefined;
+  let axiosConfig: AxiosRequestConfig |undefined = undefined;
+  let dto: any = undefined;
   
+  if (params.length > 0) {
+    if (isParameterObject(params[0])) {
+      ({ dto,  } = params[0] as GetViaPostQueryQueryParameters);
+      options = params[1];
+      axiosConfig = params[2];
+    } else {
+      [dto, options, axiosConfig] = params;
+    }
+  }
+
+  const metaContext = useContext(QueryMetaContext);
+  options = addMetaToOptions(options, metaContext);
+
+  return useQuery<Types.DummyDto, TError, TSelectData>({
+    queryFn: axiosConfig ? (context) => __getViaPost(context, axiosConfig) : __getViaPost,
+    queryKey: getViaPostQueryKey(dto),
+    ...getViaPostDefaultOptions as unknown as Omit<UseQueryOptions<Types.DummyDto, TError, TSelectData>, 'queryKey'>,
+    ...options,
+  });
+}
+
+export function setGetViaPostData(queryClient: QueryClient, updater: (data: Types.DummyDto | undefined) => Types.DummyDto, dto: Types.DummyDto) {
+  queryClient.setQueryData(getViaPostQueryKey(dto),
+    updater
+  );
+}
+
+export function setGetViaPostDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: Types.DummyDto | undefined) => Types.DummyDto) {
+  queryClient.setQueryData(queryKey, updater);
+}
+    
 export function nonGetViaPostUrl(): string {
   let url_ = getBaseUrl() + "/query/NonGetViaPost";
   url_ = url_.replace(/[?&]$/, "");
