@@ -812,6 +812,49 @@
         }
       }
     },
+    "/query/JsonInNested": {
+      "get": {
+        "tags": ["Query"],
+        "operationId": "Query_JsonInNestedQuery",
+        "parameters": [
+          {
+            "name": "Test",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "Dummy",
+            "in": "query",
+            "x-position": 2,
+            "additionalItems": {
+              "$ref": "#/components/schemas/DummyDto"
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DummyDto"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/query/DateOnlyInQuery": {
       "get": {
         "tags": ["Query"],
@@ -1047,6 +1090,64 @@
           }
         }
       }
+    },
+    "/query/WithBody": {
+      "get": {
+        "tags": ["Query"],
+        "operationId": "Query_WithBody",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BodyDto"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/query/ClassInQuery": {
+      "get": {
+        "tags": ["Query"],
+        "operationId": "Query_WithClassInQuery",
+        "parameters": [
+          {
+            "name": "Tst",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1065,6 +1166,15 @@
           "dateTime": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "BodyDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "tst": {
+            "type": "string"
           }
         }
       }

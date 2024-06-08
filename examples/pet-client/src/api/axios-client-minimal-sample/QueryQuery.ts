@@ -22,6 +22,11 @@ export type JsonInQueryQueryQueryParameters = {
   dto?: Types.DummyDto | null | undefined ;
 }
 
+export type JsonInNestedQueryQueryQueryParameters = {
+  test?: string | undefined ;
+  dummy?: Types.DummyDto | undefined ;
+}
+
 export type DateOnlyInQueryQueryQueryParameters = {
   date?: Date | undefined ;
 }
@@ -44,6 +49,14 @@ export type DictionaryInJsonQueryQueryQueryParameters = {
 
 export type GetViaPostQueryQueryParameters = {
   dto: Types.DummyDto ;
+}
+
+export type WithBodyQueryQueryParameters = {
+  dto: Types.BodyDto ;
+}
+
+export type WithClassInQueryQueryQueryParameters = {
+  tst?: string | undefined ;
 }
 
 export function jsonInQueryUrl(dto?: Types.DummyDto | null | undefined): string {
@@ -126,6 +139,98 @@ export function setJsonInQueryData(queryClient: QueryClient, updater: (data: str
 }
 
 export function setJsonInQueryDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: string | undefined) => string) {
+  queryClient.setQueryData(queryKey, updater);
+}
+    
+export function jsonInNestedQueryUrl(test?: string | undefined, dummy?: Types.DummyDto | undefined): string {
+  let url_ = getBaseUrl() + "/query/JsonInNested?";
+if (test === null)
+    throw new Error("The parameter 'test' cannot be null.");
+else if (test !== undefined)
+    url_ += "Test=" + encodeURIComponent("" + test) + "&";
+if (dummy === null)
+    throw new Error("The parameter 'dummy' cannot be null.");
+else if (dummy !== undefined)
+{
+    const content_ = Types.serializeDummyDto(dummy);
+    url_ += "Dummy=" + encodeURIComponent(content_) + "&";
+}
+  url_ = url_.replace(/[?&]$/, "");
+  return url_;
+}
+
+let jsonInNestedQueryDefaultOptions: Omit<UseQueryOptions<string, unknown, string>, 'queryKey'> = {
+  queryFn: __jsonInNestedQuery,
+};
+export function getJsonInNestedQueryDefaultOptions() {
+  return jsonInNestedQueryDefaultOptions;
+};
+export function setJsonInNestedQueryDefaultOptions(options: typeof jsonInNestedQueryDefaultOptions) {
+  jsonInNestedQueryDefaultOptions = options;
+}
+
+export function jsonInNestedQueryQueryKey(dto: JsonInNestedQueryQueryQueryParameters): QueryKey;
+export function jsonInNestedQueryQueryKey(test?: string | undefined, dummy?: Types.DummyDto | undefined): QueryKey;
+export function jsonInNestedQueryQueryKey(...params: any[]): QueryKey {
+  if (params.length === 1 && isParameterObject(params[0])) {
+    const { test, dummy,  } = params[0] as JsonInNestedQueryQueryQueryParameters;
+
+    return trimArrayEnd([
+        'QueryClient',
+        'jsonInNestedQuery',
+        test as any,
+        dummy as any,
+      ]);
+  } else {
+    return trimArrayEnd([
+        'QueryClient',
+        'jsonInNestedQuery',
+        ...params
+      ]);
+  }
+}
+function __jsonInNestedQuery(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+  return Client.jsonInNestedQuery(
+      context.queryKey[2] as string | undefined,       context.queryKey[3] as Types.DummyDto | undefined,axiosConfig    );
+}
+
+export function useJsonInNestedQueryQuery<TSelectData = string, TError = unknown>(dto: JsonInNestedQueryQueryQueryParameters, options?: Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+
+export function useJsonInNestedQueryQuery<TSelectData = string, TError = unknown>(test?: string | undefined, dummy?: Types.DummyDto | undefined, options?: Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useJsonInNestedQueryQuery<TSelectData = string, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+  let options: UseQueryOptions<string, TError, TSelectData> | undefined = undefined;
+  let axiosConfig: AxiosRequestConfig |undefined = undefined;
+  let test: any = undefined;
+  let dummy: any = undefined;
+  
+  if (params.length > 0) {
+    if (isParameterObject(params[0])) {
+      ({ test, dummy,  } = params[0] as JsonInNestedQueryQueryQueryParameters);
+      options = params[1];
+      axiosConfig = params[2];
+    } else {
+      [test, dummy, options, axiosConfig] = params;
+    }
+  }
+
+  const metaContext = useContext(QueryMetaContext);
+  options = addMetaToOptions(options, metaContext);
+
+  return useQuery<string, TError, TSelectData>({
+    queryFn: axiosConfig ? (context) => __jsonInNestedQuery(context, axiosConfig) : __jsonInNestedQuery,
+    queryKey: jsonInNestedQueryQueryKey(test, dummy),
+    ...jsonInNestedQueryDefaultOptions as unknown as Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>,
+    ...options,
+  });
+}
+
+export function setJsonInNestedQueryData(queryClient: QueryClient, updater: (data: string | undefined) => string, test?: string | undefined, dummy?: Types.DummyDto | undefined) {
+  queryClient.setQueryData(jsonInNestedQueryQueryKey(test, dummy),
+    updater
+  );
+}
+
+export function setJsonInNestedQueryDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: string | undefined) => string) {
   queryClient.setQueryData(queryKey, updater);
 }
     
@@ -657,4 +762,164 @@ export function useNonGetViaPostMutation<TContext>(options?: Omit<UseMutationOpt
     mutationFn: (dto: Types.DummyDto) => Client.nonGetViaPost(dto),
     mutationKey: key,
   });
+}
+  
+export function withBodyUrl(): string {
+  let url_ = getBaseUrl() + "/query/WithBody";
+  url_ = url_.replace(/[?&]$/, "");
+  return url_;
+}
+
+let withBodyDefaultOptions: Omit<UseQueryOptions<string, unknown, string>, 'queryKey'> = {
+  queryFn: __withBody,
+};
+export function getWithBodyDefaultOptions() {
+  return withBodyDefaultOptions;
+};
+export function setWithBodyDefaultOptions(options: typeof withBodyDefaultOptions) {
+  withBodyDefaultOptions = options;
+}
+
+export function withBodyQueryKey(dto: Types.BodyDto): QueryKey;
+export function withBodyQueryKey(...params: any[]): QueryKey {
+  if (params.length === 1 && isParameterObject(params[0])) {
+    const { dto,  } = params[0] as WithBodyQueryQueryParameters;
+
+    return trimArrayEnd([
+        'QueryClient',
+        'withBody',
+        dto as any,
+      ]);
+  } else {
+    return trimArrayEnd([
+        'QueryClient',
+        'withBody',
+        ...params
+      ]);
+  }
+}
+function __withBody(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+  return Client.withBody(
+      context.queryKey[2] as Types.BodyDto,axiosConfig    );
+}
+
+export function useWithBodyQuery<TSelectData = string, TError = unknown>(dto: WithBodyQueryQueryParameters, options?: Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+
+export function useWithBodyQuery<TSelectData = string, TError = unknown>(dto: Types.BodyDto, options?: Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useWithBodyQuery<TSelectData = string, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+  let options: UseQueryOptions<string, TError, TSelectData> | undefined = undefined;
+  let axiosConfig: AxiosRequestConfig |undefined = undefined;
+  let dto: any = undefined;
+  
+  if (params.length > 0) {
+    if (isParameterObject(params[0])) {
+      ({ dto,  } = params[0] as WithBodyQueryQueryParameters);
+      options = params[1];
+      axiosConfig = params[2];
+    } else {
+      [dto, options, axiosConfig] = params;
+    }
+  }
+
+  const metaContext = useContext(QueryMetaContext);
+  options = addMetaToOptions(options, metaContext);
+
+  return useQuery<string, TError, TSelectData>({
+    queryFn: axiosConfig ? (context) => __withBody(context, axiosConfig) : __withBody,
+    queryKey: withBodyQueryKey(dto),
+    ...withBodyDefaultOptions as unknown as Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>,
+    ...options,
+  });
+}
+
+export function setWithBodyData(queryClient: QueryClient, updater: (data: string | undefined) => string, dto: Types.BodyDto) {
+  queryClient.setQueryData(withBodyQueryKey(dto),
+    updater
+  );
+}
+
+export function setWithBodyDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: string | undefined) => string) {
+  queryClient.setQueryData(queryKey, updater);
+}
+    
+export function withClassInQueryUrl(tst?: string | undefined): string {
+  let url_ = getBaseUrl() + "/query/ClassInQuery?";
+if (tst === null)
+    throw new Error("The parameter 'tst' cannot be null.");
+else if (tst !== undefined)
+    url_ += "Tst=" + encodeURIComponent("" + tst) + "&";
+  url_ = url_.replace(/[?&]$/, "");
+  return url_;
+}
+
+let withClassInQueryDefaultOptions: Omit<UseQueryOptions<string, unknown, string>, 'queryKey'> = {
+  queryFn: __withClassInQuery,
+};
+export function getWithClassInQueryDefaultOptions() {
+  return withClassInQueryDefaultOptions;
+};
+export function setWithClassInQueryDefaultOptions(options: typeof withClassInQueryDefaultOptions) {
+  withClassInQueryDefaultOptions = options;
+}
+
+export function withClassInQueryQueryKey(tst?: string | undefined): QueryKey;
+export function withClassInQueryQueryKey(...params: any[]): QueryKey {
+  if (params.length === 1 && isParameterObject(params[0])) {
+    const { tst,  } = params[0] as WithClassInQueryQueryQueryParameters;
+
+    return trimArrayEnd([
+        'QueryClient',
+        'withClassInQuery',
+        tst as any,
+      ]);
+  } else {
+    return trimArrayEnd([
+        'QueryClient',
+        'withClassInQuery',
+        ...params
+      ]);
+  }
+}
+function __withClassInQuery(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+  return Client.withClassInQuery(
+      context.queryKey[2] as string | undefined,axiosConfig    );
+}
+
+export function useWithClassInQueryQuery<TSelectData = string, TError = unknown>(dto: WithClassInQueryQueryQueryParameters, options?: Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+
+export function useWithClassInQueryQuery<TSelectData = string, TError = unknown>(tst?: string | undefined, options?: Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useWithClassInQueryQuery<TSelectData = string, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+  let options: UseQueryOptions<string, TError, TSelectData> | undefined = undefined;
+  let axiosConfig: AxiosRequestConfig |undefined = undefined;
+  let tst: any = undefined;
+  
+  if (params.length > 0) {
+    if (isParameterObject(params[0])) {
+      ({ tst,  } = params[0] as WithClassInQueryQueryQueryParameters);
+      options = params[1];
+      axiosConfig = params[2];
+    } else {
+      [tst, options, axiosConfig] = params;
+    }
+  }
+
+  const metaContext = useContext(QueryMetaContext);
+  options = addMetaToOptions(options, metaContext);
+
+  return useQuery<string, TError, TSelectData>({
+    queryFn: axiosConfig ? (context) => __withClassInQuery(context, axiosConfig) : __withClassInQuery,
+    queryKey: withClassInQueryQueryKey(tst),
+    ...withClassInQueryDefaultOptions as unknown as Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>,
+    ...options,
+  });
+}
+
+export function setWithClassInQueryData(queryClient: QueryClient, updater: (data: string | undefined) => string, tst?: string | undefined) {
+  queryClient.setQueryData(withClassInQueryQueryKey(tst),
+    updater
+  );
+}
+
+export function setWithClassInQueryDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: string | undefined) => string) {
+  queryClient.setQueryData(queryKey, updater);
 }

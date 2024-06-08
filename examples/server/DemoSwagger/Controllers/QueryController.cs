@@ -10,6 +10,9 @@ public class QueryController
     [HttpGet("JsonInQuery")]
     public string JsonInQuery([FromJsonQuery] DummyDto? dto) => "";
 
+    [HttpGet("JsonInNested")]
+    public string JsonInNestedQuery(JsonInNestedDto? dto) => "";
+
     [HttpGet("DateOnlyInQuery")]
     public string DateOnlyInQuery(DateOnly date) => "";
 
@@ -40,4 +43,29 @@ public class QueryController
     /// </summary>
     [HttpPost("NonGetViaPost")]
     public DummyDto NonGetViaPost(DummyDto dto) => dto;
+
+    /// <summary>
+    /// Do not use in any other API methods except <see cref="GetWithBody"/>
+    /// </summary>
+    public class BodyDto
+    {
+        public string Tst { get; set; }
+    }
+
+    [HttpGet("WithBody")]
+    public string WithBody(BodyDto dto) => "";
+
+    /// <summary>
+    /// Do not use in any other API methods except <see cref="GetWithClassInQuery"/>
+    /// </summary>
+    public class ClassInQueryDto
+    {
+        public string Tst { get; set; }
+    }
+
+    /// <summary>
+    /// the name should NOT start with GET
+    /// </summary>
+    [HttpGet("ClassInQuery")]
+    public string WithClassInQuery([FromQuery] ClassInQueryDto dto) => "";
 }

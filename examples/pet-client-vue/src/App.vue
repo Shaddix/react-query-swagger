@@ -2,8 +2,6 @@
 import { ref } from 'vue';
 import { AxiosQuery } from './api';
 import { Status } from './api/axios-client';
-import { useMutation, useQuery } from '@tanstack/vue-query';
-import type { MaybeRefDeep } from '@tanstack/vue-query/build/lib/types';
 let status = ref<Status>(Status.Sold);
 const { isLoading, isError, data, error } =
   AxiosQuery.Query.useFindPetsByStatusQuery({

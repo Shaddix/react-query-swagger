@@ -70,6 +70,69 @@ function processJsonInQuery(response: AxiosResponse): Promise<string> {
     return Promise.resolve<string>(null as any);
 }
 
+export function jsonInNestedQuery(test?: string | undefined, dummy?: Types.DummyDto | undefined, config?: AxiosRequestConfig | undefined): Promise<string> {
+    let url_ = getBaseUrl() + "/query/JsonInNested?";
+    if (test === null)
+        throw new Error("The parameter 'test' cannot be null.");
+    else if (test !== undefined)
+        url_ += "Test=" + encodeURIComponent("" + test) + "&";
+    if (dummy === null)
+        throw new Error("The parameter 'dummy' cannot be null.");
+    else if (dummy !== undefined)
+    {
+        const content_ = Types.serializeDummyDto(dummy);
+        url_ += "Dummy=" + encodeURIComponent(content_) + "&";
+    }
+      url_ = url_.replace(/[?&]$/, "");
+
+    let options_: AxiosRequestConfig = {
+        ..._requestConfigJsonInNestedQuery,
+        ...config,
+        method: "GET",
+        url: url_,
+        headers: {
+            ..._requestConfigJsonInNestedQuery?.headers,
+            "Accept": "application/json"
+        }
+    };
+
+    return getAxios().request(options_).catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+            return _error.response;
+        } else {
+            throw _error;
+        }
+    }).then((_response: AxiosResponse) => {
+        return processJsonInNestedQuery(_response);
+    });
+}
+
+function processJsonInNestedQuery(response: AxiosResponse): Promise<string> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && typeof response.headers === "object") {
+        for (let k in response.headers) {
+            if (response.headers.hasOwnProperty(k)) {
+                _headers[k] = response.headers[k];
+            }
+        }
+    }
+    if (status === 200) {
+        const _responseText = response.data;
+        let result200: any = null;
+        let resultData200  = _responseText;
+    
+        result200 = resultData200;
+    
+        return Promise.resolve<string>(result200);
+
+    } else if (status !== 200 && status !== 204) {
+        const _responseText = response.data;
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+    }
+    return Promise.resolve<string>(null as any);
+}
+
 export function dateOnlyInQuery(date?: Date | undefined, config?: AxiosRequestConfig | undefined): Promise<string> {
     let url_ = getBaseUrl() + "/query/DateOnlyInQuery?";
     if (date === null)
@@ -448,6 +511,118 @@ function processNonGetViaPost(response: AxiosResponse): Promise<Types.DummyDto> 
     }
     return Promise.resolve<Types.DummyDto>(null as any);
 }
+
+export function withBody(dto: Types.BodyDto, config?: AxiosRequestConfig | undefined): Promise<string> {
+    let url_ = getBaseUrl() + "/query/WithBody";
+      url_ = url_.replace(/[?&]$/, "");
+
+    const content_ = Types.serializeBodyDto(dto);
+
+    let options_: AxiosRequestConfig = {
+        ..._requestConfigWithBody,
+        ...config,
+        data: content_,
+        method: "GET",
+        url: url_,
+        headers: {
+            ..._requestConfigWithBody?.headers,
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+    };
+
+    return getAxios().request(options_).catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+            return _error.response;
+        } else {
+            throw _error;
+        }
+    }).then((_response: AxiosResponse) => {
+        return processWithBody(_response);
+    });
+}
+
+function processWithBody(response: AxiosResponse): Promise<string> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && typeof response.headers === "object") {
+        for (let k in response.headers) {
+            if (response.headers.hasOwnProperty(k)) {
+                _headers[k] = response.headers[k];
+            }
+        }
+    }
+    if (status === 200) {
+        const _responseText = response.data;
+        let result200: any = null;
+        let resultData200  = _responseText;
+    
+        result200 = resultData200;
+    
+        return Promise.resolve<string>(result200);
+
+    } else if (status !== 200 && status !== 204) {
+        const _responseText = response.data;
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+    }
+    return Promise.resolve<string>(null as any);
+}
+
+export function withClassInQuery(tst?: string | undefined, config?: AxiosRequestConfig | undefined): Promise<string> {
+    let url_ = getBaseUrl() + "/query/ClassInQuery?";
+    if (tst === null)
+        throw new Error("The parameter 'tst' cannot be null.");
+    else if (tst !== undefined)
+        url_ += "Tst=" + encodeURIComponent("" + tst) + "&";
+      url_ = url_.replace(/[?&]$/, "");
+
+    let options_: AxiosRequestConfig = {
+        ..._requestConfigWithClassInQuery,
+        ...config,
+        method: "GET",
+        url: url_,
+        headers: {
+            ..._requestConfigWithClassInQuery?.headers,
+            "Accept": "application/json"
+        }
+    };
+
+    return getAxios().request(options_).catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+            return _error.response;
+        } else {
+            throw _error;
+        }
+    }).then((_response: AxiosResponse) => {
+        return processWithClassInQuery(_response);
+    });
+}
+
+function processWithClassInQuery(response: AxiosResponse): Promise<string> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && typeof response.headers === "object") {
+        for (let k in response.headers) {
+            if (response.headers.hasOwnProperty(k)) {
+                _headers[k] = response.headers[k];
+            }
+        }
+    }
+    if (status === 200) {
+        const _responseText = response.data;
+        let result200: any = null;
+        let resultData200  = _responseText;
+    
+        result200 = resultData200;
+    
+        return Promise.resolve<string>(result200);
+
+    } else if (status !== 200 && status !== 204) {
+        const _responseText = response.data;
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+    }
+    return Promise.resolve<string>(null as any);
+}
 let _requestConfigJsonInQuery: Partial<AxiosRequestConfig> | null;
 export function getJsonInQueryRequestConfig() {
   return _requestConfigJsonInQuery;
@@ -457,6 +632,17 @@ export function setJsonInQueryRequestConfig(value: Partial<AxiosRequestConfig>) 
 }
 export function patchJsonInQueryRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigJsonInQuery = patch(_requestConfigJsonInQuery ?? {});
+}
+
+let _requestConfigJsonInNestedQuery: Partial<AxiosRequestConfig> | null;
+export function getJsonInNestedQueryRequestConfig() {
+  return _requestConfigJsonInNestedQuery;
+}
+export function setJsonInNestedQueryRequestConfig(value: Partial<AxiosRequestConfig>) {
+  _requestConfigJsonInNestedQuery = value;
+}
+export function patchJsonInNestedQueryRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigJsonInNestedQuery = patch(_requestConfigJsonInNestedQuery ?? {});
 }
 
 let _requestConfigDateOnlyInQuery: Partial<AxiosRequestConfig> | null;
@@ -534,4 +720,26 @@ export function setNonGetViaPostRequestConfig(value: Partial<AxiosRequestConfig>
 }
 export function patchNonGetViaPostRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
   _requestConfigNonGetViaPost = patch(_requestConfigNonGetViaPost ?? {});
+}
+
+let _requestConfigWithBody: Partial<AxiosRequestConfig> | null;
+export function getWithBodyRequestConfig() {
+  return _requestConfigWithBody;
+}
+export function setWithBodyRequestConfig(value: Partial<AxiosRequestConfig>) {
+  _requestConfigWithBody = value;
+}
+export function patchWithBodyRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigWithBody = patch(_requestConfigWithBody ?? {});
+}
+
+let _requestConfigWithClassInQuery: Partial<AxiosRequestConfig> | null;
+export function getWithClassInQueryRequestConfig() {
+  return _requestConfigWithClassInQuery;
+}
+export function setWithClassInQueryRequestConfig(value: Partial<AxiosRequestConfig>) {
+  _requestConfigWithClassInQuery = value;
+}
+export function patchWithClassInQueryRequestConfig(patch: (value: Partial<AxiosRequestConfig>) => Partial<AxiosRequestConfig>) {
+  _requestConfigWithClassInQuery = patch(_requestConfigWithClassInQuery ?? {});
 }

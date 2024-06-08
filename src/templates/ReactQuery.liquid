@@ -12,17 +12,18 @@ import type { AxiosRequestConfig } from 'axios';
 {%- assign MutationClassName = Class | prepend: 'Qqqqqq' | slice: 0, Class.size | append: "Mutation" | slice: 6, 1000 -%}
 
 {%- for operation in Operations -%}
+{%-   assign GetWithBody = operation.HttpMethodUpper == 'Get' and operation.Parameters.size > 0 -%}
 {%-   assign AddQueryForNonGetOperation = false -%}{%- assign AddQueryForNonGetOperationCondition = 'false' -%}{%-   if AddQueryForNonGetOperationCondition == "true" -%}{%-assign AddQueryForNonGetOperation = true -%}{%- endif -%}
 {%-   assign NonBodyParameters = operation.PathParameters | concat: operation.QueryParameters | concat: operation.HeaderParameters %}
-{%-   if NonBodyParameters.size > 0 or AddQueryForNonGetOperation -%}
+{%-   if NonBodyParameters.size > 0 or AddQueryForNonGetOperation or GetWithBody   -%}
 {%-     assign firstLetter = operation.ActualOperationName | slice: 0, 1 | upcase -%}
 {%-     assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: QueryClassName | append: 'Parameters' -%}
 export type {{ parameterClassName }} = {
   {%-   for parameter in operation.Parameters -%}
-{%- assign AddQueryForNonGetOperationInverted = true -%}{%- if AddQueryForNonGetOperation -%}{%- assign AddQueryForNonGetOperationInverted = false -%}{%- endif -%}
-  {%-       unless parameter.IsBody and AddQueryForNonGetOperationInverted -%}
+{%- assign NotIsBody = true -%}{%- if parameter.IsBody -%}{%- assign NotIsBody = false -%}{%- endif -%}
+  {%-       if NotIsBody or AddQueryForNonGetOperation or GetWithBody -%}
   {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: Types.{{ parameter.Type }}{{ parameter.TypePostfix }} ;{% comment %}space before the ';' is important, so that 'undefined' here is not replaced with null{% endcomment %}
-  {%-       endunless -%}
+  {%-       endif -%}
   {%-   endfor -%}
 }
 

@@ -28,6 +28,27 @@ export function prepareSerializeDummyDto(_data: DummyDto): DummyDto {
   data["dateTime"] = _data.dateTime && _data.dateTime.toISOString();
   return data as DummyDto;
 }
+export interface BodyDto  {
+  tst?: string;
+}
+export function deserializeBodyDto(json: string): BodyDto {
+  const data = JSON.parse(json) as BodyDto;
+  initBodyDto(data);
+  return data;
+}
+export function initBodyDto(_data: BodyDto) {
+    return _data;
+}
+export function serializeBodyDto(_data: BodyDto | undefined) {
+  if (_data) {
+    _data = prepareSerializeBodyDto(_data as BodyDto);
+  }
+  return JSON.stringify(_data);
+}
+export function prepareSerializeBodyDto(_data: BodyDto): BodyDto {
+  const data: Record<string, any> = { ..._data };
+  return data as BodyDto;
+}
 export function formatDate(d: Date) {
     return d.getFullYear() + '-' + 
         (d.getMonth() < 9 ? ('0' + (d.getMonth()+1)) : (d.getMonth()+1)) + '-' +
