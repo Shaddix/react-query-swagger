@@ -138,8 +138,7 @@ return useMutation({
 {%-   assign AddQueryForNonGetOperation = false -%}{%- assign AddQueryForNonGetOperationCondition = 'false' -%}{%-   if AddQueryForNonGetOperationCondition == "true" -%}{%-assign AddQueryForNonGetOperation = true -%}{%- endif -%}
 {%- if operation.HttpMethodUpper == 'Get' or AddQueryForNonGetOperation -%}
     {%- assign parameterClassName = operation.ActualOperationName | append: 'q' | slice: 1, operation.ActualOperationName.size | prepend: firstLetter | slice: 0, operation.ActualOperationName.size | append: QueryClassName | append: 'Parameters' -%}
-let {{ operation.ActualOperationName }}DefaultOptions: Omit<UseQueryOptions<{{ ResultType }}, unknown, {{ ResultType }}>, 'queryKey'> = {
-  queryFn: __{{ operation.ActualOperationName }},
+let {{ operation.ActualOperationName }}DefaultOptions: Omit<UseQueryOptions<{{ ResultType }}, unknown, {{ ResultType }}>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<{{ ResultType }}, unknown, {{ ResultType }}>, 'queryFn'>> = {
 };
 export function get{{ operation.ActualOperationName | capitalize }}DefaultOptions() {
   return {{ operation.ActualOperationName }}DefaultOptions;
@@ -179,7 +178,7 @@ export function {{ operation.ActualOperationName }}QueryKey(...params: any[]): Q
     {%- endif -%}
 }
 {%- comment -%} Why add __ to the function name? see below where it's used {%- endcomment -%}
-function __{{ operation.ActualOperationName }}(context: QueryFunctionContext{%- if Framework.IsAxios -%}, axiosConfig?: AxiosRequestConfig | undefined{%- endif -%}) {
+export function __{{ operation.ActualOperationName }}(context: QueryFunctionContext{%- if Framework.IsAxios -%}, axiosConfig?: AxiosRequestConfig | undefined{%- endif -%}) {
   return {% template ReactQuery.GetClientCall %}.{% template OperationNameSafe %}(
   {%- for parameter in operation.Parameters -%}
 {%- assign ParameterType = parameter.Type | prepend: 'Types.' -%}

@@ -55,6 +55,10 @@ await postProcess('ReactQuery.liquid', (content) => {
     .replaceAll(
       'options?.parameters?.{{ parameter.VariableName }}!',
       'options?.parameters?.{{ parameter.VariableName }}! as any',
+    )
+    .replace(
+      " & Partial<Pick<UseQueryOptions<{{ ResultType }}, unknown, {{ ResultType }}>, 'queryFn'>>",
+      '',
     );
 
   return content;

@@ -210,8 +210,7 @@ export function findPetsByStatusUrl(status: Types.Status[]): string {
   return url_;
 }
 
-let findPetsByStatusDefaultOptions: Omit<Optional<UndefinedInitialDataOptions<Types.Pet[], unknown, Types.Pet[]>, 'queryFn'>, 'queryKey'> = {
-  queryFn: __findPetsByStatus,
+let findPetsByStatusDefaultOptions: Omit<Optional<UndefinedInitialDataOptions<Types.Pet[], unknown, Types.Pet[]>, 'queryFn'>, 'queryKey' | 'queryFn'> & Partial<Pick<Optional<UndefinedInitialDataOptions<Types.Pet[], unknown, Types.Pet[]>, 'queryFn'>, 'queryFn'>> = {
 };
 export function getFindPetsByStatusDefaultOptions() {
   return findPetsByStatusDefaultOptions;
@@ -238,7 +237,7 @@ export function findPetsByStatusQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __findPetsByStatus(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __findPetsByStatus(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.findPetsByStatus(
       context.queryKey[2] as Types.Status[],axiosConfig    );
 }
@@ -302,8 +301,7 @@ export function findPetsByTagsUrl(tags: string[]): string {
   return url_;
 }
 
-let findPetsByTagsDefaultOptions: Omit<Optional<UndefinedInitialDataOptions<Types.Pet[], unknown, Types.Pet[]>, 'queryFn'>, 'queryKey'> = {
-  queryFn: __findPetsByTags,
+let findPetsByTagsDefaultOptions: Omit<Optional<UndefinedInitialDataOptions<Types.Pet[], unknown, Types.Pet[]>, 'queryFn'>, 'queryKey' | 'queryFn'> & Partial<Pick<Optional<UndefinedInitialDataOptions<Types.Pet[], unknown, Types.Pet[]>, 'queryFn'>, 'queryFn'>> = {
 };
 export function getFindPetsByTagsDefaultOptions() {
   return findPetsByTagsDefaultOptions;
@@ -330,7 +328,7 @@ export function findPetsByTagsQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __findPetsByTags(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __findPetsByTags(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.findPetsByTags(
       context.queryKey[2] as string[],axiosConfig    );
 }
@@ -396,8 +394,7 @@ url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
   return url_;
 }
 
-let getPetByIdDefaultOptions: Omit<Optional<UndefinedInitialDataOptions<Types.Pet, unknown, Types.Pet>, 'queryFn'>, 'queryKey'> = {
-  queryFn: __getPetById,
+let getPetByIdDefaultOptions: Omit<Optional<UndefinedInitialDataOptions<Types.Pet, unknown, Types.Pet>, 'queryFn'>, 'queryKey' | 'queryFn'> & Partial<Pick<Optional<UndefinedInitialDataOptions<Types.Pet, unknown, Types.Pet>, 'queryFn'>, 'queryFn'>> = {
 };
 export function getGetPetByIdDefaultOptions() {
   return getPetByIdDefaultOptions;
@@ -424,7 +421,7 @@ export function getPetByIdQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __getPetById(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __getPetById(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.getPetById(
       context.queryKey[2] as number,axiosConfig    );
 }
@@ -587,8 +584,7 @@ export function getInventoryUrl(): string {
   return url_;
 }
 
-let getInventoryDefaultOptions: Omit<Optional<UndefinedInitialDataOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }>, 'queryFn'>, 'queryKey'> = {
-  queryFn: __getInventory,
+let getInventoryDefaultOptions: Omit<Optional<UndefinedInitialDataOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }>, 'queryFn'>, 'queryKey' | 'queryFn'> & Partial<Pick<Optional<UndefinedInitialDataOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }>, 'queryFn'>, 'queryFn'>> = {
 };
 export function getGetInventoryDefaultOptions() {
   return getInventoryDefaultOptions;
@@ -604,7 +600,7 @@ export function getInventoryQueryKey(...params: any[]): QueryKey {
       'getInventory',
     ]);
 }
-function __getInventory(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __getInventory(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.getInventory(
 axiosConfig    );
 }
@@ -684,8 +680,7 @@ url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
   return url_;
 }
 
-let getOrderByIdDefaultOptions: Omit<Optional<UndefinedInitialDataOptions<Types.Order, unknown, Types.Order>, 'queryFn'>, 'queryKey'> = {
-  queryFn: __getOrderById,
+let getOrderByIdDefaultOptions: Omit<Optional<UndefinedInitialDataOptions<Types.Order, unknown, Types.Order>, 'queryFn'>, 'queryKey' | 'queryFn'> & Partial<Pick<Optional<UndefinedInitialDataOptions<Types.Order, unknown, Types.Order>, 'queryFn'>, 'queryFn'>> = {
 };
 export function getGetOrderByIdDefaultOptions() {
   return getOrderByIdDefaultOptions;
@@ -712,7 +707,7 @@ export function getOrderByIdQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __getOrderById(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __getOrderById(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.getOrderById(
       context.queryKey[2] as number,axiosConfig    );
 }
@@ -850,8 +845,7 @@ url_ = url_.replace("{username}", encodeURIComponent("" + username));
   return url_;
 }
 
-let getUserByNameDefaultOptions: Omit<Optional<UndefinedInitialDataOptions<Types.User, unknown, Types.User>, 'queryFn'>, 'queryKey'> = {
-  queryFn: __getUserByName,
+let getUserByNameDefaultOptions: Omit<Optional<UndefinedInitialDataOptions<Types.User, unknown, Types.User>, 'queryFn'>, 'queryKey' | 'queryFn'> & Partial<Pick<Optional<UndefinedInitialDataOptions<Types.User, unknown, Types.User>, 'queryFn'>, 'queryFn'>> = {
 };
 export function getGetUserByNameDefaultOptions() {
   return getUserByNameDefaultOptions;
@@ -878,7 +872,7 @@ export function getUserByNameQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __getUserByName(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __getUserByName(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.getUserByName(
       context.queryKey[2] as string,axiosConfig    );
 }
@@ -1044,8 +1038,7 @@ export function loginUserUrl(username: string, password: string): string {
   return url_;
 }
 
-let loginUserDefaultOptions: Omit<Optional<UndefinedInitialDataOptions<string, unknown, string>, 'queryFn'>, 'queryKey'> = {
-  queryFn: __loginUser,
+let loginUserDefaultOptions: Omit<Optional<UndefinedInitialDataOptions<string, unknown, string>, 'queryFn'>, 'queryKey' | 'queryFn'> & Partial<Pick<Optional<UndefinedInitialDataOptions<string, unknown, string>, 'queryFn'>, 'queryFn'>> = {
 };
 export function getLoginUserDefaultOptions() {
   return loginUserDefaultOptions;
@@ -1074,7 +1067,7 @@ export function loginUserQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __loginUser(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __loginUser(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.loginUser(
       context.queryKey[2] as string,       context.queryKey[3] as string,axiosConfig    );
 }
@@ -1138,8 +1131,7 @@ export function logoutUserUrl(): string {
   return url_;
 }
 
-let logoutUserDefaultOptions: Omit<Optional<UndefinedInitialDataOptions<void, unknown, void>, 'queryFn'>, 'queryKey'> = {
-  queryFn: __logoutUser,
+let logoutUserDefaultOptions: Omit<Optional<UndefinedInitialDataOptions<void, unknown, void>, 'queryFn'>, 'queryKey' | 'queryFn'> & Partial<Pick<Optional<UndefinedInitialDataOptions<void, unknown, void>, 'queryFn'>, 'queryFn'>> = {
 };
 export function getLogoutUserDefaultOptions() {
   return logoutUserDefaultOptions;
@@ -1155,7 +1147,7 @@ export function logoutUserQueryKey(...params: any[]): QueryKey {
       'logoutUser',
     ]);
 }
-function __logoutUser(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __logoutUser(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.logoutUser(
 axiosConfig    );
 }

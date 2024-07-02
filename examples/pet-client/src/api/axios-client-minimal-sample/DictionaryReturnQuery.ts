@@ -26,8 +26,7 @@ export function stringUrl(): string {
   return url_;
 }
 
-let stringDefaultOptions: Omit<UseQueryOptions<{ [key: string]: string; }, unknown, { [key: string]: string; }>, 'queryKey'> = {
-  queryFn: __string,
+let stringDefaultOptions: Omit<UseQueryOptions<{ [key: string]: string; }, unknown, { [key: string]: string; }>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<{ [key: string]: string; }, unknown, { [key: string]: string; }>, 'queryFn'>> = {
 };
 export function getStringDefaultOptions() {
   return stringDefaultOptions;
@@ -43,7 +42,7 @@ export function stringQueryKey(...params: any[]): QueryKey {
       'string',
     ]);
 }
-function __string(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __string(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.string(
 axiosConfig    );
 }
@@ -84,8 +83,7 @@ export function numberUrl(): string {
   return url_;
 }
 
-let numberDefaultOptions: Omit<UseQueryOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }>, 'queryKey'> = {
-  queryFn: __number,
+let numberDefaultOptions: Omit<UseQueryOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }>, 'queryFn'>> = {
 };
 export function getNumberDefaultOptions() {
   return numberDefaultOptions;
@@ -101,7 +99,7 @@ export function numberQueryKey(...params: any[]): QueryKey {
       'number',
     ]);
 }
-function __number(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __number(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.number(
 axiosConfig    );
 }
@@ -142,8 +140,7 @@ export function booleanUrl(): string {
   return url_;
 }
 
-let booleanDefaultOptions: Omit<UseQueryOptions<{ [key: string]: boolean; }, unknown, { [key: string]: boolean; }>, 'queryKey'> = {
-  queryFn: __boolean,
+let booleanDefaultOptions: Omit<UseQueryOptions<{ [key: string]: boolean; }, unknown, { [key: string]: boolean; }>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<{ [key: string]: boolean; }, unknown, { [key: string]: boolean; }>, 'queryFn'>> = {
 };
 export function getBooleanDefaultOptions() {
   return booleanDefaultOptions;
@@ -159,7 +156,7 @@ export function booleanQueryKey(...params: any[]): QueryKey {
       'boolean',
     ]);
 }
-function __boolean(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __boolean(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.boolean_(
 axiosConfig    );
 }
@@ -200,8 +197,7 @@ export function dateOnlyUrl(): string {
   return url_;
 }
 
-let dateOnlyDefaultOptions: Omit<UseQueryOptions<{ [key: string]: Date; }, unknown, { [key: string]: Date; }>, 'queryKey'> = {
-  queryFn: __dateOnly,
+let dateOnlyDefaultOptions: Omit<UseQueryOptions<{ [key: string]: Date; }, unknown, { [key: string]: Date; }>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<{ [key: string]: Date; }, unknown, { [key: string]: Date; }>, 'queryFn'>> = {
 };
 export function getDateOnlyDefaultOptions() {
   return dateOnlyDefaultOptions;
@@ -217,7 +213,7 @@ export function dateOnlyQueryKey(...params: any[]): QueryKey {
       'dateOnly',
     ]);
 }
-function __dateOnly(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __dateOnly(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.dateOnly(
 axiosConfig    );
 }
@@ -258,8 +254,7 @@ export function dateTimeUrl(): string {
   return url_;
 }
 
-let dateTimeDefaultOptions: Omit<UseQueryOptions<{ [key: string]: Date; }, unknown, { [key: string]: Date; }>, 'queryKey'> = {
-  queryFn: __dateTime,
+let dateTimeDefaultOptions: Omit<UseQueryOptions<{ [key: string]: Date; }, unknown, { [key: string]: Date; }>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<{ [key: string]: Date; }, unknown, { [key: string]: Date; }>, 'queryFn'>> = {
 };
 export function getDateTimeDefaultOptions() {
   return dateTimeDefaultOptions;
@@ -275,7 +270,7 @@ export function dateTimeQueryKey(...params: any[]): QueryKey {
       'dateTime',
     ]);
 }
-function __dateTime(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __dateTime(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.dateTime(
 axiosConfig    );
 }
@@ -316,8 +311,7 @@ export function dummyDtoUrl(): string {
   return url_;
 }
 
-let dummyDtoDefaultOptions: Omit<UseQueryOptions<{ [key: string]: Types.DummyDto; }, unknown, { [key: string]: Types.DummyDto; }>, 'queryKey'> = {
-  queryFn: __dummyDto,
+let dummyDtoDefaultOptions: Omit<UseQueryOptions<{ [key: string]: Types.DummyDto; }, unknown, { [key: string]: Types.DummyDto; }>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<{ [key: string]: Types.DummyDto; }, unknown, { [key: string]: Types.DummyDto; }>, 'queryFn'>> = {
 };
 export function getDummyDtoDefaultOptions() {
   return dummyDtoDefaultOptions;
@@ -333,7 +327,7 @@ export function dummyDtoQueryKey(...params: any[]): QueryKey {
       'dummyDto',
     ]);
 }
-function __dummyDto(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __dummyDto(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.dummyDto(
 axiosConfig    );
 }

@@ -23,7 +23,7 @@
     "react-query": "3.39.1",
     "react-scripts": "5.0.1",
     "replace": "1.1.5",
-    "typescript": "5.0.4",
+    "typescript": "5.5.3",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

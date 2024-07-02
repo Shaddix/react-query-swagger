@@ -70,8 +70,7 @@ if (dto !== undefined && dto !== null)
   return url_;
 }
 
-let jsonInQueryDefaultOptions: Omit<UseQueryOptions<string, unknown, string>, 'queryKey'> = {
-  queryFn: __jsonInQuery,
+let jsonInQueryDefaultOptions: Omit<UseQueryOptions<string, unknown, string>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<string, unknown, string>, 'queryFn'>> = {
 };
 export function getJsonInQueryDefaultOptions() {
   return jsonInQueryDefaultOptions;
@@ -98,7 +97,7 @@ export function jsonInQueryQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __jsonInQuery(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __jsonInQuery(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.jsonInQuery(
       context.queryKey[2] as Types.DummyDto | null | undefined,axiosConfig    );
 }
@@ -159,8 +158,7 @@ else if (dummy !== undefined)
   return url_;
 }
 
-let jsonInNestedQueryDefaultOptions: Omit<UseQueryOptions<string, unknown, string>, 'queryKey'> = {
-  queryFn: __jsonInNestedQuery,
+let jsonInNestedQueryDefaultOptions: Omit<UseQueryOptions<string, unknown, string>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<string, unknown, string>, 'queryFn'>> = {
 };
 export function getJsonInNestedQueryDefaultOptions() {
   return jsonInNestedQueryDefaultOptions;
@@ -189,7 +187,7 @@ export function jsonInNestedQueryQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __jsonInNestedQuery(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __jsonInNestedQuery(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.jsonInNestedQuery(
       context.queryKey[2] as string | undefined,       context.queryKey[3] as Types.DummyDto | undefined,axiosConfig    );
 }
@@ -244,8 +242,7 @@ else if (date !== undefined)
   return url_;
 }
 
-let dateOnlyInQueryDefaultOptions: Omit<UseQueryOptions<string, unknown, string>, 'queryKey'> = {
-  queryFn: __dateOnlyInQuery,
+let dateOnlyInQueryDefaultOptions: Omit<UseQueryOptions<string, unknown, string>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<string, unknown, string>, 'queryFn'>> = {
 };
 export function getDateOnlyInQueryDefaultOptions() {
   return dateOnlyInQueryDefaultOptions;
@@ -272,7 +269,7 @@ export function dateOnlyInQueryQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __dateOnlyInQuery(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __dateOnlyInQuery(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.dateOnlyInQuery(
       context.queryKey[2] as Date | undefined,axiosConfig    );
 }
@@ -326,8 +323,7 @@ else if (date !== undefined)
   return url_;
 }
 
-let dateTimeInQueryDefaultOptions: Omit<UseQueryOptions<string, unknown, string>, 'queryKey'> = {
-  queryFn: __dateTimeInQuery,
+let dateTimeInQueryDefaultOptions: Omit<UseQueryOptions<string, unknown, string>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<string, unknown, string>, 'queryFn'>> = {
 };
 export function getDateTimeInQueryDefaultOptions() {
   return dateTimeInQueryDefaultOptions;
@@ -354,7 +350,7 @@ export function dateTimeInQueryQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __dateTimeInQuery(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __dateTimeInQuery(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.dateTimeInQuery(
       context.queryKey[2] as Date | undefined,axiosConfig    );
 }
@@ -406,8 +402,7 @@ if (data !== undefined && data !== null)
   return url_;
 }
 
-let arrayInQueryDefaultOptions: Omit<UseQueryOptions<string[], unknown, string[]>, 'queryKey'> = {
-  queryFn: __arrayInQuery,
+let arrayInQueryDefaultOptions: Omit<UseQueryOptions<string[], unknown, string[]>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<string[], unknown, string[]>, 'queryFn'>> = {
 };
 export function getArrayInQueryDefaultOptions() {
   return arrayInQueryDefaultOptions;
@@ -434,7 +429,7 @@ export function arrayInQueryQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __arrayInQuery(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __arrayInQuery(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.arrayInQuery(
       context.queryKey[2] as string[] | null | undefined,axiosConfig    );
 }
@@ -486,8 +481,7 @@ if (data !== undefined && data !== null)
   return url_;
 }
 
-let dictionaryInQueryDefaultOptions: Omit<UseQueryOptions<{ [key: string]: string; }, unknown, { [key: string]: string; }>, 'queryKey'> = {
-  queryFn: __dictionaryInQuery,
+let dictionaryInQueryDefaultOptions: Omit<UseQueryOptions<{ [key: string]: string; }, unknown, { [key: string]: string; }>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<{ [key: string]: string; }, unknown, { [key: string]: string; }>, 'queryFn'>> = {
 };
 export function getDictionaryInQueryDefaultOptions() {
   return dictionaryInQueryDefaultOptions;
@@ -514,7 +508,7 @@ export function dictionaryInQueryQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __dictionaryInQuery(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __dictionaryInQuery(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.dictionaryInQuery(
       context.queryKey[2] as { [key: string]: string; } | null | undefined,axiosConfig    );
 }
@@ -569,8 +563,7 @@ if (data !== undefined && data !== null)
   return url_;
 }
 
-let dictionaryInJsonQueryDefaultOptions: Omit<UseQueryOptions<{ [key: string]: string; }, unknown, { [key: string]: string; }>, 'queryKey'> = {
-  queryFn: __dictionaryInJsonQuery,
+let dictionaryInJsonQueryDefaultOptions: Omit<UseQueryOptions<{ [key: string]: string; }, unknown, { [key: string]: string; }>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<{ [key: string]: string; }, unknown, { [key: string]: string; }>, 'queryFn'>> = {
 };
 export function getDictionaryInJsonQueryDefaultOptions() {
   return dictionaryInJsonQueryDefaultOptions;
@@ -597,7 +590,7 @@ export function dictionaryInJsonQueryQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __dictionaryInJsonQuery(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __dictionaryInJsonQuery(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.dictionaryInJsonQuery(
       context.queryKey[2] as { [key: string]: string; } | null | undefined,axiosConfig    );
 }
@@ -666,8 +659,7 @@ export function useGetViaPostMutation<TContext>(options?: Omit<UseMutationOption
     mutationKey: key,
   });
 }
-let getViaPostDefaultOptions: Omit<UseQueryOptions<Types.DummyDto, unknown, Types.DummyDto>, 'queryKey'> = {
-  queryFn: __getViaPost,
+let getViaPostDefaultOptions: Omit<UseQueryOptions<Types.DummyDto, unknown, Types.DummyDto>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<Types.DummyDto, unknown, Types.DummyDto>, 'queryFn'>> = {
 };
 export function getGetViaPostDefaultOptions() {
   return getViaPostDefaultOptions;
@@ -694,7 +686,7 @@ export function getViaPostQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __getViaPost(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __getViaPost(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.getViaPost(
       context.queryKey[2] as Types.DummyDto,axiosConfig    );
 }
@@ -770,8 +762,7 @@ export function withBodyUrl(): string {
   return url_;
 }
 
-let withBodyDefaultOptions: Omit<UseQueryOptions<string, unknown, string>, 'queryKey'> = {
-  queryFn: __withBody,
+let withBodyDefaultOptions: Omit<UseQueryOptions<string, unknown, string>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<string, unknown, string>, 'queryFn'>> = {
 };
 export function getWithBodyDefaultOptions() {
   return withBodyDefaultOptions;
@@ -798,7 +789,7 @@ export function withBodyQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __withBody(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __withBody(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.withBody(
       context.queryKey[2] as Types.BodyDto,axiosConfig    );
 }
@@ -852,8 +843,7 @@ else if (tst !== undefined)
   return url_;
 }
 
-let withClassInQueryDefaultOptions: Omit<UseQueryOptions<string, unknown, string>, 'queryKey'> = {
-  queryFn: __withClassInQuery,
+let withClassInQueryDefaultOptions: Omit<UseQueryOptions<string, unknown, string>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<string, unknown, string>, 'queryFn'>> = {
 };
 export function getWithClassInQueryDefaultOptions() {
   return withClassInQueryDefaultOptions;
@@ -880,7 +870,7 @@ export function withClassInQueryQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __withClassInQuery(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __withClassInQuery(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client.withClassInQuery(
       context.queryKey[2] as string | undefined,axiosConfig    );
 }

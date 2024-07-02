@@ -216,8 +216,7 @@ export function findPetsByStatusUrl(status: Types.Status[]): string {
   return url_;
 }
 
-let findPetsByStatusDefaultOptions: Omit<UseQueryOptions<Types.Pet[], unknown, Types.Pet[]>, 'queryKey'> = {
-  queryFn: __findPetsByStatus,
+let findPetsByStatusDefaultOptions: Omit<UseQueryOptions<Types.Pet[], unknown, Types.Pet[]>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<Types.Pet[], unknown, Types.Pet[]>, 'queryFn'>> = {
 };
 export function getFindPetsByStatusDefaultOptions() {
   return findPetsByStatusDefaultOptions;
@@ -244,7 +243,7 @@ export function findPetsByStatusQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __findPetsByStatus(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __findPetsByStatus(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client().findPetsByStatus(
       context.queryKey[2] as Types.Status[]);
 }
@@ -311,8 +310,7 @@ export function findPetsByTagsUrl(tags: string[]): string {
   return url_;
 }
 
-let findPetsByTagsDefaultOptions: Omit<UseQueryOptions<Types.Pet[], unknown, Types.Pet[]>, 'queryKey'> = {
-  queryFn: __findPetsByTags,
+let findPetsByTagsDefaultOptions: Omit<UseQueryOptions<Types.Pet[], unknown, Types.Pet[]>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<Types.Pet[], unknown, Types.Pet[]>, 'queryFn'>> = {
 };
 export function getFindPetsByTagsDefaultOptions() {
   return findPetsByTagsDefaultOptions;
@@ -339,7 +337,7 @@ export function findPetsByTagsQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __findPetsByTags(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __findPetsByTags(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client().findPetsByTags(
       context.queryKey[2] as string[]);
 }
@@ -408,8 +406,7 @@ url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
   return url_;
 }
 
-let getPetByIdDefaultOptions: Omit<UseQueryOptions<Types.Pet, unknown, Types.Pet>, 'queryKey'> = {
-  queryFn: __getPetById,
+let getPetByIdDefaultOptions: Omit<UseQueryOptions<Types.Pet, unknown, Types.Pet>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<Types.Pet, unknown, Types.Pet>, 'queryFn'>> = {
 };
 export function getGetPetByIdDefaultOptions() {
   return getPetByIdDefaultOptions;
@@ -436,7 +433,7 @@ export function getPetByIdQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __getPetById(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __getPetById(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client().getPetById(
       context.queryKey[2] as number);
 }
@@ -614,8 +611,7 @@ export function getInventoryUrl(): string {
   return url_;
 }
 
-let getInventoryDefaultOptions: Omit<UseQueryOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }>, 'queryKey'> = {
-  queryFn: __getInventory,
+let getInventoryDefaultOptions: Omit<UseQueryOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<{ [key: string]: number; }, unknown, { [key: string]: number; }>, 'queryFn'>> = {
 };
 export function getGetInventoryDefaultOptions() {
   return getInventoryDefaultOptions;
@@ -631,7 +627,7 @@ export function getInventoryQueryKey(...params: any[]): QueryKey {
       'getInventory',
     ]);
 }
-function __getInventory(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __getInventory(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client().getInventory(
 );
 }
@@ -717,8 +713,7 @@ url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
   return url_;
 }
 
-let getOrderByIdDefaultOptions: Omit<UseQueryOptions<Types.Order, unknown, Types.Order>, 'queryKey'> = {
-  queryFn: __getOrderById,
+let getOrderByIdDefaultOptions: Omit<UseQueryOptions<Types.Order, unknown, Types.Order>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<Types.Order, unknown, Types.Order>, 'queryFn'>> = {
 };
 export function getGetOrderByIdDefaultOptions() {
   return getOrderByIdDefaultOptions;
@@ -745,7 +740,7 @@ export function getOrderByIdQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __getOrderById(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __getOrderById(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client().getOrderById(
       context.queryKey[2] as number);
 }
@@ -895,8 +890,7 @@ url_ = url_.replace("{username}", encodeURIComponent("" + username));
   return url_;
 }
 
-let getUserByNameDefaultOptions: Omit<UseQueryOptions<Types.User, unknown, Types.User>, 'queryKey'> = {
-  queryFn: __getUserByName,
+let getUserByNameDefaultOptions: Omit<UseQueryOptions<Types.User, unknown, Types.User>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<Types.User, unknown, Types.User>, 'queryFn'>> = {
 };
 export function getGetUserByNameDefaultOptions() {
   return getUserByNameDefaultOptions;
@@ -923,7 +917,7 @@ export function getUserByNameQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __getUserByName(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __getUserByName(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client().getUserByName(
       context.queryKey[2] as string);
 }
@@ -1104,8 +1098,7 @@ export function loginUserUrl(username: string, password: string): string {
   return url_;
 }
 
-let loginUserDefaultOptions: Omit<UseQueryOptions<string, unknown, string>, 'queryKey'> = {
-  queryFn: __loginUser,
+let loginUserDefaultOptions: Omit<UseQueryOptions<string, unknown, string>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<string, unknown, string>, 'queryFn'>> = {
 };
 export function getLoginUserDefaultOptions() {
   return loginUserDefaultOptions;
@@ -1134,7 +1127,7 @@ export function loginUserQueryKey(...params: any[]): QueryKey {
       ]);
   }
 }
-function __loginUser(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __loginUser(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client().loginUser(
       context.queryKey[2] as string,       context.queryKey[3] as string);
 }
@@ -1201,8 +1194,7 @@ export function logoutUserUrl(): string {
   return url_;
 }
 
-let logoutUserDefaultOptions: Omit<UseQueryOptions<void, unknown, void>, 'queryKey'> = {
-  queryFn: __logoutUser,
+let logoutUserDefaultOptions: Omit<UseQueryOptions<void, unknown, void>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<void, unknown, void>, 'queryFn'>> = {
 };
 export function getLogoutUserDefaultOptions() {
   return logoutUserDefaultOptions;
@@ -1218,7 +1210,7 @@ export function logoutUserQueryKey(...params: any[]): QueryKey {
       'logoutUser',
     ]);
 }
-function __logoutUser(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
+export function __logoutUser(context: QueryFunctionContext, axiosConfig?: AxiosRequestConfig | undefined) {
   return Client().logoutUser(
 );
 }
