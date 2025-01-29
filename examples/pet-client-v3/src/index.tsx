@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -11,13 +11,16 @@ AxiosQuery.setBaseUrl('https://petstore.swagger.io/v2');
 AxiosQuery.Query.setFindPetsByStatusDefaultOptions({
   cacheTime: 10000,
 });
-ReactDOM.render(
+
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement,
+);
+root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <App />
     </QueryClientProvider>
   </React.StrictMode>,
-  document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function
