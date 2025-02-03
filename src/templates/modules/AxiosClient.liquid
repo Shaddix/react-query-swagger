@@ -37,8 +37,9 @@ export function {% template OperationNameSafe %}({% for parameter in operation.P
             "Content-Type": "{{ operation.Consumes }}",
 {%     endif -%}
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
-            "Accept": "{{ operation.Produces }}"
+            "Accept": "{{ operation.Produces }}",
 {%     endif -%}
+            ...config?.headers,
         }
     };
 

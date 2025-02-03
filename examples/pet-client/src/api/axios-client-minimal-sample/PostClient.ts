@@ -31,7 +31,8 @@ export function idInUrl(id: number, dto: Types.DummyDto, config?: AxiosRequestCo
         headers: {
             ..._requestConfigIdInUrl?.headers,
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -83,7 +84,8 @@ export function noParameterNoBody(config?: AxiosRequestConfig | undefined): Prom
         url: url_,
         headers: {
             ..._requestConfigNoParameterNoBody?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -139,7 +141,8 @@ export function simpleBody(body: string, config?: AxiosRequestConfig | undefined
         headers: {
             ..._requestConfigSimpleBody?.headers,
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -194,7 +197,8 @@ export function parameterInUrlNoBody(id: string, config?: AxiosRequestConfig | u
         url: url_,
         headers: {
             ..._requestConfigParameterInUrlNoBody?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -253,7 +257,8 @@ export function simpleBodyWithParameter(id: number, body: string, config?: Axios
         headers: {
             ..._requestConfigSimpleBodyWithParameter?.headers,
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -312,7 +317,8 @@ export function simpleArrayBodyWithParameter(id: number, body: string[], config?
         headers: {
             ..._requestConfigSimpleArrayBodyWithParameter?.headers,
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -380,7 +386,8 @@ export function formParameter(id: number, test?: string | null | undefined, date
         url: url_,
         headers: {
             ..._requestConfigFormParameter?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 

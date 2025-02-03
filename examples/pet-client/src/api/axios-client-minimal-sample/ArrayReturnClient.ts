@@ -24,7 +24,8 @@ export function string(config?: AxiosRequestConfig | undefined): Promise<string[
         url: url_,
         headers: {
             ..._requestConfigString?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -74,7 +75,8 @@ export function number(config?: AxiosRequestConfig | undefined): Promise<number[
         url: url_,
         headers: {
             ..._requestConfigNumber?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -124,7 +126,8 @@ export function boolean_(config?: AxiosRequestConfig | undefined): Promise<boole
         url: url_,
         headers: {
             ..._requestConfigBoolean?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -174,7 +177,8 @@ export function dateOnly(config?: AxiosRequestConfig | undefined): Promise<Date[
         url: url_,
         headers: {
             ..._requestConfigDateOnly?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -228,7 +232,8 @@ export function dateTime(config?: AxiosRequestConfig | undefined): Promise<Date[
         url: url_,
         headers: {
             ..._requestConfigDateTime?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -282,7 +287,8 @@ export function dummyDto(config?: AxiosRequestConfig | undefined): Promise<Types
         url: url_,
         headers: {
             ..._requestConfigDummyDto?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 

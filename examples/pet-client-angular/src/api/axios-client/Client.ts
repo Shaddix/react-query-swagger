@@ -41,7 +41,8 @@ export function uploadFile(petId: number, additionalMetadata?: string | null | u
         url: url_,
         headers: {
             ..._requestConfigUploadFile?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -99,6 +100,7 @@ export function addPet(body: Types.Pet, config?: AxiosRequestConfig | undefined)
         headers: {
             ..._requestConfigAddPet?.headers,
             "Content-Type": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -153,6 +155,7 @@ export function updatePet(body: Types.Pet, config?: AxiosRequestConfig | undefin
         headers: {
             ..._requestConfigUpdatePet?.headers,
             "Content-Type": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -216,7 +219,8 @@ export function findPetsByStatus(status: Types.Status[], config?: AxiosRequestCo
         url: url_,
         headers: {
             ..._requestConfigFindPetsByStatus?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -284,7 +288,8 @@ export function findPetsByTags(tags: string[], config?: AxiosRequestConfig | und
         url: url_,
         headers: {
             ..._requestConfigFindPetsByTags?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -350,7 +355,8 @@ export function getPetById(petId: number, config?: AxiosRequestConfig | undefine
         url: url_,
         headers: {
             ..._requestConfigGetPetById?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -426,6 +432,7 @@ export function updatePetWithForm(petId: number, name?: string | null | undefine
         headers: {
             ..._requestConfigUpdatePetWithForm?.headers,
             "Content-Type": "application/x-www-form-urlencoded",
+            ...config?.headers,
         }
     };
 
@@ -481,6 +488,7 @@ export function deletePet(petId: number, api_key?: string | null | undefined, co
         headers: {
             ..._requestConfigDeletePet?.headers,
             "api_key": api_key !== undefined && api_key !== null ? "" + api_key : "",
+            ...config?.headers,
         }
     };
 
@@ -535,7 +543,8 @@ export function getInventory(config?: AxiosRequestConfig | undefined): Promise<{
         url: url_,
         headers: {
             ..._requestConfigGetInventory?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -594,7 +603,8 @@ export function placeOrder(body: Types.Order, config?: AxiosRequestConfig | unde
         headers: {
             ..._requestConfigPlaceOrder?.headers,
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -656,7 +666,8 @@ export function getOrderById(orderId: number, config?: AxiosRequestConfig | unde
         url: url_,
         headers: {
             ..._requestConfigGetOrderById?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -721,6 +732,7 @@ export function deleteOrder(orderId: number, config?: AxiosRequestConfig | undef
         url: url_,
         headers: {
             ..._requestConfigDeleteOrder?.headers,
+            ...config?.headers,
         }
     };
 
@@ -781,6 +793,7 @@ export function createUsersWithListInput(body: Types.User[], config?: AxiosReque
         headers: {
             ..._requestConfigCreateUsersWithListInput?.headers,
             "Content-Type": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -831,7 +844,8 @@ export function getUserByName(username: string, config?: AxiosRequestConfig | un
         url: url_,
         headers: {
             ..._requestConfigGetUserByName?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -901,6 +915,7 @@ export function updateUser(username: string, body: Types.User, config?: AxiosReq
         headers: {
             ..._requestConfigUpdateUser?.headers,
             "Content-Type": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -958,6 +973,7 @@ export function deleteUser(username: string, config?: AxiosRequestConfig | undef
         url: url_,
         headers: {
             ..._requestConfigDeleteUser?.headers,
+            ...config?.headers,
         }
     };
 
@@ -1022,7 +1038,8 @@ export function loginUser(username: string, password: string, config?: AxiosRequ
         url: url_,
         headers: {
             ..._requestConfigLoginUser?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -1082,6 +1099,7 @@ export function logoutUser(config?: AxiosRequestConfig | undefined): Promise<voi
         url: url_,
         headers: {
             ..._requestConfigLogoutUser?.headers,
+            ...config?.headers,
         }
     };
 
@@ -1134,6 +1152,7 @@ export function createUsersWithArrayInput(body: Types.User[], config?: AxiosRequ
         headers: {
             ..._requestConfigCreateUsersWithArrayInput?.headers,
             "Content-Type": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -1185,6 +1204,7 @@ export function createUser(body: Types.User, config?: AxiosRequestConfig | undef
         headers: {
             ..._requestConfigCreateUser?.headers,
             "Content-Type": "application/json",
+            ...config?.headers,
         }
     };
 

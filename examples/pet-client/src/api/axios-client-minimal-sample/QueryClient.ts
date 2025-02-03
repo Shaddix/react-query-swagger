@@ -29,7 +29,8 @@ export function jsonInQuery(dto?: Types.DummyDto | null | undefined, config?: Ax
         url: url_,
         headers: {
             ..._requestConfigJsonInQuery?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -92,7 +93,8 @@ export function jsonInNestedQuery(test?: string | undefined, dummy?: Types.Dummy
         url: url_,
         headers: {
             ..._requestConfigJsonInNestedQuery?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -148,7 +150,8 @@ export function dateOnlyInQuery(date?: Date | undefined, config?: AxiosRequestCo
         url: url_,
         headers: {
             ..._requestConfigDateOnlyInQuery?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -204,7 +207,8 @@ export function dateTimeInQuery(date?: Date | undefined, config?: AxiosRequestCo
         url: url_,
         headers: {
             ..._requestConfigDateTimeInQuery?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -258,7 +262,8 @@ export function arrayInQuery(data?: string[] | null | undefined, config?: AxiosR
         url: url_,
         headers: {
             ..._requestConfigArrayInQuery?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -310,7 +315,8 @@ export function dictionaryInQuery(data?: { [key: string]: string; } | null | und
         url: url_,
         headers: {
             ..._requestConfigDictionaryInQuery?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -365,7 +371,8 @@ export function dictionaryInJsonQuery(data?: { [key: string]: string; } | null |
         url: url_,
         headers: {
             ..._requestConfigDictionaryInJsonQuery?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -419,7 +426,8 @@ export function getViaPost(dto: Types.DummyDto, config?: AxiosRequestConfig | un
         headers: {
             ..._requestConfigGetViaPost?.headers,
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -473,7 +481,8 @@ export function nonGetViaPost(dto: Types.DummyDto, config?: AxiosRequestConfig |
         headers: {
             ..._requestConfigNonGetViaPost?.headers,
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -527,7 +536,8 @@ export function withBody(dto: Types.BodyDto, config?: AxiosRequestConfig | undef
         headers: {
             ..._requestConfigWithBody?.headers,
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
@@ -583,7 +593,8 @@ export function withClassInQuery(tst?: string | undefined, config?: AxiosRequest
         url: url_,
         headers: {
             ..._requestConfigWithClassInQuery?.headers,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            ...config?.headers,
         }
     };
 
