@@ -18,13 +18,13 @@ export function {% template OperationNameSafe %}({% for parameter in operation.P
 
 {%     endif -%}
     let options_: AxiosRequestConfig = {
+{%     if operation.IsFile -%}
+        responseType: "blob",
+{%     endif -%}
         ..._requestConfig{{ operation.ActualOperationNameUpper }},
         ...config,
 {%     if operation.HasBody -%}
         data: content_,
-{%     endif -%}
-{%     if operation.IsFile -%}
-        responseType: "blob",
 {%     endif -%}
         method: "{{ operation.HttpMethodUpper | upcase }}",
         url: url_,
