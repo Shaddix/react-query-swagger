@@ -491,6 +491,7 @@ src/templates/AxiosClient_RequestConfig.liquid
 !/src/templates_minimal_no_hooks/ReactQuery.MetaFile.liquid
 !/src/templates_minimal_no_hooks/ReactQuery.MetaFileFunctions.liquid
 !/src/templates_minimal_no_hooks/ReactQuery.liquid
+!/src/templates_minimal_no_hooks/ReactQuery.Imports.liquid
 
 /src/templates_minimal_angular/**/*
 !/src/templates_minimal_angular/PersistorHydrator.liquid
