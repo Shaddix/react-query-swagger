@@ -1,6 +1,6 @@
 {
   "name": "react-query-swagger",
-  "version": "15.12.7",
+  "version": "15.12.8",
   "description": "Generates react-query hooks for your API based on Swagger/OpenAPI definition",
   "author": "Artur Drobinskiy",
   "license": "MIT",
@@ -34,7 +34,6 @@
     "@tanstack/react-query": "> 4.0",
     "@tanstack/react-query-persist-client": ">4.2.0",
     "react": "17.x || 18.x || 19.x",
-    "react-query": ">= 3.33 < 4.0",
     "typescript": "> 3.0"
   },
   "files": [
