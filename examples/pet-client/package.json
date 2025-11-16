@@ -30,6 +30,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
+    "generate-magadan-sample": "react-query-swagger /tanstack /input:./magadan-swagger.json /output:src/api/magadan.ts /template:Axios /serviceHost:. /minimal",
     "generate-axios-minimal-sample": "react-query-swagger /tanstack /input:./swagger.json /output:src/api/axios-client-minimal-sample.ts /template:Axios /serviceHost:. /minimal /post-queries-start-with-get",
     "generate-axios-minimal": "react-query-swagger /tanstack /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/axios-client-minimal.ts /template:Axios /serviceHost:. /minimal",
     "generate-axios-minimal-no-hooks": "react-query-swagger /input:https://petstore.swagger.io/v2/swagger.json /output:src/api/axios-client-minimal-no-hooks.ts /template:Axios /serviceHost:. /minimal /no-hooks",
