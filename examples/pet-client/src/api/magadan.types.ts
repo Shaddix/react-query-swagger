@@ -1,5 +1,5 @@
 //-----Types.File-----
-export interface ProblemDetails  {
+export type ProblemDetails = {
   type?: string | null;
   title?: string | null;
   status?: number | null;
@@ -25,7 +25,7 @@ export function prepareSerializeProblemDetails(_data: ProblemDetails): ProblemDe
   const data: Record<string, any> = { ..._data };
   return data as ProblemDetails;
 }
-export interface HttpValidationProblemDetails extends ProblemDetails  {
+export type HttpValidationProblemDetails = ProblemDetails  & {
   errors: { [key: string]: string[]; };
   [key: string]: any;
 }
@@ -49,7 +49,7 @@ export function prepareSerializeHttpValidationProblemDetails(_data: HttpValidati
   return data as HttpValidationProblemDetails;
 }
 /** A ProblemDetails for validation errors. */
-export interface ValidationProblemDetails extends HttpValidationProblemDetails  {
+export type ValidationProblemDetails = HttpValidationProblemDetails  & {
   /** Gets or sets the validation errors associated with this instance of ValidationProblemDetails. */
   errors: { [key: string]: string[]; };
   [key: string]: any;
@@ -73,7 +73,7 @@ export function prepareSerializeValidationProblemDetails(_data: ValidationProble
   const data = prepareSerializeHttpValidationProblemDetails(_data as ValidationProblemDetails) as Record<string, any>;
   return data as ValidationProblemDetails;
 }
-export interface VariableDto  {
+export type VariableDto = {
   id: number;
   name: string;
   actualUrl: string | null;
@@ -133,7 +133,7 @@ export enum UrlType {
     Dgml = "Dgml",
     Tokyo = "Tokyo",
 }
-export interface VariableDocumentDto  {
+export type VariableDocumentDto = {
   id: number;
   name: string;
 }
@@ -155,7 +155,7 @@ export function prepareSerializeVariableDocumentDto(_data: VariableDocumentDto):
   const data: Record<string, any> = { ..._data };
   return data as VariableDocumentDto;
 }
-export interface CreateVariableDto  {
+export type CreateVariableDto = {
   projectId: number;
   name: string;
   value: string;
@@ -195,7 +195,7 @@ export function prepareSerializeCreateVariableDto(_data: CreateVariableDto): Cre
   const data: Record<string, any> = { ..._data };
   return data as CreateVariableDto;
 }
-export interface PatchVariableDto  {
+export type PatchVariableDto = {
   name?: string;
   actualValue?: string;
   actualUrl?: string | null;
@@ -225,7 +225,7 @@ export function prepareSerializePatchVariableDto(_data: PatchVariableDto): Patch
   const data: Record<string, any> = { ..._data };
   return data as PatchVariableDto;
 }
-export interface PagedResultOfVariableListItemDto  {
+export type PagedResultOfVariableListItemDto = {
   data: VariableListItemDto[];
   totalCount: number;
 }
@@ -259,7 +259,7 @@ export function prepareSerializePagedResultOfVariableListItemDto(_data: PagedRes
   }
   return data as PagedResultOfVariableListItemDto;
 }
-export interface VariableListItemDto  {
+export type VariableListItemDto = {
   id: number;
   name: string;
   actualUrl: string | null;
@@ -297,7 +297,7 @@ export function prepareSerializeVariableListItemDto(_data: VariableListItemDto):
   data["actualValue"] = _data.actualValue && prepareSerializeVariableValueDto(_data.actualValue);
   return data as VariableListItemDto;
 }
-export interface VariableValueDto  {
+export type VariableValueDto = {
   value: string;
   variableType: VariableType;
   urlType: UrlType | null;
@@ -335,7 +335,7 @@ export enum SortOrder {
     Asc = "Asc",
     Desc = "Desc",
 }
-export interface CurrentUserDto  {
+export type CurrentUserDto = {
   id: string;
   username: string;
   nickname: string;
@@ -362,7 +362,7 @@ export function prepareSerializeCurrentUserDto(_data: CurrentUserDto): CurrentUs
   const data: Record<string, any> = { ..._data };
   return data as CurrentUserDto;
 }
-export interface ResetPasswordDto  {
+export type ResetPasswordDto = {
   username: string;
   token: string;
   newPassword: string;
@@ -385,7 +385,7 @@ export function prepareSerializeResetPasswordDto(_data: ResetPasswordDto): Reset
   const data: Record<string, any> = { ..._data };
   return data as ResetPasswordDto;
 }
-export interface ChangePasswordDto  {
+export type ChangePasswordDto = {
   oldPassword: string;
   newPassword: string;
 }
@@ -407,7 +407,7 @@ export function prepareSerializeChangePasswordDto(_data: ChangePasswordDto): Cha
   const data: Record<string, any> = { ..._data };
   return data as ChangePasswordDto;
 }
-export interface CreateTestTenantDto  {
+export type CreateTestTenantDto = {
   userEmail: string;
   userPassword: string;
 }
@@ -429,7 +429,7 @@ export function prepareSerializeCreateTestTenantDto(_data: CreateTestTenantDto):
   const data: Record<string, any> = { ..._data };
   return data as CreateTestTenantDto;
 }
-export interface TemplateDto  {
+export type TemplateDto = {
   id: number;
   name: string;
   description: string;
@@ -465,7 +465,7 @@ export function prepareSerializeTemplateDto(_data: TemplateDto): TemplateDto {
   }
   return data as TemplateDto;
 }
-export interface TemplateTreeItem  {
+export type TemplateTreeItem = {
   id: string;
   actionId: number | null;
   promptId: number | null;
@@ -512,7 +512,7 @@ export enum TemplateTreeItemType {
     Action = "Action",
     Prompt = "Prompt",
 }
-export interface CreateTemplateDto  {
+export type CreateTemplateDto = {
   name: string;
   description: string;
 }
@@ -534,7 +534,7 @@ export function prepareSerializeCreateTemplateDto(_data: CreateTemplateDto): Cre
   const data: Record<string, any> = { ..._data };
   return data as CreateTemplateDto;
 }
-export interface PagedResultOfTemplateListItemDto  {
+export type PagedResultOfTemplateListItemDto = {
   data: TemplateListItemDto[];
   totalCount: number;
 }
@@ -568,7 +568,7 @@ export function prepareSerializePagedResultOfTemplateListItemDto(_data: PagedRes
   }
   return data as PagedResultOfTemplateListItemDto;
 }
-export interface TemplateListItemDto  {
+export type TemplateListItemDto = {
   id: number;
   name: string;
   description: string;
@@ -591,7 +591,7 @@ export function prepareSerializeTemplateListItemDto(_data: TemplateListItemDto):
   const data: Record<string, any> = { ..._data };
   return data as TemplateListItemDto;
 }
-export interface PatchTemplateDto  {
+export type PatchTemplateDto = {
   name?: string | null;
   description?: string | null;
   structure?: TemplateTreeItem[] | null;
@@ -626,7 +626,7 @@ export function prepareSerializePatchTemplateDto(_data: PatchTemplateDto): Patch
   }
   return data as PatchTemplateDto;
 }
-export interface TemplateActionDto  {
+export type TemplateActionDto = {
   id: number;
   name: string;
   templateTreeItemId: string;
@@ -651,7 +651,7 @@ export function prepareSerializeTemplateActionDto(_data: TemplateActionDto): Tem
   const data: Record<string, any> = { ..._data };
   return data as TemplateActionDto;
 }
-export interface CreateTemplateActionDto  {
+export type CreateTemplateActionDto = {
   name: string;
   templateTreeItemId: string;
   templateId: number;
@@ -675,7 +675,7 @@ export function prepareSerializeCreateTemplateActionDto(_data: CreateTemplateAct
   const data: Record<string, any> = { ..._data };
   return data as CreateTemplateActionDto;
 }
-export interface PatchTemplateActionDto  {
+export type PatchTemplateActionDto = {
   name?: string | null;
   templateTreeItemId?: string | null;
   isCollapsed?: boolean | null;
@@ -698,7 +698,7 @@ export function prepareSerializePatchTemplateActionDto(_data: PatchTemplateActio
   const data: Record<string, any> = { ..._data };
   return data as PatchTemplateActionDto;
 }
-export interface PromptDto  {
+export type PromptDto = {
   id: number;
   name: string;
   text: string;
@@ -735,7 +735,7 @@ export function prepareSerializePromptDto(_data: PromptDto): PromptDto {
   }
   return data as PromptDto;
 }
-export interface PromptVariablePlaceholder  {
+export type PromptVariablePlaceholder = {
   alias: string;
   description: string;
 }
@@ -757,7 +757,7 @@ export function prepareSerializePromptVariablePlaceholder(_data: PromptVariableP
   const data: Record<string, any> = { ..._data };
   return data as PromptVariablePlaceholder;
 }
-export interface CreatePromptDto  {
+export type CreatePromptDto = {
   name: string;
   templateActionId: number;
   documentId: number | null;
@@ -780,7 +780,7 @@ export function prepareSerializeCreatePromptDto(_data: CreatePromptDto): CreateP
   const data: Record<string, any> = { ..._data };
   return data as CreatePromptDto;
 }
-export interface PatchPromptDto  {
+export type PatchPromptDto = {
   name?: string | null;
   text?: string | null;
   templateActionId?: number | null;
@@ -816,7 +816,7 @@ export function prepareSerializePatchPromptDto(_data: PatchPromptDto): PatchProm
   }
   return data as PatchPromptDto;
 }
-export interface CreateUpdatePromptVariableConnectionDto  {
+export type CreateUpdatePromptVariableConnectionDto = {
   alias: string;
   variableId: number;
   documentId: number;
@@ -839,7 +839,7 @@ export function prepareSerializeCreateUpdatePromptVariableConnectionDto(_data: C
   const data: Record<string, any> = { ..._data };
   return data as CreateUpdatePromptVariableConnectionDto;
 }
-export interface PromptVariableConnectionDto  {
+export type PromptVariableConnectionDto = {
   alias: string;
   variableId: number;
   variableName: string;
@@ -862,7 +862,7 @@ export function prepareSerializePromptVariableConnectionDto(_data: PromptVariabl
   const data: Record<string, any> = { ..._data };
   return data as PromptVariableConnectionDto;
 }
-export interface SignerDto  {
+export type SignerDto = {
   id: number;
   canBeModified: boolean;
   firstName: string;
@@ -887,7 +887,7 @@ export function prepareSerializeSignerDto(_data: SignerDto): SignerDto {
   const data: Record<string, any> = { ..._data };
   return data as SignerDto;
 }
-export interface SignerCreateDto  {
+export type SignerCreateDto = {
   firstName: string;
   lastName: string;
   email: string;
@@ -910,7 +910,7 @@ export function prepareSerializeSignerCreateDto(_data: SignerCreateDto): SignerC
   const data: Record<string, any> = { ..._data };
   return data as SignerCreateDto;
 }
-export interface PatchSignerDto  {
+export type PatchSignerDto = {
   firstName?: string;
   lastName?: string;
   email?: string;
@@ -933,7 +933,7 @@ export function prepareSerializePatchSignerDto(_data: PatchSignerDto): PatchSign
   const data: Record<string, any> = { ..._data };
   return data as PatchSignerDto;
 }
-export interface PagedResultOfSignerDto  {
+export type PagedResultOfSignerDto = {
   data: SignerDto[];
   totalCount: number;
 }
@@ -968,7 +968,7 @@ export function prepareSerializePagedResultOfSignerDto(_data: PagedResultOfSigne
   return data as PagedResultOfSignerDto;
 }
 /** Data of response json with multiple objects. */
-export interface ResponseDataOfNotificationData  {
+export type ResponseDataOfNotificationData = {
   value: NotificationData[];
 }
 export function deserializeResponseDataOfNotificationData(json: string): ResponseDataOfNotificationData {
@@ -1002,7 +1002,7 @@ export function prepareSerializeResponseDataOfNotificationData(_data: ResponseDa
   return data as ResponseDataOfNotificationData;
 }
 /** Web hook notification data: this message is received when SharePoint "fires" a web hook. */
-export interface NotificationData  {
+export type NotificationData = {
   subscriptionId: string;
   clientState: string;
   expirationDateTime: Date;
@@ -1034,7 +1034,7 @@ export function prepareSerializeNotificationData(_data: NotificationData): Notif
   return data as NotificationData;
 }
 /** Actual applcation settings. */
-export interface SettingsDto  {
+export type SettingsDto = {
   /** Provides actual SharePoint url for documents exporting. */
   sharePointUrl: string;
 }
@@ -1056,7 +1056,7 @@ export function prepareSerializeSettingsDto(_data: SettingsDto): SettingsDto {
   const data: Record<string, any> = { ..._data };
   return data as SettingsDto;
 }
-export interface ReleaseDto  {
+export type ReleaseDto = {
   id: number;
   version: string;
   folders: ProjectElement[];
@@ -1099,7 +1099,7 @@ export function prepareSerializeReleaseDto(_data: ReleaseDto): ReleaseDto {
   }
   return data as ReleaseDto;
 }
-export interface ProjectElement  {
+export type ProjectElement = {
   id: string;
   name: string;
   type: string;
@@ -1129,7 +1129,7 @@ export function prepareSerializeProjectElement(_data: ProjectElement): ProjectEl
   const data: Record<string, any> = { ..._data };
   return data as ProjectElement;
 }
-export interface ProjectFolder extends ProjectElement  {
+export type ProjectFolder = ProjectElement  & {
   children: ProjectElement[];
   collapsed: boolean;
 }
@@ -1164,7 +1164,7 @@ export function prepareSerializeProjectFolder(_data: ProjectFolder): ProjectFold
   }
   return data as ProjectFolder;
 }
-export interface ProjectDocument extends ProjectElement  {
+export type ProjectDocument = ProjectElement  & {
   documentId: number;
 }
 export function deserializeProjectDocument(json: string): ProjectDocument {
@@ -1195,7 +1195,7 @@ export enum ExportStatus {
     NotStarted = "NotStarted",
     InProgress = "InProgress",
 }
-export interface CreateReleaseDto  {
+export type CreateReleaseDto = {
   version: string;
   projectId: number;
 }
@@ -1217,7 +1217,7 @@ export function prepareSerializeCreateReleaseDto(_data: CreateReleaseDto): Creat
   const data: Record<string, any> = { ..._data };
   return data as CreateReleaseDto;
 }
-export interface PatchReleaseDto  {
+export type PatchReleaseDto = {
   version?: string;
   folders?: ProjectElement[];
 }
@@ -1251,7 +1251,7 @@ export function prepareSerializePatchReleaseDto(_data: PatchReleaseDto): PatchRe
   }
   return data as PatchReleaseDto;
 }
-export interface PagedResultOfReleaseListItemDto  {
+export type PagedResultOfReleaseListItemDto = {
   data: ReleaseListItemDto[];
   totalCount: number;
 }
@@ -1285,7 +1285,7 @@ export function prepareSerializePagedResultOfReleaseListItemDto(_data: PagedResu
   }
   return data as PagedResultOfReleaseListItemDto;
 }
-export interface ReleaseListItemDto  {
+export type ReleaseListItemDto = {
   id: number;
   version: string;
   folders: ProjectElement[];
@@ -1320,7 +1320,7 @@ export function prepareSerializeReleaseListItemDto(_data: ReleaseListItemDto): R
   }
   return data as ReleaseListItemDto;
 }
-export interface ProjectDto  {
+export type ProjectDto = {
   id: number;
   name: string;
   description: string;
@@ -1345,7 +1345,7 @@ export function prepareSerializeProjectDto(_data: ProjectDto): ProjectDto {
   const data: Record<string, any> = { ..._data };
   return data as ProjectDto;
 }
-export interface CreateProjectDto  {
+export type CreateProjectDto = {
   name: string;
   description: string | null;
   iconCode: string;
@@ -1368,7 +1368,7 @@ export function prepareSerializeCreateProjectDto(_data: CreateProjectDto): Creat
   const data: Record<string, any> = { ..._data };
   return data as CreateProjectDto;
 }
-export interface PatchProjectDto  {
+export type PatchProjectDto = {
   name?: string;
   description?: string;
   iconCode?: string;
@@ -1391,7 +1391,7 @@ export function prepareSerializePatchProjectDto(_data: PatchProjectDto): PatchPr
   const data: Record<string, any> = { ..._data };
   return data as PatchProjectDto;
 }
-export interface PagedResultOfProjectListItemDto  {
+export type PagedResultOfProjectListItemDto = {
   data: ProjectListItemDto[];
   totalCount: number;
 }
@@ -1425,7 +1425,7 @@ export function prepareSerializePagedResultOfProjectListItemDto(_data: PagedResu
   }
   return data as PagedResultOfProjectListItemDto;
 }
-export interface ProjectListItemDto  {
+export type ProjectListItemDto = {
   id: number;
   name: string;
   currentRelease: string;
@@ -1449,7 +1449,7 @@ export function prepareSerializeProjectListItemDto(_data: ProjectListItemDto): P
   const data: Record<string, any> = { ..._data };
   return data as ProjectListItemDto;
 }
-export interface ProjectSignerDto  {
+export type ProjectSignerDto = {
   id: number;
   roleId: number;
   priority: number;
@@ -1477,7 +1477,7 @@ export function prepareSerializeProjectSignerDto(_data: ProjectSignerDto): Proje
   data["signer"] = _data.signer && prepareSerializeSignerDto(_data.signer);
   return data as ProjectSignerDto;
 }
-export interface ProjectSignerCreateDto  {
+export type ProjectSignerCreateDto = {
   signerId: number;
   projectRoleId: number;
 }
@@ -1499,7 +1499,7 @@ export function prepareSerializeProjectSignerCreateDto(_data: ProjectSignerCreat
   const data: Record<string, any> = { ..._data };
   return data as ProjectSignerCreateDto;
 }
-export interface PagedResultOfProjectSignerDto  {
+export type PagedResultOfProjectSignerDto = {
   data: ProjectSignerDto[];
   totalCount: number;
 }
@@ -1533,7 +1533,7 @@ export function prepareSerializePagedResultOfProjectSignerDto(_data: PagedResult
   }
   return data as PagedResultOfProjectSignerDto;
 }
-export interface UpdateProjectSignersDto  {
+export type UpdateProjectSignersDto = {
   projectRoleId: number;
   signerIds: number[];
 }
@@ -1558,7 +1558,7 @@ export function prepareSerializeUpdateProjectSignersDto(_data: UpdateProjectSign
   const data: Record<string, any> = { ..._data };
   return data as UpdateProjectSignersDto;
 }
-export interface ProjectRoleDto  {
+export type ProjectRoleDto = {
   id: number;
   projectId: number;
   name: string;
@@ -1594,7 +1594,7 @@ export function prepareSerializeProjectRoleDto(_data: ProjectRoleDto): ProjectRo
   }
   return data as ProjectRoleDto;
 }
-export interface CreateProjectRoleDto  {
+export type CreateProjectRoleDto = {
   projectId: number;
   name: string;
 }
@@ -1616,7 +1616,7 @@ export function prepareSerializeCreateProjectRoleDto(_data: CreateProjectRoleDto
   const data: Record<string, any> = { ..._data };
   return data as CreateProjectRoleDto;
 }
-export interface PatchProjectRoleDto  {
+export type PatchProjectRoleDto = {
   name?: string;
 }
 export function deserializePatchProjectRoleDto(json: string): PatchProjectRoleDto {
@@ -1637,7 +1637,7 @@ export function prepareSerializePatchProjectRoleDto(_data: PatchProjectRoleDto):
   const data: Record<string, any> = { ..._data };
   return data as PatchProjectRoleDto;
 }
-export interface PagedResultOfProjectRoleDto  {
+export type PagedResultOfProjectRoleDto = {
   data: ProjectRoleDto[];
   totalCount: number;
 }
@@ -1675,7 +1675,7 @@ export enum ExternalEditingType {
     SharepointWordBrowser = "SharepointWordBrowser",
     SharepointWordApp = "SharepointWordApp",
 }
-export interface DocumentDto  {
+export type DocumentDto = {
   id: number;
   name: string;
   status: Status;
@@ -1731,7 +1731,7 @@ export enum Status {
     Signed = "Signed",
     NotApplicable = "NotApplicable",
 }
-export interface DocumentVersionUpdaterUserDto  {
+export type DocumentVersionUpdaterUserDto = {
   name: string;
   updatedAt: Date;
 }
@@ -1757,7 +1757,7 @@ export function prepareSerializeDocumentVersionUpdaterUserDto(_data: DocumentVer
   data["updatedAt"] = _data.updatedAt && _data.updatedAt.toISOString();
   return data as DocumentVersionUpdaterUserDto;
 }
-export interface RefDocumentVariableDtoWithId  {
+export type RefDocumentVariableDtoWithId = {
   id: number;
   variable: RefDocumentVariableDto;
 }
@@ -1783,7 +1783,7 @@ export function prepareSerializeRefDocumentVariableDtoWithId(_data: RefDocumentV
   data["variable"] = _data.variable && prepareSerializeRefDocumentVariableDto(_data.variable);
   return data as RefDocumentVariableDtoWithId;
 }
-export interface RefDocumentVariableDto  {
+export type RefDocumentVariableDto = {
   id: number;
   value: string;
   rows: number | null;
@@ -1807,7 +1807,7 @@ export function prepareSerializeRefDocumentVariableDto(_data: RefDocumentVariabl
   const data: Record<string, any> = { ..._data };
   return data as RefDocumentVariableDto;
 }
-export interface RefDocumentEditingUserDto  {
+export type RefDocumentEditingUserDto = {
   isLocked: boolean;
   id: number | null;
   editingType: DocumentEditingType | null;
@@ -1842,7 +1842,7 @@ export enum DocumentEditingType {
     Magadan = "Magadan",
     Office365 = "Office365",
 }
-export interface CreateDocumentDto  {
+export type CreateDocumentDto = {
   name: string;
   releaseId: number;
   content: string;
@@ -1872,7 +1872,7 @@ export function prepareSerializeCreateDocumentDto(_data: CreateDocumentDto): Cre
   const data: Record<string, any> = { ..._data };
   return data as CreateDocumentDto;
 }
-export interface PatchDocumentDto  {
+export type PatchDocumentDto = {
   name?: string;
   content?: string;
   status?: Status;
@@ -1900,7 +1900,7 @@ export function prepareSerializePatchDocumentDto(_data: PatchDocumentDto): Patch
   const data: Record<string, any> = { ..._data };
   return data as PatchDocumentDto;
 }
-export interface PagedResultOfDocumentListItemDto  {
+export type PagedResultOfDocumentListItemDto = {
   data: DocumentListItemDto[];
   totalCount: number;
 }
@@ -1934,7 +1934,7 @@ export function prepareSerializePagedResultOfDocumentListItemDto(_data: PagedRes
   }
   return data as PagedResultOfDocumentListItemDto;
 }
-export interface DocumentListItemDto  {
+export type DocumentListItemDto = {
   id: number;
   name: string;
   status: Status;
@@ -1978,7 +1978,7 @@ export function prepareSerializeDocumentListItemDto(_data: DocumentListItemDto):
   }
   return data as DocumentListItemDto;
 }
-export interface ExpiredVariableDto  {
+export type ExpiredVariableDto = {
   variableId: number;
   variableName: string;
   variableUpdateDate: Date;
@@ -2005,7 +2005,7 @@ export function prepareSerializeExpiredVariableDto(_data: ExpiredVariableDto): E
   data["variableUpdateDate"] = _data.variableUpdateDate && _data.variableUpdateDate.toISOString();
   return data as ExpiredVariableDto;
 }
-export interface MergeTableRequestBody  {
+export type MergeTableRequestBody = {
   fileData: string;
   variableId: number;
   tableRangeStart: number;
@@ -2031,7 +2031,7 @@ export function prepareSerializeMergeTableRequestBody(_data: MergeTableRequestBo
   const data: Record<string, any> = { ..._data };
   return data as MergeTableRequestBody;
 }
-export interface InsertTableRequestBody  {
+export type InsertTableRequestBody = {
   fileData: string;
   insertionPosition: number;
   variableId: number;
@@ -2055,7 +2055,7 @@ export function prepareSerializeInsertTableRequestBody(_data: InsertTableRequest
   const data: Record<string, any> = { ..._data };
   return data as InsertTableRequestBody;
 }
-export interface SetTablePropertiesInfo  {
+export type SetTablePropertiesInfo = {
   json: string;
   index: number;
 }
@@ -2077,7 +2077,7 @@ export function prepareSerializeSetTablePropertiesInfo(_data: SetTableProperties
   const data: Record<string, any> = { ..._data };
   return data as SetTablePropertiesInfo;
 }
-export interface GetTableRequestBody  {
+export type GetTableRequestBody = {
   tablesInfos: GetTablePropertiesInfo[];
   fileData: string;
 }
@@ -2111,7 +2111,7 @@ export function prepareSerializeGetTableRequestBody(_data: GetTableRequestBody):
   }
   return data as GetTableRequestBody;
 }
-export interface GetTablePropertiesInfo  {
+export type GetTablePropertiesInfo = {
   index: number;
   isEnormous: boolean;
 }
@@ -2133,7 +2133,7 @@ export function prepareSerializeGetTablePropertiesInfo(_data: GetTableProperties
   const data: Record<string, any> = { ..._data };
   return data as GetTablePropertiesInfo;
 }
-export interface UpdateDocumentVariablesRequestBody  {
+export type UpdateDocumentVariablesRequestBody = {
   fileData: string;
   variableIds: number[];
   releaseId: number;
@@ -2159,7 +2159,7 @@ export function prepareSerializeUpdateDocumentVariablesRequestBody(_data: Update
   const data: Record<string, any> = { ..._data };
   return data as UpdateDocumentVariablesRequestBody;
 }
-export interface AvailableRolesDto  {
+export type AvailableRolesDto = {
   documentId: number;
   roles: ProjectRoleDto[];
 }
@@ -2193,7 +2193,7 @@ export function prepareSerializeAvailableRolesDto(_data: AvailableRolesDto): Ava
   }
   return data as AvailableRolesDto;
 }
-export interface DocumentSigningStatusDto  {
+export type DocumentSigningStatusDto = {
   documentId: number;
   isSigning: boolean;
   roles: RoleSigningStatusDto[];
@@ -2228,7 +2228,7 @@ export function prepareSerializeDocumentSigningStatusDto(_data: DocumentSigningS
   }
   return data as DocumentSigningStatusDto;
 }
-export interface RoleSigningStatusDto  {
+export type RoleSigningStatusDto = {
   role: ProjectRoleDto;
   status: RoleSigningStatus;
   /** Required to inform user, that role can not be deleted. */
@@ -2266,7 +2266,7 @@ export enum RoleSigningStatus {
     InvalidSignature = "InvalidSignature",
     InvalidSigner = "InvalidSigner",
 }
-export interface SignerToResendNotificationDto  {
+export type SignerToResendNotificationDto = {
   documentId: number;
   roleName: string;
   signer: SignerDto;
@@ -2293,7 +2293,7 @@ export function prepareSerializeSignerToResendNotificationDto(_data: SignerToRes
   data["signer"] = _data.signer && prepareSerializeSignerDto(_data.signer);
   return data as SignerToResendNotificationDto;
 }
-export interface TestPatchDto  {
+export type TestPatchDto = {
   value?: string;
 }
 export function deserializeTestPatchDto(json: string): TestPatchDto {
@@ -2314,7 +2314,7 @@ export function prepareSerializeTestPatchDto(_data: TestPatchDto): TestPatchDto 
   const data: Record<string, any> = { ..._data };
   return data as TestPatchDto;
 }
-export interface TableData  {
+export type TableData = {
   columns: string[];
   fields: { [key: string]: any; }[];
   /** Optional. Contains merged cells information.
@@ -2355,7 +2355,7 @@ export function prepareSerializeTableData(_data: TableData): TableData {
   }
   return data as TableData;
 }
-export interface TableDataCellProperties  {
+export type TableDataCellProperties = {
   position: TableCellPosition;
   style: TableDataCellStyle;
 }
@@ -2384,7 +2384,7 @@ export function prepareSerializeTableDataCellProperties(_data: TableDataCellProp
   return data as TableDataCellProperties;
 }
 /** Determines cell position in table */
-export interface TableCellPosition  {
+export type TableCellPosition = {
   row: number;
   cell: number;
 }
@@ -2407,7 +2407,7 @@ export function prepareSerializeTableCellPosition(_data: TableCellPosition): Tab
   return data as TableCellPosition;
 }
 /** Properties that will be applied to the table after insertion to the document. To apply them well, JSON properties names must be same as TableCell properties names. https://docs.devexpress.com/AspNetCore/js-DevExpress.RichEdit.TableCell */
-export interface TableDataCellStyle  {
+export type TableDataCellStyle = {
   bold: boolean;
   backgroundColor: string;
 }

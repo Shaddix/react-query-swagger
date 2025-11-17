@@ -1,5 +1,5 @@
 //-----Types.File-----
-export interface ApiResponse  {
+export type ApiResponse = {
   code?: number | null;
   type?: string | null;
   message?: string | null;
@@ -22,7 +22,7 @@ export function prepareSerializeApiResponse(_data: ApiResponse): ApiResponse {
   const data: Record<string, any> = { ..._data };
   return data as ApiResponse;
 }
-export interface Category  {
+export type Category = {
   id?: number | null;
   name?: string | null;
 }
@@ -44,7 +44,7 @@ export function prepareSerializeCategory(_data: Category): Category {
   const data: Record<string, any> = { ..._data };
   return data as Category;
 }
-export interface Pet  {
+export type Pet = {
   id?: number | null;
   category?: Category | null;
   name: string;
@@ -87,7 +87,7 @@ export function prepareSerializePet(_data: Pet): Pet {
   }
   return data as Pet;
 }
-export interface Tag  {
+export type Tag = {
   id?: number | null;
   name?: string | null;
 }
@@ -109,7 +109,7 @@ export function prepareSerializeTag(_data: Tag): Tag {
   const data: Record<string, any> = { ..._data };
   return data as Tag;
 }
-export interface Order  {
+export type Order = {
   id?: number | null;
   petId?: number | null;
   quantity?: number | null;
@@ -141,7 +141,7 @@ export function prepareSerializeOrder(_data: Order): Order {
   data["shipDate"] = _data.shipDate && _data.shipDate.toISOString();
   return data as Order;
 }
-export interface User  {
+export type User = {
   id?: number | null;
   username?: string | null;
   firstName?: string | null;

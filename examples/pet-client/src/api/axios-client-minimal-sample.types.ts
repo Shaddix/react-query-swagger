@@ -1,5 +1,5 @@
 //-----Types.File-----
-export interface DummyDto  {
+export type DummyDto = {
   test?: string;
   dateOnly?: Date;
   dateTime?: Date;
@@ -28,7 +28,7 @@ export function prepareSerializeDummyDto(_data: DummyDto): DummyDto {
   data["dateTime"] = _data.dateTime && _data.dateTime.toISOString();
   return data as DummyDto;
 }
-export interface BodyDto  {
+export type BodyDto = {
   tst?: string;
 }
 export function deserializeBodyDto(json: string): BodyDto {
