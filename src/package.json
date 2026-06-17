@@ -9,6 +9,9 @@
     "type": "git",
     "url": "git://github.com/shaddix/react-query-swagger.git"
   },
+  "bugs": {
+    "url": "https://github.com/shaddix/react-query-swagger/issues"
+  },
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "types": "dist/index.d.ts",
