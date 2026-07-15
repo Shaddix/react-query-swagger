@@ -466,6 +466,7 @@ function processExport(response: AxiosResponse): Promise<Types.FileResponse> {
 
     } else if (status === 200 || status === 206) {
         const contentDisposition = response.headers ? response.headers["content-disposition"] : undefined;
+        const contentType = response.headers ? response.headers["content-type"] : undefined;
         let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
         let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
         if (fileName) {
@@ -474,7 +475,7 @@ function processExport(response: AxiosResponse): Promise<Types.FileResponse> {
             fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
             fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
         }
-        return Promise.resolve({ fileName: fileName, status: status, data: new Blob([response.data], { type: response.headers["content-type"] }), headers: _headers });
+        return Promise.resolve({ fileName: fileName, status: status, data: new Blob([response.data], { type: typeof contentType === "string" ? contentType : undefined }), headers: _headers });
     } else if (status !== 200 && status !== 204) {
         const _responseText = response.data;
         return throwException("An unexpected server error occurred.", status, _responseText, _headers);
