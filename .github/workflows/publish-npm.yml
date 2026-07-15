@@ -1,0 +1,58 @@
+name: Publish package to npm
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Check if version is already published
+        id: check_version
+        shell: bash
+        run: |
+          NAME=$(node -p "require('./src/package.json').name")
+          VERSION=$(node -p "require('./src/package.json').version")
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+          if npm view "$NAME@$VERSION" version > /dev/null 2>&1; then
+            echo "publish_needed=false" >> "$GITHUB_OUTPUT"
+            echo "Version $VERSION is already published for $NAME."
+          else
+            echo "publish_needed=true" >> "$GITHUB_OUTPUT"
+            echo "Version $VERSION is not published yet for $NAME."
+          fi
+
+      - name: Prepare package artifacts
+        if: steps.check_version.outputs.publish_needed == 'true'
+        run: yarn prepublish
+
+      - name: Publish to npm
+        if: steps.check_version.outputs.publish_needed == 'true'
+        run: npm publish ./src --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Skip publish
+        if: steps.check_version.outputs.publish_needed != 'true'
+        run: echo "Skipping publish because this version already exists on npm."
